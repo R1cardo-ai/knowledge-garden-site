@@ -174,7 +174,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 const starterEntries: Entry[] = [];
 
 const colorStyles: Record<string, string> = { coral: 'card-coral', sky: 'card-sky', lilac: 'card-lilac', mint: 'card-mint', gold: 'card-gold' };
-const currentVersion = 'v1.0.194';
+const currentVersion = 'v1.0.195';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -182,6 +182,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.195', date: '2026.10.28', title: '让 Pages.dev 正确处理旧项目站点路径', items: ['将 /knowledge-garden-site/* 旧地址重定向到根路径下对应页面', '让 Cloudflare 先运行应用路由，避免静态资源层提前返回 404'] },
   { version: 'v1.0.194', date: '2026.10.28', title: '确保弹窗中的校验提示清晰可见', items: ['把提示渲染到页面顶层，避免添加记录等对话框遮住校验反馈', '为提示添加状态语义，让视觉与辅助技术都能及时读取反馈'] },
   { version: 'v1.0.193', date: '2026.10.28', title: '修复项目站点前缀下的页面跳转', items: ['为 Cloudflare Pages 根目录部署增加仓库路径重写，修复首页、档案和样张请求落入 404', '为应用内与静态样张链接统一加入可配置路径前缀，兼容 GitHub Pages 子路径部署'] },
   { version: 'v1.0.192', date: '2026.10.27', title: '提高等高线背景的清晰度', items: ['增强桌面与窄屏的背景线条对比，让等高线更容易辨认', '打开详情和弹窗时继续降低底纹，保持正文清晰'] },

@@ -14,6 +14,16 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
 
 const localBindingConfig = {
   main: 'vinext/server/fetch-handler',
+  assets: {
+    run_worker_first: [
+      '/knowledge-garden-site',
+      '/knowledge-garden-site/',
+      '/knowledge-garden-site/archive*',
+      '/knowledge-garden-site/ui-kit',
+      '/knowledge-garden-site/ui-kit/',
+      '/knowledge-garden-site/ui-kit.rsc',
+    ],
+  },
   compatibility_flags: ['nodejs_compat'],
   d1_databases: d1
     ? [
