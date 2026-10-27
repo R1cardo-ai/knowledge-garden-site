@@ -201,7 +201,7 @@ button { cursor: pointer; }
 .empty-state h3 { margin: 14px 0 3px; color: #59626a; font-size: 15px; }
 .empty-state p { margin: 0; font-size: 12px; }
 .page-footer { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 16px; border-top: 1px solid #e5e6e2; color: #a2a6a5; font-size: 11px; }
-.toast { position: fixed; right: 24px; bottom: 24px; display: flex; align-items: center; gap: 8px; padding: 11px 15px; border: 1px solid #c5e5d2; border-radius: 9px; color: #317a55; font-size: 12px; background: #effaf2; box-shadow: 0 8px 25px rgb(37 60 46 / 12%); }
+.toast { position: fixed; z-index: 60; right: 24px; bottom: 24px; display: flex; align-items: center; gap: 8px; padding: 11px 15px; border: 1px solid #c5e5d2; border-radius: 9px; color: #317a55; font-size: 12px; background: #effaf2; box-shadow: 0 8px 25px rgb(37 60 46 / 12%); }
 .entry-dialog { max-width: 520px; border-radius: 12px; padding: 23px; }
 .entry-dialog [data-slot='dialog-title'] { font-size: 20px; }
 .entry-dialog [data-slot='dialog-description'] { margin-top: 7px; line-height: 1.55; }

@@ -794,11 +794,15 @@
 .terrain-contour-overlay {
   right: 28vw;
   width: min(1120px, 72vw);
-  background-image: var(--archive-contour-source, url('/terrain-contours.jpg'));
+  background-image: var(--archive-contour-source);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   mix-blend-mode: multiply;
+}
+
+:root {
+  --archive-contour-source: url('../public/terrain-contours.jpg');
 }
 
 @media (max-width: 720px) {
@@ -813,7 +817,7 @@
 /* Reference-led calibration: paper, signal yellow, heavy type, and precise rules. */
 @font-face {
   font-family: 'Saira';
-  src: url('/fonts/Saira.ttf') format('truetype');
+  src: url('../public/fonts/Saira.ttf') format('truetype');
   font-style: normal;
   font-weight: 100 900;
   font-stretch: 50% 125%;
@@ -823,7 +827,7 @@
 /* Keep numeral glyphs in Saira even where surrounding text uses a mono face. */
 @font-face {
   font-family: 'Saira Numeric';
-  src: url('/fonts/Saira.ttf') format('truetype');
+  src: url('../public/fonts/Saira.ttf') format('truetype');
   font-style: normal;
   font-weight: 100 900;
   font-stretch: 50% 125%;

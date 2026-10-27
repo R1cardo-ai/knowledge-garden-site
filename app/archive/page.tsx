@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
+import { createPortal } from 'react-dom';
 import {
   ArrowUpRight,
   BookOpen,
@@ -31,6 +32,7 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { withBasePath } from '@/lib/site-path';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import {
   Dialog,
@@ -172,7 +174,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 const starterEntries: Entry[] = [];
 
 const colorStyles: Record<string, string> = { coral: 'card-coral', sky: 'card-sky', lilac: 'card-lilac', mint: 'card-mint', gold: 'card-gold' };
-const currentVersion = 'v1.0.192';
+const currentVersion = 'v1.0.194';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -180,6 +182,8 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.194', date: '2026.10.28', title: '确保弹窗中的校验提示清晰可见', items: ['把提示渲染到页面顶层，避免添加记录等对话框遮住校验反馈', '为提示添加状态语义，让视觉与辅助技术都能及时读取反馈'] },
+  { version: 'v1.0.193', date: '2026.10.28', title: '修复项目站点前缀下的页面跳转', items: ['为 Cloudflare Pages 根目录部署增加仓库路径重写，修复首页、档案和样张请求落入 404', '为应用内与静态样张链接统一加入可配置路径前缀，兼容 GitHub Pages 子路径部署'] },
   { version: 'v1.0.192', date: '2026.10.27', title: '提高等高线背景的清晰度', items: ['增强桌面与窄屏的背景线条对比，让等高线更容易辨认', '打开详情和弹窗时继续降低底纹，保持正文清晰'] },
   { version: 'v1.0.191', date: '2026.10.27', title: '让筛选菜单沿展开方向顺滑进入', items: ['修正筛选菜单对齐触发器时方向属性为 none，导致滑入距离归零的问题', '统一菜单、弹窗和抽屉的展开节奏，让成长轨迹和背景设置同步舒展'] },
   { version: 'v1.0.190', date: '2026.10.27', title: '让筛选菜单和折叠面板顺滑展开', items: ['恢复筛选下拉的淡入与轻微位移动画，并统一弹层节奏', '为成长轨迹和背景设置补上可收起的展开过渡'] },
@@ -753,7 +757,7 @@ export default function Home() {
           <button className={`nav-item ${activeView === 'knowledge' ? 'active' : ''}`} type="button" aria-label="知识库" title="知识库" aria-pressed={activeView === 'knowledge'} onClick={() => changeView('knowledge')}><BookOpen size={18} /><span>知识库</span><span className="nav-count">{knowledgeCount}</span></button>
           <button className={`nav-item ${activeView === 'award' ? 'active' : ''}`} type="button" aria-label="获奖记录" title="获奖记录" aria-pressed={activeView === 'award'} onClick={() => changeView('award')}><Medal size={18} /><span>获奖记录</span><span className="nav-count">{awardCount}</span></button>
           <button className="nav-item" type="button" aria-label="更新日志" title="更新日志" onClick={() => setChangelogOpen(true)}><History size={18} /><span>更新日志</span><span className="nav-count">{updateLogs.length}</span></button>
-          <a className="nav-item" href="/ui-kit" aria-label="设计样张" title="设计样张"><Sparkles size={18} /><span>设计样张</span><span className="nav-count">06</span></a>
+          <a className="nav-item" href={withBasePath('/ui-kit/')} aria-label="设计样张" title="设计样张"><Sparkles size={18} /><span>设计样张</span><span className="nav-count">06</span></a>
         </nav>
         <section className="rail-background" aria-label="背景图片设置"><button type="button" className="rail-background-heading" aria-label={backgroundExpanded ? '收起背景图片设置' : '展开背景图片设置'} aria-expanded={backgroundExpanded} aria-controls="rail-background-content" onClick={() => setBackgroundExpanded((current) => !current)}><div><span className="rail-background-label">{"// BACKGROUND"}</span><strong>背景图片</strong></div><span className="rail-background-toggle" aria-hidden="true">{backgroundExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span></button><div id="rail-background-content" className="rail-background-content" data-open={backgroundExpanded} aria-hidden={!backgroundExpanded} inert={!backgroundExpanded}><button type="button" className={`rail-background-preview ${backgroundImage ? 'has-background' : 'is-empty'}`} aria-label={backgroundImage ? '更换背景图片' : '选择背景图片'} onClick={() => backgroundInputRef.current?.click()} style={backgroundImage ? { backgroundImage: `url("${backgroundImage}")` } : undefined}><span>{backgroundImage ? `${Math.round(backgroundOpacity * 100)}%` : '未设置'}</span></button><input ref={backgroundInputRef} className="sr-only" type="file" accept="image/*" tabIndex={-1} onChange={customizeBackground} /><div className="rail-background-actions"><button type="button" className="rail-background-button" onClick={() => backgroundInputRef.current?.click()}><FileUp size={13} />更换图片</button><button type="button" className="rail-background-reset" onClick={resetBackground}>恢复默认</button></div>{backgroundImage && <label className="rail-opacity-control" htmlFor="background-opacity"><span>透明度</span><input id="background-opacity" type="range" min="0.04" max="0.3" step="0.01" value={backgroundOpacity} onChange={(event) => changeBackgroundOpacity(Number(event.target.value))} /></label>}</div></section>
         <div className="rail-bottom">
@@ -921,7 +925,7 @@ export default function Home() {
           <div className="release-list">{filteredUpdateLogs.length > 0 ? filteredUpdateLogs.map((release) => <article className="release-item" key={release.version}><div className="release-heading"><span className="release-version">{release.version}</span><time>{release.date}</time></div><h3>{release.title}</h3><ul>{release.items.map((item) => <li key={item}>{item}</li>)}</ul></article>) : <div className="release-empty"><p>没有找到匹配的更新日志，请换个关键词试试。</p><button type="button" onClick={() => setChangelogQuery('')}>清空搜索</button></div>}</div>
         </DialogContent>
       </Dialog>
-      {notice && <div className="toast"><Check size={15} /> {notice}</div>}
+      {notice && createPortal(<div className="toast" role="status" aria-live="polite"><Check size={15} /> {notice}</div>, document.body)}
     </main>
   );
 }

@@ -1,0 +1,3 @@
+/knowledge-garden-site / 301
+/knowledge-garden-site/ / 301
+/knowledge-garden-site/* /:splat 200
