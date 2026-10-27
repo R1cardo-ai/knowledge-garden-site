@@ -1,0 +1,227 @@
+<!doctype html>
+<!--
+  Console template: the bold voice for a dashboard / admin area.
+  No sidebar. A dark command bar across the top; in the middle a dial of
+  sections; three panels a side, mirrored but NOT a grid of equal boxes: the
+  top and bottom pairs lean in and lose the corner facing the dial, the middle
+  pair stands back and runs a lead to it. Below: ordinary working panels.
+  Serve the folder over HTTP (browsers refuse ES modules from file://).
+  This is a visual preview. Demo values do not change personal archive data.
+-->
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>档案总览 | 知识花园</title>
+    <script src="../assets/variant.js"></script>
+    <script src="../assets/kit-nav.js" defer></script>
+    <link rel="stylesheet" href="../assets/endfield.css" />
+    <link rel="stylesheet" href="../assets/kit-nav.css" />
+    <style>
+      /* page-specific layout only */
+      main {
+        max-width: 88rem;
+        margin-inline: auto;
+        padding: clamp(1.25rem, 3vw, 2.25rem) var(--ef-pad) 5rem;
+      }
+      .board {
+        container: board / inline-size;
+      }
+      .orbit {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+        gap: 1.25rem;
+      }
+      .hub {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: min(100%, 34rem);
+        margin: 0;
+      }
+      /* stacked, the leads would point at nothing (and stick out past the edge) */
+      @container board (max-width: 61.99rem) {
+        .orbit .ef-panel::after {
+          display: none;
+        }
+      }
+      .l1 .ef-figs b,
+      .r1 .ef-figs b {
+        font-size: 3rem;
+      }
+      .l3 .ef-figs,
+      .r3 .ef-figs {
+        border-top: 0;
+      }
+      @container board (min-width: 62rem) {
+        .orbit {
+          --gap: clamp(1.25rem, 3cqi, 2.5rem);
+          grid-template-columns: minmax(0, 1fr) clamp(27rem, 44cqi, 36rem) minmax(0, 1fr);
+          grid-template-rows: repeat(3, auto);
+          align-items: stretch;
+          gap: 1.25rem var(--gap);
+        }
+        .hub {
+          grid-column: 2;
+          grid-row: 1 / 4;
+          align-self: center;
+          width: 100%;
+        }
+        .l1, .l2, .l3 { grid-column: 1; }
+        .r1, .r2, .r3 { grid-column: 3; }
+        .l1, .r1 { grid-row: 1; }
+        .l2, .r2 { grid-row: 2; }
+        .l3, .r3 { grid-row: 3; }
+        /* top and bottom lean in under and over the dial's shoulders */
+        .l1, .l3 { margin-right: -1rem; }
+        .r1, .r3 { margin-left: -1rem; }
+        /* the middle pair stands back and runs a lead in to the rim */
+        .l2 { margin: 0 1.75rem 0 -0.75rem; --lead: calc(1.75rem + var(--gap) + 0.4rem); }
+        .r2 { margin: 0 -0.75rem 0 1.75rem; --lead: calc(1.75rem + var(--gap) + 0.4rem); }
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        align-items: start;
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+      }
+      .form-grid {
+        display: grid;
+        gap: 1rem;
+      }
+      @media (max-width: 860px) {
+        .cols {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="ef ef-contours">
+    <div class="ef-tri" aria-hidden="true"><i></i><i></i><i></i></div>
+    <header class="ef-cmdbar">
+      <a class="brand" href="/"><span class="seal" aria-hidden="true">K</span>知识花园</a>
+      <nav aria-label="分区">
+        <a href="/archive" aria-current="page">总览<small>Overview</small></a>
+        <a href="/archive">知识库<small>Knowledge</small></a>
+        <a href="/archive">获奖记录<small>Awards</small></a>
+        <a href="reading.html">使用说明<small>Guide</small></a>
+        <a href="/ui-kit">样张<small>Previews</small></a>
+      </nav>
+      <div class="util"><a href="/archive">个人档案</a><button class="ef-btn small" type="button" data-theme-toggle>深浅</button></div>
+    </header>
+
+    <main>
+      <div class="board">
+        <div class="orbit">
+          <figure class="hub"><svg class="ef-dial" data-dial role="group" aria-label="分区"></svg></figure>
+
+          <section class="ef-panel cut-br l1 ef-in-power" style="--i: 0">
+            <h2><span class="ef-pair"><span class="ef-eyebrow">Archive</span><span>档案记录</span></span> <a href="/archive">全部</a></h2>
+            <div class="ef-figs">
+              <a href="/archive"><b data-fx-load data-archive-count="all">0</b><span>全部记录</span></a>
+              <a href="/archive"><b data-fx-load data-archive-count="knowledge">0</b><span>知识记录</span></a>
+              <a href="/archive"><b data-fx-load data-archive-count="award">0</b><span>获奖成果</span></a>
+            </div>
+          </section>
+          <section class="ef-panel cut-bl tab-right r1 ef-in-power" style="--i: 0">
+            <h2><span class="ef-pair"><span class="ef-eyebrow">Classification</span><span>分类与标签</span></span> <a href="/archive">查看记录</a></h2>
+            <div class="ef-figs">
+              <a href="/archive"><b data-fx-load data-archive-stat="categories">0</b><span>分类</span></a>
+              <a href="/archive"><b data-fx-load data-archive-stat="tags">0</b><span>标签</span></a>
+              <a href="/archive"><b data-fx-load data-archive-count="all">0</b><span>记录</span></a>
+            </div>
+          </section>
+          <section class="ef-panel lead-right l2 ef-in-power" style="--i: 1">
+            <h2>当前主题</h2>
+            <div class="ef-figs">
+              <a href="/ui-kit"><b>04</b><span>外观预设</span></a>
+              <a href="/ui-kit" class="is-alert"><b>06</b><span>独立参数</span></a>
+              <a href="/ui-kit"><b>02</b><span>主题</span></a>
+            </div>
+          </section>
+          <section class="ef-panel lead-left tab-right r2 ef-in-power" style="--i: 1">
+            <h2>数据管理</h2>
+            <div class="ef-figs">
+              <a href="/archive"><b>JSON</b><span>导入导出</span></a>
+              <a href="/archive"><b>本地</b><span>浏览器存储</span></a>
+              <a href="/archive"><b>确认</b><span>删除保护</span></a>
+            </div>
+          </section>
+          <section class="ef-panel cut-tr l3 ef-in-power" style="--i: 2">
+            <h2>个人档案</h2>
+            <ul class="ef-ledger">
+              <li><span>保存位置</span><span class="ef-field">当前浏览器</span></li>
+              <li><span>备份格式</span><span class="ef-field">JSON 快照</span></li>
+            </ul>
+          </section>
+          <section class="ef-panel cut-tl tab-right r3 ef-in-power" style="--i: 2">
+            <h2>桌面样张</h2>
+            <ul class="ef-ledger">
+              <li><a href="showcase.html">主页展示</a><span class="ef-field">01</span></li>
+              <li><a href="reading.html">阅读详情</a><span class="ef-field">02</span></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+
+      <div class="cols">
+        <section class="ef-panel">
+          <h2>最近的档案更新 <a href="showcase.html">全部更新</a></h2>
+          <ul class="ef-rows">
+            <li>
+              <div>
+                <div>提高等高线背景的清晰度 <span class="ef-state">已更新</span></div>
+                <div class="meta"><span>v1.0.192</span><span>02 项调整</span><span>2026.10.27</span></div>
+              </div>
+              <div class="acts"><a class="ef-btn small" href="reading.html">阅读</a><a class="ef-btn small go" href="/archive">打开档案</a></div>
+            </li>
+            <li>
+              <div>
+                <div>让筛选菜单沿展开方向顺滑进入 <span class="ef-state">已更新</span></div>
+                <div class="meta"><span>v1.0.191</span><span>02 项调整</span><span>2026.10.27</span></div>
+              </div>
+              <div class="acts"><a class="ef-btn small" href="antipatterns.html">查看规则</a><a class="ef-btn small" href="/ui-kit">全部样张</a></div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="ef-panel">
+          <h2>常用页面</h2>
+          <ul class="ef-rows">
+            <li><span>全部部件与状态</span><a class="ef-btn small" href="specimen.html">打开样张</a></li>
+            <li><span>动效与重放控制</span><a class="ef-btn small" href="motion.html">打开样张</a></li>
+            <li><span>交互规范对照</span><a class="ef-btn small" href="antipatterns.html">打开样张</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <script type="module">
+      import { wireReadouts, wireTheme } from '../assets/fx.js';
+      import { drawDial } from '../assets/dial.js';
+      const archive = (() => {
+        try {
+          const value = JSON.parse(localStorage.getItem('knowledge-garden-entries') || '[]');
+          const raw = Array.isArray(value) ? value : value && Array.isArray(value.entries) ? value.entries : [];
+          return raw.filter((entry) => Boolean(entry) && typeof entry === 'object');
+        } catch { return []; }
+      })();
+      const awards = archive.filter((entry) => entry?.type === 'award').length;
+      const knowledge = archive.length - awards;
+      const total = archive.length;
+      drawDial(document.querySelector('[data-dial]'), {
+        idle: { label: '当前档案', big: total, unit: '条', sub: '浏览器本地保存' },
+        sections: [
+          { zh: '总览', en: 'Overview', big: total, unit: '条', here: true, href: '/archive' },
+          { zh: '知识库', en: 'Knowledge', big: knowledge, unit: '条', sub: '个人记录', href: '/archive' },
+          { zh: '获奖记录', en: 'Awards', big: awards, unit: '项', sub: '成果归档', href: '/archive' },
+          { zh: '更新日志', en: 'Updates', big: 192, unit: '版', sub: '当前版本' },
+          { zh: '备份', en: 'Backup', big: 'JSON', sub: '手动导出', href: '/archive' },
+          { zh: '样张', en: 'Previews', big: 6, unit: '页', sub: '桌面网页', href: '/ui-kit' },
+        ],
+      });
+      wireReadouts();
+      wireTheme();
+    </script>
+  </body>
+</html>

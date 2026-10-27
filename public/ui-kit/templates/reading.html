@@ -1,0 +1,163 @@
+<!doctype html>
+<!--
+  Reading template: the quiet voice (an article, a list of records, a profile).
+  A white sheet of one reading measure beside a margin of real figures.
+  Serve the folder over HTTP (browsers refuse ES modules from file://).
+  This is a visual preview. Demo values do not change personal archive data.
+-->
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>阅读详情 | 知识花园</title>
+    <script src="../assets/variant.js"></script>
+    <script src="../assets/kit-nav.js" defer></script>
+    <link rel="stylesheet" href="../assets/endfield.css" />
+    <link rel="stylesheet" href="../assets/kit-nav.css" />
+    <style>
+      /* page-specific layout only */
+      .shell {
+        display: grid;
+        grid-template-columns: 12rem minmax(0, 1fr);
+        min-height: calc(100dvh - 3px);
+      }
+      /* the side rail is .ef-rail; here it only sticks to the top */
+      .rail {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        height: 100dvh;
+      }
+      .ids {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0 0 0.75rem;
+      }
+      .title {
+        margin: 1.5rem 0 1rem;
+        font-size: clamp(var(--ef-t-title), 5.5vw, var(--ef-t-h1));
+        font-weight: 700;
+        line-height: 1.25;
+      }
+      .ef-prose {
+        margin-top: 2rem;
+      }
+      .toc {
+        position: sticky;
+        top: 2rem;
+        max-width: 18rem;
+      }
+      .toc ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border-left: 1px solid var(--ef-rule);
+      }
+      .toc ol a {
+        display: block;
+        margin-left: -1px;
+        padding: 0.28rem 0 0.28rem 0.9rem;
+        border-left: 3px solid transparent;
+        color: var(--ef-ink-2);
+        font-size: 0.875rem;
+      }
+      /* the section being read: a line in the colour of "here" */
+      .toc ol a[aria-current] {
+        color: var(--ef-ink);
+        border-left-color: var(--ef-trace);
+      }
+      .margin-h {
+        margin: 2.5rem 0 0.5rem;
+      }
+      .margin-h:first-child {
+        margin-top: 0;
+      }
+      @media (max-width: 1099px) {
+        .shell {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .rail {
+          position: static;
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body class="ef ef-contours">
+    <div class="ef-tri" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="shell">
+      <nav class="ef-rail rail" aria-label="主导航">
+        <a class="brand" href="/">知识花园</a>
+        <a href="/">总览</a>
+        <a href="/ui-kit/templates/showcase.html" aria-current="page">主页</a>
+        <a href="/ui-kit/templates/console.html">档案</a>
+        <a href="/ui-kit/templates/specimen.html">部件</a>
+        <a href="/ui-kit">样张索引</a>
+      </nav>
+
+      <article class="ef-spread">
+        <div class="ef-sheet">
+          <p class="ef-eyebrow slash">Knowledge / Guide</p>
+          <p class="ef-crumb ef-field"><a href="/archive">个人档案</a><span>使用说明</span></p>
+          <p class="ids">
+            <a class="ef-tag is-current" href="/">首页</a>
+            <a class="ef-kv" href="/ui-kit"><span>页面</span><span>阅读</span></a>
+            <span class="ef-state">已发布</span>
+          </p>
+          <ul class="ef-facts ef-field">
+            <li><time data-archive-date>2026.10.27</time></li>
+            <li>本地保存</li>
+            <li>JSON 备份</li>
+          </ul>
+          <h1 class="title ef-read">如何使用知识花园</h1>
+          <div class="ef-tri" aria-hidden="true"><i></i><i></i><i></i></div>
+          <p class="ef-lede ef-read">把学到的知识和获得的成果放进同一份个人档案，之后可以搜索、筛选、编辑和备份。</p>
+
+          <div class="ef-prose">
+            <p>从总览选择“添加记录”，填写标题和分类，就能先保存一条知识或成果。记录保存在当前浏览器中。<a href="/archive">返回档案总览</a>可以继续查看和整理。</p>
+            <h2 id="knowledge">一、记录知识</h2>
+            <p>知识记录可以包含来源、摘要、笔记、标签和关联条目。用搜索框查找标题或内容，再按分类和更新时间缩小范围。</p>
+            <h2 id="awards">二、整理成果</h2>
+            <p>获奖记录可以补充颁发机构、级别、个人角色和证明链接。编辑记录时可以补齐细节，删除前会要求确认。</p>
+            <blockquote>数据只保存在当前浏览器。使用“导出快照”下载 JSON 文件，便于备份或迁移。</blockquote>
+          </div>
+
+          <h2 class="ef-group-head ef-read"><span>最近更新</span><span class="ef-field">04 条</span></h2>
+          <ol class="ef-records">
+            <li><a class="ef-record" href="showcase.html"><span class="ef-tag">v1.0.192</span><time class="ef-field">2026.10.27</time><span class="name ef-read">提高等高线背景的清晰度</span><span class="ef-field">02 项</span></a></li>
+            <li><a class="ef-record" href="showcase.html"><span class="ef-tag">v1.0.191</span><time class="ef-field">2026.10.27</time><span class="name ef-read">让筛选菜单沿展开方向顺滑进入</span><span class="ef-field">02 项</span></a></li>
+            <li><a class="ef-record" href="showcase.html"><span class="ef-tag">v1.0.190</span><time class="ef-field">2026.10.27</time><span class="name ef-read">让筛选菜单和折叠面板顺滑展开</span><span class="ef-field">02 项</span></a></li>
+            <li><a class="ef-record" href="showcase.html"><span class="ef-tag">v1.0.189</span><time class="ef-field">2026.10.27</time><span class="name ef-read">放慢版本号反馈并整理数字间距</span><span class="ef-field">02 项</span></a></li>
+          </ol>
+          <p class="ef-empty">这里会继续显示可查阅的档案更新与使用说明。</p>
+        </div>
+
+        <aside class="ef-margin" aria-label="目录与统计">
+          <div class="toc">
+            <h2 class="margin-h ef-field">目录</h2>
+            <ol>
+              <li><a href="#knowledge" aria-current="true">一、记录知识</a></li>
+              <li><a href="#awards">二、整理成果</a></li>
+            </ol>
+            <h2 class="margin-h ef-field">按分类</h2>
+            <ul class="ef-ledger">
+              <li><a href="/archive">知识库</a><span class="ef-field" data-archive-count="knowledge">0 条</span></li>
+              <li><a href="/archive">获奖记录</a><span class="ef-field" data-archive-count="award">0 项</span></li>
+              <li><span>档案合计</span><span class="ef-field" data-archive-count="all">0 条</span></li>
+            </ul>
+            <p class="ef-actions" style="margin-top: 1.5rem">
+              <button class="ef-btn small" type="button" data-theme-toggle>切换深浅</button>
+            </p>
+          </div>
+        </aside>
+      </article>
+    </div>
+
+    <script type="module">
+      import { wireTheme } from '../assets/fx.js';
+      wireTheme();
+    </script>
+  </body>
+</html>

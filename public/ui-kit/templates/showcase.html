@@ -1,0 +1,236 @@
+<!doctype html>
+<!--
+  Showcase template: the bold voice (a home page, a landing page, a hero).
+  Serve the folder over HTTP (e.g. `python3 -m http.server` in the skill
+  folder) — browsers refuse ES modules from file://. Saira is self-hosted here for
+  use; Chinese text uses the system sans-serif stack.
+  This is a visual preview. Demo values do not change personal archive data.
+-->
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>主页展示 | 知识花园</title>
+    <script src="../assets/variant.js"></script>
+    <script src="../assets/kit-nav.js" defer></script>
+    <link rel="stylesheet" href="../assets/endfield.css" />
+    <link rel="stylesheet" href="../assets/kit-nav.css" />
+    <style>
+      /* page-specific layout only; every look comes from endfield.css */
+      .hero {
+        --mx: 0;
+        --my: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 42%);
+        grid-template-rows: auto 1fr auto auto;
+        column-gap: clamp(1.5rem, 4vw, 3.5rem);
+        min-height: min(44rem, calc(100dvh - 3px));
+        padding-top: 1.25rem;
+        border-bottom: 1px solid var(--ef-rule);
+        overflow: hidden;
+      }
+      .hero > .meta {
+        grid-column: 1;
+        margin: 0;
+        padding-inline: var(--ef-pad);
+      }
+      .hero > .meta > * + *::before {
+        content: '/';
+        margin-inline: 0.75em;
+        color: var(--ef-rule);
+      }
+      .hero .ef-wordmark {
+        grid-column: 1;
+        align-self: end;
+        margin-top: 2rem;
+        padding-left: var(--ef-pad);
+        position: relative;
+        z-index: 2;
+      }
+      .hero .copy {
+        grid-column: 1;
+        padding: 1.75rem var(--ef-pad) 2.25rem;
+      }
+      .hero .copy p {
+        margin: 0;
+      }
+      .hero .claim {
+        font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+      }
+      .hero .bio {
+        max-width: 30rem;
+        margin-top: 0.9rem !important;
+        color: var(--ef-ink-2);
+      }
+      .hero .ef-actions {
+        margin-top: 1.5rem;
+      }
+      .hero .ef-frame {
+        grid-column: 2;
+        grid-row: 1 / 4;
+        margin: 0 var(--ef-pad) 2.25rem 0;
+        z-index: 1;
+      }
+      .hero .ef-plate {
+        bottom: -0.75rem;
+      }
+      .hero .ef-frame::before {
+        transform: translate(calc(var(--mx) * 12px), calc(var(--my) * 10px));
+      }
+      .hero .ef-frame svg {
+        width: 100%;
+        height: 100%;
+        transform: translate(calc(var(--mx) * -14px), calc(var(--my) * -8px));
+        transition: transform 0.4s var(--ef-ease);
+      }
+      .hero .ef-ticker {
+        grid-column: 1 / -1;
+      }
+      .latest {
+        background: var(--ef-panel);
+        border-bottom: 1px solid var(--ef-rule);
+      }
+      .latest > a {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: clamp(1.5rem, 5vw, 4rem);
+        padding: clamp(1.75rem, 4vw, 3rem) var(--ef-pad);
+      }
+      .latest .body {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.9rem;
+        max-width: 44rem;
+      }
+      .latest .title {
+        font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+        font-weight: 800;
+        line-height: 1.2;
+      }
+      .latest .flag {
+        padding: 0.05em 0.6em;
+        background: var(--ef-signal);
+        color: var(--ef-on-signal);
+        font-weight: 700;
+      }
+      .index {
+        padding: clamp(2rem, 4vw, 3rem) var(--ef-pad) 4rem;
+      }
+      @media (max-width: 899px) {
+        .hero {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: none;
+          min-height: 0;
+        }
+        .hero .ef-frame {
+          grid-column: 1;
+          grid-row: auto;
+          height: 18rem;
+          margin: 0 calc(var(--ef-pad) + 1rem) 5rem var(--ef-pad);
+        }
+        .hero .ef-plate {
+          bottom: -4rem;
+        }
+        .latest > a {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      @media (min-width: 900px) {
+        .hero { --ef-wordmark: clamp(3rem, calc(7.8vw - 10px), 11rem); }
+      }
+    </style>
+  </head>
+  <body class="ef ef-contours">
+    <div class="ef-tri ef-in-sweep" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <section class="hero" data-hero>
+      <p class="meta ef-field">
+        <time data-archive-date>2026.10.27</time>
+        <span><b data-fx-load data-archive-count="all">0</b> 条档案</span>
+        <span><b data-fx-load data-archive-count="knowledge">0</b> 条知识</span>
+        <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
+      </p>
+
+      <h1 class="ef-wordmark">
+        <span class="solid ef-in-drive">KNOWLEDGE</span>
+        <span class="hollow ef-in-drive" style="animation-delay: 140ms" aria-hidden="true">GARDEN</span>
+      </h1>
+
+      <div class="copy">
+        <p class="claim"><span class="ef-marker ef-in-stroke">把学过的，整理成找得到的答案。</span></p>
+        <p class="bio">收集知识记录与获奖成果，慢慢积累成自己的档案。</p>
+        <p class="ef-actions">
+        <a class="ef-btn go" href="/archive">打开个人档案</a>
+          <a class="ef-btn" href="reading.html">阅读版式</a>
+          <a class="ef-btn" href="/ui-kit">全部样张</a>
+        </p>
+      </div>
+
+      <figure class="ef-frame">
+        <div class="window">
+          <svg viewBox="0 0 400 420" fill="none" stroke="currentColor" stroke-width="1.5" aria-label="知识档案的原创线稿图">
+            <path d="M58 60h230l54 54v246H58z" />
+            <path d="M288 60v54h54M83 143h228M83 174h175M83 204h212M83 279h228M83 309h156" />
+            <path d="M83 232h76v30H83zM176 232h74v30h-74zM267 232h44v30h-44z" />
+            <path d="M83 347h64m18 0h38m20 0h74" stroke-dasharray="3 7" />
+            <text x="60" y="393" font-family="Saira, sans-serif" font-stretch="125%" font-size="11" letter-spacing="2" fill="currentColor" stroke="none">KNOWLEDGE / ARCHIVE</text>
+          </svg>
+        </div>
+        <figcaption class="ef-plate">每一次学习和收获，都有迹可循。</figcaption>
+      </figure>
+
+      <div class="ef-ticker" aria-label="最近的文章">
+        <div class="track">
+          <ul>
+            <li><a href="reading.html"><b>v1.0.192</b>提高等高线背景的清晰度</a></li>
+            <li><a href="reading.html"><b>v1.0.191</b>让筛选菜单沿展开方向顺滑进入</a></li>
+            <li><a href="reading.html"><b>v1.0.190</b>让筛选菜单和折叠面板顺滑展开</a></li>
+            <li><a href="reading.html"><b>v1.0.189</b>放慢版本号反馈并整理数字间距</a></li>
+            <li><a href="reading.html"><b>v1.0.188</b>修复全站数字字体加载</a></li>
+          </ul>
+          <ul aria-hidden="true">
+            <li><a href="reading.html" tabindex="-1"><b>v1.0.192</b>提高等高线背景的清晰度</a></li>
+            <li><a href="reading.html" tabindex="-1"><b>v1.0.191</b>让筛选菜单沿展开方向顺滑进入</a></li>
+            <li><a href="reading.html" tabindex="-1"><b>v1.0.190</b>让筛选菜单和折叠面板顺滑展开</a></li>
+            <li><a href="reading.html" tabindex="-1"><b>v1.0.189</b>放慢版本号反馈并整理数字间距</a></li>
+            <li><a href="reading.html" tabindex="-1"><b>v1.0.188</b>修复全站数字字体加载</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="latest">
+      <a href="#" data-fx-host>
+        <span class="ef-hollow-no" aria-hidden="true" data-fx>192</span>
+        <span class="body">
+          <span class="ef-field"><span class="flag">最新更新</span> v1.0.192 │ 2026.10.27</span>
+          <span class="title">提高等高线背景的清晰度</span>
+          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8">增强桌面与窄屏下等高线背景的对比，并在详情与弹窗中降低底纹，保持正文清晰。</span>
+          <span class="ef-btn go">阅读使用说明</span>
+        </span>
+      </a>
+    </section>
+
+    <section class="index">
+      <p class="ef-eyebrow slash">Index</p>
+      <h2 class="ef-bar-title">全站索引</h2>
+      <ol class="ef-records">
+        <li><a class="ef-record ef-in-come" style="--i: 0" href="reading.html"><span class="ef-tag">v1.0.192</span><time class="ef-field">2026.10.27</time><span class="name ef-read">提高等高线背景的清晰度</span><span class="ef-field">02 项调整</span></a></li>
+        <li><a class="ef-record ef-in-come" style="--i: 1" href="reading.html"><span class="ef-tag">v1.0.191</span><time class="ef-field">2026.10.27</time><span class="name ef-read">让筛选菜单沿展开方向顺滑进入</span><span class="ef-field">02 项调整</span></a></li>
+        <li><a class="ef-record ef-in-come" style="--i: 2" href="reading.html"><span class="ef-tag">v1.0.190</span><time class="ef-field">2026.10.27</time><span class="name ef-read">让筛选菜单和折叠面板顺滑展开</span><span class="ef-field">02 项调整</span></a></li>
+      </ol>
+      <p class="ef-actions" style="margin-top: 1.25rem">
+        <button class="ef-btn small" type="button" data-theme-toggle>切换深浅</button>
+      </p>
+    </section>
+
+    <script type="module">
+      import { wireReadouts, wireTheme, wireParallax } from '../assets/fx.js';
+      wireReadouts();
+      wireTheme();
+      wireParallax(document.querySelector('[data-hero]'));
+    </script>
+  </body>
+</html>

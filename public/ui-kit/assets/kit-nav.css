@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'Saira';
+  src: url('../fonts/Saira.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Saira Numeric';
+  src: url('../fonts/Saira.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
+  font-display: swap;
+  unicode-range: U+0025, U+002B-002F, U+0030-0039, U+003A;
+}
+
+.ef-kit-home {
+  display: inline-flex !important;
+  min-height: 34px;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem .6rem;
+  border: 1px solid var(--ef-rule);
+  color: var(--ef-ink) !important;
+  background: var(--ef-panel);
+  font-family: var(--ef-font-ui);
+  font-size: .72rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ef-kit-home > span:first-child {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: var(--ef-on-signal);
+  background: var(--ef-signal);
+  font-family: 'Saira', sans-serif;
+  font-size: .8rem;
+}
+.ef-kit-home small { color: var(--ef-ink-2); font-family: 'Saira', sans-serif; font-size: .62rem; letter-spacing: .08em; }
+.ef-kit-home:hover { background: var(--ef-signal); }
+.ef-kit-home:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
