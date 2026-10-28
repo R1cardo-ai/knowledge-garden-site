@@ -29,7 +29,7 @@ if (basePath) {
       if (!/\.(?:tsx?|js|html|css)$/.test(name)) continue;
       const source = readFileSync(file, 'utf8');
       const next = source
-        .replace(/(["'`])\/(archive|ui-kit|_next|fonts|favicon\.svg|knowledge-garden-logo\.svg|terrain-contours\.jpg)(?=[/\?"'`#])/g, `$1${basePath}/$2`)
+        .replace(/(["'`])\/(archive|ui-kit|_next|fonts|favicon\.svg|knowledge-garden-logo\.svg|terrain-contours\.jpg)(?=[/?"'`#])/g, `$1${basePath}/$2`)
         .replace(/href=(["'])\/\1/g, `href=$1${basePath}/$1`)
         .replaceAll('https://local.invalid/archive', `https://local.invalid${basePath}/archive`);
       if (next !== source) writeFileSync(file, next);
