@@ -79,10 +79,22 @@ import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-da
 
   const home = document.createElement('a');
   home.className = 'ef-kit-home';
-  home.href = '/ui-kit';
+  home.href = '/ui-kit/';
   home.setAttribute('aria-label', '返回桌面样张索引');
   home.innerHTML = '<span aria-hidden="true">K</span><span>知识花园</span><small>样张索引</small>';
 
   const target = document.querySelector('.ef-cmdbar .util, .top .ef-actions, .ef-rail, .ef-head > p');
   if (target) target.prepend(home);
+
+  // Carry appearance only between template pages; archive filters keep their own query.
+  const appearanceKeys = ['variant', 'accent', 'paper', 'cut', 'ground', 'density', 'motion', 'theme'];
+  const current = new URL(location.href);
+  document.querySelectorAll('a[href]').forEach(link => {
+    const url = new URL(link.getAttribute('href'), current);
+    if (url.origin !== current.origin || !url.pathname.includes('/ui-kit/templates/')) return;
+    for (const key of appearanceKeys) {
+      if (current.searchParams.has(key) && !url.searchParams.has(key)) url.searchParams.set(key, current.searchParams.get(key));
+    }
+    link.href = url.href;
+  });
 })();

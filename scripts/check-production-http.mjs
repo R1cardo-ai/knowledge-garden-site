@@ -16,7 +16,7 @@ const home=await check('/ui-kit/templates/showcase.html?variant=standard',200,ve
 assert.ok(home.includes('data-recent="knowledge"'));
 await check('/ui-kit/assets/archive-data.js',200,'relatedReferences');
 await check('/ui-kit/assets/kit-nav.js',200,'refreshArchive');
-await check('/ui-kit/assets/endfield.css',200,'.ef-ticker .track { animation:none');
+await check('/ui-kit/assets/endfield.css',200,'.ef-ticker .track { animation:ef-pass');
 for (const path of ['/archive','/archive?view=knowledge&category=%E6%9C%AC%E5%9C%B0&entry=missing','/ui-kit']) {
  const html=await check(path,200,'<html');
  assert.ok(!html.includes('/knowledge-garden-site/_next/'),`${path}: stale exported paths`);

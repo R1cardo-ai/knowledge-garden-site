@@ -124,6 +124,14 @@ export function wireTheme(root = document, { reveal = true } = {}) {
       t.finished.then(cleanup, cleanup);
     }),
   );
+  if (typeof window !== 'undefined') window.addEventListener('storage', event => {
+    if (event.key !== 'theme' && event.key !== null) return;
+    const value = event.key === null ? null : event.newValue;
+    if (value === 'light' || value === 'dark') html.dataset.theme = value;
+    else if (html.dataset.efVariant === 'nightshift') html.dataset.theme = 'dark';
+    else delete html.dataset.theme;
+    sync();
+  });
   system.addEventListener('change', sync);
   sync();
 }

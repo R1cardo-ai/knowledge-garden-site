@@ -128,7 +128,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.221';
+const currentVersion = 'v1.0.222';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -136,6 +136,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.222', date: '2026.10.29', title: '修复主页展示导航与更新交互', items: ['补齐顶部导航与真实全站索引，最新更新直接定位当前版本详情', '样张间跳转保留外观参数，深浅主题跨标签页同步', '恢复展示页更新条无缝持续滚动，保留悬停聚焦暂停与减少动态效果支持'] },
   { version: 'v1.0.221', date: '2026.10.29', title: '最近更新持续滚动并修复设计样张入口', items: ['最近更新以无缝循环持续滚动展示，悬停或键盘聚焦时暂停，减少动态效果模式保留手动滚动', '设计样张改用完整页面导航，静态导出补齐样张目录入口'] },
   { version: 'v1.0.220', date: '2026.10.28', title: '恢复阅读前目录位置并整理关联记录', items: ['阅读入口按目录条件临时记录条目位置，返回或浏览器后退时在档案与字体就绪后恢复，存储不可用时安全回退；关联记录显示日期分类形式并保持独立链接', '发布链同时生成根路径与 GitHub 项目路径静态产物，保留现有网站来源'] },
   { version: 'v1.0.219', date: '2026.10.28', title: '补齐目录形式筛选与空结果恢复', items: ['档案默认使用连续目录列表，内容形式筛选与阅读返回链接同步保留，列表和详情显示形式字段，无结果明确列出条件并提供清除筛选，手机目录正确显示当前栏目标题'] },

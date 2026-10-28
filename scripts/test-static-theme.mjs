@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { setImmediate } from 'node:timers/promises';
 
-const original = new Map(['matchMedia','document','localStorage','location','innerWidth','innerHeight','NodeFilter','requestAnimationFrame','cancelAnimationFrame'].map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]));
+const original = new Map(['window','matchMedia','document','localStorage','location','innerWidth','innerHeight','NodeFilter','requestAnimationFrame','cancelAnimationFrame'].map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]));
 const unhandled=[];
 const record=reason=>unhandled.push(reason);
 process.on('unhandledRejection',record);
@@ -13,6 +13,8 @@ try {
     const classes=new Set();
     const attributes={};
     let listener;
+    let storageListener;
+    globalThis.window={addEventListener:(name,callback)=>{if(name === 'storage')storageListener=callback;}};
     let animations=0;
     let saved;
     const button={setAttribute:(key,value)=>attributes[key]=value,addEventListener:(_event,callback)=>listener=callback,getBoundingClientRect:()=>({left:0,top:0,width:44,height:44})};
@@ -30,6 +32,16 @@ try {
     assert.equal(attributes['aria-pressed'],'true');
     assert.equal(classes.has('ef-theming'),false,`${mode}: transition class cleaned`);
     assert.equal(animations,mode==='skipped'?0:1);
+    storageListener({key:'theme',newValue:'light'});
+    assert.equal(html.dataset.theme,'light');
+    assert.equal(attributes['aria-pressed'],'false');
+    storageListener({key:'unrelated',newValue:'dark'});
+    assert.equal(html.dataset.theme,'light');
+    storageListener({key:'theme',newValue:'dark'});
+    assert.equal(attributes['aria-pressed'],'true');
+    storageListener({key:null,newValue:null});
+    assert.equal(html.dataset.theme,undefined);
+
   }
   const frames=[];
   const attributes={};

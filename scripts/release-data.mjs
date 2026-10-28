@@ -55,7 +55,7 @@ export function releaseBlock(name, data) {
 
 export function syncReleaseTemplate(html, data) {
   const latest = data.logs[0];
-  return html.replace(/(<!-- release:([\w-]+) -->)[\s\S]*?(<!-- \/release -->)/g, (_, start, name, end) => `${start}\n${releaseBlock(name, data)}\n${end}`)
+  return html.replace(/href="[^"]*"(?=\s+data-release-href="latest")/g, `href="${releaseHref(latest)}"`).replace(/(<!-- release:([\w-]+) -->)[\s\S]*?(<!-- \/release -->)/g, (_, start, name, end) => `${start}\n${releaseBlock(name, data)}\n${end}`)
     .replace(/(data-release="([\w-]+)"[^>]*>)[^<]*/g, (_, start, key) => {
       const fields = {version:data.version, date:latest.date, title:latest.title, summary:latest.items.join('；'), number:data.version.split('.').at(-1), count:`${releaseCount(latest)} 项调整`, total:`${data.logs.length} 条`, 'item-number':releaseCount(latest)};
       assert.ok(key in fields, `Unknown release field ${key}`);
