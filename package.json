@@ -14,6 +14,7 @@
     "lint": "oxlint",
     "check:updates": "node scripts/check-updates.mjs",
     "build:validate": "npm run build",
+    "build:pages": "node scripts/sync-archive-data.mjs && node scripts/build-pages.mjs",
     "check:production": "node scripts/check-production-http.mjs",
     "test:archive-url": "node scripts/test-archive-url.mjs",
     "test:relations": "node scripts/test-relations.mjs",

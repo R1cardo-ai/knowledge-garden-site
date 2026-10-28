@@ -57,3 +57,4 @@ next-env.d.ts
 # isolated local builds and verification output
 /.local-build/
 /.local-validation/
+/.pages-build/
