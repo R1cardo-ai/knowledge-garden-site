@@ -12,6 +12,7 @@ import {
   ExternalLink,
   FileUp,
   History,
+  House,
   LayoutGrid,
   List,
   Medal,
@@ -128,7 +129,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.223';
+const currentVersion = 'v1.0.224';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -136,6 +137,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.224', date: '2026.10.29', title: '档案页新增返回主页入口', items: ['档案页顶部增加带主页图标的返回主页按钮，桌面和手机均可直接返回知识花园首页'] },
   { version: 'v1.0.223', date: '2026.10.29', title: '恢复首页入场与线稿视差动效', items: ['恢复首页双行字标、介绍与最近档案卡片的错峰入场，以及线稿描绘和版本数字反馈', '视差样式接入当前线稿节点，鼠标移出时归位，减少动态效果模式使用静态展示'] },
   { version: 'v1.0.222', date: '2026.10.29', title: '修复主页展示导航与更新交互', items: ['补齐顶部导航与真实全站索引，最新更新直接定位当前版本详情', '样张间跳转保留外观参数，深浅主题跨标签页同步', '恢复展示页更新条无缝持续滚动，保留悬停聚焦暂停与减少动态效果支持'] },
   { version: 'v1.0.221', date: '2026.10.29', title: '最近更新持续滚动并修复设计样张入口', items: ['最近更新以无缝循环持续滚动展示，悬停或键盘聚焦时暂停，减少动态效果模式保留手动滚动', '设计样张改用完整页面导航，静态导出补齐样张目录入口'] },
@@ -808,7 +810,10 @@ export default function Home() {
       <section className="content-area">
         {storageMessage && <section role="alert" className="storage-recovery"><p>{storageMessage}</p>{rawBackup !== null && <Button variant="outline" onClick={downloadRawBackup}>下载原始备份</Button>}<Button variant="outline" onClick={() => importInputRef.current?.click()}>导入有效快照</Button><Button variant="outline" onClick={exportSnapshot}>导出当前快照</Button></section>}
         <header className="topbar">
-          <div className="breadcrumb"><span>我的空间</span><ChevronRight size={15} /><strong>{viewTitle}</strong><span className="version-badge">{currentVersion}</span></div>
+          <div className="breadcrumb">
+            {/* The home showcase is a static HTML document and needs a full navigation. */}
+            {/* oxlint-disable-next-line next/no-html-link-for-pages */}
+            <a className="archive-home-link" href="/ui-kit/templates/showcase.html?variant=standard" aria-label="返回主页" title="返回主页"><House size={15} aria-hidden="true" /><span>返回主页</span></a><ChevronRight size={15} /><strong>{viewTitle}</strong><span className="version-badge">{currentVersion}</span></div>
           <div className="top-actions">
             <button className="icon-button theme-toggle" type="button" aria-label="深色主题" aria-pressed={darkTheme} title={darkTheme ? '切换到浅色主题' : '切换到深色主题'} onClick={toggleTheme}>{darkTheme ? <Sun size={18} /> : <Moon size={18} />}</button>
             <button className="icon-button" type="button" aria-label="搜索" onClick={() => document.getElementById('search')?.focus()}><Search size={18} /></button>
