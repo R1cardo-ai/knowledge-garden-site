@@ -138,12 +138,22 @@ export function wireTheme(root = document, { reveal = true } = {}) {
 
 // Pointer parallax: sets --mx / --my (-0.5…0.5) on the element as the pointer moves over it.
 export function wireParallax(el) {
-  if (!el || !matchMedia('(prefers-reduced-motion: no-preference) and (hover: hover)').matches) return;
+  if (!el) return;
+  const motion = matchMedia('(prefers-reduced-motion: no-preference) and (hover: hover)');
+  if (!motion.matches) return;
+  const reset = () => {
+    el.style.setProperty('--mx', '0');
+    el.style.setProperty('--my', '0');
+  };
   el.addEventListener('pointermove', (e) => {
+    if (!motion.matches) return;
     const box = el.getBoundingClientRect();
+    if (!box.width || !box.height) return;
     el.style.setProperty('--mx', ((e.clientX - box.left) / box.width - 0.5).toFixed(3));
     el.style.setProperty('--my', ((e.clientY - box.top) / box.height - 0.5).toFixed(3));
   });
+  el.addEventListener('pointerleave', reset);
+  motion.addEventListener('change', () => { if (!motion.matches) reset(); });
 }
 
 // Waits for the CSS animation an element just started, or not at all when

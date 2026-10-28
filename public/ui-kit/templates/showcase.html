@@ -162,6 +162,15 @@
       .featured-entry h2 { margin: 1rem 0; font-size: clamp(1.5rem, 2.6vw, 2.6rem); line-height: 1.35; overflow-wrap: anywhere; }
       .featured-entry p { overflow-wrap: anywhere; }
       .featured-entry [data-feature-summary] { color: var(--ef-ink-2); line-height: 1.8; white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      @media (prefers-reduced-motion:no-preference) and (hover:hover) {
+        .featured-art { transform:translate(calc(var(--mx) * -14px),calc(var(--my) * -8px)); transition:transform .4s var(--ef-ease),color .3s; }
+        .featured-entry:is(:hover,:focus-within) .featured-art { color:var(--ef-ink); }
+      }
+      @media (prefers-reduced-motion:no-preference) {
+        :root:not([data-ef-motion='calm']) .featured-art path { stroke-dasharray:1; animation:home-art-draw 1.4s .35s var(--ef-ease) both; }
+        :root:not([data-ef-motion='calm']) .featured-art path + path { animation-delay:.65s; }
+      }
+      @keyframes home-art-draw { from { stroke-dashoffset:1; } to { stroke-dashoffset:0; } }
       .featured-art { width: 100%; height: 9rem; margin-block: 1rem; color: var(--ef-ink-2); }
       .featured-note { margin-top: 1.5rem; font-size: .75rem; color: var(--ef-ink-2); }
       .hero .ef-actions { gap: .75rem; }
@@ -181,7 +190,7 @@
     </header>
     <main>
     <section class="hero" data-hero>
-      <p class="meta ef-field">
+      <p class="meta ef-field ef-in-power">
         <time data-archive-date>2026.10.27</time>
         <span><b data-fx-load data-archive-count="all">0</b> 条档案</span>
         <span><b data-fx-load data-archive-count="knowledge">0</b> 条知识</span>
@@ -189,10 +198,10 @@
       </p>
 
       <div class="ef-wordmark" aria-hidden="true">
-        <span class="solid">KNOWLEDGE</span><span class="hollow">GARDEN</span>
+        <span class="solid ef-in-drive">KNOWLEDGE</span><span class="hollow ef-in-drive" style="animation-delay:160ms">GARDEN</span>
       </div>
 
-      <div class="copy">
+      <div class="copy ef-in-power" style="--i:2">
         <p class="ef-eyebrow slash">Knowledge Garden</p><h1 class="claim">把学过的，<br>整理成找得到的答案。</h1>
         <p class="bio">收集知识记录与获奖成果，慢慢积累成自己的档案。</p>
         <p class="ef-actions">
@@ -201,9 +210,9 @@
         </p>
       </div>
 
-      <aside class="featured-entry" aria-labelledby="featured-heading">
+      <aside class="featured-entry ef-in-power" style="--i:3" aria-labelledby="featured-heading">
         <p class="ef-eyebrow slash" id="featured-heading">Latest entry / 最近档案</p>
-        <svg class="featured-art" viewBox="0 0 400 150" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 130V30h110l25 25h225v75zM40 110V65h320M170 80h170M170 98h120"/><path d="M40 80h100v30H40z" stroke-width="2"/></svg>
+        <svg class="featured-art" viewBox="0 0 400 150" fill="none" stroke="currentColor" aria-hidden="true"><path pathLength="1" d="M20 130V30h110l25 25h225v75zM40 110V65h320M170 80h170M170 98h120"/><path pathLength="1" d="M40 80h100v30H40z" stroke-width="2"/></svg>
         <p class="ef-field" data-feature-meta>当前浏览器的个人档案</p>
         <h2 data-feature-title>从第一条记录开始</h2>
         <p data-feature-summary>把今天学到的知识或收获保存下来，这里将展示最近更新的档案。</p>
@@ -215,24 +224,24 @@
         <div class="track">
           <ul>
 <!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-223"><b>v1.0.223</b>恢复首页入场与线稿视差动效</a></li>
 <li><a href="reading.html#release-v1-0-222"><b>v1.0.222</b>修复主页展示导航与更新交互</a></li>
 <li><a href="reading.html#release-v1-0-221"><b>v1.0.221</b>最近更新持续滚动并修复设计样张入口</a></li>
 <li><a href="reading.html#release-v1-0-220"><b>v1.0.220</b>恢复阅读前目录位置并整理关联记录</a></li>
 <li><a href="reading.html#release-v1-0-219"><b>v1.0.219</b>补齐目录形式筛选与空结果恢复</a></li>
 <li><a href="reading.html#release-v1-0-218"><b>v1.0.218</b>收束数字反馈并完善保存状态订阅</a></li>
 <li><a href="reading.html#release-v1-0-217"><b>v1.0.217</b>统一主题状态订阅与页面导航语义</a></li>
-<li><a href="reading.html#release-v1-0-216"><b>v1.0.216</b>完善表单语义与响应状态订阅</a></li>
 <!-- /release -->
 </ul>
           <ul aria-hidden="true">
 <!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-223" tabindex="-1"><b>v1.0.223</b>恢复首页入场与线稿视差动效</a></li>
 <li><a href="reading.html#release-v1-0-222" tabindex="-1"><b>v1.0.222</b>修复主页展示导航与更新交互</a></li>
 <li><a href="reading.html#release-v1-0-221" tabindex="-1"><b>v1.0.221</b>最近更新持续滚动并修复设计样张入口</a></li>
 <li><a href="reading.html#release-v1-0-220" tabindex="-1"><b>v1.0.220</b>恢复阅读前目录位置并整理关联记录</a></li>
 <li><a href="reading.html#release-v1-0-219" tabindex="-1"><b>v1.0.219</b>补齐目录形式筛选与空结果恢复</a></li>
 <li><a href="reading.html#release-v1-0-218" tabindex="-1"><b>v1.0.218</b>收束数字反馈并完善保存状态订阅</a></li>
 <li><a href="reading.html#release-v1-0-217" tabindex="-1"><b>v1.0.217</b>统一主题状态订阅与页面导航语义</a></li>
-<li><a href="reading.html#release-v1-0-216" tabindex="-1"><b>v1.0.216</b>完善表单语义与响应状态订阅</a></li>
 <!-- /release -->
 </ul>
         </div>
@@ -252,12 +261,12 @@
     </section>
 
     <section class="latest" id="latest">
-      <a href="reading.html#release-v1-0-222" data-release-href="latest" data-fx-host>
-        <span class="ef-hollow-no" aria-hidden="true" data-fx data-release="number">222</span>
+      <a href="reading.html#release-v1-0-223" data-release-href="latest" data-fx-host>
+        <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">223</span>
         <span class="body">
-          <span class="ef-field"><span class="flag">最新更新</span> <span data-release="version">v1.0.222</span> │ <span data-release="date">2026.10.29</span></span>
-          <span class="title" data-release="title">修复主页展示导航与更新交互</span>
-          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8" data-release="summary">补齐顶部导航与真实全站索引，最新更新直接定位当前版本详情；样张间跳转保留外观参数，深浅主题跨标签页同步；恢复展示页更新条无缝持续滚动，保留悬停聚焦暂停与减少动态效果支持</span>
+          <span class="ef-field"><span class="flag">最新更新</span> <span data-release="version">v1.0.223</span> │ <span data-release="date">2026.10.29</span></span>
+          <span class="title" data-release="title">恢复首页入场与线稿视差动效</span>
+          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8" data-release="summary">恢复首页双行字标、介绍与最近档案卡片的错峰入场，以及线稿描绘和版本数字反馈；视差样式接入当前线稿节点，鼠标移出时归位，减少动态效果模式使用静态展示</span>
           <span class="ef-btn go">阅读最新更新</span>
         </span>
       </a>
@@ -270,9 +279,9 @@
       <h3>最近网站更新</h3>
       <ol class="ef-records">
 <!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-223"><span class="ef-tag">v1.0.223</span><time class="ef-field">2026.10.29</time><span class="name ef-read">恢复首页入场与线稿视差动效</span><span class="ef-field">02 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-222"><span class="ef-tag">v1.0.222</span><time class="ef-field">2026.10.29</time><span class="name ef-read">修复主页展示导航与更新交互</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-221"><span class="ef-tag">v1.0.221</span><time class="ef-field">2026.10.29</time><span class="name ef-read">最近更新持续滚动并修复设计样张入口</span><span class="ef-field">02 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-220"><span class="ef-tag">v1.0.220</span><time class="ef-field">2026.10.28</time><span class="name ef-read">恢复阅读前目录位置并整理关联记录</span><span class="ef-field">02 项调整</span></a></li>
 <!-- /release -->
 </ol>
       <p class="ef-actions" style="margin-top: 1.25rem">

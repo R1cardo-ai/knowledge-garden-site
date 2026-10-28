@@ -22,3 +22,33 @@ for(const pathname of ['showcase','showcase.html']) {
   assert.equal(links[3].href,'https://example.com/ui-kit/templates/reading.html');
 }
 console.log('Showcase checks passed: generated latest release target, navigation, clean/HTML routes, appearance carryover, explicit overrides, fragments, archive and external link isolation.');
+// Pointer motion must reach the current art and return to neutral on leave or reduced motion.
+const priorMatchMedia=Object.getOwnPropertyDescriptor(globalThis,'matchMedia');
+try {
+  const values=new Map();
+  const events=new Map();
+  let preferenceChanged;
+  const motion={matches:true,addEventListener:(_type,callback)=>preferenceChanged=callback};
+  globalThis.matchMedia=()=>motion;
+  const {wireParallax}=await import(`data:text/javascript;base64,${Buffer.from(readFileSync('public/ui-kit/assets/fx.js','utf8')).toString('base64')}`);
+  const hero={style:{setProperty:(key,value)=>values.set(key,value)},addEventListener:(key,callback)=>events.set(key,callback),getBoundingClientRect:()=>({left:0,top:0,width:1000,height:500})};
+  wireParallax(hero);
+  events.get('pointermove')({clientX:750,clientY:125});
+  assert.equal(values.get('--mx'),'0.250');
+  assert.equal(values.get('--my'),'-0.250');
+  events.get('pointerleave')();
+  assert.equal(values.get('--mx'),'0');
+  assert.equal(values.get('--my'),'0');
+  motion.matches=false;
+  preferenceChanged();
+  events.get('pointermove')({clientX:1000,clientY:500});
+  assert.equal(values.get('--mx'),'0');
+  assert.equal(values.get('--my'),'0');
+  const reducedEvents=new Map();
+  wireParallax({...hero,addEventListener:(key,callback)=>reducedEvents.set(key,callback)});
+  assert.equal(reducedEvents.size,0);
+  console.log('Homepage motion checks passed: pointer response, leave reset, preference change and initially reduced motion.');
+} finally {
+  if(priorMatchMedia)Object.defineProperty(globalThis,'matchMedia',priorMatchMedia);
+  else delete globalThis.matchMedia;
+}
