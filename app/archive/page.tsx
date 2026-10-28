@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
+import { useEffect, useSyncExternalStore, useMemo, useRef, useState, type MouseEvent } from 'react';
 import {
   ArrowUpRight,
   BookOpen,
@@ -11,7 +11,6 @@ import {
   Download,
   ExternalLink,
   FileUp,
-  FolderOpen,
   History,
   LayoutGrid,
   List,
@@ -52,8 +51,16 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { formatDisplayDate, normalizeEntryDate, normalizeHttpUrl, entryDateTimestamp, compareRecent, relatedReferences, relatedLabels, normalizeEntries as normalizeSharedEntries } from '@/lib/archive-data.js';
+import { entryFormatLabels, formatDisplayDate, normalizeEntryDate, normalizeHttpUrl, selectFeaturedAward, compareRecent, relatedReferences, relatedLabels, normalizeEntries as normalizeSharedEntries } from '@/lib/archive-data.js';
+import Link from 'next/link';
+import { useDocumentTheme } from '@/hooks/use-document-theme';
+import { createArchiveStatus } from '@/lib/archive-status';
+import { animateReadout } from '@/lib/animate-readout';
+import { saveArchivePosition, readArchivePosition, clearArchivePosition } from '@/lib/archive-position';
 import { EntryReader } from './entry-reader';
+import { FeaturedAward } from './featured-award';
+import { ArchiveRecordRow } from './archive-record-row';
+import { ArchiveNavItem, ArchiveEmptyState } from './archive-components';
 import { readArchiveUrl, writeArchiveUrl } from '@/lib/archive-url';
 import { transitionTheme } from '@/lib/theme-transition';
 
@@ -99,84 +106,30 @@ type ModelContext = {
   registerTool: (tool: ModelContextTool, options?: { signal?: AbortSignal }) => void | Promise<void>;
 };
 
-function randomizeCount(value: string, locked: number) {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  return [...value].map((char, index) => /[A-Z0-9]/i.test(char) && index >= locked ? chars[Math.floor(Math.random() * chars.length)] : char).join('');
-}
-
 function AnimatedCount({ value, initialScramble = false, delay = 0 }: { value: number; initialScramble?: boolean; delay?: number }) {
-  const [displayValue, setDisplayValue] = useState(0);
-  const [scrambleValue, setScrambleValue] = useState<string | null>(null);
+  const node = useRef<HTMLSpanElement>(null);
+  const lastValue = useRef(0);
   const hasScrambled = useRef(false);
-
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setDisplayValue(value);
-      setScrambleValue(null);
-      return;
-    }
-    if (initialScramble && !hasScrambled.current) {
-      let frame = 0;
-      let startTime = 0;
-      const target = String(value).padStart(2, '0');
-      const timer = window.setTimeout(() => {
-        hasScrambled.current = true;
-        const step = (time: number) => {
-          if (!startTime) startTime = time;
-          const progress = Math.min((time - startTime) / 620, 1);
-          const locked = Math.floor(progress * target.length);
-          setScrambleValue(progress >= 1 ? null : randomizeCount(target, locked));
-          if (progress < 1) frame = window.requestAnimationFrame(step);
-          else setDisplayValue(value);
-        };
-        frame = window.requestAnimationFrame(step);
-      }, delay);
-      return () => { window.clearTimeout(timer); window.cancelAnimationFrame(frame); };
-    }
-    let frame = 0;
-    let startTime = 0;
-    const startValue = displayValue;
-    const duration = 820;
-    const step = (time: number) => {
-      if (!startTime) startTime = time;
-      const progress = Math.min((time - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      setDisplayValue(Math.round(startValue + (value - startValue) * eased));
-      if (progress < 1) frame = window.requestAnimationFrame(step);
-    };
-    frame = window.requestAnimationFrame(step);
-    return () => window.cancelAnimationFrame(frame);
-    // Keep the starting point at the last rendered value when the total changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!node.current) return;
+    return animateReadout(node.current, {from:lastValue.current,to:value,delay,scramble:initialScramble && !hasScrambled.current,onStart:()=>{hasScrambled.current=true;},onValue:next=>{lastValue.current=next;}});
   }, [value, initialScramble, delay]);
-
-  return <span aria-hidden="true">{scrambleValue ?? String(displayValue).padStart(2, '0')}</span>;
+  return <span ref={node} aria-hidden="true">{String(value).padStart(2,'0')}</span>;
 }
-
 function ScrambledVersion({ value, trigger }: { value: string; trigger: number }) {
-  const [displayValue, setDisplayValue] = useState(value.replace(/^v/, ''));
+  const node = useRef<HTMLSpanElement>(null);
+  const target = value.replace(/^v/,'');
   useEffect(() => {
-    if (!trigger) return;
-    const target = value.replace(/^v/, '');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setDisplayValue(target); return; }
-    let frame = 0;
-    let startTime = 0;
-    const tick = (time: number) => {
-      if (!startTime) startTime = time;
-      const progress = Math.min((time - startTime) / 420, 1);
-      setDisplayValue(progress >= 1 ? target : randomizeCount(target, Math.floor(progress * target.length)));
-      if (progress < 1) frame = window.requestAnimationFrame(tick);
-    };
-    frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
-  }, [value, trigger]);
-  return <span className="archive-release-index" aria-hidden="true">{displayValue}</span>;
+    if (!node.current) return;
+    if (!trigger) { node.current.textContent=target; return; }
+    return animateReadout(node.current,{to:target,scramble:true});
+  }, [target, trigger]);
+  return <span ref={node} className="archive-release-index" aria-hidden="true">{target}</span>;
 }
 
 const starterEntries: Entry[] = [];
 
-const colorStyles: Record<string, string> = { coral: 'card-coral', sky: 'card-sky', lilac: 'card-lilac', mint: 'card-mint', gold: 'card-gold' };
-const currentVersion = 'v1.0.209';
+const currentVersion = 'v1.0.220';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -184,6 +137,17 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.220', date: '2026.10.28', title: '恢复阅读前目录位置并整理关联记录', items: ['阅读入口按目录条件临时记录条目位置，返回或浏览器后退时在档案与字体就绪后恢复，存储不可用时安全回退；关联记录显示日期分类形式并保持独立链接', '发布链同时生成根路径与 GitHub 项目路径静态产物，保留现有网站来源'] },
+  { version: 'v1.0.219', date: '2026.10.28', title: '补齐目录形式筛选与空结果恢复', items: ['档案默认使用连续目录列表，内容形式筛选与阅读返回链接同步保留，列表和详情显示形式字段，无结果明确列出条件并提供清除筛选，手机目录正确显示当前栏目标题'] },
+  { version: 'v1.0.218', date: '2026.10.28', title: '收束数字反馈并完善保存状态订阅', items: ['数字与版本反馈直接更新独立展示节点，动画在460毫秒内完成且减少动态效果时立即显示真实值；保存提示通过独立状态订阅更新，保留异常档案保护'] },
+  { version: 'v1.0.217', date: '2026.10.28', title: '统一主题状态订阅与页面导航语义', items: ['React 页面订阅实际文档主题，初始化兼容被禁用的存储，内部页面链接与静态模板导航分别处理，轮播与列表使用原生语义容器'] },
+  { version: 'v1.0.216', date: '2026.10.28', title: '完善表单语义与响应状态订阅', items: ['共用表单使用原生分组与明确标签关联，分页保留链接内容，断点与轮播状态改为外部订阅并正确清理监听，按钮保持黄底墨字，矩阵加入交互回归演示'] },
+  { version: 'v1.0.215', date: '2026.10.28', title: '完善主题动效取消处理与源码检查范围', items: ['主题揭幕取消或被浏览器跳过时正确清理状态，静态圆盘坐标与图表字段使用明确转换，源码检查排除备份和生成产物'] },
+  { version: 'v1.0.214', date: '2026.10.28', title: '加入复用实际组件的交互状态矩阵', items: ['样张索引增加导航、档案行、精选封面、筛选、表单、空状态与弹层演示，复用站内组件并隔离演示操作，不写入个人档案'] },
+  { version: 'v1.0.213', date: '2026.10.28', title: '以真实成果和证明内容建立精选展区', items: ['成果页按当前筛选中的记录日期展示精选，已有字段与图片证明并列，图片可预览和查看原图，缺图及加载失败保留文字与证明入口'] },
+  { version: 'v1.0.212', date: '2026.10.28', title: '补齐阅读目录与代码图片排版', items: ['阅读目录支持键盘及手机折叠，闭合代码块保持原始换行并独立滚动，HTTP 链接与笔记图片支持安全查看且保留说明'] },
+  { version: 'v1.0.211', date: '2026.10.28', title: '从规范日志自动同步全部更新展示', items: ['首页更新条、最新摘要和各样张列表按规范日志自动生成，阅读页可逐条展开完整历史并定位具体版本'] },
+  { version: 'v1.0.210', date: '2026.10.28', title: '以真实档案重排首页与阅读层级', items: ['首页突出中文标题与记录入口，最近档案封面读取本地真实内容，档案列表和阅读正文统一细线与元数据层级'] },
   { version: 'v1.0.209', date: '2026.10.28', title: '隔离旧侧栏折叠偏好对桌面导航的影响', items: ['新版顶栏与底栏不应用旧侧栏折叠样式，保留存储偏好，桌面和手机导航保持完整标签'] },
   { version: 'v1.0.208', date: '2026.10.28', title: '完整换行显示连续长标题', items: ['档案卡片和快速详情标题支持连续英文与长字符串换行，避免标题在容器内被裁切'] },
   { version: 'v1.0.207', date: '2026.10.28', title: '保留旧档案字段与已有主题偏好', items: ['兼容读取和编辑时保留扩展字段及完整标签，深色默认迁移不覆盖已有主题，页脚与侧栏显示真实保存状态'] },
@@ -407,7 +371,7 @@ const updateLogs: UpdateLog[] = [
   { version: 'v0.1.0', date: '2026.09.07', title: '知识花园上线', items: ['支持记录知识条目和获奖经历', '使用浏览器本地保存，不需要账号'] },
 ];
 const emptyDraft = { type: 'knowledge' as EntryType, format: 'note' as EntryFormat, title: '', category: '', date: '', summary: '', tags: '', notes: '', source: '', issuer: '', awardLevel: '', role: '', proof: '', related: '' };
-const formatLabels: Record<EntryFormat, string> = { note: '笔记', book: '书籍', course: '课程', article: '文章', video: '视频', project: '项目' };
+const formatLabels = entryFormatLabels;
 
 function normalizeEntries(value: unknown, fallbackDate: string): Entry[] {
   return normalizeSharedEntries(value, fallbackDate) as Entry[];
@@ -417,13 +381,16 @@ export default function Home() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [hydrated, setHydrated] = useState(false);
   const [storageBlocked, setStorageBlocked] = useState(false);
-  const [storageMessage, setStorageMessage] = useState('');
+  const [storageStatus] = useState(createArchiveStatus);
+  const storageMessage = useSyncExternalStore(storageStatus.subscribe,storageStatus.getSnapshot,storageStatus.getServerSnapshot);
+  const setStorageMessage = storageStatus.report;
   const [rawBackup, setRawBackup] = useState<string | null>(null);
   const [displayDate, setDisplayDate] = useState('');
   const [activeView, setActiveView] = useState<ViewMode>('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [formatFilter, setFormatFilter] = useState<EntryFormat | 'all'>('all');
   const [sortBy, setSortBy] = useState<'updated' | 'latest' | 'oldest' | 'title'>('updated');
-  const [entryView, setEntryView] = useState<'cards' | 'list'>('cards');
+  const [entryView, setEntryView] = useState<'cards' | 'list'>('list');
   const [search, setSearch] = useState('');
   const [urlReady, setUrlReady] = useState(false);
   const [readingId, setReadingId] = useState('');
@@ -442,7 +409,7 @@ export default function Home() {
   const [backgroundOpacity, setBackgroundOpacity] = useState(0.13);
   const [backgroundExpanded, setBackgroundExpanded] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [darkTheme, setDarkTheme] = useState(false);
+  const darkTheme = useDocumentTheme() === 'dark';
   const [milestonesOpen, setMilestonesOpen] = useState(true);
   const [releaseScrambleToken, setReleaseScrambleToken] = useState(0);
   const importInputRef = useRef<HTMLInputElement>(null);
@@ -475,7 +442,7 @@ export default function Home() {
       setStorageMessage(error); setRawBackup(error ? raw : null); setHydrated(true);
     }, 0);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [setStorageMessage]);
 
 
   useEffect(() => {
@@ -491,7 +458,6 @@ export default function Home() {
       } catch {}
     }
     const isDark = savedTheme === 'dark';
-    setDarkTheme(isDark);
     document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
   }, []);
 
@@ -523,7 +489,7 @@ export default function Home() {
       window.localStorage.setItem('knowledge-garden-entries', JSON.stringify(entries));
       setStorageMessage('');
     } catch { setStorageMessage('保存失败：浏览器存储不可用或空间不足。当前更改仅在本页，请导出快照备份。'); }
-  }, [entries, hydrated, storageBlocked]);
+  }, [entries, hydrated, storageBlocked, setStorageMessage]);
 
   function downloadRawBackup() {
     if (rawBackup === null) return;
@@ -551,7 +517,7 @@ export default function Home() {
     }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
-  }, [entries, search, categoryFilter, activeView]);
+  }, [entries, search, categoryFilter, formatFilter, activeView, entryView, sortBy, readingId]);
 
   useEffect(() => {
     let frame = 0;
@@ -602,7 +568,7 @@ export default function Home() {
   useEffect(() => {
     const restore = () => {
       const state = readArchiveUrl(new URL(window.location.href));
-      setActiveView(state.view); setCategoryFilter(state.category); setSearch(state.search);
+      setActiveView(state.view); setCategoryFilter(state.category); setFormatFilter(state.format || 'all'); setSearch(state.search);
       setSortBy(state.sort); setEntryView(state.layout);
       setReadingId(new URL(window.location.href).searchParams.get('entry') || '');
       if (state.view !== 'all') setQuickCaptureType(state.view);
@@ -616,7 +582,7 @@ export default function Home() {
   useEffect(() => {
     if (!urlReady) return;
     const current = new URL(window.location.href);
-    const next = writeArchiveUrl(current, { view: activeView, category: categoryFilter, search, sort: sortBy, layout: entryView });
+    const next = writeArchiveUrl(current, { view: activeView, category: categoryFilter, format: formatFilter, search, sort: sortBy, layout: entryView });
     if (readingId) next.searchParams.set('entry', readingId); else next.searchParams.delete('entry');
     if (next.href === current.href) return;
     const withoutQuery = new URL(next); withoutQuery.searchParams.delete('q');
@@ -624,13 +590,47 @@ export default function Home() {
     // Typing replaces the current search, while explicit filter/view changes are navigable.
     if (withoutQuery.href === previousWithoutQuery.href) window.history.replaceState(null, '', next);
     else window.history.pushState(null, '', next);
-  }, [urlReady, activeView, categoryFilter, search, sortBy, entryView, readingId]);
+  }, [urlReady, activeView, categoryFilter, formatFilter, search, sortBy, entryView, readingId]);
+
+  useEffect(() => {
+    if (!hydrated || !urlReady || readingId) return;
+    let cancelled=false;
+    let frame=0;
+    const restorePosition = () => {
+      let position;
+      try { position=readArchivePosition(window.sessionStorage,window.location.href); } catch { return; }
+      if (!position) return;
+      const snapshot=position;
+      const href=window.location.href;
+      document.fonts.ready.then(() => {
+        if (cancelled) return;
+        frame=window.requestAnimationFrame(() => {
+          frame=window.requestAnimationFrame(() => {
+            if (cancelled) return;
+            const anchor=Array.from(document.querySelectorAll<HTMLElement>('[data-entry-id]')).find(node=>node.dataset.entryId===snapshot.anchor);
+            const top=anchor ? window.scrollY+anchor.getBoundingClientRect().top-snapshot.offset : snapshot.y;
+            window.scrollTo({top:Math.max(0,top),behavior:'instant'});
+            try { clearArchivePosition(window.sessionStorage,href); } catch {}
+          });
+        });
+      }).catch(() => {});
+    };
+    restorePosition();
+    window.addEventListener('pageshow',restorePosition);
+    return () => { cancelled=true;window.cancelAnimationFrame(frame);window.removeEventListener('pageshow',restorePosition); };
+  }, [hydrated,urlReady,readingId,activeView,categoryFilter,formatFilter,search,sortBy,entryView]);
+
+  function rememberReadingPosition(event: MouseEvent<HTMLAnchorElement>,id:string) {
+    if (event.button>0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const row=event.currentTarget.closest<HTMLElement>('[data-entry-id]');
+    try { saveArchivePosition(window.sessionStorage,window.location.href,{y:window.scrollY,anchor:id,offset:row?.getBoundingClientRect().top ?? 0}); } catch {}
+  }
 
   const knowledgeCount = entries.filter((entry) => entry.type === 'knowledge').length;
   const awardCount = entries.filter((entry) => entry.type === 'award').length;
   const entriesInActiveView = activeView === 'all' ? entries : entries.filter((entry) => entry.type === activeView);
   const emptyStateTitle = entriesInActiveView.length > 0 ? '这里还没有匹配的内容' : activeView === 'award' ? '还没有获奖记录' : activeView === 'knowledge' ? '还没有知识记录' : '还没有档案记录';
-  const emptyStateDescription = entriesInActiveView.length > 0 ? '换个关键词或筛选条件，或添加一条新的记录。' : activeView === 'award' ? '记录获得的荣誉与成果，方便以后回看。' : activeView === 'knowledge' ? '先记下一条知识，之后可以慢慢补充分类与笔记。' : '从一条知识或获奖经历开始，之后可以继续补充细节。';
+  const emptyStateDescription = entriesInActiveView.length > 0 ? `当前条件：${[search.trim() ? `搜索“${search.trim()}”` : '', categoryFilter !== 'all' ? `分类“${categoryFilter}”` : '', formatFilter !== 'all' ? `形式“${formatLabels[formatFilter]}”` : ''].filter(Boolean).join(' / ') || '当前视图'}。可清除筛选后继续浏览。` : activeView === 'award' ? '记录获得的荣誉与成果，方便以后回看。' : activeView === 'knowledge' ? '先记下一条知识，之后可以慢慢补充分类与笔记。' : '从一条知识或获奖经历开始，之后可以继续补充细节。';
   const filteredUpdateLogs = useMemo(() => {
     const query = changelogQuery.trim().toLocaleLowerCase();
     if (!query) return updateLogs;
@@ -643,7 +643,6 @@ export default function Home() {
   const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
     const next = darkTheme ? 'light' : 'dark';
     transitionTheme(event.currentTarget, () => {
-      setDarkTheme(next === 'dark');
       document.documentElement.dataset.theme = next;
       try { window.localStorage.setItem(themeStorageKey, next); } catch { showNotice('主题已切换，但未能保存偏好'); }
     });
@@ -656,17 +655,18 @@ export default function Home() {
       const matchesView = activeView === 'all' || entry.type === activeView;
       const matchesCategory = categoryFilter === 'all' || entry.category === categoryFilter;
       const matchesSearch = !query || [entry.title, entry.category, entry.summary, entry.notes, entry.source, entry.issuer, entry.related, ...entry.tags].join(' ').toLowerCase().includes(query);
-      return matchesView && matchesCategory && matchesSearch;
+      return matchesView && matchesCategory && matchesSearch && (formatFilter === 'all' || entry.format === formatFilter);
     });
-  }, [activeView, categoryFilter, entries, search]);
+  }, [activeView, categoryFilter, formatFilter, entries, search]);
 
   const sortedEntries = useMemo(() => [...filteredEntries].sort((a, b) => sortBy === 'title' ? a.title.localeCompare(b.title) : sortBy === 'oldest' ? a.date.localeCompare(b.date) : sortBy === 'latest' ? b.date.localeCompare(a.date) : compareRecent(a, b)), [filteredEntries, sortBy]);
+  const featuredAward = activeView === 'award' ? selectFeaturedAward(filteredEntries) : undefined;
   const viewTitle = activeView === 'award' ? '获奖记录' : activeView === 'knowledge' ? '知识库' : '总览';
   const newRecordType = activeView === 'all' ? quickCaptureType : activeView;
   const logEyebrow = activeView === 'award' ? '// AWARD LOG /' : activeView === 'knowledge' ? '// KNOWLEDGE LOG /' : '// FIELD LOG /';
-  const changeView = (view: ViewMode) => { setReadingId(''); setActiveView(view); setCategoryFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
+  const changeView = (view: ViewMode) => { setReadingId(''); setActiveView(view); setCategoryFilter('all'); setFormatFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
   function readingHref(id: string) {
-    const url = writeArchiveUrl(new URL('https://local.invalid/archive'), { view: activeView, category: categoryFilter, search, sort: sortBy, layout: entryView });
+    const url = writeArchiveUrl(new URL('https://local.invalid/archive'), { view: activeView, category: categoryFilter, format: formatFilter, search, sort: sortBy, layout: entryView });
     if (id) url.searchParams.set('entry', id);
     return url.pathname + url.search;
   }
@@ -788,11 +788,11 @@ export default function Home() {
         <div className="rail-topline"><div className="brand-mark" aria-label="我的知识花园"><span className="brand-symbol" aria-hidden="true">K</span><span className="brand-lockup"><strong>知识花园</strong><small>FIELD KNOWLEDGE ARCHIVE</small></span></div><button type="button" className="rail-collapse-toggle" aria-label={sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'} aria-expanded={!sidebarCollapsed} title={sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'} onClick={toggleSidebar}>{sidebarCollapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}</button></div>
         <p className="rail-section-label">{"// FIELD INDEX "}<span>/</span> 05</p>
         <nav className="side-nav" aria-label="主导航">
-          <button className={`nav-item ${activeView === 'all' ? 'active' : ''}`} type="button" aria-label="总览" title="总览" aria-pressed={activeView === 'all'} onClick={() => changeView('all')}><LayoutGrid size={18} /><span>总览</span></button>
-          <button className={`nav-item ${activeView === 'knowledge' ? 'active' : ''}`} type="button" aria-label="知识库" title="知识库" aria-pressed={activeView === 'knowledge'} onClick={() => changeView('knowledge')}><BookOpen size={18} /><span>知识库</span><span className="nav-count">{knowledgeCount}</span></button>
-          <button className={`nav-item ${activeView === 'award' ? 'active' : ''}`} type="button" aria-label="获奖记录" title="获奖记录" aria-pressed={activeView === 'award'} onClick={() => changeView('award')}><Medal size={18} /><span>获奖记录</span><span className="nav-count">{awardCount}</span></button>
+          <ArchiveNavItem label="总览" active={activeView === 'all'} onClick={() => changeView('all')}><LayoutGrid size={18} /><span>总览</span></ArchiveNavItem>
+          <ArchiveNavItem label="知识库" active={activeView === 'knowledge'} onClick={() => changeView('knowledge')}><BookOpen size={18} /><span>知识库</span><span className="nav-count">{knowledgeCount}</span></ArchiveNavItem>
+          <ArchiveNavItem label="获奖记录" active={activeView === 'award'} onClick={() => changeView('award')}><Medal size={18} /><span>获奖记录</span><span className="nav-count">{awardCount}</span></ArchiveNavItem>
           <button className="nav-item" type="button" aria-label="更新日志" title="更新日志" onClick={() => setChangelogOpen(true)}><History size={18} /><span>更新日志</span><span className="nav-count">{updateLogs.length}</span></button>
-          <a className="nav-item" href="/ui-kit" aria-label="设计样张" title="设计样张"><Sparkles size={18} /><span>设计样张</span><span className="nav-count">06</span></a>
+          <Link className="nav-item" href="/ui-kit" aria-label="设计样张" title="设计样张"><Sparkles size={18} /><span>设计样张</span><span className="nav-count">06</span></Link>
         </nav>
         <section className="rail-background" data-expanded={backgroundExpanded ? 'true' : 'false'} aria-label="背景图片设置"><button type="button" className="rail-background-heading" aria-label={backgroundExpanded ? '收起背景图片设置' : '展开背景图片设置'} aria-expanded={backgroundExpanded} aria-controls="rail-background-content" onClick={() => setBackgroundExpanded((current) => !current)}><div><span className="rail-background-label">{"// BACKGROUND"}</span><strong>背景图片</strong></div><span className="rail-background-toggle" aria-hidden="true">{backgroundExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span></button><div id="rail-background-content" className="rail-background-content" data-open={backgroundExpanded} aria-hidden={!backgroundExpanded} inert={!backgroundExpanded}><button type="button" className={`rail-background-preview ${backgroundImage ? 'has-background' : 'is-empty'}`} aria-label={backgroundImage ? '更换背景图片' : '选择背景图片'} onClick={() => backgroundInputRef.current?.click()} style={backgroundImage ? { backgroundImage: `url("${backgroundImage}")` } : undefined}><span>{backgroundImage ? `${Math.round(backgroundOpacity * 100)}%` : '未设置'}</span></button><input ref={backgroundInputRef} className="sr-only" type="file" accept="image/*" tabIndex={-1} onChange={customizeBackground} /><div className="rail-background-actions"><button type="button" className="rail-background-button" onClick={() => backgroundInputRef.current?.click()}><FileUp size={13} />更换图片</button><button type="button" className="rail-background-reset" onClick={resetBackground}>恢复默认</button></div>{backgroundImage && <label className="rail-opacity-control" htmlFor="background-opacity"><span>透明度</span><input id="background-opacity" type="range" min="0.04" max="0.3" step="0.01" value={backgroundOpacity} onChange={(event) => changeBackgroundOpacity(Number(event.target.value))} /></label>}</div></section>
         <div className="rail-bottom">
@@ -816,7 +816,7 @@ export default function Home() {
               <DialogContent className="entry-dialog form-dialog">
                 <DialogHeader><DialogTitle>{editingId ? '编辑记录' : '添加一条记录'}</DialogTitle><DialogDescription>{editingId ? '把这条记录补充得更完整。' : '把刚学会的，或刚获得的，放进你的长期积累里。'}</DialogDescription></DialogHeader>
                 <div className="dialog-form">
-                  <div className="type-picker" role="group" aria-label="记录类型"><button type="button" className={draft.type === 'knowledge' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'knowledge'} onClick={() => setDraft((current) => ({ ...current, type: 'knowledge', format: 'note' }))}><BookOpen size={16} />学到的知识</button><button type="button" className={draft.type === 'award' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'award'} onClick={() => setDraft((current) => ({ ...current, type: 'award', format: 'project' }))}><Trophy size={16} />获奖情况</button></div>
+                  <fieldset className="type-picker" aria-label="记录类型"><button type="button" className={draft.type === 'knowledge' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'knowledge'} onClick={() => setDraft((current) => ({ ...current, type: 'knowledge', format: 'note' }))}><BookOpen size={16} />学到的知识</button><button type="button" className={draft.type === 'award' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'award'} onClick={() => setDraft((current) => ({ ...current, type: 'award', format: 'project' }))}><Trophy size={16} />获奖情况</button></fieldset>
                   <p className="form-section-label">{"// CORE FIELDS"}</p>
                   <div className="form-grid"><label htmlFor="entry-title">标题<Input id="entry-title" placeholder={draft.type === 'award' ? '例如：设计大赛 · 最佳创意奖' : '例如：卡片分类法'} value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label><label htmlFor="entry-date">日期<Input id="entry-date" inputMode="numeric" placeholder="YYYY.MM.DD" value={draft.date} onChange={(event) => setDraft({ ...draft, date: event.target.value })} /></label></div>
                   <div className="form-grid"><label htmlFor="entry-category">分类<Input id="entry-category" placeholder={draft.type === 'award' ? '例如：竞赛获奖' : '例如：产品设计'} value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} /></label><label htmlFor="entry-tags">标签（选填）<Input id="entry-tags" placeholder="用逗号分隔" value={draft.tags} onChange={(event) => setDraft({ ...draft, tags: event.target.value })} /></label></div>
@@ -893,10 +893,10 @@ export default function Home() {
             </figure>
             <div className="archive-update-strip" aria-label="最近更新">
               <span className="archive-update-label">{"// RECENT UPDATES"}</span>
-              <div className="archive-update-viewport" role="region" aria-label="最近更新，可左右滚动" tabIndex={0}><div className="archive-update-track">
+              <section className="archive-update-viewport" aria-label="最近更新，可左右滚动"><div className="archive-update-track">
                 <div className="archive-update-group">{updateLogs.slice(0, 8).map((release) => <button type="button" className="archive-update-item" key={release.version} onClick={() => openRelease(release)}><span className="archive-update-version">{release.version}</span><span className="archive-update-title">{release.title}</span><ChevronRight size={13} aria-hidden="true" /></button>)}</div>
                 <div className="archive-update-group archive-update-group-clone" aria-hidden="true">{updateLogs.slice(0, 8).map((release) => <button type="button" className="archive-update-item" key={`clone-${release.version}`} tabIndex={-1} disabled><span className="archive-update-version">{release.version}</span><span className="archive-update-title">{release.title}</span><ChevronRight size={13} aria-hidden="true" /></button>)}</div>
-              </div></div>
+              </div></section>
             </div>
           </section>
           <section className="archive-release-feature" aria-label="最新更新" onPointerEnter={() => setReleaseScrambleToken((token) => token + 1)} onFocusCapture={() => setReleaseScrambleToken((token) => token + 1)}>
@@ -910,13 +910,14 @@ export default function Home() {
           </section>
           <section className="quick-capture" aria-label="快速记录">
             <div className="quick-capture-copy"><span className="quick-capture-icon"><Plus size={16} /></span><div><p className="section-kicker">{quickCaptureEyebrow}</p><h2>今天记录什么？</h2><p>{quickCaptureHint}</p></div></div>
-            <form className="quick-capture-form" onSubmit={saveQuickCapture}><div className="quick-type-picker" role="group" aria-label="记录类型"><button type="button" aria-pressed={quickCaptureType === 'knowledge'} className={quickCaptureType === 'knowledge' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('knowledge')}><BookOpen size={14} />知识</button><button type="button" aria-pressed={quickCaptureType === 'award'} className={quickCaptureType === 'award' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('award')}><Trophy size={14} />获奖</button></div><Input id="quick-capture-title" aria-label="快速记录标题" placeholder={quickCapturePlaceholder} value={quickCaptureTitle} onChange={(event) => setQuickCaptureTitle(event.target.value)} /><Button type="submit" className="quick-capture-submit"><Plus size={15} />保存</Button></form>
+            <form className="quick-capture-form" onSubmit={saveQuickCapture}><fieldset className="quick-type-picker" aria-label="记录类型"><button type="button" aria-pressed={quickCaptureType === 'knowledge'} className={quickCaptureType === 'knowledge' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('knowledge')}><BookOpen size={14} />知识</button><button type="button" aria-pressed={quickCaptureType === 'award'} className={quickCaptureType === 'award' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('award')}><Trophy size={14} />获奖</button></fieldset><Input id="quick-capture-title" aria-label="快速记录标题" placeholder={quickCapturePlaceholder} value={quickCaptureTitle} onChange={(event) => setQuickCaptureTitle(event.target.value)} /><Button type="submit" className="quick-capture-submit"><Plus size={15} />保存</Button></form>
           </section>
 
           <div className="workspace-grid">
             <section className="knowledge-section">
-              <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2>{viewTitle === '总览' ? '最近收集' : viewTitle === '知识库' ? '全部知识条目' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索知识与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '知识条目' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">知识条目</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== 'updated' ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><div className="view-mode-toggle" role="group" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></div></div></div>
-               {sortedEntries.length === 0 ? <div className="empty-state"><FolderOpen size={27} /><h3>{emptyStateTitle}</h3><p>{emptyStateDescription}</p><button className="empty-state-action" type="button" onClick={() => openCreate(newRecordType)}><Plus size={14} />{newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'}</button></div> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}`}>{sortedEntries.map((entry, index) => <article style={{ '--entry-delay': `${Math.min(index, 14) * 16}ms` } as CSSProperties & { '--entry-delay': string }} className={`entry-card ${entry.type === 'award' ? 'entry-award' : 'entry-knowledge'} ${colorStyles[entry.color] ?? 'card-coral'}`} key={entry.id}><div className="entry-topline"><Badge className={`entry-type ${entry.type === 'award' ? 'award-badge' : ''}`}>{entry.type === 'award' ? '获奖' : '知识'}</Badge><button type="button" className="card-delete" aria-label={`删除记录：${entry.title}`} title="删除记录" onClick={() => setPendingConfirmation({ kind: 'delete', entry })}><Trash2 size={16} /></button></div><div className="entry-body"><p className="entry-category">{entry.category} <span className="entry-meta-separator" aria-hidden="true">│</span> {entry.date}</p><h3>{entry.title}</h3>{entry.summary.trim() && <p className="entry-excerpt">{entry.summary}</p>}</div><div className="entry-footer"><div className="tag-list">{entry.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div><a className="entry-detail-button" href={readingHref(entry.id)}>阅读</a><button type="button" className="entry-detail-button" onClick={() => { setSelectedEntry(entry); setDetailsOpen(true); }}>查看详情 <ArrowUpRight size={15} /></button></div></article>)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
+              <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2>{viewTitle === '总览' ? '最近收集' : viewTitle === '知识库' ? '全部知识条目' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索知识与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '知识条目' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">知识条目</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={formatFilter} itemToStringLabel={value=>value === 'all' ? '全部形式' : formatLabels[value]} onValueChange={value=>{if(value)setFormatFilter(value as EntryFormat | 'all');}}><SelectTrigger className={'filter-trigger format-trigger' + (formatFilter !== 'all' ? ' filter-active' : '')} aria-label="按内容形式筛选"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="all">全部形式</SelectItem>{Object.entries(formatLabels).map(([value,label])=><SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== 'updated' ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><fieldset className="view-mode-toggle" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></fieldset></div></div>
+               {featuredAward && <FeaturedAward entry={featuredAward} href={readingHref(featuredAward.id)} />}
+               {sortedEntries.length === 0 ? <ArchiveEmptyState title={emptyStateTitle} description={emptyStateDescription} action={entriesInActiveView.length ? '清除筛选' : newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'} onAction={() => { if (entriesInActiveView.length) { setSearch(''); setCategoryFilter('all'); setFormatFilter('all'); } else openCreate(newRecordType); }} /> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}`}>{sortedEntries.map((entry, index) => <ArchiveRecordRow key={entry.id} entry={entry} index={index} href={readingHref(entry.id)} onRead={event=>rememberReadingPosition(event,entry.id)} onDelete={() => setPendingConfirmation({ kind: 'delete', entry })} onDetails={() => { setSelectedEntry(entry); setDetailsOpen(true); }} />)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
             </section>
 
             <aside className="right-column">
@@ -959,7 +960,7 @@ export default function Home() {
       </AlertDialog>
       <Dialog open={changelogOpen} onOpenChange={(open) => { setChangelogOpen(open); if (!open) setChangelogQuery(''); }}>
         <DialogContent className="entry-dialog changelog-dialog">
-          <DialogHeader><p className="dialog-kicker">// CHANGE HISTORY</p><DialogTitle>更新日志</DialogTitle><DialogDescription>每次迭代都留下版本记录，方便回看知识花园如何慢慢长大。</DialogDescription></DialogHeader>
+          <DialogHeader><p className="dialog-kicker">{'// CHANGE HISTORY'}</p><DialogTitle>更新日志</DialogTitle><DialogDescription>每次迭代都留下版本记录，方便回看知识花园如何慢慢长大。</DialogDescription></DialogHeader>
           <div className="release-tools"><label className="release-search"><Search size={15} aria-hidden="true" /><Input aria-label="搜索更新日志" placeholder="搜索版本、日期、标题或内容" value={changelogQuery} onChange={(event) => setChangelogQuery(event.target.value)} />{changelogQuery && <button type="button" className="release-search-clear" aria-label="清除更新日志搜索" onClick={() => setChangelogQuery('')}><X size={14} /></button>}</label><span className="release-count">{filteredUpdateLogs.length} / {updateLogs.length} 条</span></div>
           <div className="release-list">{filteredUpdateLogs.length > 0 ? filteredUpdateLogs.map((release) => <article className="release-item" key={release.version}><div className="release-heading"><span className="release-version">{release.version}</span><time>{release.date}</time></div><h3>{release.title}</h3><ul>{release.items.map((item) => <li key={item}>{item}</li>)}</ul></article>) : <div className="release-empty"><p>没有找到匹配的更新日志，请换个关键词试试。</p><button type="button" onClick={() => setChangelogQuery('')}>清空搜索</button></div>}</div>
         </DialogContent>

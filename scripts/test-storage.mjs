@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import ts from 'typescript';
 const source = readFileSync('app/archive/page.tsx', 'utf8').replaceAll('\r\n', '\n');
 const init = source.slice(source.indexOf('    const fallbackDate = formatDisplayDate(new Date());', source.indexOf('export default function Home')), source.indexOf('    return () => window.clearTimeout(timer);', source.indexOf('    const fallbackDate = formatDisplayDate(new Date());', source.indexOf('export default function Home'))));
-const save = source.match(/  useEffect\(\(\) => \{\n    if \(!hydrated \|\| storageBlocked\) return;([\s\S]*?)\n  \}, \[entries, hydrated, storageBlocked\]\);/)[1];
+const save = source.match(/  useEffect\(\(\) => \{\n    if \(!hydrated \|\| storageBlocked\) return;([\s\S]*?)\n  \}, \[entries, hydrated, storageBlocked, setStorageMessage\]\);/)[1];
 for (const raw of ['{broken', '{}', '[null]', '[]', '[{"id":"old","title":"Keep"}]', null]) {
  const result = { raw, writes: 0 };
  const context = { result, formatDisplayDate: () => '2026.10.28', Date, Boolean, Array, JSON, Error, starterEntries: [{id:'starter'}], normalizeEntries: value => Array.isArray(value) ? value : value.entries,

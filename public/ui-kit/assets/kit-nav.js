@@ -4,6 +4,13 @@ import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-da
   try {
     const saved = localStorage.getItem('knowledge-garden-entries');
     const entries = saved === null ? [] : normalizeEntries(JSON.parse(saved), formatDisplayDate(new Date()));
+    const featured = [...entries].sort(compareRecent)[0];
+    const setFeatureText = (selector, value) => { const node = document.querySelector(selector); if (node) node.textContent = value; };
+    setFeatureText('[data-feature-title]', featured?.title || '从第一条记录开始');
+    setFeatureText('[data-feature-meta]', featured ? `${featured.date} / ${featured.category} / ${featured.type === 'award' ? '成果' : '知识'}` : '当前浏览器的个人档案');
+    setFeatureText('[data-feature-summary]', featured ? (featured.summary || '这条档案还没有摘要，打开记录查看详细内容。') : '把今天学到的知识或收获保存下来，这里将展示最近更新的档案。');
+    const featuredLink = document.querySelector('[data-feature-link]');
+    if (featuredLink) { featuredLink.href = featured ? `/archive?${new URLSearchParams({view:featured.type,entry:featured.id})}` : '/archive'; featuredLink.textContent = featured ? '阅读这条档案 ↗' : '打开个人档案 ↗'; }
     const award = entries.filter((entry) => entry.type === 'award').length;
     const knowledge = entries.length - award;
     const counts = { all: entries.length, knowledge, award };
@@ -49,6 +56,10 @@ import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-da
       if (!categories.size) categoryList.textContent = '添加记录后，这里会显示真实分类。';
     }
   } catch {
+    document.querySelectorAll('[data-feature-title]').forEach(node => {node.textContent = '暂时无法读取档案';});
+    document.querySelectorAll('[data-feature-summary]').forEach(node => {node.textContent = '请打开个人档案下载原始备份并恢复。';});
+    document.querySelectorAll('[data-feature-meta]').forEach(node => {node.textContent = '读取失败';});
+    document.querySelectorAll('[data-feature-link]').forEach(node => {node.href = '/archive'; node.textContent = '打开个人档案 ↗';});
     document.querySelectorAll('[data-archive-count], [data-archive-stat]').forEach(node => {node.textContent = '—';});
     const status = document.querySelector('[data-archive-status]');
     if (status) status.textContent = '无法读取本地档案。请打开个人档案下载原始备份并恢复。';
@@ -72,6 +83,6 @@ import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-da
   home.setAttribute('aria-label', '返回桌面样张索引');
   home.innerHTML = '<span aria-hidden="true">K</span><span>知识花园</span><small>样张索引</small>';
 
-  const target = document.querySelector('.ef-cmdbar .util, .top .ef-actions, .ef-rail, .hero .copy .ef-actions, .ef-head > p');
+  const target = document.querySelector('.ef-cmdbar .util, .top .ef-actions, .ef-rail, .ef-head > p');
   if (target) target.prepend(home);
 })();

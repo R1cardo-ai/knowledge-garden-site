@@ -1,0 +1,12 @@
+{
+  "before": {
+    "top": 293.359375,
+    "url": "http://127.0.0.1:5199/archive?view=award&sort=oldest",
+    "y": 1301
+  },
+  "after": {
+    "top": 283.359375,
+    "url": "http://127.0.0.1:5199/archive?view=award&sort=oldest",
+    "y": 1311
+  }
+}

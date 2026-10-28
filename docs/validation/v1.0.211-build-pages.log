@@ -1,0 +1,66 @@
+
+> sites-project@0.1.0 build:pages
+> node scripts/sync-archive-data.mjs && node scripts/build-pages.mjs
+
+Shared archive module synchronized for static templates.
+Release templates synchronized: v1.0.211, 223 history records.
+
+  vinext build  (Vite 8.0.13)
+
+[1/5] analyze client references...
+[2K
+transforming...✓ 221 modules transformed.
+rendering chunks...
+✓ built in 1.17s
+[2/5] analyze server references...
+[2K
+transforming...✓ 357 modules transformed.
+rendering chunks...
+✓ built in 1.03s
+[3/5] build rsc environment...
+[2K
+transforming...✓ 218 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 1.19s
+[4/5] build client environment...
+[2K
+transforming...✓ 2153 modules transformed.
+rendering chunks...
+computing gzip size...
+[PLUGIN_TIMINGS] Your build spent significant time in plugins. Here is a breakdown:
+  - vinext:middleware-server-only (22%)
+  - vinext:css-data-url (13%)
+  - alias (13%)
+  - rsc:virtual-client-package (11%)
+  - vinext:og-inline-fetch-assets (9%)
+See https://rolldown.rs/options/checks#plugintimings for more details.
+
+✓ built in 3.97s
+[5/5] build ssr environment...
+[2K
+transforming...✓ 360 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 1.09s
+[0m  Pre-rendering all routes (output: 'export')...
+[vinext] Production server for prerendering running at http://127.0.0.1:50953
+  Prerendered 3 routes (1 skipped).
+  Discovered 3 CDN warmup path(s).
+[0m
+  Route (app)
+  ┌ ? /       
+  ├ ○ /archive
+  └ ○ /ui-kit 
+
+  ○ Static  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  ○ Routes marked static were confirmed by speculative prerender (attempted render
+    succeeded without dynamic API usage).
+  Build complete. Run `vinext start` to start the production server.
+
+Cloudflare Pages static export ready: v1.0.211, .pages-build/site

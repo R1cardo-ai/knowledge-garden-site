@@ -1,0 +1,91 @@
+{
+  "diagnostics": [
+    {
+      "message": "Suppression: React Compiler has skipped optimizing this component because one or more React ESLint rules were disabled",
+      "code": "react(react-compiler)",
+      "severity": "error",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/react/react-compiler.html",
+      "help": "React Compiler only works when your components follow all the rules of React, disabling them may result in unexpected or incorrect behavior. Found suppression `eslint-disable-next-line react-hooks/exhaustive-deps`",
+      "filename": "app/archive/page.tsx",
+      "labels": [
+        {
+          "label": "Found React rule suppression",
+          "span": {
+            "offset": 5401,
+            "length": 55,
+            "line": 154,
+            "column": 5
+          }
+        }
+      ],
+      "related": []
+    },
+    {
+      "message": "EffectSetState: Calling setState synchronously within an effect can trigger cascading renders",
+      "code": "react(react-compiler)",
+      "severity": "error",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/react/react-compiler.html",
+      "help": "Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect)",
+      "filename": "app/archive/page.tsx",
+      "labels": [
+        {
+          "label": "Avoid calling setState() directly within an effect",
+          "span": {
+            "offset": 5934,
+            "length": 15,
+            "line": 165,
+            "column": 74
+          }
+        }
+      ],
+      "related": []
+    },
+    {
+      "message": "EffectSetState: Calling setState synchronously within an effect can trigger cascading renders",
+      "code": "react(react-compiler)",
+      "severity": "error",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/react/react-compiler.html",
+      "help": "Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect)",
+      "filename": "app/archive/page.tsx",
+      "labels": [
+        {
+          "label": "Avoid calling setState() directly within an effect",
+          "span": {
+            "offset": 70581,
+            "length": 17,
+            "line": 534,
+            "column": 7
+          }
+        }
+      ],
+      "related": []
+    },
+    {
+      "message": "Using the spread operator on a string can mishandle special characters, because it produces Unicode code points, which will break complex characters (like emojis) into multiple parts.",
+      "code": "typescript(no-misused-spread)",
+      "severity": "error",
+      "causes": [],
+      "url": "https://oxc.rs/docs/guide/usage/linter/rules/typescript/no-misused-spread.html",
+      "help": "Consider using `Intl.Segmenter` for locale-aware string decomposition. Otherwise, if you don't need to preserve emojis or other non-ASCII characters, disable this lint rule on this line or configure the 'allow' rule option.",
+      "filename": "app/archive/page.tsx",
+      "labels": [
+        {
+          "span": {
+            "offset": 3279,
+            "length": 8,
+            "line": 108,
+            "column": 11
+          }
+        }
+      ],
+      "related": []
+    }
+  ],
+  "number_of_files": 104,
+  "number_of_rules": 208,
+  "threads_count": 24,
+  "start_time": 1.6570546
+}

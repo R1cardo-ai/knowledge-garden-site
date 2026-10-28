@@ -2383,3 +2383,30 @@
   overflow-wrap:anywhere;
   min-width:0;
 }
+/* Content directory: rows use separators in both themes. */
+:root[data-ark-theme='endfield'] .site-shell .entry-grid.list-view { gap: 0; border-top: 1px solid var(--archive-line-strong); }
+:root[data-ark-theme='endfield'] .site-shell .entry-grid.list-view .entry-card { border: 0; border-bottom: 1px solid var(--archive-line-strong); box-shadow: none; background: var(--archive-surface); }
+:root[data-ark-theme='endfield'] .site-shell .entry-grid.list-view .entry-card:is(:hover,:focus-within) { background: var(--archive-paper); }
+:root[data-ark-theme='endfield'] .site-shell:has(.entry-reader) .terrain-contour-overlay { display: none; }
+:root[data-ark-theme='endfield'] .site-shell .view-tools { flex-wrap:wrap; row-gap:8px; }
+:root[data-ark-theme='endfield'] .site-shell .format-trigger { min-width:110px; }
+/* The directory toolbar wraps whole controls instead of truncating their labels. */
+:root[data-ark-theme='endfield'] .site-shell .knowledge-section .section-header { display:flex; flex-direction:column; align-items:stretch; }
+:root[data-ark-theme='endfield'] .site-shell .view-tools { display:flex; width:100%; max-width:none; }
+:root[data-ark-theme='endfield'] .site-shell .view-tools .filter-trigger { flex:0 0 auto; min-width:110px; max-width:min(220px,100%); }
+:root[data-ark-theme='endfield'] .site-shell .view-tools .search-box { flex:1 1 170px; width:auto; min-width:150px; }
+:root[data-ark-theme='endfield'] .site-shell .view-tools .view-mode-toggle { flex:0 0 auto; width:auto; }
+/* Subview identity applies on phones and tablets as well as desktop. */
+:root[data-ark-theme='endfield'] .site-shell:is([data-view='knowledge'],[data-view='award']) .archive-overview-copy,
+:root[data-ark-theme='endfield'] .site-shell:is([data-view='knowledge'],[data-view='award']) :is(.archive-hero-stage,.archive-update-strip,.archive-release-feature) { display:none; }
+:root[data-ark-theme='endfield'] .site-shell:is([data-view='knowledge'],[data-view='award']) .archive-subview-copy { display:block; }
+@media(max-width:1023px) {
+ :root[data-ark-theme='endfield'] .site-shell:is([data-view='knowledge'],[data-view='award']) .page-heading { display:block; min-height:0; padding-block:16px 24px; }
+ :root[data-ark-theme='endfield'] .site-shell:is([data-view='knowledge'],[data-view='award']) .heading-copy-block { min-height:0; padding:0; }
+ :root[data-ark-theme='endfield'] .site-shell:is([data-view='knowledge'],[data-view='award']) .archive-meta-line { margin-bottom:20px; }
+ :root[data-ark-theme='endfield'] .site-shell:is([data-view='knowledge'],[data-view='award']) .archive-subview-copy h1 { max-width:none; font-size:clamp(32px,5vw,48px); line-height:1.25; }
+ :root[data-ark-theme='endfield'] .site-shell:is([data-view='knowledge'],[data-view='award']) .archive-subview-copy .heading-copy { font-size:14px; line-height:1.8; }
+}
+@media(max-width:767px) {
+ :root[data-ark-theme='endfield'] .site-shell .entry-grid.list-view .entry-excerpt { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; margin-top:8px; font-size:14px; line-height:1.7; overflow:hidden; }
+}

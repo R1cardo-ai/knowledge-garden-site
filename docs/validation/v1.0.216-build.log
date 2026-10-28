@@ -1,0 +1,127 @@
+
+> sites-project@0.1.0 prebuild
+> node scripts/sync-archive-data.mjs
+
+Shared archive module synchronized for static templates.
+Release templates synchronized: v1.0.216, 228 history records.
+
+> sites-project@0.1.0 build
+> vite build --config scripts/vite.local-production.ts
+
+[1/5] analyze client references...
+vite v8.0.13 building rsc environment for production...
+[2K
+transforming...✓ 230 modules transformed.
+rendering chunks...
+✓ built in 1.27s
+[2/5] analyze server references...
+vite v8.0.13 building ssr environment for production...
+[2K
+transforming...✓ 378 modules transformed.
+rendering chunks...
+✓ built in 950ms
+[3/5] build rsc environment...
+vite v8.0.13 building rsc environment for production...
+[2K
+transforming...✓ 227 modules transformed.
+rendering chunks...
+computing gzip size...
+.local-build/server/wrangler.json                                                                                                                    1.16 kB │ gzip:  0.61 kB
+.local-build/server/.vite/manifest.json                                                                                                             10.27 kB │ gzip:  1.25 kB
+.local-build/server/_next/static/css/index.BSTy0rYZ.css                                                                                            386.65 kB │ gzip: 60.58 kB
+.local-build/server/_next/static/app-prerender-static-params-DMrRr2Mn.js                                                                             0.17 kB │ gzip:  0.15 kB
+.local-build/server/_next/static/page-B7AyBtiW.js                                                                                                    0.18 kB │ gzip:  0.16 kB
+.local-build/server/_next/static/page-DisZ20_f.js                                                                                                    0.18 kB │ gzip:  0.16 kB
+.local-build/server/_next/static/framework~index-BdYTsI_h.js                                                                                         0.19 kB │ gzip:  0.16 kB
+.local-build/server/_next/static/navigation.react-server-EVkBkcaV.js                                                                                 0.26 kB │ gzip:  0.21 kB
+.local-build/server/_next/static/redirect-digest-BfgQqQ-J.js                                                                                         0.37 kB │ gzip:  0.29 kB
+.local-build/server/_next/static/page-Q1_VKXJL.js                                                                                                    0.49 kB │ gzip:  0.42 kB
+.local-build/server/_next/static/rolldown-runtime-DUnMT5BP.js                                                                                        0.69 kB │ gzip:  0.42 kB
+.local-build/server/_next/static/rsc-Chq6e1kY.js                                                                                                     0.73 kB │ gzip:  0.45 kB
+.local-build/server/_next/static/navigation-runtime-VvwMeXGE.js                                                                                      0.80 kB │ gzip:  0.39 kB
+.local-build/server/_next/static/framework~index~layout~page~app-page-cache-render~app-page-cache~app-route-handler-dispatch-ZFbtzDor.js             0.82 kB │ gzip:  0.55 kB
+.local-build/server/_next/static/app-static-generation-DAQZMoAy.js                                                                                   0.91 kB │ gzip:  0.51 kB
+.local-build/server/_next/static/root-params-0DVgYa50.js                                                                                             1.24 kB │ gzip:  0.62 kB
+.local-build/server/_next/static/implicit-tags-CWk5IAtd.js                                                                                           1.34 kB │ gzip:  0.72 kB
+.local-build/server/_next/static/navigation-errors-ne_u_VDR.js                                                                                       1.43 kB │ gzip:  0.72 kB
+.local-build/server/_next/static/app-page-cache-render-DZpjQMjd.js                                                                                   1.91 kB │ gzip:  0.89 kB
+.local-build/server/_next/static/app-prerender-endpoints-CkHADpmg.js                                                                                 2.01 kB │ gzip:  0.86 kB
+.local-build/server/_next/static/app-page-cache-finalizer-BoWp9RRo.js                                                                                3.47 kB │ gzip:  1.30 kB
+.local-build/server/_next/static/record-Crmk5sem.js                                                                                                  4.96 kB │ gzip:  2.03 kB
+.local-build/server/_next/static/isr-cache-CMDiwWwA.js                                                                                               5.15 kB │ gzip:  2.28 kB
+.local-build/server/_next/static/app-page-cache-DvQvwyoi.js                                                                                          5.19 kB │ gzip:  1.67 kB
+.local-build/server/_next/static/framework~index~page~layout~page~page~app-page-cache-render~app-page-cache~app-route-handle~mgm2ah13-eFGSRxR4.js    5.49 kB │ gzip:  2.28 kB
+.local-build/server/_next/static/app-page-stream-BpAg_Hca.js                                                                                         9.93 kB │ gzip:  3.72 kB
+.local-build/server/_next/static/app-segment-config-D85TGJ1_.js                                                                                     13.62 kB │ gzip:  4.77 kB
+.local-build/server/_next/static/text-stream-kitdSlr6.js                                                                                            19.41 kB │ gzip:  5.62 kB
+.local-build/server/_next/static/app-route-handler-dispatch-DpDbGiFz.js                                                                             26.15 kB │ gzip:  8.09 kB
+.local-build/server/_next/static/cache-headers-DfiEeaGN.js                                                                                          48.30 kB │ gzip: 15.54 kB
+.local-build/server/_next/static/framework~index~page~page~app-route-handler-dispatch-D0u2heGf.js                                                   56.61 kB │ gzip: 16.91 kB
+.local-build/server/index.js                                                                                                                       200.06 kB │ gzip: 57.98 kB
+
+[INEFFECTIVE_DYNAMIC_IMPORT] app/layout.tsx is dynamically imported by \0virtual:vinext-rsc-entry but also statically imported by \0virtual:vinext-rsc-entry, dynamic import will not move module into another chunk.
+
+✓ built in 1.00s
+[4/5] build client environment...
+vite v8.0.13 building client environment for production...
+[2K
+transforming...✓ 2168 modules transformed.
+rendering chunks...
+computing gzip size...
+.local-build/client/.assetsignore                                                0.02 kB
+.local-build/client/vinext-client-entry-manifest.json                            0.06 kB │ gzip:  0.08 kB
+.local-build/client/.vite/manifest.json                                          2.99 kB │ gzip:  0.56 kB
+.local-build/client/_next/static/css/ui-kit-client.Bo4GamYM.css                 14.12 kB │ gzip:  3.23 kB
+.local-build/client/_next/static/css/index.BSTy0rYZ.css                        386.65 kB │ gzip: 60.58 kB
+.local-build/client/_next/static/chunks/layout-segment-context-BdHefFWz.js       0.49 kB │ gzip:  0.34 kB
+.local-build/client/_next/static/chunks/rolldown-runtime-C60lm6uB.js             0.69 kB │ gzip:  0.42 kB
+.local-build/client/_next/static/chunks/streamed-icons-Cs-m6aYg.js               0.77 kB │ gzip:  0.49 kB
+.local-build/client/_next/static/chunks/app-route-prefetch-policy-Brvd9hFQ.js    0.93 kB │ gzip:  0.48 kB
+.local-build/client/_next/static/chunks/ui-kit-client-DzBMf8hH.js               43.52 kB │ gzip: 15.98 kB
+.local-build/client/_next/static/chunks/page-BAZnOJGQ.js                       114.02 kB │ gzip: 36.67 kB
+.local-build/client/_next/static/chunks/theme-transition-CCS6WYqB.js           178.50 kB │ gzip: 60.65 kB
+.local-build/client/_next/static/chunks/framework-D_rUT4EX.js                  190.15 kB │ gzip: 59.77 kB
+.local-build/client/_next/static/chunks/index-Dd5vF-7R.js                      193.40 kB │ gzip: 56.49 kB
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/default-global-error.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/server/app-browser-entry.js, node_modules/vinext/dist/shims/error-boundary.js, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/error-boundary.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/server/app-browser-entry.js, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/app-router-scroll.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/server/app-browser-entry.js, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/slot.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/server/app-browser-entry.js, node_modules/vinext/dist/server/app-browser-visible-commit.js, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/internal/app-prefetch-fetch-queue.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/shims/navigation.js, dynamic import will not move module into another chunk.
+
+[PLUGIN_TIMINGS] Your build spent significant time in plugins. Here is a breakdown:
+  - vinext:middleware-server-only (19%)
+  - vinext:css-data-url (15%)
+  - alias (13%)
+  - vinext:og-inline-fetch-assets (10%)
+  - rsc:virtual-client-package (9%)
+See https://rolldown.rs/options/checks#plugintimings for more details.
+
+✓ built in 3.49s
+[5/5] build ssr environment...
+vite v8.0.13 building ssr environment for production...
+[2K
+transforming...✓ 386 modules transformed.
+rendering chunks...
+computing gzip size...
+.local-build/server/ssr/_next/static/css/ui-kit-client.Bo4GamYM.css         14.12 kB │ gzip:  3.23 kB
+.local-build/server/ssr/_next/static/app-prefetch-fetch-queue-gTaZhh19.js    0.00 kB │ gzip:  0.02 kB
+.local-build/server/ssr/_next/static/static.edge-DB6YIW--.js                 0.16 kB │ gzip:  0.13 kB
+.local-build/server/ssr/_next/static/layout-segment-context-B4tkweog.js      0.38 kB │ gzip:  0.28 kB
+.local-build/server/ssr/_next/static/streamed-icons-Bra_KEiT.js              0.69 kB │ gzip:  0.44 kB
+.local-build/server/ssr/_next/static/app-router-scroll-BHHM2-xt.js           2.54 kB │ gzip:  1.14 kB
+.local-build/server/ssr/_next/static/error-boundary-DLbZgxvm.js              5.39 kB │ gzip:  1.61 kB
+.local-build/server/ssr/_next/static/ui-kit-client-BCFGxCJD.js              43.42 kB │ gzip: 15.93 kB
+.local-build/server/ssr/_next/static/page-Bs_h4XiF.js                      113.96 kB │ gzip: 36.64 kB
+.local-build/server/ssr/_next/static/theme-transition-CtrBuZEI.js          177.86 kB │ gzip: 60.49 kB
+.local-build/server/ssr/index.js                                           278.43 kB │ gzip: 87.26 kB
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/default-global-error.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/server/app-ssr-entry.js, node_modules/vinext/dist/shims/error-boundary.js, dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] node_modules/vinext/dist/shims/slot.js is dynamically imported by \0virtual:vite-rsc/client-references but also statically imported by node_modules/vinext/dist/server/app-ssr-entry.js, dynamic import will not move module into another chunk.
+
+✓ built in 1.35s

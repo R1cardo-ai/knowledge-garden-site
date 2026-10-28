@@ -67,9 +67,9 @@ export function drawDial(svg, { sections, gauges = [], idle }) {
     const a = node('a', { href: s.href ?? '#', class: `seg${s.here ? ' is-here' : ''}${s.alert ? ' is-alert' : ''}`, style: `--i:${i}` });
     a.setAttribute('aria-label', `${s.zh}：${s.big}${s.unit ?? ''}`);
     a.append(
-      node('path', { class: 'lock', d: `M${l0}A${R2 + 8} ${R2 + 8} 0 0 1 ${l1}`, pathLength: 100 }),
+      node('path', { class: 'lock', d: `M${l0.join(' ')}A${R2 + 8} ${R2 + 8} 0 0 1 ${l1.join(' ')}`, pathLength: 100 }),
       node('line', { class: 'beam', x1: bx0, y1: by0, x2: bx1, y2: by1, pathLength: 100 }),
-      node('path', { class: 'plate', d: `M${o0}A${R2} ${R2} 0 0 1 ${o1}L${i1}A${R1} ${R1} 0 0 0 ${i0}Z` }),
+      node('path', { class: 'plate', d: `M${o0.join(' ')}A${R2} ${R2} 0 0 1 ${o1.join(' ')}L${i1.join(' ')}A${R1} ${R1} 0 0 0 ${i0.join(' ')}Z` }),
       node('text', { class: 'zh', x: tx, y: ty - 4, 'text-anchor': 'middle' }, s.zh),
       node('text', { class: 'en', x: tx, y: ty + 13, 'text-anchor': 'middle' }, s.en ?? ''),
     );

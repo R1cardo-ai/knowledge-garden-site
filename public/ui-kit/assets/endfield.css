@@ -2269,3 +2269,13 @@ a.ef-record:is(:hover, :focus-visible) > * {
 .ef-ticker .track { animation:none !important; transform:none !important; }
 .ef-ticker ul[aria-hidden] { display:none; }
 .ef-ticker:focus-visible { outline:2px solid var(--ef-accent, #e5e900); outline-offset:3px; }
+/* Canonical release history remains readable with JavaScript disabled. */
+.release-history-item { border-bottom: 1px solid var(--ef-rule); scroll-margin-top: 2rem; }
+.release-history-item summary { cursor: pointer; min-height: 44px; padding: 1.25rem .5rem; overflow-wrap: anywhere; }
+.release-history-item summary .ef-field { display: block; margin-bottom: .5rem; color: var(--ef-ink-2); }
+.release-history-item summary strong { font-family: var(--ef-font-text); font-size: 1.1rem; line-height: 1.5; }
+.release-history-item summary .ef-marker { margin-left: .75rem; font-size: .75rem; }
+.release-history-item ul { margin: 0; padding: 0 1.5rem 1.5rem; color: var(--ef-ink-2); line-height: 1.8; overflow-wrap: anywhere; }
+.release-history-item summary:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: -2px; }
+.release-history-item:target { background: var(--ef-panel); border-left: 3px solid var(--ef-ink); }
+.release-history-item summary .ef-marker { display: inline-block; white-space: nowrap; }

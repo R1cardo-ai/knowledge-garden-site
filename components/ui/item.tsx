@@ -6,13 +6,12 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 
-function ItemGroup({ className, ...props }: React.ComponentProps<'div'>) {
+function ItemGroup({ className, ...props }: React.ComponentProps<'ul'>) {
   return (
-    <div
-      role="list"
+    <ul
       data-slot="item-group"
       className={cn(
-        'gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2 group/item-group flex w-full flex-col',
+        'm-0 list-none p-0 gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2 group/item-group flex w-full flex-col',
         className,
       )}
       {...props}
@@ -25,12 +24,12 @@ function ItemSeparator({
   ...props
 }: React.ComponentProps<typeof Separator>) {
   return (
-    <Separator
+    <li role="presentation"><Separator
       data-slot="item-separator"
       orientation="horizontal"
       className={cn('my-2', className)}
       {...props}
-    />
+    /></li>
   );
 }
 
@@ -62,10 +61,10 @@ function Item({
   size = 'default',
   render,
   ...props
-}: useRender.ComponentProps<'div'> & VariantProps<typeof itemVariants>) {
+}: useRender.ComponentProps<'li'> & VariantProps<typeof itemVariants>) {
   return useRender({
-    defaultTagName: 'div',
-    props: mergeProps<'div'>(
+    defaultTagName: 'li',
+    props: mergeProps<'li'>(
       {
         className: cn(itemVariants({ variant, size, className })),
       },

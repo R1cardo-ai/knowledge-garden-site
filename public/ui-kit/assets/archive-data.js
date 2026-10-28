@@ -1,3 +1,4 @@
+export const entryFormatLabels = {note:'笔记',book:'书籍',course:'课程',article:'文章',video:'视频',project:'项目'};
 export function formatDisplayDate(value) {
     return `${value.getFullYear()}.${String(value.getMonth() + 1).padStart(2, '0')}.${String(value.getDate()).padStart(2, '0')}`;
 }
@@ -73,6 +74,17 @@ export function normalizeEntries(value, fallbackDate) {
 }
 
 export function compareRecent(a, b) { return (b.updatedAt ?? entryDateTimestamp(b.date)) - (a.updatedAt ?? entryDateTimestamp(a.date)); }
+
+// Selection follows record date; editing an old award does not make it the newest achievement.
+export function selectFeaturedAward(entries) {
+    return entries.filter(entry => entry.type === 'award').sort((a, b) => b.date.localeCompare(a.date) || compareRecent(a, b))[0];
+}
+export function proofImageUrl(value = '') {
+    const safe = normalizeHttpUrl(value);
+    if (!safe) return '';
+    const url = new URL(safe);
+    return /\.(?:png|jpe?g|webp|gif|avif)$/i.test(url.pathname) ? safe : '';
+}
 
 // IDs are authoritative once bound. Deleted targets must never rebind by title.
 export function relatedReferences(text, entries, previous = []) {

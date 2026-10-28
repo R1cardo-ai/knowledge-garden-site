@@ -11,7 +11,7 @@
     "prebuild": "node scripts/sync-archive-data.mjs",
     "build": "vite build --config scripts/vite.local-production.ts",
     "start": "wrangler dev --config .local-build/server/wrangler.json --local",
-    "lint": "oxlint",
+    "lint": "oxlint app components hooks lib scripts public/ui-kit/assets portable-site next.config.ts vite.config.ts",
     "check:updates": "node scripts/check-updates.mjs",
     "build:validate": "npm run build",
     "build:pages": "node scripts/sync-archive-data.mjs && node scripts/build-pages.mjs",
@@ -20,10 +20,15 @@
     "test:relations": "node scripts/test-relations.mjs",
     "test:notes": "node scripts/test-note-blocks.mjs",
     "test:archive-data": "node scripts/test-archive-data.mjs",
-    "test": "npm run test:storage && npm run test:archive-data && npm run test:archive-url && npm run test:notes && npm run test:relations && npm run test:theme && npm run check:updates",
+    "test": "npm run test:storage && npm run test:archive-data && npm run test:archive-url && npm run test:archive-position && npm run test:notes && npm run test:relations && npm run test:theme && npm run test:document-theme && npm run test:static-theme && npm run test:readouts && npm run check:updates",
     "test:theme": "node scripts/test-theme-migration.mjs",
     "test:storage": "node scripts/test-storage.mjs",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "test:static-theme": "node scripts/test-static-theme.mjs",
+    "test:document-theme": "node scripts/test-document-theme.mjs",
+    "test:readouts": "node scripts/test-readouts.mjs",
+    "test:archive-position": "node scripts/test-archive-position.mjs",
+    "build:github": "node scripts/build-github-pages.mjs"
   },
   "dependencies": {
     "react": "19.2.6",

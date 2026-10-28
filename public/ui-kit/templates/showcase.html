@@ -148,6 +148,25 @@
       @media (min-width: 900px) {
         .hero { --ef-wordmark: clamp(3rem, calc(7.8vw - 10px), 11rem); }
       }
+
+      /* Content cover: shared palette, quieter wordmark, readable Chinese heading. */
+      .hero { grid-template-rows: auto auto 1fr auto; min-height: 0; }
+      .hero .ef-wordmark { --ef-wordmark: clamp(2rem, 4.4vw, 5rem); margin-top: 2.5rem; opacity: .45; }
+      .hero .copy { padding-top: 1rem; }
+      .hero .claim { margin: .75rem 0 0; font-size: clamp(2rem, 3.8vw, 4.5rem); font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; }
+      .hero .bio { line-height: 1.8; }
+      .featured-entry { grid-column: 2; grid-row: 1 / 4; align-self: stretch; min-width: 0; margin: 0 var(--ef-pad) 2rem 0; padding: clamp(1.25rem, 3vw, 2.5rem); border-top: 4px solid var(--ef-ink); background: var(--ef-panel); }
+      .featured-entry h2 { margin: 1rem 0; font-size: clamp(1.5rem, 2.6vw, 2.6rem); line-height: 1.35; overflow-wrap: anywhere; }
+      .featured-entry p { overflow-wrap: anywhere; }
+      .featured-entry [data-feature-summary] { color: var(--ef-ink-2); line-height: 1.8; white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      .featured-art { width: 100%; height: 9rem; margin-block: 1rem; color: var(--ef-ink-2); }
+      .featured-note { margin-top: 1.5rem; font-size: .75rem; color: var(--ef-ink-2); }
+      .hero .ef-actions { gap: .75rem; }
+      @media(max-width:899px) {
+        .hero .ef-wordmark { --ef-wordmark: clamp(1.5rem, 7vw, 3rem); margin-top: 1.5rem; }
+        .featured-entry { grid-column: 1; grid-row: auto; margin: 0 var(--ef-pad) 2rem; }
+        .featured-art { height: 6rem; }
+      }
     </style>
   </head>
   <body class="ef ef-contours">
@@ -161,54 +180,53 @@
         <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
       </p>
 
-      <h1 class="ef-wordmark" aria-label="Knowledge Garden">
-        <span class="solid ef-in-drive">KNOWLEDGE</span>
-        <span class="hollow ef-in-drive" style="animation-delay: 140ms" aria-hidden="true">GARDEN</span>
-      </h1>
+      <div class="ef-wordmark" aria-hidden="true">
+        <span class="solid">KNOWLEDGE</span><span class="hollow">GARDEN</span>
+      </div>
 
       <div class="copy">
-        <p class="claim"><span class="ef-marker ef-in-stroke">把学过的，整理成找得到的答案。</span></p>
+        <p class="ef-eyebrow slash">Knowledge Garden</p><h1 class="claim">把学过的，<br>整理成找得到的答案。</h1>
         <p class="bio">收集知识记录与获奖成果，慢慢积累成自己的档案。</p>
         <p class="ef-actions">
-        <a class="ef-btn go" href="/archive">打开个人档案</a>
-          <a class="ef-btn" href="reading.html">阅读版式</a>
-          <a class="ef-btn" href="/ui-kit">全部样张</a>
+        <a class="ef-btn go" href="/archive#quick-capture-title">开始记录</a>
+          <a class="ef-btn" href="/archive?view=knowledge&layout=list">浏览知识库</a>
         </p>
       </div>
 
-      <figure class="ef-frame">
-        <div class="window">
-          <svg viewBox="0 0 400 420" fill="none" stroke="currentColor" stroke-width="1.5" aria-label="知识档案的原创线稿图">
-            <path d="M58 60h230l54 54v246H58z" />
-            <path d="M288 60v54h54M83 143h228M83 174h175M83 204h212M83 279h228M83 309h156" />
-            <path d="M83 232h76v30H83zM176 232h74v30h-74zM267 232h44v30h-44z" />
-            <path d="M83 347h64m18 0h38m20 0h74" stroke-dasharray="3 7" />
-            <text x="60" y="393" font-family="Saira, sans-serif" font-stretch="125%" font-size="11" letter-spacing="2" fill="currentColor" stroke="none">KNOWLEDGE / ARCHIVE</text>
-          </svg>
-        </div>
-        <figcaption class="ef-plate">每一次学习和收获，都有迹可循。</figcaption>
-      </figure>
+      <aside class="featured-entry" aria-labelledby="featured-heading">
+        <p class="ef-eyebrow slash" id="featured-heading">Latest entry / 最近档案</p>
+        <svg class="featured-art" viewBox="0 0 400 150" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 130V30h110l25 25h225v75zM40 110V65h320M170 80h170M170 98h120"/><path d="M40 80h100v30H40z" stroke-width="2"/></svg>
+        <p class="ef-field" data-feature-meta>当前浏览器的个人档案</p>
+        <h2 data-feature-title>从第一条记录开始</h2>
+        <p data-feature-summary>把今天学到的知识或收获保存下来，这里将展示最近更新的档案。</p>
+        <a class="ef-btn" data-feature-link href="/archive">打开个人档案 ↗</a>
+        <p class="featured-note">档案保存在当前浏览器，按最近更新选取。</p>
+      </aside>
 
       <div class="ef-ticker" role="region" tabindex="0" aria-label="最近的网站更新，可左右滚动">
         <div class="track">
           <ul>
-            <li><a href="reading.html#updates"><b>v1.0.209</b>隔离旧侧栏折叠偏好对桌面导航的影响</a></li>
-            <li><a href="reading.html#updates"><b>v1.0.196</b>完整显示窄屏档案统计</a></li>
-            <li><a href="reading.html#updates"><b>v1.0.195</b>补足手机端触控目标尺寸</a></li>
-            <li><a href="reading.html#updates"><b>v1.0.194</b>让阅读页标题线遵循单一强调色</a></li>
-            <li><a href="reading.html#updates"><b>v1.0.193</b>重排窄屏档案并收束页缘识别条</a></li>
-            <li><a href="reading.html"><b>v1.0.192</b>提高等高线背景的清晰度</a></li>
-            <li><a href="reading.html"><b>v1.0.191</b>让筛选菜单沿展开方向顺滑进入</a></li>
-          </ul>
+<!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-220"><b>v1.0.220</b>恢复阅读前目录位置并整理关联记录</a></li>
+<li><a href="reading.html#release-v1-0-219"><b>v1.0.219</b>补齐目录形式筛选与空结果恢复</a></li>
+<li><a href="reading.html#release-v1-0-218"><b>v1.0.218</b>收束数字反馈并完善保存状态订阅</a></li>
+<li><a href="reading.html#release-v1-0-217"><b>v1.0.217</b>统一主题状态订阅与页面导航语义</a></li>
+<li><a href="reading.html#release-v1-0-216"><b>v1.0.216</b>完善表单语义与响应状态订阅</a></li>
+<li><a href="reading.html#release-v1-0-215"><b>v1.0.215</b>完善主题动效取消处理与源码检查范围</a></li>
+<li><a href="reading.html#release-v1-0-214"><b>v1.0.214</b>加入复用实际组件的交互状态矩阵</a></li>
+<!-- /release -->
+</ul>
           <ul aria-hidden="true">
-            <li><a href="reading.html#updates" tabindex="-1"><b>v1.0.209</b>隔离旧侧栏折叠偏好对桌面导航的影响</a></li>
-            <li><a href="reading.html#updates" tabindex="-1"><b>v1.0.196</b>完整显示窄屏档案统计</a></li>
-            <li><a href="reading.html#updates" tabindex="-1"><b>v1.0.195</b>补足手机端触控目标尺寸</a></li>
-            <li><a href="reading.html#updates" tabindex="-1"><b>v1.0.194</b>让阅读页标题线遵循单一强调色</a></li>
-            <li><a href="reading.html#updates" tabindex="-1"><b>v1.0.193</b>重排窄屏档案并收束页缘识别条</a></li>
-            <li><a href="reading.html" tabindex="-1"><b>v1.0.192</b>提高等高线背景的清晰度</a></li>
-            <li><a href="reading.html" tabindex="-1"><b>v1.0.191</b>让筛选菜单沿展开方向顺滑进入</a></li>
-          </ul>
+<!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-220" tabindex="-1"><b>v1.0.220</b>恢复阅读前目录位置并整理关联记录</a></li>
+<li><a href="reading.html#release-v1-0-219" tabindex="-1"><b>v1.0.219</b>补齐目录形式筛选与空结果恢复</a></li>
+<li><a href="reading.html#release-v1-0-218" tabindex="-1"><b>v1.0.218</b>收束数字反馈并完善保存状态订阅</a></li>
+<li><a href="reading.html#release-v1-0-217" tabindex="-1"><b>v1.0.217</b>统一主题状态订阅与页面导航语义</a></li>
+<li><a href="reading.html#release-v1-0-216" tabindex="-1"><b>v1.0.216</b>完善表单语义与响应状态订阅</a></li>
+<li><a href="reading.html#release-v1-0-215" tabindex="-1"><b>v1.0.215</b>完善主题动效取消处理与源码检查范围</a></li>
+<li><a href="reading.html#release-v1-0-214" tabindex="-1"><b>v1.0.214</b>加入复用实际组件的交互状态矩阵</a></li>
+<!-- /release -->
+</ul>
         </div>
       </div>
     </section>
@@ -227,11 +245,11 @@
 
     <section class="latest" id="latest">
       <a href="reading.html#updates" data-fx-host>
-        <span class="ef-hollow-no" aria-hidden="true" data-fx>209</span>
+        <span class="ef-hollow-no" aria-hidden="true" data-fx data-release="number">220</span>
         <span class="body">
-          <span class="ef-field"><span class="flag">最新更新</span> v1.0.209 │ 2026.10.28</span>
-          <span class="title">隔离旧侧栏折叠偏好对桌面导航的影响</span>
-          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8">新版顶栏与底栏不应用旧侧栏折叠样式，保留存储偏好，桌面和手机导航保持完整标签。</span>
+          <span class="ef-field"><span class="flag">最新更新</span> <span data-release="version">v1.0.220</span> │ <span data-release="date">2026.10.28</span></span>
+          <span class="title" data-release="title">恢复阅读前目录位置并整理关联记录</span>
+          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8" data-release="summary">阅读入口按目录条件临时记录条目位置，返回或浏览器后退时在档案与字体就绪后恢复，存储不可用时安全回退；关联记录显示日期分类形式并保持独立链接；发布链同时生成根路径与 GitHub 项目路径静态产物，保留现有网站来源</span>
           <span class="ef-btn go">阅读最新更新</span>
         </span>
       </a>
@@ -241,10 +259,12 @@
       <p class="ef-eyebrow slash">Index</p>
       <h2 class="ef-bar-title">全站索引</h2>
       <ol class="ef-records">
-        <li><a class="ef-record ef-in-come" style="--i: 0" href="reading.html#updates"><span class="ef-tag">v1.0.209</span><time class="ef-field">2026.10.28</time><span class="name ef-read">隔离旧侧栏折叠偏好对桌面导航的影响</span><span class="ef-field">01 项调整</span></a></li>
-        <li><a class="ef-record ef-in-come" style="--i: 1" href="reading.html#updates"><span class="ef-tag">v1.0.196</span><time class="ef-field">2026.10.28</time><span class="name ef-read">完整显示窄屏档案统计</span><span class="ef-field">01 项调整</span></a></li>
-        <li><a class="ef-record ef-in-come" style="--i: 2" href="reading.html#updates"><span class="ef-tag">v1.0.195</span><time class="ef-field">2026.10.28</time><span class="name ef-read">补足手机端触控目标尺寸</span><span class="ef-field">01 项调整</span></a></li>
-      </ol>
+<!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-220"><span class="ef-tag">v1.0.220</span><time class="ef-field">2026.10.28</time><span class="name ef-read">恢复阅读前目录位置并整理关联记录</span><span class="ef-field">02 项调整</span></a></li>
+<li><a class="ef-record" href="reading.html#release-v1-0-219"><span class="ef-tag">v1.0.219</span><time class="ef-field">2026.10.28</time><span class="name ef-read">补齐目录形式筛选与空结果恢复</span><span class="ef-field">01 项调整</span></a></li>
+<li><a class="ef-record" href="reading.html#release-v1-0-218"><span class="ef-tag">v1.0.218</span><time class="ef-field">2026.10.28</time><span class="name ef-read">收束数字反馈并完善保存状态订阅</span><span class="ef-field">01 项调整</span></a></li>
+<!-- /release -->
+</ol>
       <p class="ef-actions" style="margin-top: 1.25rem">
         <button class="ef-btn small" type="button" data-theme-toggle>切换深浅</button>
       </p>

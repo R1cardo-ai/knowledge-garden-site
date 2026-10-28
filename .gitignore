@@ -58,3 +58,5 @@ next-env.d.ts
 /.local-build/
 /.local-validation/
 /.pages-build/
+
+/.github-pages-build/

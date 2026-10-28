@@ -1,0 +1,9 @@
+
+> sites-project@0.1.0 lint
+> oxlint
+
+Failed to parse oxlint configuration file.
+
+  x The `options.typeAware` option is only supported in the root config, but it was found in E:\个人网站搭建\.github-latest-source\knowledge-garden-site-source\.oxlintrc.json.
+  help: Move `options.typeAware` to the root configuration file.
+

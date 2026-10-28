@@ -100,6 +100,7 @@
     <main>
       <header class="ef-head">
         <h1>网页部件 <small>Specimen</small></h1>
+        <p><a class="ef-btn" href="/ui-kit#component-matrix">打开实际组件状态矩阵 ↗</a></p>
         <p>查看本网站使用的颜色、标签、按钮、表格和状态。预览数字只用于说明样式，不代表当前档案。<button class="ef-btn small" type="button" data-theme-toggle>切换深浅</button></p>
       </header>
 
@@ -128,7 +129,7 @@
             <p>--ef-font-ui：宽体几何英文（Saira）+ 思源黑体。导航、按钮、标签、标题。</p>
             <p class="ef-read" style="font-size: 1.3rem; font-weight: 700">阅读 --ef-font-text</p>
             <p class="ef-read">思源黑体常规字重，行高放宽，用于正文。</p>
-            <p class="ef-field">字段 .ef-field │ v1.0.209 │ 2026.10.28 │ 01 项调整</p>
+            <p class="ef-field">字段 .ef-field │ <span data-release="version">v1.0.220</span> │ <span data-release="date">2026.10.28</span> │ <span data-release="count">02 项调整</span></p>
             <p class="ef-eyebrow slash">Section title prefix</p>
             <p><span class="ef-pair"><span class="ef-eyebrow">KNOWLEDGE</span><span>知识记录</span></span>　英文小字在上，中文粗体在下</p>
           </div>
@@ -138,7 +139,7 @@
           <h2>入口 <small>.ef-tag .ef-kv .ef-chip</small></h2>
           <div class="row">
             <span class="ef-tag">v1.0.196</span>
-            <span class="ef-tag is-current">v1.0.209</span>
+            <span class="ef-tag is-current" data-release="version">v1.0.220</span>
             <a class="ef-kv" href="#"><span>分类</span><span>记录</span></a>
             <span class="ef-chip">实验 <span class="n">2</span></span>
             <span class="ef-chip is-active">全部 <span class="n">16</span></span>
@@ -177,9 +178,9 @@
         <section class="ef-panel cell">
           <h2>记录字段 <small>.ef-field .ef-facts .ef-marker</small></h2>
           <ul class="ef-facts ef-field">
-            <li>2026.10.28</li>
-            <li>v1.0.209</li>
-            <li>01 项调整</li>
+            <li data-release="date">2026.10.28</li>
+            <li data-release="version">v1.0.220</li>
+            <li data-release="count">02 项调整</li>
           </ul>
           <p style="margin: 1rem 0 0"><span class="ef-marker">一句话说明这是什么</span></p>
           <p class="note">每个字段都是真实数据。用竖线分隔，不用中间点。</p>
@@ -197,9 +198,11 @@
         <section class="ef-panel cell">
           <h2>列表行 <small>.ef-records</small></h2>
           <ol class="ef-records">
-            <li><a class="ef-record is-demo-hover" href="reading.html#updates"><span class="ef-tag">v1.0.209</span><span class="ef-field">2026.10.28</span><span class="name ef-read">隔离旧侧栏折叠偏好对桌面导航的影响</span><span class="ef-field">01 项调整</span></a></li>
-            <li><a class="ef-record" href="reading.html#updates"><span class="ef-tag">v1.0.196</span><span class="ef-field">2026.10.28</span><span class="name ef-read">完整显示窄屏档案统计</span><span class="ef-field">01 项调整</span></a></li>
-          </ol>
+<!-- release:sample -->
+<li><a class="ef-record" href="reading.html#release-v1-0-220"><span class="ef-tag">v1.0.220</span><time class="ef-field">2026.10.28</time><span class="name ef-read">恢复阅读前目录位置并整理关联记录</span><span class="ef-field">02 项调整</span></a></li>
+<li><a class="ef-record" href="reading.html#release-v1-0-219"><span class="ef-tag">v1.0.219</span><time class="ef-field">2026.10.28</time><span class="name ef-read">补齐目录形式筛选与空结果恢复</span><span class="ef-field">01 项调整</span></a></li>
+<!-- /release -->
+</ol>
         </section>
 
         <section class="ef-panel cell">
@@ -226,9 +229,9 @@
             <table class="ef-table">
               <thead><tr><th>版本</th><th class="num">更新项</th><th>日期</th></tr></thead>
               <tbody>
-                <tr><td>v1.0.209</td><td class="num">01</td><td>2026.10.28</td></tr>
-                <tr><td>v1.0.196</td><td class="num">01</td><td>2026.10.28</td></tr>
-                <tr><td>v1.0.195</td><td class="num">01</td><td>2026.10.28</td></tr>
+                <tr><td data-release="version">v1.0.220</td><td class="num" data-release="item-number">02</td><td data-release="date">2026.10.28</td></tr>
+                <tr><td>v1.0.196</td><td class="num" data-release="item-number">02</td><td data-release="date">2026.10.28</td></tr>
+                <tr><td>v1.0.195</td><td class="num" data-release="item-number">02</td><td data-release="date">2026.10.28</td></tr>
               </tbody>
             </table>
           </div>
