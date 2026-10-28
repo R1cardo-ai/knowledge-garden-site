@@ -6,10 +6,22 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "predev": "node scripts/sync-archive-data.mjs",
     "dev": "vinext dev",
-    "build": "vinext build",
-    "start": "wrangler dev --config dist/server/wrangler.json",
+    "prebuild": "node scripts/sync-archive-data.mjs",
+    "build": "vite build --config scripts/vite.local-production.ts",
+    "start": "wrangler dev --config .local-build/server/wrangler.json --local",
     "lint": "oxlint",
+    "check:updates": "node scripts/check-updates.mjs",
+    "build:validate": "npm run build",
+    "check:production": "node scripts/check-production-http.mjs",
+    "test:archive-url": "node scripts/test-archive-url.mjs",
+    "test:relations": "node scripts/test-relations.mjs",
+    "test:notes": "node scripts/test-note-blocks.mjs",
+    "test:archive-data": "node scripts/test-archive-data.mjs",
+    "test": "npm run test:storage && npm run test:archive-data && npm run test:archive-url && npm run test:notes && npm run test:relations && npm run test:theme && npm run check:updates",
+    "test:theme": "node scripts/test-theme-migration.mjs",
+    "test:storage": "node scripts/test-storage.mjs",
     "format": "oxfmt"
   },
   "dependencies": {

@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>交互动效 | 知识花园</title>
     <script src="../assets/variant.js"></script>
-    <script src="../assets/kit-nav.js" defer></script>
+    <script type="module" src="../assets/kit-nav.js"></script>
     <script>
       try {
         const t = new URLSearchParams(location.search).get('theme') || localStorage.getItem('theme');
@@ -470,7 +470,7 @@
             { zh: '总览', en: 'Overview', big: archive.length, unit: '条', here: true, href: '/' },
             { zh: '知识库', en: 'Knowledge', big: knowledge, unit: '条', href: '/' },
             { zh: '获奖记录', en: 'Awards', big: awards, unit: '项', href: '/' },
-            { zh: '版本', en: 'Release', big: 143, unit: '版', href: 'console.html' },
+            { zh: '版本', en: 'Release', big: 197, unit: '版', href: 'console.html' },
             { zh: '备份', en: 'Backup', big: 'JSON', href: '/' },
             { zh: '样张', en: 'Previews', big: 6, unit: '页', href: '/ui-kit' },
           ],

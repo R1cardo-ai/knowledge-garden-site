@@ -181,11 +181,11 @@
 
 /* ---------- 3. marks that carry meaning ---------- */
 
-/* The three-colour strip: the top edge of a page, or under an article title. Nowhere else. */
+/* The three-colour strip is a fixed page-edge identifier. */
 .ef-tri {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  height: 3px;
+  height: 2px;
 }
 .ef-tri > i:nth-child(1) {
   background: var(--ef-tri-a);
@@ -195,6 +195,11 @@
 }
 .ef-tri > i:nth-child(3) {
   background: var(--ef-tri-c);
+}
+.ef-title-rule {
+  width: 3.5rem;
+  height: 2px;
+  background: var(--ef-signal);
 }
 
 /* A field of a record: number, date, count, path. Wide, geometric, tabular. */
@@ -2231,3 +2236,36 @@ a.ef-record:is(:hover, :focus-visible) > * {
 :root[data-ef-motion='calm'] :is(.ef-in-drive, .ef-in-stroke, .ef-in-power, .ef-in-come, .ef-in-sweep) {
   animation: none !important;
 }
+
+@media (max-width: 720px) {
+  .ef :is(a, button, [role='button'], select) {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .ef :is(input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']), textarea) {
+    min-height: 44px;
+  }
+
+  .ef-form > label:not(.field) {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ef :is(.ef-kit-home, .ef-btn, .ef-record, .ef-rail a, .ef-cmdbar nav a, .ef-tabbar a, a.ef-tag, a.ef-kv) {
+    min-height: 44px;
+  }
+
+  .ef :is(a.ef-tag, a.ef-kv) {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Update content stays still and is available through keyboard or touch scrolling. */
+.ef-ticker { overflow-x:auto; overscroll-behavior-inline:contain; }
+.ef-ticker .track { animation:none !important; transform:none !important; }
+.ef-ticker ul[aria-hidden] { display:none; }
+.ef-ticker:focus-visible { outline:2px solid var(--ef-accent, #e5e900); outline-offset:3px; }

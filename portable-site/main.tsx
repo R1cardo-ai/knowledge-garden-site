@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Page from '../app/page';
+import Page from '../app/archive/page';
 import '../app/globals.css';
 import '../app/endfield-theme.css';
 import '../app/endfield-desktop-controls.css';

@@ -794,15 +794,11 @@
 .terrain-contour-overlay {
   right: 28vw;
   width: min(1120px, 72vw);
-  background-image: var(--archive-contour-source);
+  background-image: var(--archive-contour-source, url('/terrain-contours.jpg'));
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   mix-blend-mode: multiply;
-}
-
-:root {
-  --archive-contour-source: url('../public/terrain-contours.jpg');
 }
 
 @media (max-width: 720px) {
@@ -817,7 +813,7 @@
 /* Reference-led calibration: paper, signal yellow, heavy type, and precise rules. */
 @font-face {
   font-family: 'Saira';
-  src: url('../public/fonts/Saira.ttf') format('truetype');
+  src: url('/fonts/Saira.ttf') format('truetype');
   font-style: normal;
   font-weight: 100 900;
   font-stretch: 50% 125%;
@@ -827,7 +823,7 @@
 /* Keep numeral glyphs in Saira even where surrounding text uses a mono face. */
 @font-face {
   font-family: 'Saira Numeric';
-  src: url('../public/fonts/Saira.ttf') format('truetype');
+  src: url('/fonts/Saira.ttf') format('truetype');
   font-style: normal;
   font-weight: 100 900;
   font-stretch: 50% 125%;
@@ -960,8 +956,7 @@ body { color: var(--archive-ink); background: var(--archive-canvas); font-family
 ::-webkit-scrollbar-track { background: var(--archive-canvas); }
 ::-webkit-scrollbar-thumb { border-radius: 0; background: var(--archive-line-strong); }
 
-/* Independent dark paper theme for desktop archive sessions. */
-@media (min-width: 1024px) {
+/* Keep the chosen paper theme consistent on touch and desktop layouts. */
   html[data-ef-variant='standard'][data-theme='dark'] {
     color-scheme: dark;
     --archive-canvas: #171a1b;
@@ -1139,8 +1134,6 @@ body { color: var(--archive-ink); background: var(--archive-canvas); font-family
   html[data-theme='dark'] .site-shell[data-entry-state='empty'] .empty-state h3 {
     color: var(--archive-ink);
   }
-}
-
 @media (min-width: 1280px) {
   .heading-watermark { opacity: .105; }
   .page-heading::after { height: 2px; background: linear-gradient(90deg, var(--archive-ink) 0 112px, var(--archive-line-strong) 112px 100%); }

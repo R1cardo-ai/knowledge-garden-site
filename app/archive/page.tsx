@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
-import { createPortal } from 'react-dom';
 import {
   ArrowUpRight,
   BookOpen,
@@ -32,7 +31,6 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { withBasePath } from '@/lib/site-path';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import {
   Dialog,
@@ -54,6 +52,9 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { formatDisplayDate, normalizeEntryDate, normalizeHttpUrl, entryDateTimestamp, compareRecent, relatedReferences, relatedLabels, normalizeEntries as normalizeSharedEntries } from '@/lib/archive-data.js';
+import { EntryReader } from './entry-reader';
+import { readArchiveUrl, writeArchiveUrl } from '@/lib/archive-url';
 import { transitionTheme } from '@/lib/theme-transition';
 
 type EntryType = 'knowledge' | 'award';
@@ -78,6 +79,7 @@ type Entry = {
   role?: string;
   proof?: string;
   related?: string;
+  relatedRefs?: {id?: string;title: string}[];
   updatedAt?: number;
 };
 type PendingConfirmation =
@@ -174,7 +176,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 const starterEntries: Entry[] = [];
 
 const colorStyles: Record<string, string> = { coral: 'card-coral', sky: 'card-sky', lilac: 'card-lilac', mint: 'card-mint', gold: 'card-gold' };
-const currentVersion = 'v1.0.196';
+const currentVersion = 'v1.0.209';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -182,10 +184,23 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
-  { version: 'v1.0.196', date: '2026.10.28', title: '补齐页面交互所需的动画模块资源', items: ['将动态导入的主题切换模块纳入静态发布产物', '修复档案和样张页因缺少模块而停在加载状态的问题'] },
-  { version: 'v1.0.195', date: '2026.10.28', title: '让 Pages.dev 正确处理旧项目站点路径', items: ['将 /knowledge-garden-site/* 旧地址重定向到根路径下对应页面', '让 Cloudflare 先运行应用路由，避免静态资源层提前返回 404'] },
-  { version: 'v1.0.194', date: '2026.10.28', title: '确保弹窗中的校验提示清晰可见', items: ['把提示渲染到页面顶层，避免添加记录等对话框遮住校验反馈', '为提示添加状态语义，让视觉与辅助技术都能及时读取反馈'] },
-  { version: 'v1.0.193', date: '2026.10.28', title: '修复项目站点前缀下的页面跳转', items: ['为 Cloudflare Pages 根目录部署增加仓库路径重写，修复首页、档案和样张请求落入 404', '为应用内与静态样张链接统一加入可配置路径前缀，兼容 GitHub Pages 子路径部署'] },
+  { version: 'v1.0.209', date: '2026.10.28', title: '隔离旧侧栏折叠偏好对桌面导航的影响', items: ['新版顶栏与底栏不应用旧侧栏折叠样式，保留存储偏好，桌面和手机导航保持完整标签'] },
+  { version: 'v1.0.208', date: '2026.10.28', title: '完整换行显示连续长标题', items: ['档案卡片和快速详情标题支持连续英文与长字符串换行，避免标题在容器内被裁切'] },
+  { version: 'v1.0.207', date: '2026.10.28', title: '保留旧档案字段与已有主题偏好', items: ['兼容读取和编辑时保留扩展字段及完整标签，深色默认迁移不覆盖已有主题，页脚与侧栏显示真实保存状态'] },
+  { version: 'v1.0.206', date: '2026.10.28', title: '补齐阅读入口与弹窗的手机触控尺寸', items: ['首页分类阅读入口、档案阅读链接和 portal 弹窗控件保持至少 44px 高度，覆盖关闭按钮与表单操作'] },
+  { version: 'v1.0.205', date: '2026.10.28', title: '恢复可运行的本地生产构建', items: ['本地构建保留 Worker 与 SSR 的正确目录结构，默认构建和启动使用独立产物，加入页面、资源及 404 的 HTTP 检查'] },
+  { version: 'v1.0.204', date: '2026.10.28', title: '让更新条保持静止并修正导航语义', items: ['最近更新改为键盘和触控可滚动的静态列表，移除重复滚动与循环扫光，修正阅读说明当前页标记'] },
+  { version: 'v1.0.203', date: '2026.10.28', title: '让关联记录在改名后保持连接', items: ['关联记录使用稳定 ID 并兼容旧标题，删除目标后保留提示，快照增加 schema v2 并拒绝未知未来版本'] },
+  { version: 'v1.0.202', date: '2026.10.28', title: '为真实档案增加稳定阅读入口', items: ['首页与档案条目按 ID 直达阅读视图，长笔记按实际标题生成目录，保留快速查看、编辑与旧笔记兼容'] },
+  { version: 'v1.0.201', date: '2026.10.28', title: '修复本地预览与旧产物冲突', items: ['本地开发使用 Vinext 服务加载当前源码，避免旧静态产物抢占归档路由，生产构建保留 Cloudflare 配置'] },
+  { version: 'v1.0.200', date: '2026.10.28', title: '首页展示真实知识与成果', items: ['首页展示最近知识、成果与真实分类，共用档案校验和排序逻辑，并区分首次访问、空档案与读取失败'] },
+  { version: 'v1.0.199', date: '2026.10.28', title: '让档案筛选支持直达与历史导航', items: ['档案视图、分类、搜索、排序和布局写入 URL，刷新恢复并支持前进后退，阅读说明可直达知识与获奖视图'] },
+  { version: 'v1.0.198', date: '2026.10.28', title: '保护异常档案并显示保存状态', items: ['读取异常时保留原始档案并暂停自动保存，支持下载原始备份和重新导入；保存失败持续提示'] },
+  { version: 'v1.0.197', date: '2026.10.28', title: '移除弹层背后的背景柔焦', items: ['档案表单、详情和更新日志改用纯色遮罩，去除模糊并保留清晰的页面层级'] },
+  { version: 'v1.0.196', date: '2026.10.28', title: '完整显示窄屏档案统计', items: ['移动端日期与档案计数分组排布，完整保留每项数字、类别与单位'] },
+  { version: 'v1.0.195', date: '2026.10.28', title: '补足手机端触控目标尺寸', items: ['档案应用与设计样张的手机交互控件统一保持至少 44px 触控高度'] },
+  { version: 'v1.0.194', date: '2026.10.28', title: '让阅读页标题线遵循单一强调色', items: ['阅读页标题下改用终末地黄短线，样张中明确三色条只作页缘识别'] },
+  { version: 'v1.0.193', date: '2026.10.28', title: '重排窄屏档案并收束页缘识别条', items: ['窄屏总览按“统计—品牌—标题—说明”单列排布，保证标题完整可读', '暗色主题变量扩展到手机端，收起背景图片设置后仅保留紧凑入口', '顶部三色线收窄为 2px 的页缘识别条，交互状态仍只使用黄色', '首页最新更新与阅读页索引使用真实锚点直达', '为首页站名补齐屏幕阅读器名称，保证字标动画不影响标题识别'] },
   { version: 'v1.0.192', date: '2026.10.27', title: '提高等高线背景的清晰度', items: ['增强桌面与窄屏的背景线条对比，让等高线更容易辨认', '打开详情和弹窗时继续降低底纹，保持正文清晰'] },
   { version: 'v1.0.191', date: '2026.10.27', title: '让筛选菜单沿展开方向顺滑进入', items: ['修正筛选菜单对齐触发器时方向属性为 none，导致滑入距离归零的问题', '统一菜单、弹窗和抽屉的展开节奏，让成长轨迹和背景设置同步舒展'] },
   { version: 'v1.0.190', date: '2026.10.27', title: '让筛选菜单和折叠面板顺滑展开', items: ['恢复筛选下拉的淡入与轻微位移动画，并统一弹层节奏', '为成长轨迹和背景设置补上可收起的展开过渡'] },
@@ -394,70 +409,24 @@ const updateLogs: UpdateLog[] = [
 const emptyDraft = { type: 'knowledge' as EntryType, format: 'note' as EntryFormat, title: '', category: '', date: '', summary: '', tags: '', notes: '', source: '', issuer: '', awardLevel: '', role: '', proof: '', related: '' };
 const formatLabels: Record<EntryFormat, string> = { note: '笔记', book: '书籍', course: '课程', article: '文章', video: '视频', project: '项目' };
 
-function formatDisplayDate(value: Date): string {
-  return `${value.getFullYear()}.${String(value.getMonth() + 1).padStart(2, '0')}.${String(value.getDate()).padStart(2, '0')}`;
-}
-
-function normalizeEntryDate(value: string, fallback: string): string {
-  const match = value.trim().replace(/[/-]/g, '.').match(/^(\d{4})\.(\d{1,2})\.(\d{1,2})$/);
-  if (!match) return fallback;
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-  const date = new Date(Date.UTC(year, month - 1, day));
-  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return fallback;
-  return `${year}.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')}`;
-}
-
-function entryDateTimestamp(value: string): number {
-  const match = value.match(/^(\d{4})\.(\d{2})\.(\d{2})$/);
-  if (!match) return 0;
-  return Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
-}
-
-function normalizeHttpUrl(value: string): string | null {
-  const trimmed = value.trim();
-  if (!trimmed) return '';
-  try {
-    const url = new URL(trimmed);
-    return url.protocol === 'http:' || url.protocol === 'https:' ? url.toString() : null;
-  } catch {
-    return null;
-  }
-}
-
 function normalizeEntries(value: unknown, fallbackDate: string): Entry[] {
-  const raw = Array.isArray(value) ? value : value && typeof value === 'object' && Array.isArray((value as { entries?: unknown }).entries) ? (value as { entries: unknown[] }).entries : [];
-  return raw.filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === 'object').map((item, index) => ({
-    id: typeof item.id === 'string' ? item.id : `imported-${Date.now()}-${index}`,
-    type: item.type === 'award' ? 'award' : 'knowledge',
-    format: ['note', 'book', 'course', 'article', 'video', 'project'].includes(item.format as string) ? item.format as EntryFormat : 'note',
-    title: typeof item.title === 'string' ? item.title : '未命名记录',
-    category: typeof item.category === 'string' ? item.category : '未分类',
-    date: typeof item.date === 'string' ? normalizeEntryDate(item.date, fallbackDate) : fallbackDate,
-    summary: typeof item.summary === 'string' ? item.summary : '',
-    tags: Array.isArray(item.tags) ? item.tags.filter((tag): tag is string => typeof tag === 'string').slice(0, 3) : [],
-    color: typeof item.color === 'string' ? item.color : item.type === 'award' ? 'gold' : 'coral',
-    notes: typeof item.notes === 'string' ? item.notes : '',
-    source: typeof item.source === 'string' ? item.source : '',
-    issuer: typeof item.issuer === 'string' ? item.issuer : '',
-    awardLevel: typeof item.awardLevel === 'string' ? item.awardLevel : '',
-    role: typeof item.role === 'string' ? item.role : '',
-    proof: typeof item.proof === 'string' ? normalizeHttpUrl(item.proof) ?? '' : '',
-    related: typeof item.related === 'string' ? item.related : '',
-    updatedAt: typeof item.updatedAt === 'number' && Number.isFinite(item.updatedAt) ? item.updatedAt : entryDateTimestamp(typeof item.date === 'string' ? normalizeEntryDate(item.date, fallbackDate) : fallbackDate),
-  }));
+  return normalizeSharedEntries(value, fallbackDate) as Entry[];
 }
 
 export default function Home() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [storageBlocked, setStorageBlocked] = useState(false);
+  const [storageMessage, setStorageMessage] = useState('');
+  const [rawBackup, setRawBackup] = useState<string | null>(null);
   const [displayDate, setDisplayDate] = useState('');
   const [activeView, setActiveView] = useState<ViewMode>('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [sortBy, setSortBy] = useState<'updated' | 'latest' | 'oldest' | 'title'>('updated');
   const [entryView, setEntryView] = useState<'cards' | 'list'>('cards');
   const [search, setSearch] = useState('');
+  const [urlReady, setUrlReady] = useState(false);
+  const [readingId, setReadingId] = useState('');
   const [quickCaptureTitle, setQuickCaptureTitle] = useState('');
   const [quickCaptureType, setQuickCaptureType] = useState<EntryType>('knowledge');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -487,20 +456,33 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const saved = window.localStorage.getItem('knowledge-garden-entries');
     const fallbackDate = formatDisplayDate(new Date());
-    let parsed: Entry[] | null = null;
-    if (saved !== null) {
-      try { parsed = normalizeEntries(JSON.parse(saved), fallbackDate); } catch { window.localStorage.removeItem('knowledge-garden-entries'); }
-    }
-    const timer = window.setTimeout(() => { setDisplayDate(fallbackDate); setEntries(parsed ?? starterEntries); setHydrated(true); }, 0);
+    let parsed: Entry[] = [];
+    let raw: string | null = null;
+    let error = '';
+    try {
+      raw = window.localStorage.getItem('knowledge-garden-entries');
+      if (raw === null) parsed = starterEntries;
+      else {
+        const value = JSON.parse(raw);
+        const rows = Array.isArray(value) ? value : value?.entries;
+        if (!Array.isArray(rows) || rows.some((row: unknown) => !row || typeof row !== 'object' || Array.isArray(row))) throw new Error('invalid snapshot');
+        parsed = normalizeEntries(value, fallbackDate);
+      }
+    } catch { error = '档案读取失败，已暂停自动保存。原始数据未被覆盖；请下载备份后重新导入有效快照。'; }
+    const timer = window.setTimeout(() => {
+      setDisplayDate(fallbackDate); setEntries(parsed); setStorageBlocked(Boolean(error));
+      setStorageMessage(error); setRawBackup(error ? raw : null); setHydrated(true);
+    }, 0);
     return () => window.clearTimeout(timer);
   }, []);
 
+
   useEffect(() => {
-    let savedTheme = window.localStorage.getItem(themeStorageKey);
-    const shouldAdoptDarkDefault = window.matchMedia('(min-width: 1024px)').matches
-      && window.localStorage.getItem(themeDefaultMigrationKey) !== 'applied';
+    let savedTheme: string | null = null;
+    try { savedTheme = window.localStorage.getItem(themeStorageKey); } catch {}
+    const shouldAdoptDarkDefault = savedTheme === null && window.matchMedia('(min-width: 1024px)').matches
+      && (() => { try { return window.localStorage.getItem(themeDefaultMigrationKey) !== 'applied'; } catch { return false; } })();
     if (shouldAdoptDarkDefault) {
       savedTheme = 'dark';
       try {
@@ -515,23 +497,41 @@ export default function Home() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
+      try {
       const savedImage = window.localStorage.getItem(backgroundImageStorageKey);
       const savedOpacity = Number(window.localStorage.getItem(backgroundOpacityStorageKey));
       if (savedImage) setBackgroundImage(savedImage);
       if (Number.isFinite(savedOpacity) && savedOpacity >= 0.04 && savedOpacity <= 0.3) setBackgroundOpacity(savedOpacity);
+      } catch {}
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
+      try {
       const savedSidebarState = window.localStorage.getItem(sidebarCollapsedStorageKey);
       if (savedSidebarState === 'true') setSidebarCollapsed(true);
+      } catch {}
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
 
-  useEffect(() => { if (hydrated) window.localStorage.setItem('knowledge-garden-entries', JSON.stringify(entries)); }, [entries, hydrated]);
+  useEffect(() => {
+    if (!hydrated || storageBlocked) return;
+    try {
+      window.localStorage.setItem('knowledge-garden-entries', JSON.stringify(entries));
+      setStorageMessage('');
+    } catch { setStorageMessage('保存失败：浏览器存储不可用或空间不足。当前更改仅在本页，请导出快照备份。'); }
+  }, [entries, hydrated, storageBlocked]);
+
+  function downloadRawBackup() {
+    if (rawBackup === null) return;
+    const url = URL.createObjectURL(new Blob([rawBackup], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a'); link.href = url; link.download = 'knowledge-garden-recovery.txt'; link.click();
+    URL.revokeObjectURL(url);
+  }
+
 
   useEffect(() => {
     const targets = document.querySelectorAll<HTMLElement>(
@@ -599,6 +599,33 @@ export default function Home() {
     return () => lifecycle.abort();
   }, [displayDate]);
 
+  useEffect(() => {
+    const restore = () => {
+      const state = readArchiveUrl(new URL(window.location.href));
+      setActiveView(state.view); setCategoryFilter(state.category); setSearch(state.search);
+      setSortBy(state.sort); setEntryView(state.layout);
+      setReadingId(new URL(window.location.href).searchParams.get('entry') || '');
+      if (state.view !== 'all') setQuickCaptureType(state.view);
+      setUrlReady(true);
+    };
+    restore();
+    window.addEventListener('popstate', restore);
+    return () => window.removeEventListener('popstate', restore);
+  }, []);
+
+  useEffect(() => {
+    if (!urlReady) return;
+    const current = new URL(window.location.href);
+    const next = writeArchiveUrl(current, { view: activeView, category: categoryFilter, search, sort: sortBy, layout: entryView });
+    if (readingId) next.searchParams.set('entry', readingId); else next.searchParams.delete('entry');
+    if (next.href === current.href) return;
+    const withoutQuery = new URL(next); withoutQuery.searchParams.delete('q');
+    const previousWithoutQuery = new URL(current); previousWithoutQuery.searchParams.delete('q');
+    // Typing replaces the current search, while explicit filter/view changes are navigable.
+    if (withoutQuery.href === previousWithoutQuery.href) window.history.replaceState(null, '', next);
+    else window.history.pushState(null, '', next);
+  }, [urlReady, activeView, categoryFilter, search, sortBy, entryView, readingId]);
+
   const knowledgeCount = entries.filter((entry) => entry.type === 'knowledge').length;
   const awardCount = entries.filter((entry) => entry.type === 'award').length;
   const entriesInActiveView = activeView === 'all' ? entries : entries.filter((entry) => entry.type === activeView);
@@ -610,6 +637,7 @@ export default function Home() {
     return updateLogs.filter((release) => [release.version, release.date, release.title, ...release.items].join(' ').toLocaleLowerCase().includes(query));
   }, [changelogQuery]);
   const currentYear = displayDate.slice(0, 4);
+  const saveStatus = storageBlocked ? '已暂停自动保存' : storageMessage ? '尚未保存，请备份' : '浏览器本地保存';
   const categories = useMemo(() => Array.from(new Set(entries.filter((entry) => activeView === 'all' || entry.type === activeView).map((entry) => entry.category))).sort((a, b) => a.localeCompare(b)), [activeView, entries]);
 
   const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
@@ -617,13 +645,10 @@ export default function Home() {
     transitionTheme(event.currentTarget, () => {
       setDarkTheme(next === 'dark');
       document.documentElement.dataset.theme = next;
-      try { window.localStorage.setItem(themeStorageKey, next); } catch {}
+      try { window.localStorage.setItem(themeStorageKey, next); } catch { showNotice('主题已切换，但未能保存偏好'); }
     });
   };
 
-  useEffect(() => {
-    if (categoryFilter !== 'all' && !categories.includes(categoryFilter)) setCategoryFilter('all');
-  }, [categories, categoryFilter]);
 
   const filteredEntries = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -635,11 +660,16 @@ export default function Home() {
     });
   }, [activeView, categoryFilter, entries, search]);
 
-  const sortedEntries = useMemo(() => [...filteredEntries].sort((a, b) => sortBy === 'title' ? a.title.localeCompare(b.title) : sortBy === 'oldest' ? a.date.localeCompare(b.date) : sortBy === 'latest' ? b.date.localeCompare(a.date) : (b.updatedAt ?? entryDateTimestamp(b.date)) - (a.updatedAt ?? entryDateTimestamp(a.date))), [filteredEntries, sortBy]);
+  const sortedEntries = useMemo(() => [...filteredEntries].sort((a, b) => sortBy === 'title' ? a.title.localeCompare(b.title) : sortBy === 'oldest' ? a.date.localeCompare(b.date) : sortBy === 'latest' ? b.date.localeCompare(a.date) : compareRecent(a, b)), [filteredEntries, sortBy]);
   const viewTitle = activeView === 'award' ? '获奖记录' : activeView === 'knowledge' ? '知识库' : '总览';
   const newRecordType = activeView === 'all' ? quickCaptureType : activeView;
   const logEyebrow = activeView === 'award' ? '// AWARD LOG /' : activeView === 'knowledge' ? '// KNOWLEDGE LOG /' : '// FIELD LOG /';
-  const changeView = (view: ViewMode) => { setActiveView(view); setCategoryFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
+  const changeView = (view: ViewMode) => { setReadingId(''); setActiveView(view); setCategoryFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
+  function readingHref(id: string) {
+    const url = writeArchiveUrl(new URL('https://local.invalid/archive'), { view: activeView, category: categoryFilter, search, sort: sortBy, layout: entryView });
+    if (id) url.searchParams.set('entry', id);
+    return url.pathname + url.search;
+  }
   function focusQuickCapture() {
     const input = document.getElementById('quick-capture-title');
     input?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
@@ -667,7 +697,7 @@ export default function Home() {
   function openCreate(type: EntryType = 'knowledge') { setEditingId(null); setDraft({ ...emptyDraft, type, format: type === 'award' ? 'project' : 'note', date: displayDate || formatDisplayDate(new Date()) }); setDialogOpen(true); }
   function openEdit(entry: Entry) {
     setEditingId(entry.id);
-    setDraft({ type: entry.type, format: entry.format, title: entry.title, category: entry.category, date: entry.date, summary: entry.summary, tags: entry.tags.join(', '), notes: entry.notes ?? '', source: entry.source ?? '', issuer: entry.issuer ?? '', awardLevel: entry.awardLevel ?? '', role: entry.role ?? '', proof: entry.proof ?? '', related: entry.related ?? '' });
+    setDraft({ type: entry.type, format: entry.format, title: entry.title, category: entry.category, date: entry.date, summary: entry.summary, tags: entry.tags.join(', '), notes: entry.notes ?? '', source: entry.source ?? '', issuer: entry.issuer ?? '', awardLevel: entry.awardLevel ?? '', role: entry.role ?? '', proof: entry.proof ?? '', related: relatedLabels(entry, entries) });
     setDetailsOpen(false);
     setDialogOpen(true);
   }
@@ -677,7 +707,7 @@ export default function Home() {
     if (!date) { showNotice('日期格式应为 YYYY.MM.DD'); return; }
     const proof = normalizeHttpUrl(draft.proof);
     if (proof === null) { showNotice('证明链接需以 http:// 或 https:// 开头'); return; }
-    const nextEntry: Entry = { id: editingId ?? `${draft.type}-${Date.now()}`, type: draft.type, format: draft.format, title: draft.title.trim(), category: draft.category.trim(), date, summary: draft.summary.trim() || '还没有写下摘要，之后再来补充。', tags: draft.tags.split(/[,，]/).map((tag) => tag.trim()).filter(Boolean).slice(0, 3), color: draft.type === 'award' ? 'gold' : editingId ? entries.find((entry) => entry.id === editingId)?.color ?? 'coral' : ['coral', 'sky', 'lilac', 'mint'][knowledgeCount % 4], notes: draft.notes.trim(), source: draft.source.trim(), issuer: draft.issuer.trim(), awardLevel: draft.awardLevel.trim(), role: draft.role.trim(), proof, related: draft.related.trim(), updatedAt: Date.now() };
+    const nextEntry: Entry = { ...entries.find(entry => entry.id === editingId), id: editingId ?? `${draft.type}-${Date.now()}`, type: draft.type, format: draft.format, title: draft.title.trim(), category: draft.category.trim(), date, summary: draft.summary.trim() || '还没有写下摘要，之后再来补充。', tags: draft.tags.split(/[,，]/).map((tag) => tag.trim()).filter(Boolean), color: draft.type === 'award' ? 'gold' : editingId ? entries.find((entry) => entry.id === editingId)?.color ?? 'coral' : ['coral', 'sky', 'lilac', 'mint'][knowledgeCount % 4], notes: draft.notes.trim(), source: draft.source.trim(), issuer: draft.issuer.trim(), awardLevel: draft.awardLevel.trim(), role: draft.role.trim(), proof, related: draft.related.trim(), relatedRefs: relatedReferences(draft.related, entries, entries.find(entry => entry.id === editingId)?.relatedRefs), updatedAt: Date.now() };
     setEntries((current) => editingId ? current.map((entry) => entry.id === editingId ? nextEntry : entry) : [nextEntry, ...current]);
     setDialogOpen(false); setEditingId(null); setDraft(emptyDraft); showNotice(editingId ? '记录已更新' : '已添加到你的知识花园');
   }
@@ -688,12 +718,12 @@ export default function Home() {
   function confirmPendingAction() {
     if (!pendingConfirmation) return;
     if (pendingConfirmation.kind === 'import') {
-      setEntries(pendingConfirmation.entries); setPendingConfirmation(null); showNotice(`已导入 ${pendingConfirmation.entries.length} 条记录`); return;
+      setEntries(pendingConfirmation.entries); setStorageBlocked(false); setRawBackup(null); setPendingConfirmation(null); showNotice(`已导入 ${pendingConfirmation.entries.length} 条记录`); return;
     }
     removeEntry(pendingConfirmation.entry.id);
   }
   function exportSnapshot() {
-    const blob = new Blob([JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), entries }, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify({ version: 2, schemaVersion: 2, exportedAt: new Date().toISOString(), entries }, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `knowledge-garden-${displayDate.replaceAll('.', '-')}.json`; link.click(); URL.revokeObjectURL(url); showNotice('快照已下载');
   }
   async function importSnapshot(event: React.ChangeEvent<HTMLInputElement>) {
@@ -701,9 +731,11 @@ export default function Home() {
     if (!file) return;
     try {
       const imported = normalizeEntries(JSON.parse(await file.text()), displayDate || formatDisplayDate(new Date()));
-      if (!imported.length) throw new Error('empty');
-      if (entries.length) setPendingConfirmation({ kind: 'import', entries: imported, replaceCount: entries.length });
-      else { setEntries(imported); showNotice(`已导入 ${imported.length} 条记录`); }
+      const source = JSON.parse(await file.text());
+      const rows = Array.isArray(source) ? source : source?.entries;
+      if (!Array.isArray(rows) || rows.some((row: unknown) => !row || typeof row !== 'object' || Array.isArray(row))) throw new Error('invalid');
+      if (entries.length || storageBlocked) setPendingConfirmation({ kind: 'import', entries: imported, replaceCount: entries.length });
+      else { setStorageBlocked(false); setEntries(imported); showNotice(`已导入 ${imported.length} 条记录`); }
     } catch { showNotice('导入失败，请选择知识花园导出的 JSON 文件'); }
     event.target.value = '';
   }
@@ -725,19 +757,20 @@ export default function Home() {
   }
   function changeBackgroundOpacity(value: number) {
     setBackgroundOpacity(value);
-    window.localStorage.setItem(backgroundOpacityStorageKey, value.toString());
+    try { window.localStorage.setItem(backgroundOpacityStorageKey, value.toString()); } catch { showNotice('背景透明度未能保存'); }
   }
   function resetBackground() {
     setBackgroundImage(defaultBackgroundImage);
     setBackgroundOpacity(0.13);
-    window.localStorage.removeItem(backgroundImageStorageKey);
+    try { window.localStorage.removeItem(backgroundImageStorageKey);
     window.localStorage.removeItem(backgroundOpacityStorageKey);
+    } catch { showNotice('背景已恢复，但无法保存设置'); return; }
     showNotice('已恢复默认背景设置');
   }
   function toggleSidebar() {
     setSidebarCollapsed((current) => {
       const next = !current;
-      window.localStorage.setItem(sidebarCollapsedStorageKey, String(next));
+      try { window.localStorage.setItem(sidebarCollapsedStorageKey, String(next)); } catch { showNotice('侧栏设置未能保存'); }
       return next;
     });
   }
@@ -747,7 +780,7 @@ export default function Home() {
   }
 
   return (
-    <main className={`site-shell ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`} data-view={activeView} data-entry-mode={entryView} data-entry-state={sortedEntries.length ? 'available' : 'empty'} data-search-state={search ? 'active' : 'idle'} data-sidebar-state={sidebarCollapsed ? 'collapsed' : 'expanded'} data-milestones-state={milestonesOpen ? 'open' : 'closed'} data-detail-state={detailsOpen ? 'open' : 'closed'} data-dialog-state={dialogOpen ? 'open' : 'closed'} data-changelog-state={changelogOpen ? 'open' : 'closed'}>
+    <main className="site-shell" data-view={activeView} data-entry-mode={entryView} data-entry-state={sortedEntries.length ? 'available' : 'empty'} data-search-state={search ? 'active' : 'idle'} data-sidebar-state="expanded" data-sidebar-preference={sidebarCollapsed ? 'collapsed' : 'expanded'} data-milestones-state={milestonesOpen ? 'open' : 'closed'} data-detail-state={detailsOpen ? 'open' : 'closed'} data-dialog-state={dialogOpen ? 'open' : 'closed'} data-changelog-state={changelogOpen ? 'open' : 'closed'}>
       <span className="archive-scroll-progress" aria-hidden="true" />
       <div className="site-background-image" aria-hidden="true" style={{ backgroundImage: backgroundImage ? `url("${backgroundImage}")` : 'none', opacity: backgroundOpacity }} />
       <div className="terrain-contour-overlay" aria-hidden="true" />
@@ -759,16 +792,17 @@ export default function Home() {
           <button className={`nav-item ${activeView === 'knowledge' ? 'active' : ''}`} type="button" aria-label="知识库" title="知识库" aria-pressed={activeView === 'knowledge'} onClick={() => changeView('knowledge')}><BookOpen size={18} /><span>知识库</span><span className="nav-count">{knowledgeCount}</span></button>
           <button className={`nav-item ${activeView === 'award' ? 'active' : ''}`} type="button" aria-label="获奖记录" title="获奖记录" aria-pressed={activeView === 'award'} onClick={() => changeView('award')}><Medal size={18} /><span>获奖记录</span><span className="nav-count">{awardCount}</span></button>
           <button className="nav-item" type="button" aria-label="更新日志" title="更新日志" onClick={() => setChangelogOpen(true)}><History size={18} /><span>更新日志</span><span className="nav-count">{updateLogs.length}</span></button>
-          <a className="nav-item" href={withBasePath('/ui-kit/')} aria-label="设计样张" title="设计样张"><Sparkles size={18} /><span>设计样张</span><span className="nav-count">06</span></a>
+          <a className="nav-item" href="/ui-kit" aria-label="设计样张" title="设计样张"><Sparkles size={18} /><span>设计样张</span><span className="nav-count">06</span></a>
         </nav>
-        <section className="rail-background" aria-label="背景图片设置"><button type="button" className="rail-background-heading" aria-label={backgroundExpanded ? '收起背景图片设置' : '展开背景图片设置'} aria-expanded={backgroundExpanded} aria-controls="rail-background-content" onClick={() => setBackgroundExpanded((current) => !current)}><div><span className="rail-background-label">{"// BACKGROUND"}</span><strong>背景图片</strong></div><span className="rail-background-toggle" aria-hidden="true">{backgroundExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span></button><div id="rail-background-content" className="rail-background-content" data-open={backgroundExpanded} aria-hidden={!backgroundExpanded} inert={!backgroundExpanded}><button type="button" className={`rail-background-preview ${backgroundImage ? 'has-background' : 'is-empty'}`} aria-label={backgroundImage ? '更换背景图片' : '选择背景图片'} onClick={() => backgroundInputRef.current?.click()} style={backgroundImage ? { backgroundImage: `url("${backgroundImage}")` } : undefined}><span>{backgroundImage ? `${Math.round(backgroundOpacity * 100)}%` : '未设置'}</span></button><input ref={backgroundInputRef} className="sr-only" type="file" accept="image/*" tabIndex={-1} onChange={customizeBackground} /><div className="rail-background-actions"><button type="button" className="rail-background-button" onClick={() => backgroundInputRef.current?.click()}><FileUp size={13} />更换图片</button><button type="button" className="rail-background-reset" onClick={resetBackground}>恢复默认</button></div>{backgroundImage && <label className="rail-opacity-control" htmlFor="background-opacity"><span>透明度</span><input id="background-opacity" type="range" min="0.04" max="0.3" step="0.01" value={backgroundOpacity} onChange={(event) => changeBackgroundOpacity(Number(event.target.value))} /></label>}</div></section>
+        <section className="rail-background" data-expanded={backgroundExpanded ? 'true' : 'false'} aria-label="背景图片设置"><button type="button" className="rail-background-heading" aria-label={backgroundExpanded ? '收起背景图片设置' : '展开背景图片设置'} aria-expanded={backgroundExpanded} aria-controls="rail-background-content" onClick={() => setBackgroundExpanded((current) => !current)}><div><span className="rail-background-label">{"// BACKGROUND"}</span><strong>背景图片</strong></div><span className="rail-background-toggle" aria-hidden="true">{backgroundExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span></button><div id="rail-background-content" className="rail-background-content" data-open={backgroundExpanded} aria-hidden={!backgroundExpanded} inert={!backgroundExpanded}><button type="button" className={`rail-background-preview ${backgroundImage ? 'has-background' : 'is-empty'}`} aria-label={backgroundImage ? '更换背景图片' : '选择背景图片'} onClick={() => backgroundInputRef.current?.click()} style={backgroundImage ? { backgroundImage: `url("${backgroundImage}")` } : undefined}><span>{backgroundImage ? `${Math.round(backgroundOpacity * 100)}%` : '未设置'}</span></button><input ref={backgroundInputRef} className="sr-only" type="file" accept="image/*" tabIndex={-1} onChange={customizeBackground} /><div className="rail-background-actions"><button type="button" className="rail-background-button" onClick={() => backgroundInputRef.current?.click()}><FileUp size={13} />更换图片</button><button type="button" className="rail-background-reset" onClick={resetBackground}>恢复默认</button></div>{backgroundImage && <label className="rail-opacity-control" htmlFor="background-opacity"><span>透明度</span><input id="background-opacity" type="range" min="0.04" max="0.3" step="0.01" value={backgroundOpacity} onChange={(event) => changeBackgroundOpacity(Number(event.target.value))} /></label>}</div></section>
         <div className="rail-bottom">
           <div className="rail-account"><div className="avatar" aria-label="个人头像">K</div><div className="account-copy"><span className="account-eyebrow">{"// PERSONAL ARCHIVE"}</span><strong>我的空间</strong><small>个人知识库</small></div></div>
-          <div className="account-status" aria-label="数据保存在当前浏览器"><span className="streak-dot" aria-hidden="true" />浏览器本地保存</div>
+          <div className="account-status" aria-label={saveStatus}><span className="streak-dot" aria-hidden="true" />{saveStatus}</div>
         </div>
       </aside>
 
       <section className="content-area">
+        {storageMessage && <section role="alert" className="storage-recovery"><p>{storageMessage}</p>{rawBackup !== null && <Button variant="outline" onClick={downloadRawBackup}>下载原始备份</Button>}<Button variant="outline" onClick={() => importInputRef.current?.click()}>导入有效快照</Button><Button variant="outline" onClick={exportSnapshot}>导出当前快照</Button></section>}
         <header className="topbar">
           <div className="breadcrumb"><span>我的空间</span><ChevronRight size={15} /><strong>{viewTitle}</strong><span className="version-badge">{currentVersion}</span></div>
           <div className="top-actions">
@@ -786,7 +820,7 @@ export default function Home() {
                   <p className="form-section-label">{"// CORE FIELDS"}</p>
                   <div className="form-grid"><label htmlFor="entry-title">标题<Input id="entry-title" placeholder={draft.type === 'award' ? '例如：设计大赛 · 最佳创意奖' : '例如：卡片分类法'} value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label><label htmlFor="entry-date">日期<Input id="entry-date" inputMode="numeric" placeholder="YYYY.MM.DD" value={draft.date} onChange={(event) => setDraft({ ...draft, date: event.target.value })} /></label></div>
                   <div className="form-grid"><label htmlFor="entry-category">分类<Input id="entry-category" placeholder={draft.type === 'award' ? '例如：竞赛获奖' : '例如：产品设计'} value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} /></label><label htmlFor="entry-tags">标签（选填）<Input id="entry-tags" placeholder="用逗号分隔" value={draft.tags} onChange={(event) => setDraft({ ...draft, tags: event.target.value })} /></label></div>
-                  <div className="form-grid"><div className="form-field"><span>内容形式</span><Select value={draft.format} itemToStringLabel={(value) => formatLabels[value as EntryFormat] ?? value} onValueChange={(value) => setDraft({ ...draft, format: value as EntryFormat })}><SelectTrigger className="form-select"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="note">笔记</SelectItem><SelectItem value="book">书籍</SelectItem><SelectItem value="course">课程</SelectItem><SelectItem value="article">文章</SelectItem><SelectItem value="video">视频</SelectItem><SelectItem value="project">项目</SelectItem></SelectContent></Select></div><label htmlFor="entry-related">关联记录<Input id="entry-related" placeholder="例如：费曼学习法" value={draft.related} onChange={(event) => setDraft({ ...draft, related: event.target.value })} /></label></div>
+                  <div className="form-grid"><div className="form-field"><span>内容形式</span><Select value={draft.format} itemToStringLabel={(value) => formatLabels[value as EntryFormat] ?? value} onValueChange={(value) => setDraft({ ...draft, format: value as EntryFormat })}><SelectTrigger className="form-select"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="note">笔记</SelectItem><SelectItem value="book">书籍</SelectItem><SelectItem value="course">课程</SelectItem><SelectItem value="article">文章</SelectItem><SelectItem value="video">视频</SelectItem><SelectItem value="project">项目</SelectItem></SelectContent></Select></div><label htmlFor="entry-related">关联记录<Input id="entry-related" placeholder="输入记录标题，用逗号分隔" value={draft.related} onChange={(event) => setDraft({ ...draft, related: event.target.value })} /></label></div>
                   <p className="form-section-label">{"// SOURCE / CONTEXT"}</p>
                   {draft.type === 'award' ? <div className="form-grid"><label htmlFor="entry-issuer">颁发机构<Input id="entry-issuer" placeholder="例如：大赛组委会" value={draft.issuer} onChange={(event) => setDraft({ ...draft, issuer: event.target.value })} /></label><label htmlFor="entry-level">获奖级别<Input id="entry-level" placeholder="例如：一等奖" value={draft.awardLevel} onChange={(event) => setDraft({ ...draft, awardLevel: event.target.value })} /></label></div> : <div className="form-grid"><label htmlFor="entry-source">学习来源<Input id="entry-source" placeholder="书籍、课程或链接" value={draft.source} onChange={(event) => setDraft({ ...draft, source: event.target.value })} /></label><div /> </div>}
                   {draft.type === 'award' && <div className="form-grid"><label htmlFor="entry-role">个人角色<Input id="entry-role" placeholder="你负责了什么" value={draft.role} onChange={(event) => setDraft({ ...draft, role: event.target.value })} /></label><label htmlFor="entry-proof">证明链接<Input id="entry-proof" placeholder="证书或项目链接" value={draft.proof} onChange={(event) => setDraft({ ...draft, proof: event.target.value })} /></label></div>}
@@ -801,6 +835,8 @@ export default function Home() {
         </header>
 
         <div className="page-scroll">
+          {readingId && <EntryReader entry={entries.find(entry => entry.id === readingId)} returnHref={readingHref('')} onEdit={() => { const entry = entries.find(item => item.id === readingId); if (entry) openEdit(entry); }} related={entries} hrefFor={readingHref} />}
+          <div hidden={Boolean(readingId)}>
           <section className="page-heading" aria-label={activeView === 'all' ? '个人档案首页' : viewTitle}>
             <div className="archive-meta-line" aria-label={`当前日期 ${displayDate}，共 ${entries.length} 条档案，${knowledgeCount} 条知识，${awardCount} 项成果`}>
               <span>{displayDate || currentYear}</span><i aria-hidden="true" />
@@ -857,7 +893,7 @@ export default function Home() {
             </figure>
             <div className="archive-update-strip" aria-label="最近更新">
               <span className="archive-update-label">{"// RECENT UPDATES"}</span>
-              <div className="archive-update-viewport"><div className="archive-update-track">
+              <div className="archive-update-viewport" role="region" aria-label="最近更新，可左右滚动" tabIndex={0}><div className="archive-update-track">
                 <div className="archive-update-group">{updateLogs.slice(0, 8).map((release) => <button type="button" className="archive-update-item" key={release.version} onClick={() => openRelease(release)}><span className="archive-update-version">{release.version}</span><span className="archive-update-title">{release.title}</span><ChevronRight size={13} aria-hidden="true" /></button>)}</div>
                 <div className="archive-update-group archive-update-group-clone" aria-hidden="true">{updateLogs.slice(0, 8).map((release) => <button type="button" className="archive-update-item" key={`clone-${release.version}`} tabIndex={-1} disabled><span className="archive-update-version">{release.version}</span><span className="archive-update-title">{release.title}</span><ChevronRight size={13} aria-hidden="true" /></button>)}</div>
               </div></div>
@@ -880,7 +916,7 @@ export default function Home() {
           <div className="workspace-grid">
             <section className="knowledge-section">
               <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2>{viewTitle === '总览' ? '最近收集' : viewTitle === '知识库' ? '全部知识条目' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索知识与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '知识条目' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">知识条目</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== 'updated' ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><div className="view-mode-toggle" role="group" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></div></div></div>
-               {sortedEntries.length === 0 ? <div className="empty-state"><FolderOpen size={27} /><h3>{emptyStateTitle}</h3><p>{emptyStateDescription}</p><button className="empty-state-action" type="button" onClick={() => openCreate(newRecordType)}><Plus size={14} />{newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'}</button></div> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}`}>{sortedEntries.map((entry, index) => <article style={{ '--entry-delay': `${Math.min(index, 14) * 16}ms` } as CSSProperties & { '--entry-delay': string }} className={`entry-card ${entry.type === 'award' ? 'entry-award' : 'entry-knowledge'} ${colorStyles[entry.color] ?? 'card-coral'}`} key={entry.id}><div className="entry-topline"><Badge className={`entry-type ${entry.type === 'award' ? 'award-badge' : ''}`}>{entry.type === 'award' ? '获奖' : '知识'}</Badge><button type="button" className="card-delete" aria-label={`删除记录：${entry.title}`} title="删除记录" onClick={() => setPendingConfirmation({ kind: 'delete', entry })}><Trash2 size={16} /></button></div><div className="entry-body"><p className="entry-category">{entry.category} <span className="entry-meta-separator" aria-hidden="true">│</span> {entry.date}</p><h3>{entry.title}</h3>{entry.summary.trim() && <p className="entry-excerpt">{entry.summary}</p>}</div><div className="entry-footer"><div className="tag-list">{entry.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div><button type="button" className="entry-detail-button" onClick={() => { setSelectedEntry(entry); setDetailsOpen(true); }}>查看详情 <ArrowUpRight size={15} /></button></div></article>)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
+               {sortedEntries.length === 0 ? <div className="empty-state"><FolderOpen size={27} /><h3>{emptyStateTitle}</h3><p>{emptyStateDescription}</p><button className="empty-state-action" type="button" onClick={() => openCreate(newRecordType)}><Plus size={14} />{newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'}</button></div> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}`}>{sortedEntries.map((entry, index) => <article style={{ '--entry-delay': `${Math.min(index, 14) * 16}ms` } as CSSProperties & { '--entry-delay': string }} className={`entry-card ${entry.type === 'award' ? 'entry-award' : 'entry-knowledge'} ${colorStyles[entry.color] ?? 'card-coral'}`} key={entry.id}><div className="entry-topline"><Badge className={`entry-type ${entry.type === 'award' ? 'award-badge' : ''}`}>{entry.type === 'award' ? '获奖' : '知识'}</Badge><button type="button" className="card-delete" aria-label={`删除记录：${entry.title}`} title="删除记录" onClick={() => setPendingConfirmation({ kind: 'delete', entry })}><Trash2 size={16} /></button></div><div className="entry-body"><p className="entry-category">{entry.category} <span className="entry-meta-separator" aria-hidden="true">│</span> {entry.date}</p><h3>{entry.title}</h3>{entry.summary.trim() && <p className="entry-excerpt">{entry.summary}</p>}</div><div className="entry-footer"><div className="tag-list">{entry.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div><a className="entry-detail-button" href={readingHref(entry.id)}>阅读</a><button type="button" className="entry-detail-button" onClick={() => { setSelectedEntry(entry); setDetailsOpen(true); }}>查看详情 <ArrowUpRight size={15} /></button></div></article>)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
             </section>
 
             <aside className="right-column">
@@ -889,7 +925,8 @@ export default function Home() {
               </Collapsible>
             </aside>
           </div>
-          <footer className="page-footer"><span>当前日期 {displayDate}</span><span>浏览器本地保存 │ 导出 JSON 可备份</span></footer>
+          </div>
+          <footer className="page-footer"><span>当前日期 {displayDate}</span><span>{saveStatus} │ 导出 JSON 可备份</span></footer>
         </div>
       </section>
 
@@ -901,9 +938,9 @@ export default function Home() {
             <SheetHeader><SheetTitle>{selectedEntry.title}</SheetTitle><SheetDescription>{selectedEntry.category}</SheetDescription></SheetHeader>
             <div className="detail-copy"><h4>摘要</h4><p>{selectedEntry.summary}</p>{selectedEntry.notes && <><h4>详细笔记</h4><p>{selectedEntry.notes}</p></>}{selectedEntry.tags.length > 0 && <div className="detail-tags">{selectedEntry.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>}</div>
             <div className="detail-meta-grid"><div><span>内容形式</span><strong>{formatLabels[selectedEntry.format]}</strong></div>{selectedEntry.type === 'award' ? <>{selectedEntry.issuer && <div><span>颁发机构</span><strong>{selectedEntry.issuer}</strong></div>}{selectedEntry.awardLevel && <div><span>获奖级别</span><strong>{selectedEntry.awardLevel}</strong></div>}{selectedEntry.role && <div><span>个人角色</span><strong>{selectedEntry.role}</strong></div>}</> : <>{selectedEntry.source && <div><span>学习来源</span><strong>{selectedEntry.source}</strong></div>}</>}</div>
-            {selectedEntry.related && <div className="detail-related"><span>关联记录</span>{selectedEntry.related.split(/[,，]/).map((related) => { const relatedTitle = related.trim(); const relatedEntry = entries.find((entry) => entry.title === relatedTitle); return <button type="button" key={relatedTitle} onClick={() => { if (relatedEntry) { setSelectedEntry(relatedEntry); } else { setSearch(relatedTitle); setDetailsOpen(false); } }}>{relatedTitle} {relatedEntry ? <ChevronRight size={13} /> : <ArrowUpRight size={13} />}</button>; })}</div>}
+            {(selectedEntry.relatedRefs?.length || selectedEntry.related) && <div className="detail-related"><span>关联记录</span>{(selectedEntry.relatedRefs ?? relatedReferences(selectedEntry.related ?? '', entries)).map((ref, index) => { const target = entries.find(entry => entry.id === ref.id); return target ? <button type="button" key={index} onClick={() => setSelectedEntry(target)}>{target.title} <ChevronRight size={13} /></button> : <span key={index}>{ref.title}（{ref.id ? '目标已删除或不在此快照' : '未绑定，请编辑确认目标'}）</span>; })}</div>}
             {selectedEntry.proof && <a className="detail-link" href={selectedEntry.proof} target="_blank" rel="noreferrer"><ExternalLink size={14} />打开证明链接</a>}
-            <SheetFooter><Button variant="outline" onClick={() => openEdit(selectedEntry)}><Pencil size={14} />编辑记录</Button><Button variant="destructive" onClick={() => setPendingConfirmation({ kind: 'delete', entry: selectedEntry })}><Trash2 size={14} />删除记录</Button></SheetFooter>
+            <SheetFooter><Button variant="outline" onClick={() => { setReadingId(selectedEntry.id); setDetailsOpen(false); }}>完整阅读</Button><Button variant="outline" onClick={() => openEdit(selectedEntry)}><Pencil size={14} />编辑记录</Button><Button variant="destructive" onClick={() => setPendingConfirmation({ kind: 'delete', entry: selectedEntry })}><Trash2 size={14} />删除记录</Button></SheetFooter>
           </>}
         </SheetContent>
       </Sheet>
@@ -927,7 +964,7 @@ export default function Home() {
           <div className="release-list">{filteredUpdateLogs.length > 0 ? filteredUpdateLogs.map((release) => <article className="release-item" key={release.version}><div className="release-heading"><span className="release-version">{release.version}</span><time>{release.date}</time></div><h3>{release.title}</h3><ul>{release.items.map((item) => <li key={item}>{item}</li>)}</ul></article>) : <div className="release-empty"><p>没有找到匹配的更新日志，请换个关键词试试。</p><button type="button" onClick={() => setChangelogQuery('')}>清空搜索</button></div>}</div>
         </DialogContent>
       </Dialog>
-      {notice && createPortal(<div className="toast" role="status" aria-live="polite"><Check size={15} /> {notice}</div>, document.body)}
+      {notice && <div className="toast"><Check size={15} /> {notice}</div>}
     </main>
   );
 }

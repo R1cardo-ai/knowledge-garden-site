@@ -54,3 +54,6 @@ next-env.d.ts
 *.key
 *.p12
 *.pfx
+# isolated local builds and verification output
+/.local-build/
+/.local-validation/

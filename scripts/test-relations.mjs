@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {normalizeEntries, relatedLabels, relatedReferences} from '../lib/archive-data.js';
+const old = [{id:'a',title:'原题',notes:'旧笔记',proof:'https://example.com',tags:['x']},{id:'b',title:'关联方',related:'原题, 缺失'}];
+const data=normalizeEntries({version:1,entries:old},'2026.10.28');
+assert.equal(data[1].relatedRefs[0].id,'a');
+const renamed=data.map(e=>e.id==='a'?{...e,title:'新题'}:e);
+assert.equal(relatedLabels(renamed[1],renamed),'新题, 缺失');
+assert.equal(relatedReferences('新题, 缺失',renamed,renamed[1].relatedRefs)[0].id,'a');
+const replaced=[renamed[1],{id:'c',title:'原题'}];
+assert.equal(normalizeEntries(replaced,'2026.10.28')[0].relatedRefs[0].id,'a');
+assert.ok(!replaced.find(e=>e.id===replaced[0].relatedRefs[0].id));
+const duplicate=[{id:'c',title:'同名'},{id:'d',title:'同名'},{id:'e',title:'链接',related:'同名'}];
+assert.equal(normalizeEntries(duplicate,'2026.10.28')[2].relatedRefs[0].id,undefined);
+const snapshot={version:2,schemaVersion:2,entries:renamed};
+assert.deepEqual(normalizeEntries(JSON.parse(JSON.stringify(snapshot)),'2026.10.28'),renamed);
+assert.equal(renamed[0].notes,'旧笔记');
+assert.throws(()=>normalizeEntries({schemaVersion:3,entries:old},'2026.10.28'));
+console.log('Relations passed: legacy migration, rename, deleted/recreated title, ambiguous title, schema v2 roundtrip and future schema rejection.');

@@ -45,3 +45,11 @@
 .ef-kit-home small { color: var(--ef-ink-2); font-family: 'Saira', sans-serif; font-size: .62rem; letter-spacing: .08em; }
 .ef-kit-home:hover { background: var(--ef-signal); }
 .ef-kit-home:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+.archive-home-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:2rem; }
+.archive-home section,.archive-home .ef-record,.archive-home .name { min-width:0; overflow-wrap:anywhere; }
+.archive-home h3 { margin:1.5rem 0 1rem; }
+.archive-home [data-archive-categories] { flex-wrap:wrap; }
+@media(max-width:700px) { .archive-home-columns {grid-template-columns:minmax(0,1fr);gap:0;} }
+
+.archive-home h3 a { display:inline-flex; min-height:44px; align-items:center; }

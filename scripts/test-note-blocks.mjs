@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import ts from 'typescript';
+const js=ts.transpile(readFileSync('lib/note-blocks.ts','utf8'),{module:ts.ModuleKind.ESNext});
+const {noteBlocks}=await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
+assert.deepEqual(noteBlocks(''),[]);
+assert.deepEqual(noteBlocks('旧笔记\r\n保留换行').map(b=>b.text),['旧笔记\n保留换行']);
+const blocks=noteBlocks('# 第一章\n正文\n\n## 第二章\n<script>test</script>');
+assert.deepEqual(blocks.map(b=>b.level),[2,0,3,0]);
+assert.equal(blocks[3].text,'<script>test</script>');
+assert.equal(new Set(blocks.map(b=>b.id)).size,blocks.length);
+assert.deepEqual(noteBlocks('普通文字 # 不作为标题').map(b=>b.level),[0]);
+console.log('Notes compatibility checks passed: plain text, line endings, real headings, unique anchors, literal HTML.');

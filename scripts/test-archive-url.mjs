@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import ts from 'typescript';
+const js = ts.transpile(readFileSync('lib/archive-url.ts', 'utf8'), { module: ts.ModuleKind.ESNext });
+const {readArchiveUrl, writeArchiveUrl} = await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
+const url = new URL('http://localhost/archive?view=award&category=%E7%AB%9E%E8%B5%9B&q=hello+world&sort=oldest&layout=list&variant=standard#records');
+const state = readArchiveUrl(url);
+assert.deepEqual(state, {view:'award',category:'竞赛',search:'hello world',sort:'oldest',layout:'list'});
+assert.deepEqual(readArchiveUrl(writeArchiveUrl(url, state)), state);
+const reset = writeArchiveUrl(url, readArchiveUrl(new URL('http://localhost/archive')));
+assert.equal(reset.search, '?variant=standard');
+assert.equal(reset.hash, '#records');
+assert.deepEqual(readArchiveUrl(new URL('http://localhost/archive?view=bad&sort=bad&layout=bad')), {view:'all', category:'all',search:'',sort:'updated',layout:'cards'});
+console.log('Archive URL checks passed: Chinese category, search, filters, defaults, unrelated query and anchor preserved.');

@@ -1,0 +1,193 @@
+{
+  "version": "v1.0.206",
+  "base": "http://127.0.0.1:5201",
+  "checkedAt": "2026-10-28T06:24:23.032Z",
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/ui-kit/templates/showcase?variant=standard",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/ui-kit/templates/showcase.html?variant=standard",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/ui-kit/templates/showcase?variant=standard",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/ui-kit/assets/archive-data.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/ui-kit/assets/archive-data.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/ui-kit/assets/kit-nav.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/ui-kit/assets/kit-nav.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/ui-kit/assets/endfield.css",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/ui-kit/assets/endfield.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/archive",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/archive",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/css/index.DcuPi_TK.css",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/css/index.DcuPi_TK.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/index-INYRhgM0.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/index-INYRhgM0.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/framework-D_rUT4EX.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/layout-segment-context-U-SfOuvi.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/layout-segment-context-U-SfOuvi.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/page-B1sSumZr.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/page-B1sSumZr.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/theme-transition-D0qCkwA-.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/theme-transition-D0qCkwA-.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/archive?view=knowledge&category=%E6%9C%AC%E5%9C%B0&entry=missing",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/archive?view=knowledge&category=%E6%9C%AC%E5%9C%B0&entry=missing",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/css/index.DcuPi_TK.css",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/css/index.DcuPi_TK.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/index-INYRhgM0.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/index-INYRhgM0.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/framework-D_rUT4EX.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/layout-segment-context-U-SfOuvi.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/layout-segment-context-U-SfOuvi.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/page-B1sSumZr.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/page-B1sSumZr.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/theme-transition-D0qCkwA-.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/theme-transition-D0qCkwA-.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/ui-kit",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/ui-kit",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/css/index.DcuPi_TK.css",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/css/index.DcuPi_TK.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/css/ui-kit-client.Bo4GamYM.css",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/css/ui-kit-client.Bo4GamYM.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/index-INYRhgM0.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/index-INYRhgM0.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/framework-D_rUT4EX.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/layout-segment-context-U-SfOuvi.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/layout-segment-context-U-SfOuvi.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/ui-kit-client-Tjf-7kV6.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/ui-kit-client-Tjf-7kV6.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/theme-transition-D0qCkwA-.js",
+      "status": 200,
+      "url": "http://127.0.0.1:5201/_next/static/chunks/theme-transition-D0qCkwA-.js",
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/not-a-real-route-validation",
+      "status": 404,
+      "url": "http://127.0.0.1:5201/not-a-real-route-validation",
+      "type": "text/html; charset=utf-8"
+    }
+  ]
+}
