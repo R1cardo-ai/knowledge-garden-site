@@ -2364,12 +2364,20 @@
   -webkit-backdrop-filter: none !important;
 }
 
-/* Reading update titles must not require tracking moving controls. */
-.site-shell .archive-update-viewport { overflow-x:auto !important; overscroll-behavior-inline:contain; }
-.site-shell .archive-update-track { animation:none !important; transform:none !important; }
-.site-shell .archive-update-group-clone { display:none !important; }
+/* Two identical groups form a seamless loop; controls pause for reading. */
+.site-shell .archive-update-viewport { min-width:0; overflow:hidden !important; }
+.site-shell .archive-update-track { display:flex; width:max-content; animation:archive-ticker-loop 60s linear infinite !important; }
+.site-shell .archive-update-group { display:flex; flex:0 0 auto; width:max-content; }
+.site-shell .archive-update-group-clone { display:flex !important; }
+.site-shell .archive-update-strip:hover .archive-update-track,
+.site-shell .archive-update-strip:focus-within .archive-update-track,
+html[data-archive-page-visible='false'] .site-shell .archive-update-track { animation-play-state:paused !important; }
 .site-shell .archive-update-item::after { animation:none !important; display:none !important; }
-.site-shell .archive-update-viewport:focus-visible { outline:2px solid #e5e900; outline-offset:3px; }
+@media (prefers-reduced-motion:reduce) {
+  .site-shell .archive-update-viewport { overflow-x:auto !important; }
+  .site-shell .archive-update-track { animation:none !important; transform:none !important; }
+  .site-shell .archive-update-group-clone { display:none !important; }
+}
 
 @media (max-width:720px) {
   .site-shell a.entry-detail-button { display:inline-flex; align-items:center; min-height:44px; }

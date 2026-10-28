@@ -59,6 +59,9 @@ const output = path.join(stagingRoot, 'site');
 if (path.dirname(path.resolve(output)) !== stagingRoot) throw new Error('Unsafe output path');
 if (existsSync(output)) rmSync(output, { recursive: true });
 copy(client, output);
+// /ui-kit also contains static assets: serve the index after directory redirects.
+mkdirSync(path.join(output, 'ui-kit'), { recursive: true });
+copy(path.join(client, 'ui-kit.html'), path.join(output, 'ui-kit/index.html'));
 if (basePath) {
   function prefixAssets(directory) {
     for (const name of readdirSync(directory)) {

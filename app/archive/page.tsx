@@ -52,7 +52,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { entryFormatLabels, formatDisplayDate, normalizeEntryDate, normalizeHttpUrl, selectFeaturedAward, compareRecent, relatedReferences, relatedLabels, normalizeEntries as normalizeSharedEntries } from '@/lib/archive-data.js';
-import Link from 'next/link';
 import { useDocumentTheme } from '@/hooks/use-document-theme';
 import { createArchiveStatus } from '@/lib/archive-status';
 import { animateReadout } from '@/lib/animate-readout';
@@ -129,7 +128,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.220';
+const currentVersion = 'v1.0.221';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +136,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.221', date: '2026.10.29', title: '最近更新持续滚动并修复设计样张入口', items: ['最近更新以无缝循环持续滚动展示，悬停或键盘聚焦时暂停，减少动态效果模式保留手动滚动', '设计样张改用完整页面导航，静态导出补齐样张目录入口'] },
   { version: 'v1.0.220', date: '2026.10.28', title: '恢复阅读前目录位置并整理关联记录', items: ['阅读入口按目录条件临时记录条目位置，返回或浏览器后退时在档案与字体就绪后恢复，存储不可用时安全回退；关联记录显示日期分类形式并保持独立链接', '发布链同时生成根路径与 GitHub 项目路径静态产物，保留现有网站来源'] },
   { version: 'v1.0.219', date: '2026.10.28', title: '补齐目录形式筛选与空结果恢复', items: ['档案默认使用连续目录列表，内容形式筛选与阅读返回链接同步保留，列表和详情显示形式字段，无结果明确列出条件并提供清除筛选，手机目录正确显示当前栏目标题'] },
   { version: 'v1.0.218', date: '2026.10.28', title: '收束数字反馈并完善保存状态订阅', items: ['数字与版本反馈直接更新独立展示节点，动画在460毫秒内完成且减少动态效果时立即显示真实值；保存提示通过独立状态订阅更新，保留异常档案保护'] },
@@ -792,7 +792,9 @@ export default function Home() {
           <ArchiveNavItem label="知识库" active={activeView === 'knowledge'} onClick={() => changeView('knowledge')}><BookOpen size={18} /><span>知识库</span><span className="nav-count">{knowledgeCount}</span></ArchiveNavItem>
           <ArchiveNavItem label="获奖记录" active={activeView === 'award'} onClick={() => changeView('award')}><Medal size={18} /><span>获奖记录</span><span className="nav-count">{awardCount}</span></ArchiveNavItem>
           <button className="nav-item" type="button" aria-label="更新日志" title="更新日志" onClick={() => setChangelogOpen(true)}><History size={18} /><span>更新日志</span><span className="nav-count">{updateLogs.length}</span></button>
-          <Link className="nav-item" href="/ui-kit" aria-label="设计样张" title="设计样张"><Sparkles size={18} /><span>设计样张</span><span className="nav-count">06</span></Link>
+          {/* Full document navigation also works with the directory index on static hosts. */}
+          {/* oxlint-disable-next-line next/no-html-link-for-pages */}
+          <a className="nav-item" href="/ui-kit/" aria-label="设计样张" title="设计样张"><Sparkles size={18} /><span>设计样张</span><span className="nav-count">06</span></a>
         </nav>
         <section className="rail-background" data-expanded={backgroundExpanded ? 'true' : 'false'} aria-label="背景图片设置"><button type="button" className="rail-background-heading" aria-label={backgroundExpanded ? '收起背景图片设置' : '展开背景图片设置'} aria-expanded={backgroundExpanded} aria-controls="rail-background-content" onClick={() => setBackgroundExpanded((current) => !current)}><div><span className="rail-background-label">{"// BACKGROUND"}</span><strong>背景图片</strong></div><span className="rail-background-toggle" aria-hidden="true">{backgroundExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span></button><div id="rail-background-content" className="rail-background-content" data-open={backgroundExpanded} aria-hidden={!backgroundExpanded} inert={!backgroundExpanded}><button type="button" className={`rail-background-preview ${backgroundImage ? 'has-background' : 'is-empty'}`} aria-label={backgroundImage ? '更换背景图片' : '选择背景图片'} onClick={() => backgroundInputRef.current?.click()} style={backgroundImage ? { backgroundImage: `url("${backgroundImage}")` } : undefined}><span>{backgroundImage ? `${Math.round(backgroundOpacity * 100)}%` : '未设置'}</span></button><input ref={backgroundInputRef} className="sr-only" type="file" accept="image/*" tabIndex={-1} onChange={customizeBackground} /><div className="rail-background-actions"><button type="button" className="rail-background-button" onClick={() => backgroundInputRef.current?.click()}><FileUp size={13} />更换图片</button><button type="button" className="rail-background-reset" onClick={resetBackground}>恢复默认</button></div>{backgroundImage && <label className="rail-opacity-control" htmlFor="background-opacity"><span>透明度</span><input id="background-opacity" type="range" min="0.04" max="0.3" step="0.01" value={backgroundOpacity} onChange={(event) => changeBackgroundOpacity(Number(event.target.value))} /></label>}</div></section>
         <div className="rail-bottom">
@@ -893,9 +895,9 @@ export default function Home() {
             </figure>
             <div className="archive-update-strip" aria-label="最近更新">
               <span className="archive-update-label">{"// RECENT UPDATES"}</span>
-              <section className="archive-update-viewport" aria-label="最近更新，可左右滚动"><div className="archive-update-track">
+              <section className="archive-update-viewport" aria-label="最近更新，悬停或聚焦暂停滚动"><div className="archive-update-track">
                 <div className="archive-update-group">{updateLogs.slice(0, 8).map((release) => <button type="button" className="archive-update-item" key={release.version} onClick={() => openRelease(release)}><span className="archive-update-version">{release.version}</span><span className="archive-update-title">{release.title}</span><ChevronRight size={13} aria-hidden="true" /></button>)}</div>
-                <div className="archive-update-group archive-update-group-clone" aria-hidden="true">{updateLogs.slice(0, 8).map((release) => <button type="button" className="archive-update-item" key={`clone-${release.version}`} tabIndex={-1} disabled><span className="archive-update-version">{release.version}</span><span className="archive-update-title">{release.title}</span><ChevronRight size={13} aria-hidden="true" /></button>)}</div>
+                <div className="archive-update-group archive-update-group-clone" aria-hidden="true">{updateLogs.slice(0, 8).map((release) => <button type="button" className="archive-update-item" key={`clone-${release.version}`} tabIndex={-1} onClick={() => openRelease(release)}><span className="archive-update-version">{release.version}</span><span className="archive-update-title">{release.title}</span><ChevronRight size={13} aria-hidden="true" /></button>)}</div>
               </div></section>
             </div>
           </section>
