@@ -181,11 +181,11 @@
 
 /* ---------- 3. marks that carry meaning ---------- */
 
-/* The three-colour strip: the top edge of a page, or under an article title. Nowhere else. */
+/* The three-colour strip is a fixed page-edge identifier. */
 .ef-tri {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  height: 3px;
+  height: 2px;
 }
 .ef-tri > i:nth-child(1) {
   background: var(--ef-tri-a);
@@ -195,6 +195,11 @@
 }
 .ef-tri > i:nth-child(3) {
   background: var(--ef-tri-c);
+}
+.ef-title-rule {
+  width: 3.5rem;
+  height: 2px;
+  background: var(--ef-signal);
 }
 
 /* A field of a record: number, date, count, path. Wide, geometric, tabular. */
@@ -2231,3 +2236,46 @@ a.ef-record:is(:hover, :focus-visible) > * {
 :root[data-ef-motion='calm'] :is(.ef-in-drive, .ef-in-stroke, .ef-in-power, .ef-in-come, .ef-in-sweep) {
   animation: none !important;
 }
+
+@media (max-width: 720px) {
+  .ef :is(a, button, [role='button'], select) {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .ef :is(input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']), textarea) {
+    min-height: 44px;
+  }
+
+  .ef-form > label:not(.field) {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ef :is(.ef-kit-home, .ef-btn, .ef-record, .ef-rail a, .ef-cmdbar nav a, .ef-tabbar a, a.ef-tag, a.ef-kv) {
+    min-height: 44px;
+  }
+
+  .ef :is(a.ef-tag, a.ef-kv) {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Update content stays still and is available through keyboard or touch scrolling. */
+.ef-ticker { overflow-x:auto; overscroll-behavior-inline:contain; }
+.ef-ticker .track { animation:none !important; transform:none !important; }
+.ef-ticker ul[aria-hidden] { display:none; }
+.ef-ticker:focus-visible { outline:2px solid var(--ef-accent, #e5e900); outline-offset:3px; }
+/* Canonical release history remains readable with JavaScript disabled. */
+.release-history-item { border-bottom: 1px solid var(--ef-rule); scroll-margin-top: 2rem; }
+.release-history-item summary { cursor: pointer; min-height: 44px; padding: 1.25rem .5rem; overflow-wrap: anywhere; }
+.release-history-item summary .ef-field { display: block; margin-bottom: .5rem; color: var(--ef-ink-2); }
+.release-history-item summary strong { font-family: var(--ef-font-text); font-size: 1.1rem; line-height: 1.5; }
+.release-history-item summary .ef-marker { margin-left: .75rem; font-size: .75rem; }
+.release-history-item ul { margin: 0; padding: 0 1.5rem 1.5rem; color: var(--ef-ink-2); line-height: 1.8; overflow-wrap: anywhere; }
+.release-history-item summary:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: -2px; }
+.release-history-item:target { background: var(--ef-panel); border-left: 3px solid var(--ef-ink); }
+.release-history-item summary .ef-marker { display: inline-block; white-space: nowrap; }

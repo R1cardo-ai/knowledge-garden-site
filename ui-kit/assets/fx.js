@@ -49,7 +49,7 @@ export function scramble(el, ms = 360) {
     let locked = Math.floor(done * final.length);
     for (const x of nodes) {
       const keep = Math.max(0, Math.min(x.final.length, locked));
-      x.n.data = x.final.slice(0, keep) + [...x.final.slice(keep)].map(stand).join('');
+      x.n.data = x.final.slice(0, keep) + Array.from(x.final.slice(keep), stand).join('');
       locked -= x.final.length;
     }
     if (done < 1) state.frame = requestAnimationFrame(step);
@@ -113,13 +113,15 @@ export function wireTheme(root = document, { reveal = true } = {}) {
       const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
       html.classList.add('ef-theming');
       const t = document.startViewTransition(flip);
-      t.ready.then(() =>
-        html.animate(
+      t.ready.then(() => {
+        const animation = html.animate(
           { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
           { duration: Math.max(240, Math.min(600, r / 3)), easing: MECH, pseudoElement: '::view-transition-new(root)' },
-        ),
-      );
-      t.finished.finally(() => html.classList.remove('ef-theming'));
+        );
+        return animation.finished.catch(() => {}); // A cancelled reveal keeps the applied theme.
+      }).catch(() => {}); // View transitions may be skipped by the browser.
+      const cleanup = () => html.classList.remove('ef-theming');
+      t.finished.then(cleanup, cleanup);
     }),
   );
   system.addEventListener('change', sync);
@@ -141,7 +143,7 @@ export function wireParallax(el) {
 const settled = (el) =>
   new Promise((done) => {
     if (still.matches || !el.getAnimations({ subtree: true }).length) return done();
-    Promise.allSettled(el.getAnimations({ subtree: true }).map((a) => a.finished)).then(() => done());
+    void Promise.allSettled(el.getAnimations({ subtree: true }).map((a) => a.finished)).then(() => done());
   });
 
 // Sheets and dialogs on <dialog class="ef-drawer"> / <dialog class="ef-dialog">.
@@ -165,12 +167,12 @@ export function wireDialogs(root = document) {
   root.querySelectorAll('dialog:is(.ef-drawer, .ef-dialog)').forEach((d) => {
     d.addEventListener('cancel', (e) => {
       e.preventDefault();
-      closeDialog(d);
+      void closeDialog(d);
     });
     d.addEventListener('click', (e) => {
-      if (e.target === d) closeDialog(d); // the backdrop
+      if (e.target === d) void closeDialog(d); // the backdrop
       const c = e.target.closest('[data-close]');
-      if (c) closeDialog(d, c.value || c.dataset.close || '');
+      if (c) void closeDialog(d, c.value || c.dataset.close || '');
     });
   });
 }
