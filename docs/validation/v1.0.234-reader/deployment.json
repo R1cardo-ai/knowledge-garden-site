@@ -1,0 +1,18 @@
+{
+  "version": "v1.0.234",
+  "sourceCommit": "7728a75a3ff280038e30ccf35a6513a4f861be1e",
+  "githubPagesCommit": "ffa363a81eb6f1c9b48224d9766befe226844632",
+  "cloudflarePages": "completed/success",
+  "githubPagesRun": 40894821727,
+  "githubPages": "completed/success",
+  "live": {
+    "cloudflareArchiveVersion": "v1.0.234",
+    "githubArchiveVersion": "v1.0.234",
+    "updateLogs": 246,
+    "bothHomeTickers": "阅读封面与真实关联示意",
+    "githubReaderCover": true,
+    "githubReaderDiagramNodes": 1,
+    "githubReaderConsoleErrors": 0
+  },
+  "limits": ["Cloudflare test origin has no local records, so its reader entry was verified only in the local isolated fixture.", "Actual browser zoom 125%, 150%, 200% remains for V4."]
+}
