@@ -1,0 +1,31 @@
+{
+  "version": "v1.0.233",
+  "date": "2026-10-29",
+  "sourceCommit": "4b458e1",
+  "githubPagesCommit": "7a21611b5cd90177b80829c0f14c228b962603c5",
+  "checks": {
+    "lint": "pass",
+    "typescript": "pass",
+    "npmTest": "pass",
+    "updates": "v1.0.233, 245 historical records",
+    "productionBuild": "pass",
+    "cloudflarePagesBuild": "pass",
+    "githubPagesBuild": "pass",
+    "localProductionHttp": "31 requests pass"
+  },
+  "hosting": {
+    "cloudflarePages": {
+      "head": "4b458e1",
+      "status": "completed",
+      "conclusion": "success",
+      "details": "https://dash.cloudflare.com/?to=/0d2d1e6bb473e4a721ba2ef91762ac0a/pages/view/knowledge-garden-site/a9003997-d655-477c-84a2-131f69acf50d"
+    },
+    "githubPages": {
+      "head": "7a21611b5cd90177b80829c0f14c228b962603c5",
+      "status": "completed",
+      "conclusion": "success",
+      "details": "https://github.com/R1cardo-ai/knowledge-garden-site/actions/runs/40892401866"
+    }
+  },
+  "liveBrowser": "live-browser.json"
+}
