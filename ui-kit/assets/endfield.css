@@ -812,7 +812,7 @@ a.ef-record:is(:hover, :focus-visible) > * {
   align-items: center;
   gap: 1.25rem;
   margin: 0 0 1.25rem;
-  font-size: 1.15rem;
+  font-size: 1.375rem;
   font-weight: 800;
 }
 .ef-bar-title::after {
@@ -1036,6 +1036,7 @@ a.ef-record:is(:hover, :focus-visible) > * {
   margin: 0;
   color: var(--ef-ink-2);
 }
+.ef-head [data-release='version'] { display:inline-block; padding:.15rem .6rem; margin-inline:.5rem; border:1px solid var(--ef-ink); color:var(--ef-ink); background:var(--ef-panel); font-weight:700; font-variant-numeric:tabular-nums; }
 
 /* A panel: a plate on the paper with a heavy ink tab on its top edge, which
    runs out along the whole edge when the panel is pointed at.
@@ -2282,7 +2283,12 @@ a.ef-record:is(:hover, :focus-visible) > * {
 /* Canonical release history remains readable with JavaScript disabled. */
 .release-history-item { border-bottom: 1px solid var(--ef-rule); scroll-margin-top: 2rem; }
 .release-history-item summary { cursor: pointer; min-height: 44px; padding: 1.25rem .5rem; overflow-wrap: anywhere; }
-.release-history-item summary .ef-field { display: block; margin-bottom: .5rem; color: var(--ef-ink-2); }
+.release-history-item summary .ef-field { color: var(--ef-ink-2); font-variant-numeric:tabular-nums; }
+.release-history-heading { display:inline-grid; vertical-align:top; width:calc(100% - 1.5rem); grid-template-columns:minmax(0,1fr) auto; gap:.75rem 1rem; }
+.release-history-meta { display:grid; grid-template-columns:7rem minmax(0,1fr); gap:1rem; }
+.release-history-heading strong { grid-column:1 / -1; grid-row:2; }
+.release-history-heading .ef-marker { grid-row:1; grid-column:2; align-self:start; }
+.release-history-item[open] { border-top:3px solid var(--ef-ink); background:var(--ef-panel); }
 .release-history-item summary strong { font-family: var(--ef-font-text); font-size: 1.1rem; line-height: 1.5; }
 .release-history-item summary .ef-marker { margin-left: .75rem; font-size: .75rem; }
 .release-history-item ul { margin: 0; padding: 0 1.5rem 1.5rem; color: var(--ef-ink-2); line-height: 1.8; overflow-wrap: anywhere; }
