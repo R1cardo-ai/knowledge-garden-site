@@ -1,11 +1,15 @@
-import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-data.js';
+import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry, featuredEntryStorageKey } from './archive-data.js';
 (() => {
   function refreshArchive() {
   try {
     const saved = localStorage.getItem('knowledge-garden-entries');
     const entries = saved === null ? [] : normalizeEntries(JSON.parse(saved), formatDisplayDate(new Date()));
-    const featured = [...entries].sort(compareRecent)[0];
+    let preferredId = '';
+    try { preferredId = localStorage.getItem(featuredEntryStorageKey) || ''; } catch {}
+    const featured = selectFeaturedEntry(entries, preferredId);
     const setFeatureText = (selector, value) => { const node = document.querySelector(selector); if (node) node.textContent = value; };
+    setFeatureText('[data-feature-heading]', featured && featured.id === preferredId ? 'Featured entry / 精选档案' : 'Latest entry / 最近档案');
+    setFeatureText('[data-feature-note]', featured && featured.id === preferredId ? '当前浏览器手动精选的档案。' : '档案保存在当前浏览器，按最近更新选取。');
     setFeatureText('[data-feature-title]', featured?.title || '从第一条记录开始');
     setFeatureText('[data-feature-meta]', featured ? `${featured.date} / ${featured.category} / ${featured.type === 'award' ? '成果' : '知识'}` : '当前浏览器的个人档案');
     setFeatureText('[data-feature-summary]', featured ? (featured.summary || '这条档案还没有摘要，打开记录查看详细内容。') : '把今天学到的知识或收获保存下来，这里将展示最近更新的档案。');
@@ -70,7 +74,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-da
   }
   refreshArchive();
   window.addEventListener('pageshow', refreshArchive);
-  window.addEventListener('storage', (event) => { if (event.key === 'knowledge-garden-entries' || event.key === null) refreshArchive(); });
+  window.addEventListener('storage', (event) => { if (event.key === 'knowledge-garden-entries' || event.key === featuredEntryStorageKey || event.key === null) refreshArchive(); });
 
   document.querySelectorAll('[data-archive-date]').forEach((node) => {
     const now = new Date();
@@ -79,10 +83,22 @@ import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-da
 
   const home = document.createElement('a');
   home.className = 'ef-kit-home';
-  home.href = '/knowledge-garden-site/ui-kit';
+  home.href = '/knowledge-garden-site/ui-kit/';
   home.setAttribute('aria-label', '返回桌面样张索引');
   home.innerHTML = '<span aria-hidden="true">K</span><span>知识花园</span><small>样张索引</small>';
 
   const target = document.querySelector('.ef-cmdbar .util, .top .ef-actions, .ef-rail, .ef-head > p');
   if (target) target.prepend(home);
+
+  // Carry appearance only between template pages; archive filters keep their own query.
+  const appearanceKeys = ['variant', 'accent', 'paper', 'cut', 'ground', 'density', 'motion', 'theme'];
+  const current = new URL(location.href);
+  document.querySelectorAll('a[href]').forEach(link => {
+    const url = new URL(link.getAttribute('href'), current);
+    if (url.origin !== current.origin || !url.pathname.includes('/knowledge-garden-site/ui-kit/templates/')) return;
+    for (const key of appearanceKeys) {
+      if (current.searchParams.has(key) && !url.searchParams.has(key)) url.searchParams.set(key, current.searchParams.get(key));
+    }
+    link.href = url.href;
+  });
 })();

@@ -1,0 +1,3 @@
+/ /ui-kit/templates/showcase.html?variant=standard 302
+/knowledge-garden-site / 301
+/knowledge-garden-site/* /:splat 301

@@ -2264,10 +2264,15 @@ a.ef-record:is(:hover, :focus-visible) > * {
   }
 }
 
-/* Update content stays still and is available through keyboard or touch scrolling. */
-.ef-ticker { overflow-x:auto; overscroll-behavior-inline:contain; }
-.ef-ticker .track { animation:none !important; transform:none !important; }
-.ef-ticker ul[aria-hidden] { display:none; }
+/* Identical groups loop without a gap; pause controls for reading and activation. */
+.ef-ticker { overflow:hidden; }
+.ef-ticker .track { animation:ef-pass 60s linear infinite; }
+.ef-ticker:is(:hover, :focus-within) .track { animation-play-state:paused; }
+@media (prefers-reduced-motion:reduce) {
+  .ef-ticker { overflow-x:auto; overscroll-behavior-inline:contain; }
+  .ef-ticker .track { animation:none !important; transform:none !important; }
+  .ef-ticker ul[aria-hidden] { display:none; }
+}
 .ef-ticker:focus-visible { outline:2px solid var(--ef-accent, #e5e900); outline-offset:3px; }
 /* Canonical release history remains readable with JavaScript disabled. */
 .release-history-item { border-bottom: 1px solid var(--ef-rule); scroll-margin-top: 2rem; }

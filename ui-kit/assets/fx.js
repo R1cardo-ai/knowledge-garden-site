@@ -65,9 +65,10 @@ export function scramble(el, ms = 360) {
 // On open, readouts settle one after another; the whole run stays under a
 // second however many there are (stagger shrinks to fit 180ms).
 export function wireReadouts(root = document) {
+  if (still.matches) return;
   const load = [...root.querySelectorAll('[data-fx-load]')];
-  const gap = load.length > 1 ? Math.min(40, 180 / (load.length - 1)) : 0;
-  load.forEach((el, i) => setTimeout(() => scramble(el, 600), 120 + i * gap));
+  const gap = load.length > 1 ? Math.min(40, 120 / (load.length - 1)) : 0;
+  load.forEach((el, i) => setTimeout(() => scramble(el, 280), 80 + i * gap));
   root.querySelectorAll('[data-fx-host]').forEach((host) => {
     const key = host.dataset.fxHost;
     const run = () => (key ? root.querySelectorAll(`[data-fx-of="${key}"]`) : host.querySelectorAll('[data-fx]')).forEach((el) => scramble(el));
@@ -124,18 +125,36 @@ export function wireTheme(root = document, { reveal = true } = {}) {
       t.finished.then(cleanup, cleanup);
     }),
   );
+  if (typeof window !== 'undefined') window.addEventListener('storage', event => {
+    if (event.key !== 'theme' && event.key !== null) return;
+    const value = event.key === null ? null : event.newValue;
+    if (value === 'light' || value === 'dark') html.dataset.theme = value;
+    else if (html.dataset.efVariant === 'nightshift') html.dataset.theme = 'dark';
+    else delete html.dataset.theme;
+    sync();
+  });
   system.addEventListener('change', sync);
   sync();
 }
 
 // Pointer parallax: sets --mx / --my (-0.5…0.5) on the element as the pointer moves over it.
 export function wireParallax(el) {
-  if (!el || !matchMedia('(prefers-reduced-motion: no-preference) and (hover: hover)').matches) return;
+  if (!el) return;
+  const motion = matchMedia('(prefers-reduced-motion: no-preference) and (hover: hover)');
+  if (!motion.matches) return;
+  const reset = () => {
+    el.style.setProperty('--mx', '0');
+    el.style.setProperty('--my', '0');
+  };
   el.addEventListener('pointermove', (e) => {
+    if (!motion.matches) return;
     const box = el.getBoundingClientRect();
+    if (!box.width || !box.height) return;
     el.style.setProperty('--mx', ((e.clientX - box.left) / box.width - 0.5).toFixed(3));
     el.style.setProperty('--my', ((e.clientY - box.top) / box.height - 0.5).toFixed(3));
   });
+  el.addEventListener('pointerleave', reset);
+  motion.addEventListener('change', () => { if (!motion.matches) reset(); });
 }
 
 // Waits for the CSS animation an element just started, or not at all when
