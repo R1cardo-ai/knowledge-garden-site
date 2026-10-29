@@ -1,6 +1,6 @@
 {
   "../../node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js": {
-    "file": "knowledge-garden-site/_next/static/chunks/app-route-prefetch-policy-BQN10Bmm.js",
+    "file": "knowledge-garden-site/_next/static/chunks/app-route-prefetch-policy-Qoym10yV.js",
     "name": "app-route-prefetch-policy",
     "src": "../../node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
     "isDynamicEntry": true,
@@ -9,7 +9,7 @@
     ]
   },
   "../../node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "knowledge-garden-site/_next/static/chunks/layout-segment-context-Dv7iEHUH.js",
+    "file": "knowledge-garden-site/_next/static/chunks/layout-segment-context-Bx-rrCW2.js",
     "name": "layout-segment-context",
     "src": "../../node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -49,7 +49,7 @@
     ]
   },
   "app/archive/page.tsx": {
-    "file": "knowledge-garden-site/_next/static/chunks/page-8qxf2f5e.js",
+    "file": "knowledge-garden-site/_next/static/chunks/page-Bdf1OvKd.js",
     "name": "page",
     "src": "app/archive/page.tsx",
     "isDynamicEntry": true,
@@ -74,7 +74,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "knowledge-garden-site/_next/static/chunks/index-D3CsKYIG.js",
+    "file": "knowledge-garden-site/_next/static/chunks/index-Bhld8TJd.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
