@@ -439,7 +439,7 @@ a.ef-kv:hover > :first-child,
   inset: 0;
   z-index: -1;
   transform: translateX(-101%);
-  transition: transform 0.28s var(--ef-mech);
+  transition: transform 0.18s var(--ef-mech);
 }
 .ef-btn::before {
   background: var(--wipe);

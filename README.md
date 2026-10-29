@@ -1,8 +1,17 @@
 # Knowledge Garden
 
-个人知识档案网站，当前网站版本见 `app/archive/page.tsx`。该文件也是更新日志的唯一来源，更新时需同步 `public/ui-kit/templates/` 的版本展示。
+个人知识档案网站。**Agent 入口：**先读 [`AGENTS.md`](AGENTS.md) 和 [`docs/项目手册.md`](docs/项目手册.md)，再按任务查阅下方文档。当前产品版本和更新日志以 `app/archive/page.tsx` 为准。
 
-## 本地运行
+## 文档导航
+
+- 当前实现与桌面验收：[`docs/当前桌面验收.md`](docs/当前桌面验收.md)
+- 项目规则与版本要求：[`docs/项目手册.md`](docs/项目手册.md)
+- 设计规范与规划：[`docs/设计规范与规划.md`](docs/设计规范与规划.md)
+- 本地档案、迁移及素材操作：[`docs/本地档案与素材操作.md`](docs/本地档案与素材操作.md)
+- 外部设计参考：[`docs/design-references.md`](docs/design-references.md)，仅在 UI/设计任务需要时阅读
+- 历史记录和验收：[`docs/archive/2026-10.md`](docs/archive/2026-10.md)，按需查阅
+
+## 本地运行与检查
 
 需要 Node.js 22.13 或更高版本。
 
@@ -18,36 +27,10 @@ npm run build
 npm start -- --ip 127.0.0.1 --port 5201
 ```
 
-构建输出位于 `.local-build/`。重新构建前请停止正在运行的生产预览。
-本地运行无需 `.openai/hosting.json`，未提供时使用空存储绑定；账户配置、凭据、浏览器档案及构建产物不包含在源码中。
+构建输出位于 `.local-build/`。重新构建前请停止正在运行的生产预览。本地运行不需要 `.openai/hosting.json`；账户配置、凭据、浏览器档案及构建产物不属于源码。其他项目检查命令见 `package.json`。
 
-## 检查与数据
+知识档案保存在当前浏览器来源的 localStorage 中，不会随 Git 仓库上传，也不会自动迁移到另一域名或端口。迁移前从网站导出备份，操作步骤见 [`docs/本地档案与素材操作.md`](docs/本地档案与素材操作.md)。
 
-```sh
-npm test
-npx tsc --noEmit
-```
+## 发布
 
-启动生产预览后可运行 `npm run check:production`。浏览器测试辅助脚本 `scripts/serve-storage-qa.mjs` 需要本机测试夹具，不是启动网站的必要步骤。
-
-知识档案保存在当前浏览器来源的 localStorage 中，不会随 Git 仓库上传，也不会自动迁移到另一域名或端口。迁移前请从网站导出备份，参见 `docs/本地档案备份与迁移.md`。
-
-GitHub 源码同步不等于网站部署。当前桌面验收见 `docs/终末地增强规划桌面验收_2026-10-29.md`；后续只制作桌面端。
-
-## Cloudflare Pages
-
-已有项目 `knowledge-garden-site` 从 GitHub 的 `source` 分支构建。构建命令为 `npm run build:pages`，输出目录为 `.pages-build/site`，根目录留空，框架预设选“无”。使用锁定依赖及 Node.js 22.13 或更高版本。
-
-Pages 构建在隔离目录内静态导出实际应用，包含 `/archive`、`/ui-kit` 和首页模板；根路径转到首页模板，未知路径返回 404。只发布静态产物，不上传源文件、个人档案、账户配置或未使用的人物背景。
-
-本机复现构建：`npm run build:pages`。Pages 产物不依赖 Worker、D1 或 R2 绑定。部署失败时先区分仓库拉取错误与构建错误；旧成功部署可在 Cloudflare 控制台回退。更换域名不会自动迁移浏览器 localStorage。
-
-## 2026-10-28 本轮交付
-
-本轮版本 v1.0.220 的实现与验证见 `docs/validation/v1.0.220-release-2026-10-28.md`。用户要求本轮发布后暂停持续构建；未完成的规划验收项保留在该记录中。历史截图及本机测试夹具不属于运行源码，继续保存在本地。
-
-## 2026-10-29 桌面增强
-
-本轮 v1.0.225 补齐首页手动精选、表单错误反馈、成果日期默认排序和控制台规范数据；桌面实现、验收证据与发布门槛见 `docs/终末地增强规划桌面验收_2026-10-29.md`。
-
-最终 v1.0.226 补充更新条键盘焦点可见性与离开后的滚动恢复，局部回归见 `docs/validation/v1.0.226-final/README.md`。
+GitHub 源码同步与网站部署是两步。Cloudflare Pages 从 GitHub `source` 分支构建，命令为 `npm run build:pages`，输出目录为 `.pages-build/site`。发布后需等待托管结果，并核对线上产品版本和变更入口。当前桌面验收入口见 [`docs/当前桌面验收.md`](docs/当前桌面验收.md)。
