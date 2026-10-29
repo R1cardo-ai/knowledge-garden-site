@@ -1,0 +1,60 @@
+{
+  "version": "v1.0.226",
+  "site": "cloudflare",
+  "steps": [
+    {
+      "animation": "none",
+      "limit": 1585,
+      "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+      "right": 342.078125,
+      "x": 0
+    },
+    {
+      "animation": "none",
+      "limit": 1585,
+      "name": "v1.0.225支持首页精选并完善表单反馈",
+      "right": 656.15625,
+      "x": 342.078125
+    },
+    {
+      "animation": "none",
+      "limit": 1585,
+      "name": "v1.0.224档案页新增返回主页入口",
+      "right": 942.234375,
+      "x": 656.15625
+    },
+    {
+      "animation": "none",
+      "limit": 1585,
+      "name": "v1.0.223恢复首页入场与线稿视差动效",
+      "right": 1256.3125,
+      "x": 942.234375
+    },
+    {
+      "animation": "none",
+      "limit": 1585,
+      "name": "v1.0.222修复主页展示导航与更新交互",
+      "right": 1570.390625,
+      "x": 1256.3125
+    },
+    {
+      "animation": "none",
+      "limit": 1585,
+      "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+      "right": 1577.46875,
+      "x": 1207.390625
+    },
+    {
+      "animation": "none",
+      "limit": 1585,
+      "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+      "right": 1584.546875,
+      "x": 1228.46875
+    }
+  ],
+  "pass": true,
+  "after": {
+    "animation": "ef-pass",
+    "scroll": 0
+  }
+}

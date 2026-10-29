@@ -1,0 +1,143 @@
+{
+  "version": "v1.0.226",
+  "sourceCommit": "2046f550df535406d6bd97b6de8fd2da07bd9b7b",
+  "mainCommit": "baa14ec5baffe531691358f287636006a9ed1344",
+  "checkedAt": "2026-10-29T03:55:01.484Z",
+  "cloudflare": [
+    {
+      "id": 123248755628,
+      "name": "Cloudflare Pages",
+      "status": "in_progress",
+      "conclusion": null,
+      "details": "https://dash.cloudflare.com/?to=/0d2d1e6bb473e4a721ba2ef91762ac0a/pages/view/knowledge-garden-site/f209bda4-135a-416f-a352-b583a2d7fad7",
+      "summary": "<table><tr><td><strong>Latest commit:</strong> </td><td>\n<code>2046f55</code>\n</td></tr>\n<tr><td><strong>Status:</strong></td><td>⚡️&nbsp; Build in progress...</td></tr>\n</table>\n\n[View logs](https://dash.cloudflare.com/?to=/0d2d1e6bb473e4a721ba2ef91762ac0a/pages/view/knowledge-garden-site/f209bda4-135a-416f-a352-b583a2d7fad7)\n"
+    }
+  ],
+  "githubPages": [
+    {
+      "id": 40813407978,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/R1cardo-ai/knowledge-garden-site/actions/runs/40813407978",
+      "head": "baa14ec5baffe531691358f287636006a9ed1344"
+    }
+  ],
+  "responseHeaders": {
+    "date": "Thu, 29 Oct 2026 03:48:49 GMT",
+    "age": null,
+    "cache": "public, max-age=60, s-maxage=60"
+  },
+  "hostingResult": {
+    "provider": "Cloudflare Pages",
+    "deploymentId": "f209bda4-135a-416f-a352-b583a2d7fad7",
+    "status": "success",
+    "evidence": "User explicitly confirmed this deployment shows success in Cloudflare dashboard.",
+    "userResponse": "控制台显示部署成功",
+    "integrationCheckAtVerification": "in_progress",
+    "cliLimitation": "Wrangler is not authenticated; no login or credential changes performed."
+  },
+  "liveChecks": [
+    {
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/templates/showcase?variant=standard",
+      "status": 200,
+      "expected": "data-release=\"version\">v1.0.226",
+      "passed": true
+    },
+    {
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/assets/kit-nav.js",
+      "status": 200,
+      "expected": "scrollIntoView",
+      "passed": true
+    },
+    {
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/assets/endfield.css",
+      "status": 200,
+      "expected": ":has(a:focus-visible)",
+      "passed": true
+    },
+    {
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/assets/archive-data.js",
+      "status": 200,
+      "expected": "selectFeaturedEntry",
+      "passed": true
+    },
+    {
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/templates/console",
+      "status": 200,
+      "expected": "v1.0.226",
+      "passed": true
+    },
+    {
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/templates/reading",
+      "status": 200,
+      "expected": "release-v1-0-226",
+      "passed": true
+    },
+    {
+      "url": "https://knowledge-garden-site.pages.dev/archive",
+      "status": 200,
+      "expected": "<html",
+      "passed": true
+    },
+    {
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/",
+      "status": 200,
+      "expected": "component-matrix",
+      "passed": true
+    },
+    {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/ui-kit/templates/showcase.html?variant=standard",
+      "status": 200,
+      "expected": "data-release=\"version\">v1.0.226",
+      "passed": true
+    },
+    {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/ui-kit/assets/kit-nav.js",
+      "status": 200,
+      "expected": "scrollIntoView",
+      "passed": true
+    },
+    {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/ui-kit/assets/endfield.css",
+      "status": 200,
+      "expected": ":has(a:focus-visible)",
+      "passed": true
+    },
+    {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/ui-kit/assets/archive-data.js",
+      "status": 200,
+      "expected": "selectFeaturedEntry",
+      "passed": true
+    },
+    {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/ui-kit/templates/console.html",
+      "status": 200,
+      "expected": "v1.0.226",
+      "passed": true
+    },
+    {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/ui-kit/templates/reading.html",
+      "status": 200,
+      "expected": "release-v1-0-226",
+      "passed": true
+    },
+    {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/archive",
+      "status": 200,
+      "expected": "<html",
+      "passed": true
+    },
+    {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/ui-kit/",
+      "status": 200,
+      "expected": "component-matrix",
+      "passed": true
+    }
+  ],
+  "browserEvidence": [
+    "github-live-focus.json",
+    "github-live-archive-focus.json",
+    "cloudflare-live-focus.json",
+    "cloudflare-live-archive-focus.json"
+  ]
+}
