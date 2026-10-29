@@ -17,3 +17,4 @@ export function proofImageUrl(value?:string): string;
 export type RelatedRef = {id?: string;title: string};
 export function relatedReferences(text: string, entries: {id:string;title:string}[], previous?:RelatedRef[]): RelatedRef[];
 export function relatedLabels(entry: {related?:string;relatedRefs?:RelatedRef[]}, entries:{id:string;title:string}[]): string;
+export function resolvedRelatedTargets<T extends {id:string}>(refs:RelatedRef[], entries:T[], limit?:number): {targets:T[];total:number};

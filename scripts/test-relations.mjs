@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {normalizeEntries, relatedLabels, relatedReferences} from '../lib/archive-data.js';
+import {normalizeEntries, relatedLabels, relatedReferences, resolvedRelatedTargets} from '../lib/archive-data.js';
 const old = [{id:'a',title:'原题',notes:'旧笔记',proof:'https://example.com',tags:['x']},{id:'b',title:'关联方',related:'原题, 缺失'}];
 const data=normalizeEntries({version:1,entries:old},'2026.10.28');
 assert.equal(data[1].relatedRefs[0].id,'a');
@@ -15,4 +15,8 @@ const snapshot={version:2,schemaVersion:2,entries:renamed};
 assert.deepEqual(normalizeEntries(JSON.parse(JSON.stringify(snapshot)),'2026.10.28'),renamed);
 assert.equal(renamed[0].notes,'旧笔记');
 assert.throws(()=>normalizeEntries({schemaVersion:3,entries:old},'2026.10.28'));
+const diagram=resolvedRelatedTargets([{id:'a',title:'原题'},{id:'a',title:'重复'},{id:'missing',title:'已删除'},{title:'未绑定'},{id:'b',title:'关联方'}],renamed);
+assert.deepEqual(diagram.targets.map(entry=>entry.id),['a','b']);
+assert.equal(diagram.total,2);
+assert.deepEqual(resolvedRelatedTargets([{id:'a',title:'原题'},{id:'b',title:'关联方'}],renamed,1).targets.map(entry=>entry.id),['a']);
 console.log('Relations passed: legacy migration, rename, deleted/recreated title, ambiguous title, schema v2 roundtrip and future schema rejection.');

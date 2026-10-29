@@ -129,7 +129,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.233';
+const currentVersion = 'v1.0.234';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +137,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.234', date: '2026.10.29', title: '阅读封面与真实关联示意', items: ['独立阅读页重组标题封面：真实日期、分类、形式、摘要和编辑入口分层展示，正文仍保留原有单栏、章节目录与全部内容', '真实章节按文内顺序显示序号，原有标题锚点、代码滚动、图片原图入口与阅读返回继续工作', '已绑定且仍存在的关联记录显示稳定连接示意，重复目标去重、最多六个节点；完整文字列表保留，未绑定或已删除目标不画连线'] },
   { version: 'v1.0.233', date: '2026.10.29', title: '目录月份筛选与成果日期纵线', items: ['档案目录的十二个月记录量图可用鼠标和键盘点选月份，筛选结果写入可分享的 URL；再次点选或使用清除入口可恢复全部月份', '月份条件与分类、搜索、形式、排序和阅读返回状态共同保留；图表仍按当前分区全集统计，非法或范围外日期继续单独说明', '成果按记录日期排序时，列表与卡片增加真实月份节点和日期纵线；其他排序保持原有顺序与呈现，不把无效日期并入当前月'] },
   { version: 'v1.0.232', date: '2026.10.29', title: '修复样张页“返回档案”点击无反应', items: ['桌面样张页顶部“返回档案”“返回知识花园”和页脚“返回个人档案”改为普通链接：点击后整页跳转到主站首页，不再依赖客户端路由', '原因：这三处链接使用客户端跳转组件，静态导出后浏览器侧缺少对应路由运行时，点击会先取消默认跳转、随后抛出错误，地址与页面都不变化', '跳转目标、深浅主题、六份样张、外观预设与组件状态矩阵均未改动'] },
   { version: 'v1.0.231', date: '2026.10.29', title: '修复关闭弹层时整页压暗的闪烁', items: ['更新日志、记录表单、详情抽屉与删除确认关闭时，遮罩淡出立即结束，不再在弹层卸载前回弹成整屏压暗再消失', '保留原有打开动效与关闭节奏：遮罩 260 毫秒淡出、弹层 320 至 340 毫秒淡出，退出后遮罩保持透明直到整体卸载', '深浅主题、减少动态效果与键盘关闭共用同一修复，未改档案数据、存储键或任何页面内容'] },

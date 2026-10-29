@@ -163,3 +163,16 @@ export function relatedReferences(text, entries, previous = []) {
 export function relatedLabels(entry, entries) {
     return (entry.relatedRefs ?? relatedReferences(entry.related ?? '', entries)).map(ref => entries.find(target => target.id === ref.id)?.title ?? ref.title).join(', ');
 }
+// Diagram nodes use only stable, present IDs. The complete relation list stays separate.
+export function resolvedRelatedTargets(refs, entries, limit = 6) {
+    const byId = new Map(entries.map(entry => [entry.id, entry]));
+    const seen = new Set();
+    const resolved = [];
+    for (const ref of refs) {
+        if (!ref.id || seen.has(ref.id)) continue;
+        seen.add(ref.id);
+        const target = byId.get(ref.id);
+        if (target) resolved.push(target);
+    }
+    return {targets: resolved.slice(0, limit), total: resolved.length};
+}
