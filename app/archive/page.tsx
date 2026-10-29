@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useSyncExternalStore, useMemo, useRef, useState, type MouseEvent } from 'react';
+import { Fragment, useEffect, useSyncExternalStore, useMemo, useRef, useState, type MouseEvent } from 'react';
 import {
   ArrowUpRight,
   BookOpen,
@@ -129,7 +129,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.232';
+const currentVersion = 'v1.0.233';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +137,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.233', date: '2026.10.29', title: '目录月份筛选与成果日期纵线', items: ['档案目录的十二个月记录量图可用鼠标和键盘点选月份，筛选结果写入可分享的 URL；再次点选或使用清除入口可恢复全部月份', '月份条件与分类、搜索、形式、排序和阅读返回状态共同保留；图表仍按当前分区全集统计，非法或范围外日期继续单独说明', '成果按记录日期排序时，列表与卡片增加真实月份节点和日期纵线；其他排序保持原有顺序与呈现，不把无效日期并入当前月'] },
   { version: 'v1.0.232', date: '2026.10.29', title: '修复样张页“返回档案”点击无反应', items: ['桌面样张页顶部“返回档案”“返回知识花园”和页脚“返回个人档案”改为普通链接：点击后整页跳转到主站首页，不再依赖客户端路由', '原因：这三处链接使用客户端跳转组件，静态导出后浏览器侧缺少对应路由运行时，点击会先取消默认跳转、随后抛出错误，地址与页面都不变化', '跳转目标、深浅主题、六份样张、外观预设与组件状态矩阵均未改动'] },
   { version: 'v1.0.231', date: '2026.10.29', title: '修复关闭弹层时整页压暗的闪烁', items: ['更新日志、记录表单、详情抽屉与删除确认关闭时，遮罩淡出立即结束，不再在弹层卸载前回弹成整屏压暗再消失', '保留原有打开动效与关闭节奏：遮罩 260 毫秒淡出、弹层 320 至 340 毫秒淡出，退出后遮罩保持透明直到整体卸载', '深浅主题、减少动态效果与键盘关闭共用同一修复，未改档案数据、存储键或任何页面内容'] },
   { version: 'v1.0.230', date: '2026.10.29', title: '首页与目录新增可视化概览与档案封面构图', items: ['首页首屏重组为档案封面：日期、真实计数与版本组成页眉信息带，实心空心字标成为左侧横向结构，原创线稿与精选合并为同一展陈版块，左栏补上真实的分类与标签计数', '首页新增内容概览：按当前分区全部记录统计的分类横向分布，条长对应该类记录数占最大类的比例，点选进入个人档案的同一分类；最近知识、最近成果改为重点记录加连续记录行，成果主条目优先展示真实证据图片', '首页最新更新改为墨色内容带，白字显示真实版本与更新标题，黄色只用于最新标记与阅读入口，完整更新日志与全站索引入口全部保留', '档案目录新增分类分布与按记录日期十二个月柱形图：数值、统计范围与只读说明齐全，与列表共用同一份归一化档案，不随搜索词缩小分母；成果展陈扩大证据图展台并让字段列填满列高'] },
@@ -400,6 +401,7 @@ export default function Home() {
   const [displayDate, setDisplayDate] = useState('');
   const [activeView, setActiveView] = useState<ViewMode>('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [monthFilter, setMonthFilter] = useState('');
   const [formatFilter, setFormatFilter] = useState<EntryFormat | 'all'>('all');
   const [sortBy, setSortBy] = useState<'updated' | 'latest' | 'oldest' | 'title'>('updated');
   const [entryView, setEntryView] = useState<'cards' | 'list'>('list');
@@ -599,7 +601,7 @@ export default function Home() {
   useEffect(() => {
     const restore = () => {
       const state = readArchiveUrl(new URL(window.location.href));
-      setActiveView(state.view); setCategoryFilter(state.category); setFormatFilter(state.format || 'all'); setSearch(state.search);
+      setActiveView(state.view); setCategoryFilter(state.category); setMonthFilter(state.month); setFormatFilter(state.format || 'all'); setSearch(state.search);
       setSortBy(state.sort); setEntryView(state.layout);
       setReadingId(new URL(window.location.href).searchParams.get('entry') || '');
       if (state.view !== 'all') setQuickCaptureType(state.view);
@@ -613,7 +615,7 @@ export default function Home() {
   useEffect(() => {
     if (!urlReady) return;
     const current = new URL(window.location.href);
-    const next = writeArchiveUrl(current, { view: activeView, category: categoryFilter, format: formatFilter, search, sort: sortBy, layout: entryView });
+    const next = writeArchiveUrl(current, { view: activeView, category: categoryFilter, month: monthFilter, format: formatFilter, search, sort: sortBy, layout: entryView });
     if (readingId) next.searchParams.set('entry', readingId); else next.searchParams.delete('entry');
     if (next.href === current.href) return;
     const withoutQuery = new URL(next); withoutQuery.searchParams.delete('q');
@@ -621,7 +623,7 @@ export default function Home() {
     // Typing replaces the current search, while explicit filter/view changes are navigable.
     if (withoutQuery.href === previousWithoutQuery.href) window.history.replaceState(null, '', next);
     else window.history.pushState(null, '', next);
-  }, [urlReady, activeView, categoryFilter, formatFilter, search, sortBy, entryView, readingId]);
+  }, [urlReady, activeView, categoryFilter, monthFilter, formatFilter, search, sortBy, entryView, readingId]);
 
   useEffect(() => {
     if (!hydrated || !urlReady || readingId) return;
@@ -649,7 +651,7 @@ export default function Home() {
     restorePosition();
     window.addEventListener('pageshow',restorePosition);
     return () => { cancelled=true;window.cancelAnimationFrame(frame);window.removeEventListener('pageshow',restorePosition); };
-  }, [hydrated,urlReady,readingId,activeView,categoryFilter,formatFilter,search,sortBy,entryView]);
+  }, [hydrated,urlReady,readingId,activeView,categoryFilter,monthFilter,formatFilter,search,sortBy,entryView]);
 
   function rememberReadingPosition(event: MouseEvent<HTMLAnchorElement>,id:string) {
     if (event.button>0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
@@ -661,7 +663,7 @@ export default function Home() {
   const awardCount = entries.filter((entry) => entry.type === 'award').length;
   const entriesInActiveView = activeView === 'all' ? entries : entries.filter((entry) => entry.type === activeView);
   const emptyStateTitle = entriesInActiveView.length > 0 ? '这里还没有匹配的内容' : activeView === 'award' ? '还没有获奖记录' : activeView === 'knowledge' ? '还没有知识记录' : '还没有档案记录';
-  const emptyStateDescription = entriesInActiveView.length > 0 ? `当前条件：${[search.trim() ? `搜索“${search.trim()}”` : '', categoryFilter !== 'all' ? `分类“${categoryFilter}”` : '', formatFilter !== 'all' ? `形式“${formatLabels[formatFilter]}”` : ''].filter(Boolean).join(' / ') || '当前视图'}。可清除筛选后继续浏览。` : activeView === 'award' ? '记录获得的荣誉与成果，方便以后回看。' : activeView === 'knowledge' ? '先记下一条知识，之后可以慢慢补充分类与笔记。' : '从一条知识或获奖经历开始，之后可以继续补充细节。';
+  const emptyStateDescription = entriesInActiveView.length > 0 ? `当前条件：${[search.trim() ? `搜索“${search.trim()}”` : '', categoryFilter !== 'all' ? `分类“${categoryFilter}”` : '', monthFilter ? `月份“${monthFilter}”` : '', formatFilter !== 'all' ? `形式“${formatLabels[formatFilter]}”` : ''].filter(Boolean).join(' / ') || '当前视图'}。可清除筛选后继续浏览。` : activeView === 'award' ? '记录获得的荣誉与成果，方便以后回看。' : activeView === 'knowledge' ? '先记下一条知识，之后可以慢慢补充分类与笔记。' : '从一条知识或获奖经历开始，之后可以继续补充细节。';
   const filteredUpdateLogs = useMemo(() => {
     const query = changelogQuery.trim().toLocaleLowerCase();
     if (!query) return updateLogs;
@@ -693,19 +695,22 @@ export default function Home() {
     return entries.filter((entry) => {
       const matchesView = activeView === 'all' || entry.type === activeView;
       const matchesCategory = categoryFilter === 'all' || entry.category === categoryFilter;
+      const matchesMonth = !monthFilter || normalizeEntryDate(entry.date, '').slice(0, 7) === monthFilter;
       const matchesSearch = !query || [entry.title, entry.category, entry.summary, entry.notes, entry.source, entry.issuer, entry.related, ...entry.tags].join(' ').toLowerCase().includes(query);
-      return matchesView && matchesCategory && matchesSearch && (formatFilter === 'all' || entry.format === formatFilter);
+      return matchesView && matchesCategory && matchesMonth && matchesSearch && (formatFilter === 'all' || entry.format === formatFilter);
     });
-  }, [activeView, categoryFilter, formatFilter, entries, search]);
+  }, [activeView, categoryFilter, monthFilter, formatFilter, entries, search]);
 
   const sortedEntries = useMemo(() => [...filteredEntries].sort((a, b) => sortBy === 'title' ? a.title.localeCompare(b.title) : sortBy === 'oldest' ? a.date.localeCompare(b.date) : sortBy === 'latest' ? b.date.localeCompare(a.date) : compareRecent(a, b)), [filteredEntries, sortBy]);
+  const showAwardDateGroups = activeView === 'award' && (sortBy === 'latest' || sortBy === 'oldest');
+  const awardMonthLabel = (entry: Entry) => normalizeEntryDate(entry.date, '').slice(0, 7) || '日期待核对';
   const featuredAward = activeView === 'award' ? selectFeaturedAward(filteredEntries) : undefined;
   const viewTitle = activeView === 'award' ? '获奖记录' : activeView === 'knowledge' ? '知识库' : '总览';
   const newRecordType = activeView === 'all' ? quickCaptureType : activeView;
   const logEyebrow = activeView === 'award' ? '// AWARD LOG /' : activeView === 'knowledge' ? '// KNOWLEDGE LOG /' : '// FIELD LOG /';
-  const changeView = (view: ViewMode) => { setReadingId(''); if (view !== activeView) setSortBy(view === 'award' ? 'latest' : 'updated'); setActiveView(view); setCategoryFilter('all'); setFormatFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
+  const changeView = (view: ViewMode) => { setReadingId(''); if (view !== activeView) setSortBy(view === 'award' ? 'latest' : 'updated'); setActiveView(view); setCategoryFilter('all'); setMonthFilter(''); setFormatFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
   function readingHref(id: string) {
-    const url = writeArchiveUrl(new URL('https://local.invalid/archive'), { view: activeView, category: categoryFilter, format: formatFilter, search, sort: sortBy, layout: entryView });
+    const url = writeArchiveUrl(new URL('https://local.invalid/archive'), { view: activeView, category: categoryFilter, month: monthFilter, format: formatFilter, search, sort: sortBy, layout: entryView });
     if (id) url.searchParams.set('entry', id);
     return url.pathname + url.search;
   }
@@ -980,15 +985,16 @@ export default function Home() {
                 <h2>按记录日期</h2>
                 <span className="insight-scope">{monthStats.range}</span>
               </div>
-              <p className="insight-note">按每条记录的日期计数，不受最近更新时间影响；柱高与上方数字一致，月份为只读概览。</p>
+              <p className="insight-note">按每条记录的日期计数，不受最近更新时间影响；柱高与上方数字一致。点选月份可筛选下方列表。</p>
               <ol className="month-chart" aria-label={`最近十二个自然月的记录数量：${monthStats.range}`}>
-                {monthStats.months.map((month) => <li key={month.key} className={`month-column${month.count === 0 ? ' is-empty' : ''}${month.key === currentMonthKey ? ' is-current' : ''}${month.label.endsWith('.01') ? ' is-year-start' : ''}`}>
+                {monthStats.months.map((month) => <li key={month.key} className={`month-column${month.count === 0 ? ' is-empty' : ''}${month.key === currentMonthKey ? ' is-current' : ''}${monthFilter === month.key ? ' is-selected' : ''}${month.label.endsWith('.01') ? ' is-year-start' : ''}`}><button type="button" className="month-button" aria-pressed={monthFilter === month.key} aria-label={`${month.label}：${month.count} 条记录，${monthFilter === month.key ? '当前筛选，点击取消' : '筛选此月份'}`} onClick={() => { setMonthFilter(monthFilter === month.key ? '' : month.key); focusResultHeading(); }}>
                   <span className="month-count">{month.count}</span>
                   <span className="month-track" aria-hidden="true"><span className="month-bar" style={{ height: `${(month.ratio * 100).toFixed(2)}%` }} /></span>
                   <span className="month-label"><span className="sr-only">{month.label}，</span>{month.label.slice(2)}</span>
-                </li>)}
+                </button></li>)}
               </ol>
               <p className="insight-foot">{monthStats.total} 条记录落在 {monthStats.range} 内{monthStats.unverified ? `；另有 ${monthStats.unverified} 条记录日期待核对，未计入图中` : ''}{monthStats.outside ? `；${monthStats.outside} 条记录在此范围之外，保留在下方列表` : ''}。</p>
+              {monthFilter && <p className="month-filter-status">正在筛选 {monthFilter} 的记录。<button type="button" onClick={() => setMonthFilter('')}>清除月份筛选</button></p>}
             </div>
           </section>
 
@@ -996,7 +1002,7 @@ export default function Home() {
             <section className="knowledge-section">
               <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2 id="archive-results-heading" tabIndex={-1}>{viewTitle === '总览' ? '最近收集' : viewTitle === '知识库' ? '全部知识条目' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索知识与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '知识条目' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">知识条目</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={formatFilter} itemToStringLabel={value=>value === 'all' ? '全部形式' : formatLabels[value]} onValueChange={value=>{if(value)setFormatFilter(value as EntryFormat | 'all');}}><SelectTrigger className={'filter-trigger format-trigger' + (formatFilter !== 'all' ? ' filter-active' : '')} aria-label="按内容形式筛选"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="all">全部形式</SelectItem>{Object.entries(formatLabels).map(([value,label])=><SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== (activeView === 'award' ? 'latest' : 'updated') ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><fieldset className="view-mode-toggle" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></fieldset></div></div>
                {featuredAward && <FeaturedAward entry={featuredAward} href={readingHref(featuredAward.id)} />}
-               {sortedEntries.length === 0 ? <ArchiveEmptyState title={emptyStateTitle} description={emptyStateDescription} action={entriesInActiveView.length ? '清除筛选' : newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'} onAction={() => { if (entriesInActiveView.length) { setSearch(''); setCategoryFilter('all'); setFormatFilter('all'); } else openCreate(newRecordType); }} /> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}`}>{sortedEntries.map((entry, index) => <ArchiveRecordRow key={entry.id} entry={entry} index={index} href={readingHref(entry.id)} onRead={event=>rememberReadingPosition(event,entry.id)} onDelete={() => setPendingConfirmation({ kind: 'delete', entry })} onDetails={() => { setSelectedEntry(entry); setDetailsOpen(true); }} />)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
+               {sortedEntries.length === 0 ? <ArchiveEmptyState title={emptyStateTitle} description={emptyStateDescription} action={entriesInActiveView.length ? '清除筛选' : newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'} onAction={() => { if (entriesInActiveView.length) { setSearch(''); setCategoryFilter('all'); setMonthFilter(''); setFormatFilter('all'); } else openCreate(newRecordType); }} /> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}${showAwardDateGroups ? ' award-date-groups' : ''}`}>{sortedEntries.map((entry, index) => <Fragment key={entry.id}>{showAwardDateGroups && (index === 0 || awardMonthLabel(sortedEntries[index - 1]) !== awardMonthLabel(entry)) && <h3 className="award-month-heading"><span>{awardMonthLabel(entry)}</span><small>按记录日期</small></h3>}<ArchiveRecordRow entry={entry} index={index} href={readingHref(entry.id)} onRead={event=>rememberReadingPosition(event,entry.id)} onDelete={() => setPendingConfirmation({ kind: 'delete', entry })} onDetails={() => { setSelectedEntry(entry); setDetailsOpen(true); }} /></Fragment>)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
             </section>
 
             <aside className="right-column">

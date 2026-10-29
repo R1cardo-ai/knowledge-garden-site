@@ -1,0 +1,54 @@
+[
+  {
+    "monthButtons": 12,
+    "monthGroups": [
+      "2026.10按记录日期",
+      "2026.03按记录日期"
+    ],
+    "resultRows": 2,
+    "scrollWidth": 1265,
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "monthButtons": 12,
+    "monthGroups": [
+      "2026.10按记录日期",
+      "2026.03按记录日期"
+    ],
+    "resultRows": 2,
+    "scrollWidth": 1425,
+    "viewport": [
+      1440,
+      900
+    ]
+  },
+  {
+    "monthButtons": 12,
+    "monthGroups": [
+      "2026.10按记录日期",
+      "2026.03按记录日期"
+    ],
+    "resultRows": 2,
+    "scrollWidth": 1585,
+    "viewport": [
+      1600,
+      900
+    ]
+  },
+  {
+    "monthButtons": 12,
+    "monthGroups": [
+      "2026.10按记录日期",
+      "2026.03按记录日期"
+    ],
+    "resultRows": 2,
+    "scrollWidth": 1905,
+    "viewport": [
+      1920,
+      1080
+    ]
+  }
+]

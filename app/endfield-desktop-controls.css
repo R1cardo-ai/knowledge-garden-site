@@ -2409,6 +2409,11 @@ html[data-archive-page-visible='false'] .site-shell .archive-update-track { anim
 /* Content directory: rows use separators in both themes. */
 :root[data-ark-theme='endfield'] .site-shell .entry-grid.list-view { gap: 0; border-top: 1px solid var(--archive-line-strong); }
 :root[data-ark-theme='endfield'] .site-shell .entry-grid.list-view .entry-card { border: 0; border-bottom: 1px solid var(--archive-line-strong); box-shadow: none; background: var(--archive-surface); padding-block:18px; }
+:root[data-ark-theme='endfield'] .site-shell .award-date-groups { position: relative; padding-left: 24px; border-left: 1px solid var(--archive-line-strong); }
+:root[data-ark-theme='endfield'] .site-shell .award-month-heading { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; position: relative; margin: 22px 0 8px; padding: 7px 0 5px; border-bottom: 1px solid var(--archive-line-strong); color: var(--archive-ink); font-size: 18px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+:root[data-ark-theme='endfield'] .site-shell .award-month-heading:first-child { margin-top: 0; }
+:root[data-ark-theme='endfield'] .site-shell .award-month-heading::before { content: ''; position: absolute; left: -29px; top: 17px; width: 9px; height: 9px; background: var(--archive-signal); border: 2px solid var(--archive-ink); }
+:root[data-ark-theme='endfield'] .site-shell .award-month-heading small { color: var(--archive-grey); font-size: 11px; font-weight: 500; }
 :root[data-ark-theme='endfield'] .site-shell .entry-grid.list-view .entry-card:is(:hover,:focus-within) { background: var(--archive-paper); }
 :root[data-ark-theme='endfield'] .entry-grid .entry-card:is(:hover,:focus-within)::before { width:4px; background:var(--archive-ink); }
 :root[data-ark-theme='endfield'] .entry-grid .entry-card:focus-within { outline:1px solid var(--archive-ink); outline-offset:-1px; }
@@ -2506,7 +2511,16 @@ html[data-archive-page-visible='false'] .site-shell .archive-update-track { anim
   list-style: none;
   border-bottom: 1px solid var(--archive-line-strong);
 }
-:root[data-ark-theme='endfield'] .site-shell .month-column { display: grid; grid-template-rows: auto 84px auto; align-items: end; gap: 4px; min-width: 0; text-align: center; }
+:root[data-ark-theme='endfield'] .site-shell .month-column { min-width: 0; text-align: center; }
+:root[data-ark-theme='endfield'] .site-shell .month-button { display: grid; grid-template-rows: auto 84px auto; align-items: end; gap: 4px; width: 100%; min-width: 0; margin: 0; padding: 3px 0 0; border: 0; border-top: 2px solid transparent; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+:root[data-ark-theme='endfield'] .site-shell .month-button:hover { border-top-color: var(--archive-ink-soft); }
+:root[data-ark-theme='endfield'] .site-shell .month-button:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: 2px; }
+:root[data-ark-theme='endfield'] .site-shell .month-column.is-selected .month-button { border-top-color: var(--archive-ink); }
+:root[data-ark-theme='endfield'] .site-shell .month-column.is-selected .month-bar { background: var(--archive-signal); box-shadow: inset 0 0 0 2px var(--archive-ink); }
+:root[data-ark-theme='endfield'] .site-shell .month-column.is-selected .month-label { color: var(--archive-ink); font-weight: 700; }
+:root[data-ark-theme='endfield'] .site-shell .month-filter-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; font-size: 12px; color: var(--archive-ink); }
+:root[data-ark-theme='endfield'] .site-shell .month-filter-status button { padding: 4px 6px; border: 1px solid var(--archive-ink); background: transparent; color: inherit; font: inherit; cursor: pointer; }
+:root[data-ark-theme='endfield'] .site-shell .month-filter-status button:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: 2px; }
 :root[data-ark-theme='endfield'] .site-shell .month-count { color: var(--archive-ink); font-size: 12px; font-variant-numeric: tabular-nums; font-weight: 650; line-height: 1.4; }
 :root[data-ark-theme='endfield'] .site-shell .month-column.is-empty .month-count { color: var(--archive-grey); font-weight: 500; }
 :root[data-ark-theme='endfield'] .site-shell .month-track { display: flex; align-items: flex-end; justify-content: center; height: 84px; padding-bottom: 2px; }

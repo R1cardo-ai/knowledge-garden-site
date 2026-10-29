@@ -1,0 +1,13 @@
+{
+  "selectedUrl": "http://127.0.0.1:5213/archive?view=award&month=2026.03",
+  "selectedRows": 1,
+  "refreshUrl": "http://127.0.0.1:5213/archive?view=award&month=2026.03",
+  "refreshPressed": "2026.03：1 条记录，当前筛选，点击取消",
+  "refreshRows": 1,
+  "combinedUrl": "http://127.0.0.1:5213/archive?view=award&month=2026.03&category=%E7%AB%9E%E8%B5%9B%E8%8E%B7%E5%A5%96",
+  "combinedRows": 1,
+  "clearMonthUrl": "http://127.0.0.1:5213/archive?view=award&category=%E7%AB%9E%E8%B5%9B%E8%8E%B7%E5%A5%96",
+  "clearMonthRows": 2,
+  "updatedSortUrl": "http://127.0.0.1:5213/archive?view=award&category=%E7%AB%9E%E8%B5%9B%E8%8E%B7%E5%A5%96&sort=updated",
+  "updatedSortGroups": 0
+}

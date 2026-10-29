@@ -5,12 +5,12 @@ const js = ts.transpile(readFileSync('lib/archive-url.ts', 'utf8'), { module: ts
 const {readArchiveUrl, writeArchiveUrl} = await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
 const url = new URL('http://localhost/archive?view=award&category=%E7%AB%9E%E8%B5%9B&q=hello+world&sort=oldest&layout=list&variant=standard#records');
 const state = readArchiveUrl(url);
-assert.deepEqual(state, {view:'award',category:'竞赛',format:'all',search:'hello world',sort:'oldest',layout:'list'});
+assert.deepEqual(state, {view:'award',category:'竞赛',month:'',format:'all',search:'hello world',sort:'oldest',layout:'list'});
 assert.deepEqual(readArchiveUrl(writeArchiveUrl(url, state)), state);
 const reset = writeArchiveUrl(url, readArchiveUrl(new URL('http://localhost/archive')));
 assert.equal(reset.search, '?variant=standard');
 assert.equal(reset.hash, '#records');
-assert.deepEqual(readArchiveUrl(new URL('http://localhost/archive?view=bad&sort=bad&layout=bad')), {view:'all', category:'all',format:'all',search:'',sort:'updated',layout:'list'});
+assert.deepEqual(readArchiveUrl(new URL('http://localhost/archive?view=bad&sort=bad&layout=bad')), {view:'all', category:'all',month:'',format:'all',search:'',sort:'updated',layout:'list'});
 console.log('Archive URL checks passed: Chinese category, search, filters, defaults, unrelated query and anchor preserved.');
 
 const rich=readArchiveUrl(new URL('http://localhost/archive?format=video&layout=cards&q=讲义&category=课程&variant=standard#records'));
@@ -27,3 +27,10 @@ assert.equal(awardUpdated.sort,'updated');
 assert.equal(writeArchiveUrl(new URL('http://localhost/archive'),awardUpdated).searchParams.get('sort'),'updated');
 assert.deepEqual(readArchiveUrl(writeArchiveUrl(new URL('http://localhost/archive'),awardUpdated)),awardUpdated);
 console.log('Award order passed: record-date default and explicit recently-updated URL roundtrip.');
+const monthState=readArchiveUrl(new URL('http://localhost/archive?view=award&month=2026.10&category=竞赛&entry=abc'));
+assert.equal(monthState.month,'2026.10');
+assert.equal(writeArchiveUrl(new URL('http://localhost/archive?entry=abc'),monthState).searchParams.get('month'),'2026.10');
+assert.equal(readArchiveUrl(new URL('http://localhost/archive?month=2026.13')).month,'');
+assert.equal(readArchiveUrl(new URL('http://localhost/archive?month=2026-10')).month,'');
+assert.equal(writeArchiveUrl(new URL('http://localhost/archive?month=2026.10'),{...monthState,month:''}).searchParams.has('month'),false);
+console.log('Month filter URL checks passed: shareable state, invalid month and clear.');
