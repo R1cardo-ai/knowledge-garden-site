@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-29",
+  "version": "v1.0.229",
+  "url": "https://knowledge-garden-site.pages.dev",
+  "browser": "Microsoft Edge",
+  "zoomLevels": ["125%", "150%", "200%"],
+  "scope": ["导航", "搜索", "编辑弹窗的保存与关闭", "阅读", "返回列表"],
+  "question": "请在新版生产站 https://knowledge-garden-site.pages.dev 用 Edge 分别设置 125%、150%、200% 缩放，确认导航、搜索、编辑弹窗的保存与关闭、阅读及返回列表是否可读可用。Windows 安全检查停止了自动浏览器控制，规划第 9 节的真实缩放验收需要你补充确认。",
+  "userResponse": "三档缩放均正常",
+  "result": "passed",
+  "evidenceType": "explicit user confirmation",
+  "automatedScreenshotEvidence": false,
+  "note": "仅记录用户明确确认的范围；不冒充自动缩放或自动操作通过。"
+}

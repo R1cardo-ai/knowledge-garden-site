@@ -50,5 +50,24 @@
       },
       "passed": true
     }
-  ]
+  ],
+  "documentationCommit": "1f7d9467000068883f4d3433f7c395d72c800183",
+  "documentationDeployment": {
+    "status": "completed",
+    "conclusion": "success",
+    "details": "https://dash.cloudflare.com/?to=/0d2d1e6bb473e4a721ba2ef91762ac0a/pages/view/knowledge-garden-site/4ccdb3c7-b650-46ae-b17d-b24be89942cd"
+  },
+  "realEdgeZoomAcceptance": {
+    "status": "passed",
+    "evidenceType": "explicit user confirmation",
+    "date": "2026-10-29",
+    "zoomLevels": [
+      "125%",
+      "150%",
+      "200%"
+    ],
+    "userResponse": "三档缩放均正常",
+    "record": "user-acceptance.json",
+    "automatedScreenshotEvidence": false
+  }
 }

@@ -1,0 +1,44 @@
+[
+  {
+    "animation": "none",
+    "outline": "solid",
+    "text": "v1.0.229精修阅读章节、表单与全站更新展示",
+    "visible": true
+  },
+  {
+    "animation": "none",
+    "outline": "solid",
+    "text": "v1.0.228精修档案工具带、记录行与成果证据",
+    "visible": true
+  },
+  {
+    "animation": "none",
+    "outline": "solid",
+    "text": "v1.0.227精修桌面首页的信息层次与档案封面",
+    "visible": true
+  },
+  {
+    "animation": "none",
+    "outline": "solid",
+    "text": "v1.0.226让滚动更新条的键盘焦点保持可见",
+    "visible": true
+  },
+  {
+    "animation": "none",
+    "outline": "solid",
+    "text": "v1.0.225支持首页精选并完善表单反馈",
+    "visible": true
+  },
+  {
+    "animation": "none",
+    "outline": "solid",
+    "text": "v1.0.224档案页新增返回主页入口",
+    "visible": true
+  },
+  {
+    "animation": "none",
+    "outline": "solid",
+    "text": "v1.0.223恢复首页入场与线稿视差动效",
+    "visible": true
+  }
+]
