@@ -1,0 +1,138 @@
+{
+  "cloudflare": {
+    "base": "https://knowledge-garden-site.pages.dev",
+    "rootStatus": "主页展示 | 知识花园",
+    "home": {
+      "version": "v1.0.230",
+      "latestTitle": "首页与目录新增可视化概览与档案封面构图",
+      "chartRows": [
+        [
+          "阅读笔记",
+          "7"
+        ],
+        [
+          "竞赛获奖",
+          "5"
+        ],
+        [
+          "学习方法",
+          "3"
+        ],
+        [
+          "产品设计",
+          "2"
+        ],
+        [
+          "跨学科研究方法与长期档案整理",
+          "2"
+        ]
+      ],
+      "chartTotal": "5 个分类 / 19 条记录",
+      "countText": "19",
+      "leadTitle": "档案记录 16：把方法写下来",
+      "awardLead": "区域设计竞赛 · 第 14 期成果",
+      "awardLeadImage": true,
+      "recentRows": 3,
+      "overviewHeading": "内容概览"
+    },
+    "archive": {
+      "version": "v1.0.230",
+      "insights": true,
+      "categoryRows": 5,
+      "monthColumns": 12,
+      "monthCounts": [
+        "1",
+        "2",
+        "0",
+        "1",
+        "2",
+        "0",
+        "1",
+        "2",
+        "1",
+        "0",
+        "2",
+        "4"
+      ],
+      "rows": 17,
+      "insightHeadings": [
+        "分类分布",
+        "按记录日期"
+      ]
+    },
+    "afterFilter": {
+      "search": "?view=knowledge&category=%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0",
+      "rows": 7,
+      "pressed": "阅读笔记"
+    },
+    "rowsBeforeFilter": 17
+  },
+  "github": {
+    "base": "https://r1cardo-ai.github.io/knowledge-garden-site",
+    "rootStatus": "主页展示 | 知识花园",
+    "home": {
+      "version": "v1.0.230",
+      "latestTitle": "首页与目录新增可视化概览与档案封面构图",
+      "chartRows": [
+        [
+          "阅读笔记",
+          "7"
+        ],
+        [
+          "竞赛获奖",
+          "5"
+        ],
+        [
+          "学习方法",
+          "3"
+        ],
+        [
+          "产品设计",
+          "2"
+        ],
+        [
+          "跨学科研究方法与长期档案整理",
+          "2"
+        ]
+      ],
+      "chartTotal": "5 个分类 / 19 条记录",
+      "countText": "19",
+      "leadTitle": "档案记录 16：把方法写下来",
+      "awardLead": "区域设计竞赛 · 第 14 期成果",
+      "awardLeadImage": true,
+      "recentRows": 3,
+      "overviewHeading": "内容概览"
+    },
+    "archive": {
+      "version": "v1.0.230",
+      "insights": true,
+      "categoryRows": 5,
+      "monthColumns": 12,
+      "monthCounts": [
+        "1",
+        "2",
+        "0",
+        "1",
+        "2",
+        "0",
+        "1",
+        "2",
+        "1",
+        "0",
+        "2",
+        "4"
+      ],
+      "rows": 17,
+      "insightHeadings": [
+        "分类分布",
+        "按记录日期"
+      ]
+    },
+    "afterFilter": {
+      "search": "?view=knowledge&category=%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0",
+      "rows": 7,
+      "pressed": "阅读笔记"
+    },
+    "rowsBeforeFilter": 17
+  }
+}

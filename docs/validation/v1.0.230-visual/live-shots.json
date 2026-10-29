@@ -1,0 +1,14 @@
+[
+  {
+    "name": "live-home",
+    "file": "docs/validation/v1.0.230-visual/live-home.jpg",
+    "height": 2750,
+    "url": "https://knowledge-garden-site.pages.dev/ui-kit/templates/showcase?variant=standard"
+  },
+  {
+    "name": "live-archive",
+    "file": "docs/validation/v1.0.230-visual/live-archive.jpg",
+    "height": 4130,
+    "url": "https://knowledge-garden-site.pages.dev/archive?view=knowledge&layout=list"
+  }
+]
