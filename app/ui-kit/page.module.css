@@ -31,7 +31,7 @@
   right: 4%;
   width: min(76vw, 1120px);
   height: min(85vh, 900px);
-  background: url('/terrain-contours.jpg') top center / 100% auto no-repeat;
+  background: url('/ui-kit/assets/contours/contour-a.svg') top center / 100% auto no-repeat;
   filter: grayscale(1) contrast(.86);
   mix-blend-mode: multiply;
   opacity: .09;

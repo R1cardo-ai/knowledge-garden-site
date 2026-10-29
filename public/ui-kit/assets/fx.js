@@ -65,9 +65,10 @@ export function scramble(el, ms = 360) {
 // On open, readouts settle one after another; the whole run stays under a
 // second however many there are (stagger shrinks to fit 180ms).
 export function wireReadouts(root = document) {
+  if (still.matches) return;
   const load = [...root.querySelectorAll('[data-fx-load]')];
-  const gap = load.length > 1 ? Math.min(40, 180 / (load.length - 1)) : 0;
-  load.forEach((el, i) => setTimeout(() => scramble(el, 600), 120 + i * gap));
+  const gap = load.length > 1 ? Math.min(40, 120 / (load.length - 1)) : 0;
+  load.forEach((el, i) => setTimeout(() => scramble(el, 280), 80 + i * gap));
   root.querySelectorAll('[data-fx-host]').forEach((host) => {
     const key = host.dataset.fxHost;
     const run = () => (key ? root.querySelectorAll(`[data-fx-of="${key}"]`) : host.querySelectorAll('[data-fx]')).forEach((el) => scramble(el));

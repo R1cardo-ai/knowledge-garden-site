@@ -1,0 +1,722 @@
+[
+  {
+    "page": "home",
+    "theme": "light",
+    "class": "claim",
+    "font": 48.64,
+    "ratio": 16.43,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "home",
+    "theme": "light",
+    "class": "",
+    "font": 33.28,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "home",
+    "theme": "light",
+    "class": "",
+    "font": 15.0,
+    "ratio": 6.69,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "home",
+    "theme": "light",
+    "class": "featured-note",
+    "font": 12.0,
+    "ratio": 6.69,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "home",
+    "theme": "dark",
+    "class": "claim",
+    "font": 48.64,
+    "ratio": 15.02,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "home",
+    "theme": "dark",
+    "class": "",
+    "font": 33.28,
+    "ratio": 13.59,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "home",
+    "theme": "dark",
+    "class": "",
+    "font": 15.0,
+    "ratio": 6.31,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "home",
+    "theme": "dark",
+    "class": "featured-note",
+    "font": 12.0,
+    "ratio": 6.31,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "",
+    "font": 39.68,
+    "ratio": 16.43,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "",
+    "font": 51.2,
+    "ratio": 16.43,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "",
+    "font": 20.0,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 5.74,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "",
+    "font": 20.0,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 5.74,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "",
+    "font": 20.0,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 5.74,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "",
+    "font": 20.0,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 5.74,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "",
+    "font": 20.0,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 5.74,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "",
+    "font": 39.68,
+    "ratio": 15.09,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "",
+    "font": 51.2,
+    "ratio": 15.09,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "",
+    "font": 20.0,
+    "ratio": 14.0,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 6.03,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "",
+    "font": 20.0,
+    "ratio": 14.0,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 6.03,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "",
+    "font": 20.0,
+    "ratio": 14.0,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 6.03,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "",
+    "font": 20.0,
+    "ratio": 14.0,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 6.03,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "",
+    "font": 20.0,
+    "ratio": 14.0,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 6.03,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "directory",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 48.0,
+    "ratio": 16.43,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 16.0,
+    "ratio": 5.21,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "reader-summary",
+    "font": 16.0,
+    "ratio": 16.43,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 17.0,
+    "ratio": 16.43,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 17.0,
+    "ratio": 16.43,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 17.0,
+    "ratio": 16.43,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 17.0,
+    "ratio": 16.43,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 39.68,
+    "ratio": 16.43,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 51.2,
+    "ratio": 16.43,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 20.0,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 5.74,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 20.0,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 5.74,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 11.56,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "",
+    "font": 20.0,
+    "ratio": 18.1,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "light",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 5.74,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 48.0,
+    "ratio": 15.61,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 16.0,
+    "ratio": 6.72,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "reader-summary",
+    "font": 16.0,
+    "ratio": 15.61,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 17.0,
+    "ratio": 15.61,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 17.0,
+    "ratio": 15.61,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 17.0,
+    "ratio": 15.61,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 17.0,
+    "ratio": 15.61,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 39.68,
+    "ratio": 15.09,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 51.2,
+    "ratio": 15.09,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 20.0,
+    "ratio": 14.0,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 6.03,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 20.0,
+    "ratio": 14.0,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 6.03,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "entry-category",
+    "font": 12.0,
+    "ratio": 14.0,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "",
+    "font": 20.0,
+    "ratio": 14.0,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "page": "reader",
+    "theme": "dark",
+    "class": "entry-excerpt",
+    "font": 13.0,
+    "ratio": 6.03,
+    "minimum": 4.5,
+    "pass": true
+  }
+]

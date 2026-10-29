@@ -11,6 +11,10 @@ assert.deepEqual(readArchivePosition(store,'http://localhost/archive?format=note
 assert.equal(readArchivePosition(store,'/archive?view=award'),null);
 assert.equal(readArchivePosition(store,'/archive?view=knowledge&format=video&q=学习'),null);
 assert.equal(data.size,1);
+saveArchivePosition(store,'/archive?view=award&sort=latest',position);
+assert.deepEqual(readArchivePosition(store,'/archive?view=award'),position);
+assert.equal(readArchivePosition(store,'/archive?view=award&sort=updated'),null);
+clearArchivePosition(store,'/archive?view=award');
 clearArchivePosition(store,original);assert.equal(data.size,0);
 for(const raw of ['{broken','null','{}','{"y":-1,"anchor":"a","offset":0}','{"y":0,"anchor":4,"offset":0}']) {data.set('knowledge-garden-position-v1:/archive',raw);assert.equal(readArchivePosition(store,'/archive'),null);}
 const denied={getItem(){throw new Error('denied');},setItem(){throw new Error('quota');},removeItem(){throw new Error('denied');}};

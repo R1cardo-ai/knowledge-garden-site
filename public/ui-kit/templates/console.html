@@ -101,9 +101,9 @@
     <header class="ef-cmdbar">
       <a class="brand" href="/"><span class="seal" aria-hidden="true">K</span>知识花园</a>
       <nav aria-label="分区">
-        <a href="/archive" aria-current="page">总览<small>Overview</small></a>
-        <a href="/archive">知识库<small>Knowledge</small></a>
-        <a href="/archive">获奖记录<small>Awards</small></a>
+        <a href="/archive">总览<small>Overview</small></a>
+        <a href="/archive?view=knowledge">知识库<small>Knowledge</small></a>
+        <a href="/archive?view=award">获奖记录<small>Awards</small></a>
         <a href="reading.html">使用说明<small>Guide</small></a>
         <a href="/ui-kit">样张<small>Previews</small></a>
       </nav>
@@ -111,6 +111,7 @@
     </header>
 
     <main>
+      <header class="ef-head"><p class="ef-eyebrow">Archive overview</p><h1>档案总览</h1><p class="ef-field">当前版本 <span data-release="version">v1.0.225</span></p><p data-archive-status>正在读取当前浏览器档案。</p></header>
       <div class="board">
         <div class="orbit">
           <figure class="hub"><svg class="ef-dial" data-dial role="group" aria-label="分区"></svg></figure>
@@ -169,8 +170,8 @@
           <h2>最近的档案更新 <a href="reading.html#full-history">全部更新</a></h2>
           <ul class="ef-rows">
 <!-- release:console -->
+<li><div><div>支持首页精选并完善表单反馈 <span class="ef-state">已更新</span></div><div class="meta"><span>v1.0.225</span><span>06 项调整</span><span>2026.10.29</span></div></div><div class="acts"><a class="ef-btn small" href="reading.html#release-v1-0-225">阅读更新</a></div></li>
 <li><div><div>档案页新增返回主页入口 <span class="ef-state">已更新</span></div><div class="meta"><span>v1.0.224</span><span>01 项调整</span><span>2026.10.29</span></div></div><div class="acts"><a class="ef-btn small" href="reading.html#release-v1-0-224">阅读更新</a></div></li>
-<li><div><div>恢复首页入场与线稿视差动效 <span class="ef-state">已更新</span></div><div class="meta"><span>v1.0.223</span><span>02 项调整</span><span>2026.10.29</span></div></div><div class="acts"><a class="ef-btn small" href="reading.html#release-v1-0-223">阅读更新</a></div></li>
 <!-- /release -->
 </ul>
         </section>
@@ -189,27 +190,33 @@
     <script type="module">
       import { wireReadouts, wireTheme } from '../assets/fx.js';
       import { drawDial } from '../assets/dial.js';
-      const archive = (() => {
+      import { normalizeEntries, formatDisplayDate } from '../assets/archive-data.js';
+      function refreshDial() {
+      let archive = [];
+      let failed = false;
         try {
-          const value = JSON.parse(localStorage.getItem('knowledge-garden-entries') || '[]');
-          const raw = Array.isArray(value) ? value : value && Array.isArray(value.entries) ? value.entries : [];
-          return raw.filter((entry) => Boolean(entry) && typeof entry === 'object');
-        } catch { return []; }
-      })();
-      const awards = archive.filter((entry) => entry?.type === 'award').length;
-      const knowledge = archive.length - awards;
-      const total = archive.length;
+          const raw = localStorage.getItem('knowledge-garden-entries');
+          archive = raw === null ? [] : normalizeEntries(JSON.parse(raw), formatDisplayDate(new Date()));
+        } catch { failed = true; }
+      const awards = failed ? '—' : archive.filter((entry) => entry.type === 'award').length;
+      const knowledge = failed ? '—' : archive.length - awards;
+      const total = failed ? '—' : archive.length;
+      const version = document.querySelector('[data-release="version"]').textContent;
       drawDial(document.querySelector('[data-dial]'), {
-        idle: { label: '当前档案', big: total, unit: '条', sub: '浏览器本地保存' },
+        idle: { label: failed ? '读取失败' : '当前档案', big: total, unit: '条', sub: failed ? '请打开个人档案恢复' : '浏览器本地保存' },
         sections: [
           { zh: '总览', en: 'Overview', big: total, unit: '条', here: true, href: '/archive' },
-          { zh: '知识库', en: 'Knowledge', big: knowledge, unit: '条', sub: '个人记录', href: '/archive' },
-          { zh: '获奖记录', en: 'Awards', big: awards, unit: '项', sub: '成果归档', href: '/archive' },
-          { zh: '更新日志', en: 'Updates', big: 197, unit: '版', sub: '当前版本' },
+          { zh: '知识库', en: 'Knowledge', big: knowledge, unit: '条', sub: '个人记录', href: '/archive?view=knowledge' },
+          { zh: '获奖记录', en: 'Awards', big: awards, unit: '项', sub: '成果归档', href: '/archive?view=award' },
+          { zh: '更新日志', en: 'Updates', big: version.split('.').at(-1), sub: version, href:'reading.html#updates' },
           { zh: '备份', en: 'Backup', big: 'JSON', sub: '手动导出', href: '/archive' },
           { zh: '样张', en: 'Previews', big: 6, unit: '页', sub: '桌面网页', href: '/ui-kit' },
         ],
       });
+      }
+      refreshDial();
+      window.addEventListener('pageshow', refreshDial);
+      window.addEventListener('storage', event => { if (event.key === 'knowledge-garden-entries' || event.key === null) refreshDial(); });
       wireReadouts();
       wireTheme();
     </script>

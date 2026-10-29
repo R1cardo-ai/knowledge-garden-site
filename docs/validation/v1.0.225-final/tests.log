@@ -1,0 +1,75 @@
+
+> sites-project@0.1.0 test
+> npm run test:storage && npm run test:archive-data && npm run test:archive-url && npm run test:archive-position && npm run test:notes && npm run test:relations && npm run test:theme && npm run test:document-theme && npm run test:static-theme && npm run test:readouts && npm run check:updates && npm run test:console && npm run test:showcase
+
+
+> sites-project@0.1.0 test:storage
+> node scripts/test-storage.mjs
+
+Isolated storage checks passed: corrupt JSON, invalid shape, valid/empty/first visit, quota failure.
+
+> sites-project@0.1.0 test:archive-data
+> node scripts/test-archive-data.mjs
+
+Shared archive data: invalid structures rejected, empty preserved, legacy envelope normalized, links sanitized and recent order verified.
+Featured awards: selection follows filtered record dates, no mutation, empty/knowledge-only states and safe direct image detection passed.
+Homepage featured selection: stable ID, rename, deletion/missing fallback, automatic/empty states and no mutation passed.
+
+> sites-project@0.1.0 test:archive-url
+> node scripts/test-archive-url.mjs
+
+Archive URL checks passed: Chinese category, search, filters, defaults, unrelated query and anchor preserved.
+Award order passed: record-date default and explicit recently-updated URL roundtrip.
+
+> sites-project@0.1.0 test:archive-position
+> node scripts/test-archive-position.mjs
+
+Directory position checks passed: canonical URL keys, filter isolation, stable anchor/offset, clearing, corrupt data and denied session storage.
+
+> sites-project@0.1.0 test:notes
+> node scripts/test-note-blocks.mjs
+
+Notes compatibility checks passed: plain text, line endings, real headings, unique anchors, literal HTML.
+Reader boundaries passed: closed fences, literal HTML, blank code lines, unfinished fences, HTTP links, images and unsafe link rejection.
+
+> sites-project@0.1.0 test:relations
+> node scripts/test-relations.mjs
+
+Relations passed: legacy migration, rename, deleted/recreated title, ambiguous title, schema v2 roundtrip and future schema rejection.
+
+> sites-project@0.1.0 test:theme
+> node scripts/test-theme-migration.mjs
+
+Theme migration preserves explicit light/dark preferences; only new desktop profiles adopt dark; denied reads do not crash.
+
+> sites-project@0.1.0 test:document-theme
+> node scripts/test-document-theme.mjs
+
+Document theme: attribute subscription, live snapshots, SSR fallback, observer cleanup and denied storage initialization passed.
+
+> sites-project@0.1.0 test:static-theme
+> node scripts/test-static-theme.mjs
+
+Static theme transitions passed: success, skipped reveal and cancelled animation preserve theme, clear state and handle all rejections.
+
+> sites-project@0.1.0 test:readouts
+> node scripts/test-readouts.mjs
+
+Readout/status checks passed: truthful initial text, intermediate/final frames, reduced motion, bounded timing, cancellation, isolated snapshots, deduplication and unsubscribe.
+
+> sites-project@0.1.0 check:updates
+> node scripts/check-updates.mjs
+
+Release displays consistent: v1.0.225; all 237 historical records, generated lists, dates, counts and escaped content verified.
+
+> sites-project@0.1.0 test:console
+> node scripts/test-console.mjs
+
+Console passed: canonical version, real/empty/legacy/invalid/future archive counts, navigation, pageshow and cross-tab refresh.
+
+> sites-project@0.1.0 test:showcase
+> node scripts/test-showcase.mjs
+
+Showcase checks passed: generated latest release target, navigation, clean/HTML routes, appearance carryover, explicit overrides, fragments, archive and external link isolation.
+Homepage rendering passed: manual/automatic/missing/denied preference, reading link and cross-tab preference refresh.
+Homepage motion checks passed: pointer response, leave reset, preference change and initially reduced motion.

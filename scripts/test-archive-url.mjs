@@ -19,3 +19,11 @@ assert.deepEqual(readArchiveUrl(writeArchiveUrl(new URL('http://localhost/archiv
 assert.equal(readArchiveUrl(new URL('http://localhost/archive?format=unknown')).format,'all');
 assert.equal(readArchiveUrl(new URL('http://localhost/archive?layout=list')).layout,'list');
 assert.equal(writeArchiveUrl(new URL('http://localhost/archive'),rich).searchParams.get('layout'),'cards');
+const awardDefault=readArchiveUrl(new URL('http://localhost/archive?view=award'));
+assert.equal(awardDefault.sort,'latest');
+assert.equal(writeArchiveUrl(new URL('http://localhost/archive'),awardDefault).searchParams.get('sort'),null);
+const awardUpdated=readArchiveUrl(new URL('http://localhost/archive?view=award&sort=updated'));
+assert.equal(awardUpdated.sort,'updated');
+assert.equal(writeArchiveUrl(new URL('http://localhost/archive'),awardUpdated).searchParams.get('sort'),'updated');
+assert.deepEqual(readArchiveUrl(writeArchiveUrl(new URL('http://localhost/archive'),awardUpdated)),awardUpdated);
+console.log('Award order passed: record-date default and explicit recently-updated URL roundtrip.');

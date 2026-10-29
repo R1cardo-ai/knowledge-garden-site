@@ -42,6 +42,7 @@
         margin-inline: 0.75em;
         color: var(--ef-rule);
       }
+      .hero-counts { display:inline-flex; flex-wrap:wrap; gap:.75em; }
       .hero .ef-wordmark {
         grid-column: 1;
         align-self: end;
@@ -167,16 +168,27 @@
         .featured-entry:is(:hover,:focus-within) .featured-art { color:var(--ef-ink); }
       }
       @media (prefers-reduced-motion:no-preference) {
-        :root:not([data-ef-motion='calm']) .featured-art path { stroke-dasharray:1; animation:home-art-draw 1.4s .35s var(--ef-ease) both; }
-        :root:not([data-ef-motion='calm']) .featured-art path + path { animation-delay:.65s; }
+        .hero .ef-in-drive { animation-duration:320ms; }
+        .hero .ef-in-power { animation-duration:280ms; animation-delay:calc(var(--i, 0) * 40ms); }
+        .ef-tri.ef-in-sweep { animation-duration:280ms; }
+        :root:not([data-ef-motion='calm']) .featured-art path { stroke-dasharray:1; animation:home-art-draw 280ms 120ms var(--ef-ease) both; }
+        :root:not([data-ef-motion='calm']) .featured-art path + path { animation-delay:200ms; }
       }
       @keyframes home-art-draw { from { stroke-dashoffset:1; } to { stroke-dashoffset:0; } }
       .featured-art { width: 100%; height: 9rem; margin-block: 1rem; color: var(--ef-ink-2); }
       .featured-note { margin-top: 1.5rem; font-size: .75rem; color: var(--ef-ink-2); }
       .hero .ef-actions { gap: .75rem; }
       @media(max-width:899px) {
+        .hero > .meta { display:contents; }
+        .hero > .meta > time { grid-row:1; margin-inline:var(--ef-pad); }
+        .hero .ef-wordmark { grid-row:2; }
+        .hero .copy { grid-row:3; }
+        .hero > .meta .hero-counts { grid-column:1; grid-row:5; display:flex; justify-content:space-between; margin:0 var(--ef-pad) 2rem; font-size:.75rem; }
+        .hero > .meta .hero-counts::before { content:none; }
+        .hero-counts > span { white-space:nowrap; }
+        .hero .ef-ticker { grid-row:6; }
         .hero .ef-wordmark { --ef-wordmark: clamp(1.5rem, 7vw, 3rem); margin-top: 1.5rem; }
-        .featured-entry { grid-column: 1; grid-row: auto; margin: 0 var(--ef-pad) 2rem; }
+        .featured-entry { grid-column: 1; grid-row:4; margin: 0 var(--ef-pad) 2rem; }
         .featured-art { height: 6rem; }
       }
     </style>
@@ -190,15 +202,17 @@
     </header>
     <main>
     <section class="hero" data-hero>
-      <p class="meta ef-field ef-in-power">
+      <div class="meta ef-field ef-in-power">
         <time data-archive-date>2026.10.27</time>
+        <span class="hero-counts">
         <span><b data-fx-load data-archive-count="all">0</b> 条档案</span>
         <span><b data-fx-load data-archive-count="knowledge">0</b> 条知识</span>
         <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
-      </p>
+        </span>
+      </div>
 
       <div class="ef-wordmark" aria-hidden="true">
-        <span class="solid ef-in-drive">KNOWLEDGE</span><span class="hollow ef-in-drive" style="animation-delay:160ms">GARDEN</span>
+        <span class="solid ef-in-drive">KNOWLEDGE</span><span class="hollow ef-in-drive" style="animation-delay:80ms">GARDEN</span>
       </div>
 
       <div class="copy ef-in-power" style="--i:2">
@@ -211,37 +225,37 @@
       </div>
 
       <aside class="featured-entry ef-in-power" style="--i:3" aria-labelledby="featured-heading">
-        <p class="ef-eyebrow slash" id="featured-heading">Latest entry / 最近档案</p>
+        <p class="ef-eyebrow slash" id="featured-heading" data-feature-heading>Latest entry / 最近档案</p>
         <svg class="featured-art" viewBox="0 0 400 150" fill="none" stroke="currentColor" aria-hidden="true"><path pathLength="1" d="M20 130V30h110l25 25h225v75zM40 110V65h320M170 80h170M170 98h120"/><path pathLength="1" d="M40 80h100v30H40z" stroke-width="2"/></svg>
         <p class="ef-field" data-feature-meta>当前浏览器的个人档案</p>
         <h2 data-feature-title>从第一条记录开始</h2>
         <p data-feature-summary>把今天学到的知识或收获保存下来，这里将展示最近更新的档案。</p>
         <a class="ef-btn" data-feature-link href="/archive">打开个人档案 ↗</a>
-        <p class="featured-note">档案保存在当前浏览器，按最近更新选取。</p>
+        <p class="featured-note" data-feature-note>档案保存在当前浏览器，按最近更新选取。</p>
       </aside>
 
       <div class="ef-ticker" role="region" tabindex="0" aria-label="最近的网站更新，悬停或聚焦暂停滚动">
         <div class="track">
           <ul>
 <!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-225"><b>v1.0.225</b>支持首页精选并完善表单反馈</a></li>
 <li><a href="reading.html#release-v1-0-224"><b>v1.0.224</b>档案页新增返回主页入口</a></li>
 <li><a href="reading.html#release-v1-0-223"><b>v1.0.223</b>恢复首页入场与线稿视差动效</a></li>
 <li><a href="reading.html#release-v1-0-222"><b>v1.0.222</b>修复主页展示导航与更新交互</a></li>
 <li><a href="reading.html#release-v1-0-221"><b>v1.0.221</b>最近更新持续滚动并修复设计样张入口</a></li>
 <li><a href="reading.html#release-v1-0-220"><b>v1.0.220</b>恢复阅读前目录位置并整理关联记录</a></li>
 <li><a href="reading.html#release-v1-0-219"><b>v1.0.219</b>补齐目录形式筛选与空结果恢复</a></li>
-<li><a href="reading.html#release-v1-0-218"><b>v1.0.218</b>收束数字反馈并完善保存状态订阅</a></li>
 <!-- /release -->
 </ul>
           <ul aria-hidden="true">
 <!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-225" tabindex="-1"><b>v1.0.225</b>支持首页精选并完善表单反馈</a></li>
 <li><a href="reading.html#release-v1-0-224" tabindex="-1"><b>v1.0.224</b>档案页新增返回主页入口</a></li>
 <li><a href="reading.html#release-v1-0-223" tabindex="-1"><b>v1.0.223</b>恢复首页入场与线稿视差动效</a></li>
 <li><a href="reading.html#release-v1-0-222" tabindex="-1"><b>v1.0.222</b>修复主页展示导航与更新交互</a></li>
 <li><a href="reading.html#release-v1-0-221" tabindex="-1"><b>v1.0.221</b>最近更新持续滚动并修复设计样张入口</a></li>
 <li><a href="reading.html#release-v1-0-220" tabindex="-1"><b>v1.0.220</b>恢复阅读前目录位置并整理关联记录</a></li>
 <li><a href="reading.html#release-v1-0-219" tabindex="-1"><b>v1.0.219</b>补齐目录形式筛选与空结果恢复</a></li>
-<li><a href="reading.html#release-v1-0-218" tabindex="-1"><b>v1.0.218</b>收束数字反馈并完善保存状态订阅</a></li>
 <!-- /release -->
 </ul>
         </div>
@@ -261,12 +275,12 @@
     </section>
 
     <section class="latest" id="latest">
-      <a href="reading.html#release-v1-0-224" data-release-href="latest" data-fx-host>
-        <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">224</span>
+      <a href="reading.html#release-v1-0-225" data-release-href="latest" data-fx-host>
+        <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">225</span>
         <span class="body">
-          <span class="ef-field"><span class="flag">最新更新</span> <span data-release="version">v1.0.224</span> │ <span data-release="date">2026.10.29</span></span>
-          <span class="title" data-release="title">档案页新增返回主页入口</span>
-          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8" data-release="summary">档案页顶部增加带主页图标的返回主页按钮，桌面和手机均可直接返回知识花园首页</span>
+          <span class="ef-field"><span class="flag">最新更新</span> <span data-release="version">v1.0.225</span> │ <span data-release="date">2026.10.29</span></span>
+          <span class="title" data-release="title">支持首页精选并完善表单反馈</span>
+          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8" data-release="summary">总览可指定首页精选档案，按稳定 ID 保存当前浏览器偏好并同步其他标签页；未指定或目标缺失时回退最近更新，空档案显示真实空状态；精选偏好独立保存，兼容现有档案与 v2 快照，存储失败明确提示；首屏入场与数字反馈在480毫秒内完成，减少动态效果时直接静态展示；成果目录默认按记录日期排列，同时保留最近更新等显式排序及 URL、阅读返回位置；表单错误就地说明并聚焦对应字段，保存结果支持辅助技术朗读；控制台圆盘接入规范版本与共享档案校验，读取失败显示未知状态，浏览器返回和跨标签更新保持同步；清理已被主题替代的旧阴影圆角规则</span>
           <span class="ef-btn go">阅读最新更新</span>
         </span>
       </a>
@@ -279,9 +293,9 @@
       <h3>最近网站更新</h3>
       <ol class="ef-records">
 <!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-225"><span class="ef-tag">v1.0.225</span><time class="ef-field">2026.10.29</time><span class="name ef-read">支持首页精选并完善表单反馈</span><span class="ef-field">06 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-224"><span class="ef-tag">v1.0.224</span><time class="ef-field">2026.10.29</time><span class="name ef-read">档案页新增返回主页入口</span><span class="ef-field">01 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-223"><span class="ef-tag">v1.0.223</span><time class="ef-field">2026.10.29</time><span class="name ef-read">恢复首页入场与线稿视差动效</span><span class="ef-field">02 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-222"><span class="ef-tag">v1.0.222</span><time class="ef-field">2026.10.29</time><span class="name ef-read">修复主页展示导航与更新交互</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
       <p class="ef-actions" style="margin-top: 1.25rem">

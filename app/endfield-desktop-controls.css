@@ -2380,7 +2380,7 @@ html[data-archive-page-visible='false'] .site-shell .archive-update-track { anim
 }
 
 @media (max-width:720px) {
-  .site-shell a.entry-detail-button { display:inline-flex; align-items:center; min-height:44px; }
+  .site-shell a.entry-detail-button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; min-width:44px; }
   :is([data-slot='dialog-content'],[data-slot='sheet-content'],[data-slot='alert-dialog-content']) :is(button,[role='button'],[role='combobox'],input:not([type='file']):not([type='checkbox']):not([type='radio']),select) { min-height:44px; }
   :is([data-slot='dialog-content'],[data-slot='sheet-content'],[data-slot='alert-dialog-content']) button { min-width:44px; }
 }

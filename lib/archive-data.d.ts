@@ -1,4 +1,6 @@
 export const entryFormatLabels: Record<string,string>;
+export const featuredEntryStorageKey: string;
+export function selectFeaturedEntry<T extends {id:string;date:string;updatedAt?:number}>(entries:T[], preferredId?:string): T | undefined;
 export function formatDisplayDate(value: Date): string;
 export function normalizeEntryDate(value: string, fallback: string): string;
 export function entryDateTimestamp(value: string): number;

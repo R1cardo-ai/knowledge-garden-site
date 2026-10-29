@@ -1,0 +1,19 @@
+[
+  {
+    "test": "default-date-order-after-old-record-edit",
+    "featured": "成果图片与说明验收",
+    "first": "成果图片与说明验收",
+    "selected": "最近记录▼",
+    "url": "http://127.0.0.1:5198/archive?view=award"
+  },
+  {
+    "test": "explicit-update-order",
+    "first": "缺少图片的成果验收",
+    "url": "http://127.0.0.1:5198/archive?view=award&sort=updated"
+  },
+  {
+    "test": "explicit-sort-refresh",
+    "first": "缺少图片的成果验收",
+    "url": "http://127.0.0.1:5198/archive?view=award&sort=updated"
+  }
+]

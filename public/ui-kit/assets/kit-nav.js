@@ -1,11 +1,15 @@
-import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-data.js';
+import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry, featuredEntryStorageKey } from './archive-data.js';
 (() => {
   function refreshArchive() {
   try {
     const saved = localStorage.getItem('knowledge-garden-entries');
     const entries = saved === null ? [] : normalizeEntries(JSON.parse(saved), formatDisplayDate(new Date()));
-    const featured = [...entries].sort(compareRecent)[0];
+    let preferredId = '';
+    try { preferredId = localStorage.getItem(featuredEntryStorageKey) || ''; } catch {}
+    const featured = selectFeaturedEntry(entries, preferredId);
     const setFeatureText = (selector, value) => { const node = document.querySelector(selector); if (node) node.textContent = value; };
+    setFeatureText('[data-feature-heading]', featured && featured.id === preferredId ? 'Featured entry / 精选档案' : 'Latest entry / 最近档案');
+    setFeatureText('[data-feature-note]', featured && featured.id === preferredId ? '当前浏览器手动精选的档案。' : '档案保存在当前浏览器，按最近更新选取。');
     setFeatureText('[data-feature-title]', featured?.title || '从第一条记录开始');
     setFeatureText('[data-feature-meta]', featured ? `${featured.date} / ${featured.category} / ${featured.type === 'award' ? '成果' : '知识'}` : '当前浏览器的个人档案');
     setFeatureText('[data-feature-summary]', featured ? (featured.summary || '这条档案还没有摘要，打开记录查看详细内容。') : '把今天学到的知识或收获保存下来，这里将展示最近更新的档案。');
@@ -70,7 +74,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent } from './archive-da
   }
   refreshArchive();
   window.addEventListener('pageshow', refreshArchive);
-  window.addEventListener('storage', (event) => { if (event.key === 'knowledge-garden-entries' || event.key === null) refreshArchive(); });
+  window.addEventListener('storage', (event) => { if (event.key === 'knowledge-garden-entries' || event.key === featuredEntryStorageKey || event.key === null) refreshArchive(); });
 
   document.querySelectorAll('[data-archive-date]').forEach((node) => {
     const now = new Date();

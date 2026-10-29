@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {readReleaseData,releaseHref} from './release-data.mjs';
+import {normalizeEntries,formatDisplayDate,compareRecent,selectFeaturedEntry,featuredEntryStorageKey} from '../lib/archive-data.js';
 const html=readFileSync('public/ui-kit/templates/showcase.html','utf8');
 assert.ok(html.includes(`href="${releaseHref(readReleaseData().logs[0])}" data-release-href="latest"`));
 assert.ok(html.includes('aria-label="主导航"'));
@@ -22,6 +23,26 @@ for(const pathname of ['showcase','showcase.html']) {
   assert.equal(links[3].href,'https://example.com/ui-kit/templates/reading.html');
 }
 console.log('Showcase checks passed: generated latest release target, navigation, clean/HTML routes, appearance carryover, explicit overrides, fragments, archive and external link isolation.');
+{
+  const source=readFileSync('public/ui-kit/assets/kit-nav.js','utf8').replace(/^import[^\n]+\n/,'');
+  const rows=[{id:'first',title:'Manual',date:'2026.01.01',updatedAt:1},{id:'last',title:'Recent',date:'2026.10.29',updatedAt:2}];
+  for(const preference of ['first','missing','',null]) {
+    const nodes=new Map(['title','meta','summary','link','heading','note'].map(name=>[`[data-feature-${name}]`,{}]));
+    const events=new Map();
+    const context={URL,URLSearchParams,Set,normalizeEntries,formatDisplayDate,compareRecent,selectFeaturedEntry,featuredEntryStorageKey,
+      localStorage:{getItem:key=>{if(key===featuredEntryStorageKey){if(preference===null)throw new Error('Denied preference');return preference;}return JSON.stringify(rows);}},
+      location:{href:'https://example.test/ui-kit/templates/showcase.html'},window:{addEventListener:(name,callback)=>events.set(name,callback)},
+      document:{querySelector:selector=>nodes.get(selector),querySelectorAll:()=>[],createElement:()=>({setAttribute(){}})}};
+    vm.runInNewContext(source,context);
+    const expected=preference==='first'?'Manual':'Recent';
+    assert.equal(nodes.get('[data-feature-title]').textContent,expected);
+    assert.ok(nodes.get('[data-feature-link]').href.includes(preference==='first'?'entry=first':'entry=last'));
+    assert.ok(nodes.get('[data-feature-heading]').textContent.includes(preference==='first'?'精选':'最近'));
+    events.get('storage')({key:featuredEntryStorageKey});
+    assert.equal(nodes.get('[data-feature-title]').textContent,expected);
+  }
+  console.log('Homepage rendering passed: manual/automatic/missing/denied preference, reading link and cross-tab preference refresh.');
+}
 // Pointer motion must reach the current art and return to neutral on leave or reduced motion.
 const priorMatchMedia=Object.getOwnPropertyDescriptor(globalThis,'matchMedia');
 try {

@@ -3,7 +3,8 @@ export type ArchivePosition = {y:number;anchor:string;offset:number};
 function positionKey(href:string) {
   const url=new URL(href,'https://local.invalid');
   url.searchParams.delete('entry');
-  for (const [key,value] of Object.entries({view:'all',category:'all',format:'all',sort:'updated',layout:'list',q:''})) { if (url.searchParams.get(key)===value) url.searchParams.delete(key); }
+  const defaultSort = url.searchParams.get('view') === 'award' ? 'latest' : 'updated';
+  for (const [key,value] of Object.entries({view:'all',category:'all',format:'all',sort:defaultSort,layout:'list',q:''})) { if (url.searchParams.get(key)===value) url.searchParams.delete(key); }
   url.searchParams.sort();
   return `knowledge-garden-position-v1:${url.pathname}${url.search}`;
 }

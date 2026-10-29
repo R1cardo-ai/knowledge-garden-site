@@ -20,7 +20,7 @@
     "test:relations": "node scripts/test-relations.mjs",
     "test:notes": "node scripts/test-note-blocks.mjs",
     "test:archive-data": "node scripts/test-archive-data.mjs",
-    "test": "npm run test:storage && npm run test:archive-data && npm run test:archive-url && npm run test:archive-position && npm run test:notes && npm run test:relations && npm run test:theme && npm run test:document-theme && npm run test:static-theme && npm run test:readouts && npm run check:updates && npm run test:showcase",
+    "test": "npm run test:storage && npm run test:archive-data && npm run test:archive-url && npm run test:archive-position && npm run test:notes && npm run test:relations && npm run test:theme && npm run test:document-theme && npm run test:static-theme && npm run test:readouts && npm run check:updates && npm run test:console && npm run test:showcase",
     "test:theme": "node scripts/test-theme-migration.mjs",
     "test:storage": "node scripts/test-storage.mjs",
     "format": "oxfmt",
@@ -29,7 +29,8 @@
     "test:readouts": "node scripts/test-readouts.mjs",
     "test:archive-position": "node scripts/test-archive-position.mjs",
     "build:github": "node scripts/build-github-pages.mjs",
-    "test:showcase": "node scripts/test-showcase.mjs"
+    "test:showcase": "node scripts/test-showcase.mjs",
+    "test:console": "node scripts/test-console.mjs"
   },
   "dependencies": {
     "react": "19.2.6",

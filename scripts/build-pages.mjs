@@ -53,8 +53,10 @@ for (const file of ['archive.html', 'ui-kit.html']) {
 const version = readFileSync(path.join(root, 'app/archive/page.tsx'), 'utf8').match(/const currentVersion = '(.*?)'/)[1];
 if (!readFileSync(path.join(client, 'ui-kit/templates/showcase.html'), 'utf8').includes(version)) throw new Error('Homepage version missing from export');
 // This unused background has no recorded redistribution permission.
-const unusedBackground = path.join(client, 'anime-girl-bg.png');
-if (existsSync(unusedBackground)) rmSync(unusedBackground);
+for (const name of ['anime-girl-bg.png', 'terrain-contours.jpg']) {
+  const unusedBackground = path.join(client, name);
+  if (existsSync(unusedBackground)) rmSync(unusedBackground);
+}
 const output = path.join(stagingRoot, 'site');
 if (path.dirname(path.resolve(output)) !== stagingRoot) throw new Error('Unsafe output path');
 if (existsSync(output)) rmSync(output, { recursive: true });

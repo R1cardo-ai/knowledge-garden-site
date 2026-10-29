@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-29",
+  "version": "v1.0.225",
+  "scope": "desktop",
+  "zoom": {
+    "browser": "Microsoft Edge",
+    "scale": "200%",
+    "source": "explicit user confirmation in this conversation",
+    "setupConfirmed": true,
+    "acceptedChecks": ["search", "add dialog and close", "read and return to directory", "home primary controls", "readable and operable without obstruction"],
+    "userResponse": "上述项目全部通过",
+    "automatedScreenshot": false,
+    "automationLimit": "Windows safety check could not reliably determine Edge URL; native automation stopped."
+  },
+  "motion": {
+    "reduceEnabledByUser": true,
+    "reduceObservedInBrowser": true,
+    "animationsRestoredByUser": true,
+    "normalObservedInBrowser": true
+  },
+  "scopeChange": "请记住，不再制作手机端"
+}

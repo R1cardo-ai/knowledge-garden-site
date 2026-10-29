@@ -1,0 +1,291 @@
+[
+  {
+    "test": "missing-title",
+    "dialog": true,
+    "error": "请填写标题",
+    "focus": "entry-title",
+    "invalid": [
+      "entry-title"
+    ]
+  },
+  {
+    "test": "missing-category",
+    "dialog": true,
+    "error": "请填写分类",
+    "focus": "entry-category",
+    "invalid": [
+      "entry-category"
+    ]
+  },
+  {
+    "test": "invalid-date",
+    "dialog": true,
+    "error": "请输入有效日期，格式为 YYYY.MM.DD",
+    "focus": "entry-date",
+    "invalid": [
+      "entry-date"
+    ]
+  },
+  {
+    "test": "unsafe-proof",
+    "dialog": true,
+    "error": "证明链接需以 http:// 或 https:// 开头",
+    "focus": "entry-proof",
+    "invalid": [
+      "entry-proof"
+    ]
+  },
+  {
+    "test": "dialog-tab-cycle",
+    "steps": [
+      {
+        "inside": true,
+        "name": "entry-summary"
+      },
+      {
+        "inside": true,
+        "name": "entry-notes"
+      },
+      {
+        "inside": true,
+        "name": "取消"
+      },
+      {
+        "inside": true,
+        "name": "保存记录"
+      },
+      {
+        "inside": true,
+        "name": "关闭"
+      },
+      {
+        "inside": true,
+        "name": "学到的知识"
+      },
+      {
+        "inside": true,
+        "name": "获奖情况"
+      },
+      {
+        "inside": true,
+        "name": "entry-title"
+      },
+      {
+        "inside": true,
+        "name": "entry-date"
+      },
+      {
+        "inside": true,
+        "name": "entry-category"
+      },
+      {
+        "inside": true,
+        "name": "entry-tags"
+      },
+      {
+        "inside": true,
+        "name": "内容形式"
+      },
+      {
+        "inside": true,
+        "name": "entry-related"
+      },
+      {
+        "inside": true,
+        "name": "entry-issuer"
+      },
+      {
+        "inside": true,
+        "name": "entry-level"
+      },
+      {
+        "inside": true,
+        "name": "entry-role"
+      },
+      {
+        "inside": true,
+        "name": "entry-proof"
+      },
+      {
+        "inside": true,
+        "name": "entry-summary"
+      },
+      {
+        "inside": true,
+        "name": "entry-notes"
+      },
+      {
+        "inside": true,
+        "name": "取消"
+      },
+      {
+        "inside": true,
+        "name": "保存记录"
+      },
+      {
+        "inside": true,
+        "name": "关闭"
+      },
+      {
+        "inside": true,
+        "name": "学到的知识"
+      },
+      {
+        "inside": true,
+        "name": "获奖情况"
+      },
+      {
+        "inside": true,
+        "name": "entry-title"
+      },
+      {
+        "inside": true,
+        "name": "entry-date"
+      },
+      {
+        "inside": true,
+        "name": "entry-category"
+      },
+      {
+        "inside": true,
+        "name": "entry-tags"
+      },
+      {
+        "inside": true,
+        "name": "内容形式"
+      },
+      {
+        "inside": true,
+        "name": "entry-related"
+      }
+    ]
+  },
+  {
+    "test": "escape-focus-return",
+    "focus": {
+      "dialog": false,
+      "name": "添加记录"
+    }
+  },
+  {
+    "test": "legacy-css-cleanup",
+    "same": true
+  },
+  {
+    "test": "no-results",
+    "description": "这里还没有匹配的内容当前条件：搜索“没有这个验收条目”。可清除筛选后继续浏览。清除筛选",
+    "url": "http://127.0.0.1:5198/archive?view=knowledge&q=%E6%B2%A1%E6%9C%89%E8%BF%99%E4%B8%AA%E9%AA%8C%E6%94%B6%E6%9D%A1%E7%9B%AE"
+  },
+  {
+    "test": "clear-filters",
+    "rows": 15,
+    "url": "http://127.0.0.1:5198/archive?view=knowledge"
+  },
+  {
+    "test": "read-lower-directory-entry",
+    "title": "验收记录 16",
+    "url": "http://127.0.0.1:5198/archive?view=knowledge&entry=qa-15"
+  },
+  {
+    "test": "return-position-after-data-ready",
+    "anchorY": 383.671875,
+    "scrollY": 2334,
+    "url": "http://127.0.0.1:5198/archive?view=knowledge",
+    "windowHeight": 900
+  },
+  {
+    "test": "export-v2",
+    "version": 2,
+    "schema": 2,
+    "count": 18,
+    "extra": {
+      "preserved": true
+    },
+    "tags": [
+      "一",
+      "二",
+      "三",
+      "四",
+      "五"
+    ]
+  },
+  {
+    "test": "cancel-delete",
+    "exists": true,
+    "focus": "删除记录：验收记录 16"
+  },
+  {
+    "test": "delete-synthetic-record",
+    "exists": false,
+    "rows": 14
+  },
+  {
+    "test": "restore-downloaded-backup",
+    "exists": true,
+    "rows": 15
+  },
+  {
+    "test": "manual-feature-cross-tab",
+    "heading": "Featured entry / 精选档案",
+    "href": "/archive?view=knowledge&entry=qa-1",
+    "title": "UnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitle"
+  },
+  {
+    "test": "manual-feature-refresh",
+    "selected": "qa-1"
+  },
+  {
+    "test": "missing-feature-fallback",
+    "heading": "Latest entry / 最近档案",
+    "title": "长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题"
+  },
+  {
+    "test": "empty-feature-fallback",
+    "counts": [
+      "0",
+      "0",
+      "0"
+    ],
+    "title": "从第一条记录开始"
+  },
+  {
+    "test": "restored-feature-id",
+    "heading": "Featured entry / 精选档案",
+    "href": "/archive?view=knowledge&entry=qa-1"
+  },
+  {
+    "test": "award-image",
+    "fields": "记录日期2026.10.29类别验收分类颁发机构测试颁发机构个人角色测试角色",
+    "image": [
+      {
+        "fit": "contain",
+        "height": 319.984375,
+        "src": "http://127.0.0.1:5198/terrain-contours.jpg",
+        "width": 214.3125
+      }
+    ],
+    "title": "成果图片与说明验收"
+  },
+  {
+    "test": "award-preview",
+    "description": "这是隔离测试内容，仅用于验证排版与交互。",
+    "original": "http://127.0.0.1:5198/terrain-contours.jpg",
+    "title": "成果图片与说明验收",
+    "viewport": 1280,
+    "width": 960
+  },
+  {
+    "test": "award-preview-focus-return",
+    "label": "预览成果图片：成果图片与说明验收"
+  },
+  {
+    "test": "award-without-image",
+    "images": 0,
+    "title": "缺少图片的成果验收"
+  },
+  {
+    "test": "award-image-failure",
+    "fallback": "图片暂时无法加载，可通过证明链接查看原始内容。",
+    "proof": "http://127.0.0.1:5198/not-found.jpg"
+  }
+]

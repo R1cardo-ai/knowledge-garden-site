@@ -33,3 +33,20 @@ assert.equal(proofImageUrl('https://example.com/doc.pdf?file=a.png'),'');
 assert.equal(proofImageUrl('javascript:alert(1)'),'');
 assert.equal(proofImageUrl('data:image/png;base64,abc'),'');
 console.log('Featured awards: selection follows filtered record dates, no mutation, empty/knowledge-only states and safe direct image detection passed.');
+// Manual selection must survive edits without changing snapshot contents or sort order.
+{
+  const {selectFeaturedEntry} = await import('../lib/archive-data.js');
+  const rows = [
+    {id:'older', date:'2026.01.01', updatedAt:1, title:'Old'},
+    {id:'recent', date:'2026.10.29', updatedAt:10, title:'New'},
+  ];
+  const before = JSON.stringify(rows);
+  assert.equal(selectFeaturedEntry(rows, 'older').id, 'older');
+  assert.equal(selectFeaturedEntry(rows, 'missing').id, 'recent');
+  assert.equal(selectFeaturedEntry(rows).id, 'recent');
+  assert.equal(selectFeaturedEntry([], 'older'), undefined);
+  assert.equal(selectFeaturedEntry([{...rows[0],title:'Renamed'},rows[1]], 'older').title, 'Renamed');
+  assert.equal(selectFeaturedEntry(rows.slice(1), 'older').id, 'recent');
+  assert.equal(JSON.stringify(rows), before);
+  console.log('Homepage featured selection: stable ID, rename, deletion/missing fallback, automatic/empty states and no mutation passed.');
+}

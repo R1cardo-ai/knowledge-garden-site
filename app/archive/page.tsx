@@ -52,7 +52,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { entryFormatLabels, formatDisplayDate, normalizeEntryDate, normalizeHttpUrl, selectFeaturedAward, compareRecent, relatedReferences, relatedLabels, normalizeEntries as normalizeSharedEntries } from '@/lib/archive-data.js';
+import { entryFormatLabels, featuredEntryStorageKey, formatDisplayDate, normalizeEntryDate, normalizeHttpUrl, selectFeaturedAward, compareRecent, relatedReferences, relatedLabels, normalizeEntries as normalizeSharedEntries } from '@/lib/archive-data.js';
 import { useDocumentTheme } from '@/hooks/use-document-theme';
 import { createArchiveStatus } from '@/lib/archive-status';
 import { animateReadout } from '@/lib/animate-readout';
@@ -129,7 +129,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.224';
+const currentVersion = 'v1.0.225';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +137,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.225', date: '2026.10.29', title: '支持首页精选并完善表单反馈', items: ['总览可指定首页精选档案，按稳定 ID 保存当前浏览器偏好并同步其他标签页；未指定或目标缺失时回退最近更新，空档案显示真实空状态', '精选偏好独立保存，兼容现有档案与 v2 快照，存储失败明确提示', '首屏入场与数字反馈在480毫秒内完成，减少动态效果时直接静态展示', '成果目录默认按记录日期排列，同时保留最近更新等显式排序及 URL、阅读返回位置', '表单错误就地说明并聚焦对应字段，保存结果支持辅助技术朗读', '控制台圆盘接入规范版本与共享档案校验，读取失败显示未知状态，浏览器返回和跨标签更新保持同步；清理已被主题替代的旧阴影圆角规则'] },
   { version: 'v1.0.224', date: '2026.10.29', title: '档案页新增返回主页入口', items: ['档案页顶部增加带主页图标的返回主页按钮，桌面和手机均可直接返回知识花园首页'] },
   { version: 'v1.0.223', date: '2026.10.29', title: '恢复首页入场与线稿视差动效', items: ['恢复首页双行字标、介绍与最近档案卡片的错峰入场，以及线稿描绘和版本数字反馈', '视差样式接入当前线稿节点，鼠标移出时归位，减少动态效果模式使用静态展示'] },
   { version: 'v1.0.222', date: '2026.10.29', title: '修复主页展示导航与更新交互', items: ['补齐顶部导航与真实全站索引，最新更新直接定位当前版本详情', '样张间跳转保留外观参数，深浅主题跨标签页同步', '恢复展示页更新条无缝持续滚动，保留悬停聚焦暂停与减少动态效果支持'] },
@@ -409,15 +410,34 @@ export default function Home() {
   const [selectedEntry, setSelectedEntry] = useState<Entry | null>(null);
   const [notice, setNotice] = useState('');
   const [draft, setDraft] = useState(emptyDraft);
+  const [formError, setFormError] = useState<{field:string;message:string} | null>(null);
   const [backgroundImage, setBackgroundImage] = useState(defaultBackgroundImage);
   const [backgroundOpacity, setBackgroundOpacity] = useState(0.13);
   const [backgroundExpanded, setBackgroundExpanded] = useState(false);
+  const [featuredEntryId, setFeaturedEntryId] = useState('');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const darkTheme = useDocumentTheme() === 'dark';
   const [milestonesOpen, setMilestonesOpen] = useState(true);
   const [releaseScrambleToken, setReleaseScrambleToken] = useState(0);
   const importInputRef = useRef<HTMLInputElement>(null);
   const backgroundInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const refresh = () => { try { setFeaturedEntryId(window.localStorage.getItem(featuredEntryStorageKey) || ''); } catch {} };
+    const timer = window.setTimeout(refresh, 0);
+    const onStorage = (event: StorageEvent) => { if (event.key === featuredEntryStorageKey || event.key === null) refresh(); };
+    window.addEventListener('storage', onStorage);
+    return () => { window.clearTimeout(timer); window.removeEventListener('storage', onStorage); };
+  }, []);
+
+  function changeFeaturedEntry(id: string) {
+    try {
+      if (id) window.localStorage.setItem(featuredEntryStorageKey, id);
+      else window.localStorage.removeItem(featuredEntryStorageKey);
+      setFeaturedEntryId(id);
+      showNotice(id ? '首页精选已更新' : '首页将展示最近更新的档案');
+    } catch { showNotice('首页精选未能保存，请重试'); }
+  }
 
   useEffect(() => {
     const updateVisibility = () => { document.documentElement.dataset.archivePageVisible = document.hidden ? 'false' : 'true'; };
@@ -668,7 +688,7 @@ export default function Home() {
   const viewTitle = activeView === 'award' ? '获奖记录' : activeView === 'knowledge' ? '知识库' : '总览';
   const newRecordType = activeView === 'all' ? quickCaptureType : activeView;
   const logEyebrow = activeView === 'award' ? '// AWARD LOG /' : activeView === 'knowledge' ? '// KNOWLEDGE LOG /' : '// FIELD LOG /';
-  const changeView = (view: ViewMode) => { setReadingId(''); setActiveView(view); setCategoryFilter('all'); setFormatFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
+  const changeView = (view: ViewMode) => { setReadingId(''); if (view !== activeView) setSortBy(view === 'award' ? 'latest' : 'updated'); setActiveView(view); setCategoryFilter('all'); setFormatFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
   function readingHref(id: string) {
     const url = writeArchiveUrl(new URL('https://local.invalid/archive'), { view: activeView, category: categoryFilter, format: formatFilter, search, sort: sortBy, layout: entryView });
     if (id) url.searchParams.set('entry', id);
@@ -698,22 +718,25 @@ export default function Home() {
     setQuickCaptureTitle('');
     showNotice('已快速保存，之后可以打开详情补充内容');
   }
-  function openCreate(type: EntryType = 'knowledge') { setEditingId(null); setDraft({ ...emptyDraft, type, format: type === 'award' ? 'project' : 'note', date: displayDate || formatDisplayDate(new Date()) }); setDialogOpen(true); }
+  function openCreate(type: EntryType = 'knowledge') { setFormError(null); setEditingId(null); setDraft({ ...emptyDraft, type, format: type === 'award' ? 'project' : 'note', date: displayDate || formatDisplayDate(new Date()) }); setDialogOpen(true); }
   function openEdit(entry: Entry) {
+    setFormError(null);
     setEditingId(entry.id);
     setDraft({ type: entry.type, format: entry.format, title: entry.title, category: entry.category, date: entry.date, summary: entry.summary, tags: entry.tags.join(', '), notes: entry.notes ?? '', source: entry.source ?? '', issuer: entry.issuer ?? '', awardLevel: entry.awardLevel ?? '', role: entry.role ?? '', proof: entry.proof ?? '', related: relatedLabels(entry, entries) });
     setDetailsOpen(false);
     setDialogOpen(true);
   }
   function saveEntry() {
-    if (!draft.title.trim() || !draft.category.trim()) { showNotice('请至少填写标题和分类'); return; }
+    const reject = (field:string, message:string) => { setFormError({field,message}); document.getElementById(`entry-${field}`)?.focus(); };
+    if (!draft.title.trim()) { reject('title','请填写标题'); return; }
+    if (!draft.category.trim()) { reject('category','请填写分类'); return; }
     const date = normalizeEntryDate(draft.date, '');
-    if (!date) { showNotice('日期格式应为 YYYY.MM.DD'); return; }
+    if (!date) { reject('date','请输入有效日期，格式为 YYYY.MM.DD'); return; }
     const proof = normalizeHttpUrl(draft.proof);
-    if (proof === null) { showNotice('证明链接需以 http:// 或 https:// 开头'); return; }
+    if (proof === null) { reject('proof','证明链接需以 http:// 或 https:// 开头'); return; }
     const nextEntry: Entry = { ...entries.find(entry => entry.id === editingId), id: editingId ?? `${draft.type}-${Date.now()}`, type: draft.type, format: draft.format, title: draft.title.trim(), category: draft.category.trim(), date, summary: draft.summary.trim() || '还没有写下摘要，之后再来补充。', tags: draft.tags.split(/[,，]/).map((tag) => tag.trim()).filter(Boolean), color: draft.type === 'award' ? 'gold' : editingId ? entries.find((entry) => entry.id === editingId)?.color ?? 'coral' : ['coral', 'sky', 'lilac', 'mint'][knowledgeCount % 4], notes: draft.notes.trim(), source: draft.source.trim(), issuer: draft.issuer.trim(), awardLevel: draft.awardLevel.trim(), role: draft.role.trim(), proof, related: draft.related.trim(), relatedRefs: relatedReferences(draft.related, entries, entries.find(entry => entry.id === editingId)?.relatedRefs), updatedAt: Date.now() };
     setEntries((current) => editingId ? current.map((entry) => entry.id === editingId ? nextEntry : entry) : [nextEntry, ...current]);
-    setDialogOpen(false); setEditingId(null); setDraft(emptyDraft); showNotice(editingId ? '记录已更新' : '已添加到你的知识花园');
+    setFormError(null); setDialogOpen(false); setEditingId(null); setDraft(emptyDraft); showNotice(editingId ? '记录已更新' : '已添加到你的知识花园');
   }
   function removeEntry(id: string) {
     setEntries((current) => current.filter((entry) => entry.id !== id));
@@ -825,14 +848,15 @@ export default function Home() {
               <DialogContent className="entry-dialog form-dialog">
                 <DialogHeader><DialogTitle>{editingId ? '编辑记录' : '添加一条记录'}</DialogTitle><DialogDescription>{editingId ? '把这条记录补充得更完整。' : '把刚学会的，或刚获得的，放进你的长期积累里。'}</DialogDescription></DialogHeader>
                 <div className="dialog-form">
+                  {formError && <p className="entry-form-error" id="entry-form-error" role="alert">{formError.message}</p>}
                   <fieldset className="type-picker" aria-label="记录类型"><button type="button" className={draft.type === 'knowledge' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'knowledge'} onClick={() => setDraft((current) => ({ ...current, type: 'knowledge', format: 'note' }))}><BookOpen size={16} />学到的知识</button><button type="button" className={draft.type === 'award' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'award'} onClick={() => setDraft((current) => ({ ...current, type: 'award', format: 'project' }))}><Trophy size={16} />获奖情况</button></fieldset>
                   <p className="form-section-label">{"// CORE FIELDS"}</p>
-                  <div className="form-grid"><label htmlFor="entry-title">标题<Input id="entry-title" placeholder={draft.type === 'award' ? '例如：设计大赛 · 最佳创意奖' : '例如：卡片分类法'} value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label><label htmlFor="entry-date">日期<Input id="entry-date" inputMode="numeric" placeholder="YYYY.MM.DD" value={draft.date} onChange={(event) => setDraft({ ...draft, date: event.target.value })} /></label></div>
-                  <div className="form-grid"><label htmlFor="entry-category">分类<Input id="entry-category" placeholder={draft.type === 'award' ? '例如：竞赛获奖' : '例如：产品设计'} value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} /></label><label htmlFor="entry-tags">标签（选填）<Input id="entry-tags" placeholder="用逗号分隔" value={draft.tags} onChange={(event) => setDraft({ ...draft, tags: event.target.value })} /></label></div>
-                  <div className="form-grid"><div className="form-field"><span>内容形式</span><Select value={draft.format} itemToStringLabel={(value) => formatLabels[value as EntryFormat] ?? value} onValueChange={(value) => setDraft({ ...draft, format: value as EntryFormat })}><SelectTrigger className="form-select"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="note">笔记</SelectItem><SelectItem value="book">书籍</SelectItem><SelectItem value="course">课程</SelectItem><SelectItem value="article">文章</SelectItem><SelectItem value="video">视频</SelectItem><SelectItem value="project">项目</SelectItem></SelectContent></Select></div><label htmlFor="entry-related">关联记录<Input id="entry-related" placeholder="输入记录标题，用逗号分隔" value={draft.related} onChange={(event) => setDraft({ ...draft, related: event.target.value })} /></label></div>
+                  <div className="form-grid"><label htmlFor="entry-title">标题<Input id="entry-title" aria-invalid={formError?.field === 'title'} aria-describedby={formError?.field === 'title' ? 'entry-form-error' : undefined} placeholder={draft.type === 'award' ? '例如：设计大赛 · 最佳创意奖' : '例如：卡片分类法'} value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label><label htmlFor="entry-date">日期<Input id="entry-date" aria-invalid={formError?.field === 'date'} aria-describedby={formError?.field === 'date' ? 'entry-form-error' : undefined} inputMode="numeric" placeholder="YYYY.MM.DD" value={draft.date} onChange={(event) => setDraft({ ...draft, date: event.target.value })} /></label></div>
+                  <div className="form-grid"><label htmlFor="entry-category">分类<Input id="entry-category" aria-invalid={formError?.field === 'category'} aria-describedby={formError?.field === 'category' ? 'entry-form-error' : undefined} placeholder={draft.type === 'award' ? '例如：竞赛获奖' : '例如：产品设计'} value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} /></label><label htmlFor="entry-tags">标签（选填）<Input id="entry-tags" placeholder="用逗号分隔" value={draft.tags} onChange={(event) => setDraft({ ...draft, tags: event.target.value })} /></label></div>
+                  <div className="form-grid"><div className="form-field"><span>内容形式</span><Select value={draft.format} itemToStringLabel={(value) => formatLabels[value as EntryFormat] ?? value} onValueChange={(value) => setDraft({ ...draft, format: value as EntryFormat })}><SelectTrigger className="form-select" aria-label="内容形式"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="note">笔记</SelectItem><SelectItem value="book">书籍</SelectItem><SelectItem value="course">课程</SelectItem><SelectItem value="article">文章</SelectItem><SelectItem value="video">视频</SelectItem><SelectItem value="project">项目</SelectItem></SelectContent></Select></div><label htmlFor="entry-related">关联记录<Input id="entry-related" placeholder="输入记录标题，用逗号分隔" value={draft.related} onChange={(event) => setDraft({ ...draft, related: event.target.value })} /></label></div>
                   <p className="form-section-label">{"// SOURCE / CONTEXT"}</p>
                   {draft.type === 'award' ? <div className="form-grid"><label htmlFor="entry-issuer">颁发机构<Input id="entry-issuer" placeholder="例如：大赛组委会" value={draft.issuer} onChange={(event) => setDraft({ ...draft, issuer: event.target.value })} /></label><label htmlFor="entry-level">获奖级别<Input id="entry-level" placeholder="例如：一等奖" value={draft.awardLevel} onChange={(event) => setDraft({ ...draft, awardLevel: event.target.value })} /></label></div> : <div className="form-grid"><label htmlFor="entry-source">学习来源<Input id="entry-source" placeholder="书籍、课程或链接" value={draft.source} onChange={(event) => setDraft({ ...draft, source: event.target.value })} /></label><div /> </div>}
-                  {draft.type === 'award' && <div className="form-grid"><label htmlFor="entry-role">个人角色<Input id="entry-role" placeholder="你负责了什么" value={draft.role} onChange={(event) => setDraft({ ...draft, role: event.target.value })} /></label><label htmlFor="entry-proof">证明链接<Input id="entry-proof" placeholder="证书或项目链接" value={draft.proof} onChange={(event) => setDraft({ ...draft, proof: event.target.value })} /></label></div>}
+                  {draft.type === 'award' && <div className="form-grid"><label htmlFor="entry-role">个人角色<Input id="entry-role" placeholder="你负责了什么" value={draft.role} onChange={(event) => setDraft({ ...draft, role: event.target.value })} /></label><label htmlFor="entry-proof">证明链接<Input id="entry-proof" aria-invalid={formError?.field === 'proof'} aria-describedby={formError?.field === 'proof' ? 'entry-form-error' : undefined} placeholder="证书或项目链接" value={draft.proof} onChange={(event) => setDraft({ ...draft, proof: event.target.value })} /></label></div>}
                   <p className="form-section-label">{"// NOTES / DETAILS"}</p>
                   <label htmlFor="entry-summary">摘要（选填）<Textarea id="entry-summary" placeholder="写下最值得以后再次回看的那句话…" value={draft.summary} onChange={(event) => setDraft({ ...draft, summary: event.target.value })} /></label>
                   <label htmlFor="entry-notes">详细笔记（选填）<Textarea id="entry-notes" className="notes-textarea" placeholder="补充例子、关键洞察或下一步行动…" value={draft.notes} onChange={(event) => setDraft({ ...draft, notes: event.target.value })} /></label>
@@ -844,6 +868,7 @@ export default function Home() {
         </header>
 
         <div className="page-scroll">
+          {activeView === 'all' && !readingId && <section className="home-feature-preference" aria-label="首页精选设置"><label htmlFor="home-feature-entry">首页精选</label><select id="home-feature-entry" value={entries.some(entry => entry.id === featuredEntryId) ? featuredEntryId : ''} onChange={event => changeFeaturedEntry(event.target.value)} disabled={!hydrated || storageBlocked}><option value="">自动选择最近更新</option>{entries.map(entry => <option key={entry.id} value={entry.id}>{entry.title || '未命名记录'}</option>)}</select><p>仅保存在当前浏览器。未指定或记录已移除时，首页展示最近更新。</p></section>}
           {readingId && <EntryReader entry={entries.find(entry => entry.id === readingId)} returnHref={readingHref('')} onEdit={() => { const entry = entries.find(item => item.id === readingId); if (entry) openEdit(entry); }} related={entries} hrefFor={readingHref} />}
           <div hidden={Boolean(readingId)}>
           <section className="page-heading" aria-label={activeView === 'all' ? '个人档案首页' : viewTitle}>
@@ -924,7 +949,7 @@ export default function Home() {
 
           <div className="workspace-grid">
             <section className="knowledge-section">
-              <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2>{viewTitle === '总览' ? '最近收集' : viewTitle === '知识库' ? '全部知识条目' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索知识与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '知识条目' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">知识条目</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={formatFilter} itemToStringLabel={value=>value === 'all' ? '全部形式' : formatLabels[value]} onValueChange={value=>{if(value)setFormatFilter(value as EntryFormat | 'all');}}><SelectTrigger className={'filter-trigger format-trigger' + (formatFilter !== 'all' ? ' filter-active' : '')} aria-label="按内容形式筛选"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="all">全部形式</SelectItem>{Object.entries(formatLabels).map(([value,label])=><SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== 'updated' ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><fieldset className="view-mode-toggle" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></fieldset></div></div>
+              <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2>{viewTitle === '总览' ? '最近收集' : viewTitle === '知识库' ? '全部知识条目' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索知识与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '知识条目' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">知识条目</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={formatFilter} itemToStringLabel={value=>value === 'all' ? '全部形式' : formatLabels[value]} onValueChange={value=>{if(value)setFormatFilter(value as EntryFormat | 'all');}}><SelectTrigger className={'filter-trigger format-trigger' + (formatFilter !== 'all' ? ' filter-active' : '')} aria-label="按内容形式筛选"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="all">全部形式</SelectItem>{Object.entries(formatLabels).map(([value,label])=><SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== (activeView === 'award' ? 'latest' : 'updated') ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><fieldset className="view-mode-toggle" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></fieldset></div></div>
                {featuredAward && <FeaturedAward entry={featuredAward} href={readingHref(featuredAward.id)} />}
                {sortedEntries.length === 0 ? <ArchiveEmptyState title={emptyStateTitle} description={emptyStateDescription} action={entriesInActiveView.length ? '清除筛选' : newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'} onAction={() => { if (entriesInActiveView.length) { setSearch(''); setCategoryFilter('all'); setFormatFilter('all'); } else openCreate(newRecordType); }} /> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}`}>{sortedEntries.map((entry, index) => <ArchiveRecordRow key={entry.id} entry={entry} index={index} href={readingHref(entry.id)} onRead={event=>rememberReadingPosition(event,entry.id)} onDelete={() => setPendingConfirmation({ kind: 'delete', entry })} onDetails={() => { setSelectedEntry(entry); setDetailsOpen(true); }} />)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
             </section>
@@ -974,7 +999,7 @@ export default function Home() {
           <div className="release-list">{filteredUpdateLogs.length > 0 ? filteredUpdateLogs.map((release) => <article className="release-item" key={release.version}><div className="release-heading"><span className="release-version">{release.version}</span><time>{release.date}</time></div><h3>{release.title}</h3><ul>{release.items.map((item) => <li key={item}>{item}</li>)}</ul></article>) : <div className="release-empty"><p>没有找到匹配的更新日志，请换个关键词试试。</p><button type="button" onClick={() => setChangelogQuery('')}>清空搜索</button></div>}</div>
         </DialogContent>
       </Dialog>
-      {notice && <div className="toast"><Check size={15} /> {notice}</div>}
+      {notice && <output className="toast" aria-live="polite"><Check size={15} aria-hidden="true" /> {notice}</output>}
     </main>
   );
 }

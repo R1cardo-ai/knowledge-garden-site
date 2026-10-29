@@ -1,0 +1,24 @@
+{
+  "height": 720,
+  "motion": [
+    {
+      "animation": "none",
+      "class": "archive-hero-stage",
+      "transform": "none"
+    },
+    {
+      "animation": "none",
+      "class": "archive-update-track",
+      "transform": "none"
+    },
+    {
+      "animation": "none",
+      "class": "archive-release-index",
+      "transform": "none"
+    }
+  ],
+  "reduce": true,
+  "theme": "dark",
+  "url": "http://localhost:5198/archive",
+  "width": 1280
+}

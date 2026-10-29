@@ -1,0 +1,24 @@
+[
+  {
+    "test": "empty-state",
+    "visible": true
+  },
+  {
+    "test": "form-error",
+    "visible": true
+  },
+  {
+    "test": "dialog-focus-return-after-close",
+    "dialog": false,
+    "label": "打开演示弹层"
+  },
+  {
+    "test": "personal-data-unchanged",
+    "count": "当前日期 2026.10.29，共 18 条档案，15 条知识，3 项成果"
+  },
+  {
+    "test": "theme-persisted-after-refresh",
+    "expected": "light",
+    "actual": "light"
+  }
+]

@@ -32,6 +32,8 @@ assert.ok(rendered.includes('A &lt; B &amp; C'));
 assert.ok(rendered.includes('<li>first</li><li>second</li>'));
 assert.ok(rendered.includes('02 项调整'));
 assert.equal(rendered, syncReleaseTemplate(rendered, fixture), 'Sync must be idempotent');
+const scriptFixture = `<script>const version = document.querySelector('[data-release="version"]').textContent; window.addEventListener('storage', event => { refresh(); });</script>`;
+assert.equal(syncReleaseTemplate(scriptFixture, fixture), scriptFixture, 'Release selectors inside JavaScript must remain unchanged');
 assert.throws(() => readReleaseData('const currentVersion = process.exit(); const updateLogs = [];'));
 assert.throws(() => readReleaseData('const currentVersion = "v9.0.0"; const updateLogs = [{version:"v1.0.0",date:"2026.10.28",title:"x",items:["y"]}];'));
 console.log(`Release displays consistent: ${data.version}; all ${data.logs.length} historical records, generated lists, dates, counts and escaped content verified.`);

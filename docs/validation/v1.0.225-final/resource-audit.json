@@ -1,0 +1,68 @@
+{
+  "version": "v1.0.225",
+  "fonts": [
+    {
+      "path": "public/fonts/Saira.ttf",
+      "sha256": "9d050fc5a01c85f74c4257c207d50b55d1e40c37308c642f974a2c5003231dde",
+      "axes": [
+        {
+          "tag": "wght",
+          "min": 100.0,
+          "max": 900.0
+        },
+        {
+          "tag": "wdth",
+          "min": 50.0,
+          "max": 125.0
+        }
+      ],
+      "license": "public/fonts/Saira-OFL.txt"
+    },
+    {
+      "path": "public/ui-kit/fonts/Saira.ttf",
+      "sha256": "9d050fc5a01c85f74c4257c207d50b55d1e40c37308c642f974a2c5003231dde",
+      "axes": [
+        {
+          "tag": "wght",
+          "min": 100.0,
+          "max": 900.0
+        },
+        {
+          "tag": "wdth",
+          "min": 50.0,
+          "max": 125.0
+        }
+      ],
+      "license": "public/ui-kit/fonts/Saira-OFL.txt"
+    }
+  ],
+  "vectorAssets": [
+    {
+      "path": "public/ui-kit/assets/contours/contour-a.svg",
+      "sha256": "15155ec93c11e919bbcaa2e0fde6b2abdba1ed850289671f182b9340deb60102"
+    },
+    {
+      "path": "public/ui-kit/assets/contours/contour-b.svg",
+      "sha256": "9934dcb72684bff7f72870509f6d03d1790dd49d956e82695c11748d526d9f63"
+    },
+    {
+      "path": "public/ui-kit/assets/contours/draw-contours.mjs",
+      "sha256": "6bb0b2add8f181d00a89074df9cc84f53978a7459813f8ba576b91069d968ba2"
+    },
+    {
+      "path": "public/knowledge-garden-logo.svg",
+      "sha256": "f2c877b7fb2c83c7e9c95027aad630fe743e6f4488c12727ecdea8ffc6b2e2c9"
+    },
+    {
+      "path": "public/favicon.svg",
+      "sha256": "177c92f037bdd941579b14337d100e8db56c7ee225c0a32c83419fcbbf3f4769"
+    }
+  ],
+  "contoursProvenance": "Procedurally generated SVGs with bundled generator from endfield-ui skill; no game images.",
+  "existingBranding": "Existing repository vector paths; no embedded remote image or proprietary font.",
+  "excludedFromReleaseSourceAndArtifacts": [
+    "public/anime-girl-bg.png",
+    "public/terrain-contours.jpg"
+  ],
+  "localOriginalsRetained": true
+}
