@@ -1,0 +1,38 @@
+{
+  "version": "v1.0.232",
+  "date": "2026-10-29",
+  "scope": "修复桌面样张页三个返回入口及 GitHub Pages CSS 预加载路径",
+  "code": {
+    "sourceCommit": "3c8a97f0faaaab6af71b5073090bcfe4c30695e6",
+    "pagesCommit": "4cc22fbea887aafbda46fa4795e84752b68229fd"
+  },
+  "builds": {
+    "cloudflarePages": { "command": "npm run build:pages", "result": "pass", "output": ".pages-build/site" },
+    "githubPages": { "command": "npm run build:github", "result": "pass", "output": ".github-pages-build/site" }
+  },
+  "checks": {
+    "lint": "0 warnings 0 errors, 116 files",
+    "types": "npx tsc --noEmit pass",
+    "tests": "npm test pass",
+    "updates": "Release displays consistent: v1.0.232; 244 historical records"
+  },
+  "live": {
+    "cloudflare": {
+      "baseUrl": "https://knowledge-garden-site.pages.dev",
+      "browserResult": "live-after-result.json",
+      "linksPassed": 3,
+      "destinationVersion": "v1.0.232",
+      "consoleErrors": 0
+    },
+    "githubPages": {
+      "baseUrl": "https://r1cardo-ai.github.io/knowledge-garden-site",
+      "actionsRun": "https://github.com/R1cardo-ai/knowledge-garden-site/actions/runs/40885226753",
+      "actionsConclusion": "success",
+      "browserResult": "github-live-result.json",
+      "linksPassed": 3,
+      "destinationVersion": "v1.0.232",
+      "consoleErrors": 0,
+      "pageErrors": 0
+    }
+  }
+}
