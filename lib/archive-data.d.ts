@@ -8,6 +8,10 @@ export function normalizeHttpUrl(value: string): string | null;
 export function normalizeEntries(value: unknown, fallbackDate: string): unknown[];
 export function compareRecent(a: {updatedAt?: number; date: string}, b: {updatedAt?: number; date: string}): number;
 export function selectFeaturedAward<T extends {type:string;date:string;updatedAt?:number}>(entries:T[]): T | undefined;
+export type CategoryRow = {category:string;count:number;ratio:number};
+export function categoryDistribution(entries: {type:string;category?:string}[], view?: string): {rows:CategoryRow[];max:number;total:number};
+export type MonthRow = {key:string;label:string;count:number;ratio:number};
+export function monthlyRecordCounts(entries: {date?:string}[], now?: Date): {months:MonthRow[];max:number;total:number;unverified:number;outside:number;range:string};
 export function proofImageUrl(value?:string): string;
 
 export type RelatedRef = {id?: string;title: string};

@@ -1,0 +1,6 @@
+
+> sites-project@0.1.0 lint
+> oxlint app components hooks lib scripts public/ui-kit/assets portable-site next.config.ts vite.config.ts
+
+Found 0 warnings and 0 errors.
+Finished in 1.0s on 116 files with 208 rules using 24 threads.

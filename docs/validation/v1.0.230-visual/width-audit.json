@@ -1,0 +1,135 @@
+[
+  {
+    "width": 720,
+    "innerWidth": 720,
+    "scrollWidth": 720,
+    "clientWidth": 720,
+    "overflow": 0,
+    "insightsColumns": 1,
+    "monthColumns": 12,
+    "monthLabelClipped": 0,
+    "categoryRows": 5,
+    "barWidths": [
+      435,
+      435,
+      435,
+      435,
+      435
+    ],
+    "monthsOutsidePanel": 0
+  },
+  {
+    "width": 960,
+    "innerWidth": 960,
+    "scrollWidth": 960,
+    "clientWidth": 960,
+    "overflow": 0,
+    "insightsColumns": 1,
+    "monthColumns": 12,
+    "monthLabelClipped": 0,
+    "categoryRows": 5,
+    "barWidths": [
+      426,
+      426,
+      426,
+      426,
+      426
+    ],
+    "monthsOutsidePanel": 0
+  },
+  {
+    "width": 1152,
+    "innerWidth": 1152,
+    "scrollWidth": 1152,
+    "clientWidth": 1152,
+    "overflow": 0,
+    "insightsColumns": 1,
+    "monthColumns": 12,
+    "monthLabelClipped": 0,
+    "categoryRows": 5,
+    "barWidths": [
+      850,
+      850,
+      850,
+      850,
+      850
+    ],
+    "monthsOutsidePanel": 0
+  },
+  {
+    "width": 1280,
+    "innerWidth": 1280,
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "overflow": 0,
+    "insightsColumns": 2,
+    "monthColumns": 12,
+    "monthLabelClipped": 0,
+    "categoryRows": 5,
+    "barWidths": [
+      372,
+      372,
+      372,
+      372,
+      372
+    ],
+    "monthsOutsidePanel": 0
+  },
+  {
+    "width": 1440,
+    "innerWidth": 1440,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "overflow": 0,
+    "insightsColumns": 2,
+    "monthColumns": 12,
+    "monthLabelClipped": 0,
+    "categoryRows": 5,
+    "barWidths": [
+      448,
+      448,
+      448,
+      448,
+      448
+    ],
+    "monthsOutsidePanel": 0
+  },
+  {
+    "width": 1600,
+    "innerWidth": 1600,
+    "scrollWidth": 1600,
+    "clientWidth": 1600,
+    "overflow": 0,
+    "insightsColumns": 2,
+    "monthColumns": 12,
+    "monthLabelClipped": 0,
+    "categoryRows": 5,
+    "barWidths": [
+      527,
+      527,
+      527,
+      527,
+      527
+    ],
+    "monthsOutsidePanel": 0
+  },
+  {
+    "width": 1920,
+    "innerWidth": 1920,
+    "scrollWidth": 1920,
+    "clientWidth": 1920,
+    "overflow": 0,
+    "insightsColumns": 2,
+    "monthColumns": 12,
+    "monthLabelClipped": 0,
+    "categoryRows": 5,
+    "barWidths": [
+      686,
+      686,
+      686,
+      686,
+      686
+    ],
+    "monthsOutsidePanel": 0
+  }
+]

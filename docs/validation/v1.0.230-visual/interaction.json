@@ -1,0 +1,110 @@
+{
+  "version": "v1.0.230",
+  "checkedAt": "2026-10-29T11:11:04.518Z",
+  "before": {
+    "search": "?view=knowledge",
+    "rows": 17,
+    "categories": [
+      "列表 01",
+      "列表 02",
+      "列表 03",
+      "列表 04",
+      "列表 05",
+      "列表 06",
+      "列表 07",
+      "列表 08",
+      "列表 09",
+      "列表 10",
+      "列表 11",
+      "列表 12",
+      "列表 13",
+      "列表 14",
+      "列表 15",
+      "列表 16",
+      "列表 17"
+    ],
+    "pressed": [],
+    "current": [],
+    "headingTop": 854
+  },
+  "first": "阅读笔记",
+  "afterClick": {
+    "search": "?view=knowledge&category=%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0",
+    "rows": 7,
+    "categories": [
+      "列表 01",
+      "列表 02",
+      "列表 03",
+      "列表 04",
+      "列表 05",
+      "列表 06",
+      "列表 07"
+    ],
+    "pressed": [
+      "阅读笔记"
+    ],
+    "current": [
+      "阅读笔记"
+    ],
+    "headingTop": 429
+  },
+  "lastFigure": "跨学科研究方法与长期档案整理",
+  "focusResult": "focused",
+  "afterKey": {
+    "search": "?view=knowledge&category=%E8%B7%A8%E5%AD%A6%E7%A7%91%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95%E4%B8%8E%E9%95%BF%E6%9C%9F%E6%A1%A3%E6%A1%88%E6%95%B4%E7%90%86",
+    "rows": 2,
+    "categories": [
+      "列表 01",
+      "列表 02"
+    ],
+    "pressed": [
+      "跨学科研究方法与长期档案整理"
+    ],
+    "current": [
+      "跨学科研究方法与长期档案整理"
+    ],
+    "headingTop": 429
+  },
+  "afterReload": {
+    "search": "?view=knowledge&category=%E8%B7%A8%E5%AD%A6%E7%A7%91%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95%E4%B8%8E%E9%95%BF%E6%9C%9F%E6%A1%A3%E6%A1%88%E6%95%B4%E7%90%86",
+    "rows": 2,
+    "categories": [
+      "列表 01",
+      "列表 02"
+    ],
+    "pressed": [
+      "跨学科研究方法与长期档案整理"
+    ],
+    "current": [
+      "跨学科研究方法与长期档案整理"
+    ],
+    "headingTop": 419
+  },
+  "cleared": "{\"options\":6,\"clicked\":true}",
+  "afterClear": {
+    "search": "?view=knowledge",
+    "rows": 17,
+    "categories": [
+      "列表 01",
+      "列表 02",
+      "列表 03",
+      "列表 04",
+      "列表 05",
+      "列表 06",
+      "列表 07",
+      "列表 08",
+      "列表 09",
+      "列表 10",
+      "列表 11",
+      "列表 12",
+      "列表 13",
+      "列表 14",
+      "列表 15",
+      "列表 16",
+      "列表 17"
+    ],
+    "pressed": [],
+    "current": [],
+    "headingTop": 419
+  }
+}

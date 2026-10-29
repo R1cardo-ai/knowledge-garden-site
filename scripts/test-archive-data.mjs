@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {normalizeEntries, compareRecent, selectFeaturedAward, proofImageUrl} from '../lib/archive-data.js';
+import {normalizeEntries, compareRecent, selectFeaturedAward, proofImageUrl, categoryDistribution, monthlyRecordCounts} from '../lib/archive-data.js';
 for (const value of [{}, [null], [4], [[]]]) assert.throws(() => normalizeEntries(value, '2026.10.28'));
 assert.deepEqual(normalizeEntries([], '2026.10.28'), []);
 const entries = normalizeEntries({entries:[{id:'a',title:'<img onerror=alert(1)>',date:'2026-10-25',type:'award',proof:'javascript:alert(1)'},{id:'b',date:'2026.10.26',updatedAt:1},{id:'c',date:'2026.10.20',updatedAt:9999999999999}]}, '2026.10.28');
@@ -33,6 +33,62 @@ assert.equal(proofImageUrl('https://example.com/doc.pdf?file=a.png'),'');
 assert.equal(proofImageUrl('javascript:alert(1)'),'');
 assert.equal(proofImageUrl('data:image/png;base64,abc'),'');
 console.log('Featured awards: selection follows filtered record dates, no mutation, empty/knowledge-only states and safe direct image detection passed.');
+// Overview figures: counts follow the partition, ties keep the archive's own category order.
+{
+  const rows = [
+    {id:'1', type:'knowledge', category:'设计', date:'2026.10.01'},
+    {id:'2', type:'knowledge', category:'设计', date:'2026.10.02'},
+    {id:'3', type:'knowledge', category:'阅读', date:'2026.09.30'},
+    {id:'4', type:'knowledge', category:'   ', date:'2026.09.29'},
+    {id:'5', type:'award', category:'竞赛', date:'2026.10.03'},
+  ];
+  const knowledge = categoryDistribution(rows, 'knowledge');
+  assert.deepEqual(knowledge.rows.map(row => [row.category, row.count]), [['设计',2],['未分类',1],['阅读',1]]);
+  assert.equal(knowledge.total, 4);
+  assert.equal(knowledge.max, 2);
+  assert.equal(knowledge.rows[0].ratio, 1);
+  assert.equal(knowledge.rows[1].ratio, 0.5);
+  const all = categoryDistribution(rows);
+  assert.equal(all.total, 5);
+  assert.deepEqual(all.rows.map(row => row.category).sort(), ['竞赛','未分类','设计','阅读'].sort());
+  assert.equal(categoryDistribution(rows).rows.filter(row => row.category === '竞赛')[0].count, 1);
+  assert.deepEqual(categoryDistribution([]), {rows:[], max:0, total:0});
+  assert.equal(categoryDistribution(rows.slice(4), 'knowledge').total, 0);
+  const before = JSON.stringify(rows);
+  categoryDistribution(rows, 'knowledge');
+  assert.equal(JSON.stringify(rows), before);
+  console.log('Category distribution: partition scope, unknown category, tie order, ratios, empty state and no mutation passed.');
+}
+// Twelve calendar months: local window, record dates only, invalid and out-of-range apart.
+{
+  const now = new Date(2026, 9, 29);
+  const rows = [
+    {date:'2026.10.29'}, {date:'2026.10.01'}, {date:'2026.09.15'}, {date:'2025.11.01'},
+    {date:'2025.10.31'}, {date:'2024.03.02'}, {date:'2026.13.01'}, {date:'待补充'}, {date:'2027.01.01'},
+  ];
+  const result = monthlyRecordCounts(rows, now);
+  assert.equal(result.months.length, 12);
+  assert.equal(result.months[0].label, '2025.11');
+  assert.equal(result.months[11].label, '2026.10');
+  assert.equal(result.months[11].count, 2);
+  assert.equal(result.months[10].count, 1);
+  assert.equal(result.months[0].count, 1);
+  assert.equal(result.total, 4);
+  assert.equal(result.max, 2);
+  assert.equal(result.months[11].ratio, 1);
+  assert.equal(result.unverified, 2);
+  assert.equal(result.outside, 3);
+  assert.equal(result.range, '2025.11 – 2026.10');
+  assert.equal(monthlyRecordCounts([], now).total, 0);
+  assert.deepEqual(monthlyRecordCounts([], now).months.map(month => month.count), Array(12).fill(0));
+  // A January window must cross the year boundary without dropping December.
+  const january = monthlyRecordCounts([{date:'2025.12.31'}, {date:'2026.01.01'}], new Date(2026, 0, 15));
+  assert.equal(january.months[0].label, '2025.02');
+  assert.equal(january.months[11].label, '2026.01');
+  assert.equal(january.months[10].count, 1);
+  assert.equal(january.months[11].count, 1);
+  console.log('Records by date: twelve-month window, year boundary, record-date counting, ratios, invalid/out-of-range notes and empty state passed.');
+}
 // Manual selection must survive edits without changing snapshot contents or sort order.
 {
   const {selectFeaturedEntry} = await import('../lib/archive-data.js');

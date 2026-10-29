@@ -16,162 +16,96 @@
     <link rel="stylesheet" href="../assets/endfield.css" />
     <link rel="stylesheet" href="../assets/kit-nav.css" />
     <style>
-      .showcase-nav { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; padding:1rem var(--ef-pad); border-bottom:1px solid var(--ef-rule); background:var(--ef-panel); }
+      /* ---- shell ---------------------------------------------------------- */
+      .showcase-nav { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; padding:.85rem var(--ef-pad); border-bottom:1px solid var(--ef-rule); background:var(--ef-panel); }
       .showcase-nav nav, .site-index { display:flex; flex-wrap:wrap; gap:.5rem; }
       .showcase-nav a, .showcase-nav button { min-height:44px; }
       .showcase-nav [aria-current='page'] { --fill:var(--ef-signal); color:var(--ef-on-signal); font-weight:800; }
-      /* page-specific layout only; every look comes from endfield.css */
+      .showcase-nav nav { align-items:center; }
+      main { display:block; }
+
+      /* ---- hero: the archive cover --------------------------------------- */
       .hero {
         --mx: 0;
         --my: 0;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 42%);
-        grid-template-rows: auto 1fr auto auto;
-        column-gap: clamp(1.5rem, 4vw, 3.5rem);
-        min-height: min(44rem, calc(100dvh - 3px));
-        padding-top: 1.25rem;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 44%);
+        column-gap: clamp(1.5rem, 4vw, 3.75rem);
+        padding-top: 0;
         border-bottom: 1px solid var(--ef-rule);
         overflow: hidden;
       }
-      .hero > .meta {
-        grid-column: 1;
+
+      /* the header band: date, real counts, version */
+      .hero-meta {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: .6rem 1.75rem;
         margin: 0;
-        padding-inline: var(--ef-pad);
-      }
-      .hero > .meta > * + *::before {
-        content: '/';
-        margin-inline: 0.75em;
-        color: var(--ef-rule);
-      }
-      .hero-counts { display:inline-flex; flex-wrap:wrap; gap:.75em; }
-      .hero-counts > span + span { border-left:1px solid var(--ef-rule); padding-left:.75em; }
-      .hero-counts b { font-size:1.1em; font-variant-numeric:tabular-nums; }
-      .hero .ef-wordmark {
-        grid-column: 1;
-        align-self: end;
-        margin-top: 2rem;
-        padding-left: var(--ef-pad);
-        position: relative;
-        z-index: 2;
-      }
-      .hero .copy {
-        grid-column: 1;
-        padding: 1.75rem var(--ef-pad) 2.25rem;
-      }
-      .hero .copy p {
-        margin: 0;
-      }
-      .hero .claim {
-        font-size: clamp(1.15rem, 2.2vw, 1.6rem);
-      }
-      .hero .bio {
-        max-width: 30rem;
-        margin-top: 0.9rem !important;
+        padding: .8rem var(--ef-pad);
+        border-bottom: 1px solid var(--ef-rule);
+        font-family: var(--ef-font-ui);
+        font-size: var(--ef-t-field);
+        letter-spacing: .02em;
         color: var(--ef-ink-2);
       }
-      .hero .ef-actions {
-        margin-top: 1.5rem;
-      }
-      .hero .ef-frame {
-        grid-column: 2;
-        grid-row: 1 / 4;
-        margin: 0 var(--ef-pad) 2.25rem 0;
-        z-index: 1;
-      }
-      .hero .ef-plate {
-        bottom: -0.75rem;
-      }
-      .hero .ef-frame::before {
-        transform: translate(calc(var(--mx) * 12px), calc(var(--my) * 10px));
-      }
-      .hero .ef-frame svg {
-        width: 100%;
-        height: 100%;
-        transform: translate(calc(var(--mx) * -14px), calc(var(--my) * -8px));
-        transition: transform 0.4s var(--ef-ease);
-      }
-      .hero .ef-ticker {
-        grid-column: 1 / -1;
-      }
-      .latest {
-        background: var(--ef-panel);
-        border-bottom: 1px solid var(--ef-rule);
-      }
-      .latest > a {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
-        align-items: center;
-        gap: clamp(1.5rem, 5vw, 4rem);
-        padding: clamp(1.75rem, 4vw, 3rem) var(--ef-pad);
-      }
-      .latest .body {
+      .hero-meta > .hero-date { color: var(--ef-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+      .hero-counts { display: flex; flex-wrap: wrap; gap: 1.4rem; }
+      .hero-counts > span { display: inline-flex; align-items: baseline; gap: .35em; }
+      .hero-counts b { color: var(--ef-ink); font-size: 1.05rem; font-stretch: var(--ef-wide); font-variant-numeric: tabular-nums; }
+      .hero-version { margin-left: auto; display: inline-flex; align-items: baseline; gap: .5rem; letter-spacing: .12em; text-transform: uppercase; }
+      .hero-version b { color: var(--ef-ink); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+      .hero-version i { display: block; width: 26px; height: 6px; background: var(--ef-signal); font-style: normal; }
+
+      /* left column: wordmark, claim, actions, real figures */
+      .hero-copy {
+        grid-column: 1;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 0.9rem;
-        max-width: 44rem;
-        padding-left: clamp(1.25rem, 3vw, 3rem);
-        border-left: 1px solid var(--ef-rule);
+        justify-content: space-between;
+        gap: clamp(1.5rem, 3vw, 2.5rem);
+        padding: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(1.5rem, 3vw, 2.5rem) var(--ef-pad);
       }
-      .latest .title {
-        font-size: clamp(1.6rem, 3.4vw, 2.6rem);
-        font-weight: 800;
-        line-height: 1.2;
-      }
-      .latest .flag {
-        padding: 0.05em 0.6em;
-        background: var(--ef-signal);
-        color: var(--ef-on-signal);
-        font-weight: 700;
-      }
-      .index {
-        padding: clamp(2rem, 4vw, 3rem) var(--ef-pad) 4rem;
-      }
-      @media (max-width: 899px) {
-        .hero {
-          grid-template-columns: minmax(0, 1fr);
-          grid-template-rows: none;
-          min-height: 0;
-        }
-        .hero .ef-frame {
-          grid-column: 1;
-          grid-row: auto;
-          height: 18rem;
-          margin: 0 calc(var(--ef-pad) + 1rem) 5rem var(--ef-pad);
-        }
-        .hero .ef-plate {
-          bottom: -4rem;
-        }
-        .latest > a {
-          grid-template-columns: minmax(0, 1fr);
-        }
-      .hero > .meta { 
-          display: grid;
-          grid-template-columns: repeat(3, max-content);
-          justify-content: space-between;
-          row-gap: 0.25rem;
-        }
-        .hero > .meta > time { grid-column: 1 / -1; }
-        .hero > .meta > span { white-space: nowrap; }
-      }
-      @media (min-width: 900px) {
-        .hero { --ef-wordmark: clamp(3rem, calc(7.8vw - 10px), 11rem); }
-      }
+      .hero-brandplate { border-bottom: 1px solid var(--ef-rule); padding-bottom: .9rem; }
+      .hero .ef-wordmark { --ef-wordmark: clamp(2.5rem, 5.2vw, 5.5rem); margin: 0 0 .55rem; color: var(--ef-ink); }
+      .hero .ef-wordmark .hollow { -webkit-text-stroke-width: 2.5px; }
+      .hero-brandmeta { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: .95rem 0 0; color: var(--ef-ink-2); font-size: var(--ef-t-field); letter-spacing: .1em; text-transform: uppercase; }
+      .hero .ef-eyebrow { margin-top: 1.6rem; }
+      .hero .claim { margin: .9rem 0 0; font-size: clamp(2.5rem, 4.4vw, 4.25rem); font-weight: 800; line-height: 1.22; letter-spacing: -.02em; overflow-wrap: anywhere; }
+      .hero .bio { max-width: 30rem; margin: .85rem 0 0; color: var(--ef-ink-2); line-height: 1.8; }
+      .hero .ef-actions { margin-top: 1.35rem; }
+      .hero-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 0; background: var(--ef-rule); border: 1px solid var(--ef-rule); list-style: none; }
+      .hero-facts li { display: flex; flex-direction: column; gap: .3rem; padding: .75rem .85rem; background: var(--ef-paper); }
+      .hero-facts span { color: var(--ef-ink-2); font-size: .6875rem; letter-spacing: .13em; text-transform: uppercase; }
+      .hero-facts b { color: var(--ef-ink); font-size: 1.35rem; font-stretch: var(--ef-wide); font-variant-numeric: tabular-nums; line-height: 1.1; }
 
-      /* Content cover: shared palette, quieter wordmark, readable Chinese heading. */
-      .hero { grid-template-rows: auto auto 1fr auto; min-height: 0; padding-top:2rem; }
-      .hero > .meta { padding-block:.75rem; margin-left:var(--ef-pad); margin-right:1rem; padding-inline:0; border-block:1px solid var(--ef-rule); align-self:start; display:flex; flex-wrap:wrap; gap:.75rem 1.5rem; }
-      .hero > .meta > * + *::before { content:none; }
-      .hero .ef-wordmark { --ef-wordmark: clamp(2rem, 4.4vw, 5rem); margin-top: 2.5rem; opacity: .45; }
-      .hero .copy { padding-top: 1rem; }
-      .hero .claim { margin: .75rem 0 0; font-size: clamp(3rem, 3.8vw, 4.5rem); font-weight: 800; line-height: 1.3; overflow-wrap: anywhere; }
-      .hero .bio { line-height: 1.8; }
-      .featured-entry { position:relative; grid-column: 2; grid-row: 1 / 4; align-self: stretch; min-width: 0; margin: 0 var(--ef-pad) 2rem 0; padding: clamp(1.25rem, 3vw, 2.5rem); border:1px solid var(--ef-rule); border-top: 4px solid var(--ef-ink); background: var(--ef-panel); }
-      .featured-entry::after { content:''; position:absolute; bottom:0; inset-inline:0; height:8px; background:var(--ef-hatch); pointer-events:none; }
-      .featured-entry [data-feature-meta] { border-block:1px solid var(--ef-rule); padding-block:.75rem; font-variant-numeric:tabular-nums; }
-      .featured-entry h2 { margin: 1rem 0; font-size: clamp(1.5rem, 2.6vw, 2.6rem); line-height: 1.35; overflow-wrap: anywhere; }
-      .featured-entry p { overflow-wrap: anywhere; }
-      .featured-entry [data-feature-summary] { color: var(--ef-ink-2); line-height: 1.8; white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      /* right column: the featured archive, illustration and text as one plate */
+      .featured-entry {
+        grid-column: 2;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-self: start;
+        min-width: 0;
+        margin: clamp(1.5rem, 3vw, 2.5rem) var(--ef-pad) clamp(1.5rem, 3vw, 2.5rem) 0;
+        padding: clamp(1.25rem, 2.4vw, 2rem);
+        border: 1px solid var(--ef-rule);
+        border-top: 4px solid var(--ef-ink);
+        background: var(--ef-panel);
+      }
+      .featured-entry::after { content: ''; position: absolute; inset: auto 0 0; height: 8px; background: var(--ef-hatch); pointer-events: none; }
+      .featured-plate { position: relative; display: grid; place-items: center; min-height: clamp(9rem, 13vw, 12rem); padding: 1.25rem; border: 1px solid var(--ef-rule); background: var(--ef-paper); overflow: hidden; }
+      .featured-plate::before { content: ''; position: absolute; inset: 0; background: var(--ef-hatch); opacity: .35; opacity: .3; mask-image: linear-gradient(160deg, transparent 45%, #000 100%); }
+      .featured-plate > svg { position: relative; z-index: 1; width: 100%; height: 100%; max-height: 9.5rem; color: var(--ef-ink); }
+      .featured-plate-tag { position: absolute; z-index: 2; top: .6rem; left: .7rem; padding: .1em .5em; background: var(--ef-signal); color: var(--ef-on-signal); font-size: .6875rem; font-weight: 800; letter-spacing: .1em; }
+      .featured-entry [data-feature-meta] { margin: 1.1rem 0 0; padding-block: .6rem; border-block: 1px solid var(--ef-rule); color: var(--ef-ink-2); font-size: var(--ef-t-field); font-variant-numeric: tabular-nums; }
+      .featured-entry h2 { margin: .9rem 0; font-size: clamp(1.4rem, 2.2vw, 2.1rem); line-height: 1.4; overflow-wrap: anywhere; }
+      .featured-entry p { margin: 0; overflow-wrap: anywhere; }
+      .featured-entry [data-feature-summary] { color: var(--ef-ink-2); line-height: 1.85; white-space: pre-wrap; }
+      .featured-entry .ef-btn { margin-top: 1.25rem; align-self: flex-start; }
+      .featured-note { margin-top: 1.25rem !important; padding-top: .85rem; border-top: 1px solid var(--ef-rule); color: var(--ef-ink-2); font-size: .75rem; line-height: 1.6; }
       @media (prefers-reduced-motion:no-preference) and (hover:hover) {
         .featured-art { transform:translate(calc(var(--mx) * -14px),calc(var(--my) * -8px)); transition:transform .4s var(--ef-ease),color .3s; }
         .featured-entry:is(:hover,:focus-within) .featured-art { color:var(--ef-ink); }
@@ -184,21 +118,98 @@
         :root:not([data-ef-motion='calm']) .featured-art path + path { animation-delay:200ms; }
       }
       @keyframes home-art-draw { from { stroke-dashoffset:1; } to { stroke-dashoffset:0; } }
-      .featured-art { width: 100%; height: 9rem; margin-block: 1rem; color: var(--ef-ink-2); }
-      .featured-note { margin-top: 1.5rem; padding-top:1rem; border-top:1px solid var(--ef-rule); font-size: .75rem; color: var(--ef-ink-2); }
-      .hero .ef-actions { gap: .75rem; }
-      @media(max-width:899px) {
-        .hero > .meta { display:contents; }
-        .hero > .meta > time { grid-row:1; margin-inline:var(--ef-pad); }
-        .hero .ef-wordmark { grid-row:2; }
-        .hero .copy { grid-row:3; }
-        .hero > .meta .hero-counts { grid-column:1; grid-row:5; display:flex; justify-content:space-between; margin:0 var(--ef-pad) 2rem; font-size:.75rem; }
-        .hero > .meta .hero-counts::before { content:none; }
-        .hero-counts > span { white-space:nowrap; }
-        .hero .ef-ticker { grid-row:6; }
-        .hero .ef-wordmark { --ef-wordmark: clamp(1.5rem, 7vw, 3rem); margin-top: 1.5rem; }
-        .featured-entry { grid-column: 1; grid-row:4; margin: 0 var(--ef-pad) 2rem; }
-        .featured-art { height: 6rem; }
+      .featured-art { width: 100%; height: 100%; }
+
+      /* ---- 内容概览：真实分类分布 ---------------------------------------- */
+      .overview { display: grid; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 4rem); padding: clamp(2rem, 3.4vw, 3rem) var(--ef-pad); border-bottom: 1px solid var(--ef-rule); }
+      .overview-note { margin: .9rem 0 0; color: var(--ef-ink-2); font-size: .8125rem; line-height: 1.75; }
+      .overview-note b { color: var(--ef-ink); font-variant-numeric: tabular-nums; }
+      .overview-link { display: inline-flex; align-items: center; gap: .35rem; margin-top: 1rem; color: var(--ef-ink); font-size: .8125rem; font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--ef-ink); padding-bottom: .15rem; }
+      .overview-link:hover, .overview-link:focus-visible { background: var(--ef-signal); color: var(--ef-on-signal); border-bottom-color: var(--ef-ink); }
+      .chart-head, .chart-row { display: grid; grid-template-columns: minmax(0, 13rem) 4rem minmax(0, 1fr); align-items: center; gap: 1rem; }
+      .chart-head { padding: 0 .5rem .45rem 0; border-bottom: 1px solid var(--ef-rule); color: var(--ef-ink-2); font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; }
+      .chart-head span { white-space: nowrap; }
+      .category-chart { display: grid; gap: .1rem; margin: .35rem 0 0; padding: 0; list-style: none; }
+      .category-chart .chart-empty { padding: .9rem 0; color: var(--ef-ink-2); font-size: .875rem; }
+      .chart-row { padding: .45rem .5rem .45rem 0; color: var(--ef-ink); text-decoration: none; }
+      .chart-row:is(:hover, :focus-visible) { background: var(--ef-paper); }
+      .chart-row:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: 2px; }
+      .chart-name { overflow-wrap: anywhere; font-size: .9375rem; line-height: 1.5; }
+      .chart-count { color: var(--ef-ink); font-size: .9375rem; font-variant-numeric: tabular-nums; text-align: right; font-weight: 700; }
+      .chart-track { position: relative; height: 10px; background: var(--ef-chip); }
+      .chart-bar { display: block; height: 100%; width: calc(var(--ratio, 0) * 100%); min-width: 3px; background: var(--ef-ink-2); transition: width .22s var(--ef-ease); }
+      .chart-row:is(:hover, :focus-visible) .chart-bar { background: var(--ef-signal); box-shadow: inset 0 0 0 1px var(--ef-ink); }
+
+      /* ---- 最近的档案 ------------------------------------------------------ */
+      .recent { padding: clamp(2rem, 3.4vw, 3rem) var(--ef-pad) 3.5rem; border-bottom: 1px solid var(--ef-rule); }
+      .recent-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: .75rem 2rem; margin-bottom: 1.75rem; }
+      .recent-head .ef-bar-title { margin-bottom: 0; }
+      .recent-status { margin: 0; color: var(--ef-ink-2); font-size: .8125rem; }
+      .recent-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 3.5rem); }
+      .recent-block { display: flex; flex-direction: column; min-width: 0; }
+      .recent-heading { display: flex; align-items: baseline; gap: .75rem; margin: 0 0 .9rem; font-size: 1.0625rem; font-weight: 800; }
+      .recent-heading .home-section-number { color: var(--ef-ink-2); font-size: .8125rem; font-variant-numeric: tabular-nums; letter-spacing: .08em; }
+      .recent-heading .recent-more { margin-left: auto; color: var(--ef-ink-2); font-size: .8125rem; font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--ef-rule); }
+      .recent-heading .recent-more:hover, .recent-heading .recent-more:focus-visible { color: var(--ef-ink); border-bottom-color: var(--ef-ink); }
+      .lead-entry { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .5rem 1rem; padding: 1rem 1.1rem 1.1rem; border: 1px solid var(--ef-rule); border-left: 3px solid var(--ef-ink); background: var(--ef-panel); color: var(--ef-ink); text-decoration: none; }
+      .lead-entry:hover, .lead-entry:focus-visible { border-left-color: var(--ef-signal); background: var(--ef-paper); }
+      .lead-entry:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: 2px; }
+      .lead-index { color: var(--ef-ink-2); font-size: .75rem; font-weight: 800; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+      .lead-meta { display: flex; flex-wrap: wrap; gap: .25rem .75rem; color: var(--ef-ink-2); font-size: .75rem; font-variant-numeric: tabular-nums; }
+      .lead-meta span + span::before { content: '/'; margin-right: .6rem; color: var(--ef-rule); }
+      .lead-title { grid-column: 1 / -1; font-size: clamp(1.1rem, 1.5vw, 1.375rem); font-weight: 800; line-height: 1.45; overflow-wrap: anywhere; }
+      .lead-summary { grid-column: 1 / -1; margin: 0; color: var(--ef-ink-2); font-size: .875rem; line-height: 1.75; overflow-wrap: anywhere; }
+      .lead-action { grid-column: 1 / -1; margin-top: .25rem; font-size: .8125rem; font-weight: 700; }
+      .lead-proof { grid-column: 1 / -1; display: grid; place-items: center; min-height: 8rem; margin: .75rem 0 0; padding: .6rem; border: 1px solid var(--ef-rule); background: var(--ef-paper); }
+      .lead-proof img { display: block; max-width: 100%; max-height: 11rem; object-fit: contain; }
+      .lead-proof figcaption { margin-top: .5rem; color: var(--ef-ink-2); font-size: .6875rem; letter-spacing: .05em; }
+      .lead-entry.is-empty { border-left-color: var(--ef-rule); }
+      .lead-entry.is-empty .lead-title { font-size: 1rem; font-weight: 700; }
+      .recent-rows { margin: 1rem 0 0; }
+      .recent-rows > li { border-bottom: 1px solid var(--ef-rule); }
+      .recent-rows > li:first-child { border-top: 1px solid var(--ef-rule); }
+      .recent-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .15rem .9rem; padding: .7rem .5rem; color: var(--ef-ink); text-decoration: none; }
+      .recent-row:is(:hover, :focus-visible) { background: var(--ef-paper); }
+      .recent-row:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: 2px; }
+      .recent-row strong { font-size: .9375rem; font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; }
+      .recent-row time { color: var(--ef-ink-2); font-size: .75rem; font-variant-numeric: tabular-nums; }
+      .recent-row .recent-row-summary { grid-column: 1 / -1; color: var(--ef-ink-2); font-size: .8125rem; line-height: 1.7; overflow-wrap: anywhere; }
+      .recent-empty { margin: 0; padding: .9rem .5rem; color: var(--ef-ink-2); font-size: .875rem; }
+
+      /* ---- 墨色内容带：最新更新 ------------------------------------------- */
+      .latest { --band-bg:#111214; --band-fg: var(--ef-paper); background: var(--band-bg); color: var(--band-fg); --ef-ink: var(--band-fg); --ef-ink-2: color-mix(in srgb, var(--band-fg) 64%, var(--band-bg)); --ef-rule: color-mix(in srgb, var(--band-fg) 24%, transparent); --ef-panel: transparent; --ef-chip: color-mix(in srgb, var(--band-fg) 14%, transparent); border-block: 1px solid var(--ef-rule); }
+      :root[data-theme='dark'] .latest { --band-bg:#262626; --band-fg:#f0f0ee; border-top: 2px solid var(--ef-signal); }
+      .latest > a { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); align-items: center; gap: clamp(1.5rem, 5vw, 4rem); padding: clamp(1.75rem, 3.6vw, 2.75rem) var(--ef-pad); color: inherit; text-decoration: none; }
+      .latest-plate { display: grid; gap: .4rem; padding-right: 1.5rem; border-right: 1px solid var(--ef-rule); }
+      .latest-plate-label { color: var(--ef-ink-2); font-size: .6875rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+      .latest-plate .ef-hollow-no { font-size: clamp(3.5rem, 7vw, 6rem); }
+      .latest-body { display: flex; flex-direction: column; align-items: flex-start; gap: .7rem; max-width: 46rem; }
+      .latest-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; color: var(--ef-ink-2); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+      .latest .flag { padding: .05em .6em; background: var(--ef-signal); color: var(--ef-on-signal); font-weight: 800; }
+      .latest-title { font-size: clamp(1.5rem, 2.6vw, 2.25rem); font-weight: 800; line-height: 1.3; }
+      .latest-summary { color: var(--ef-ink-2); font-size: .875rem; line-height: 1.85; display: block; }
+      .latest-cta { margin-top: .35rem; }
+      .latest .latest-cta { border: 1px solid var(--ef-signal); background: var(--ef-signal); color: var(--ef-on-signal); font-weight: 800; }
+      .latest .latest-cta:is(:hover, :focus-visible) { background: var(--band-fg); border-color: var(--band-fg); color: var(--band-bg); }
+      .latest > a:focus-visible { outline: 2px solid var(--ef-signal); outline-offset: -4px; }
+
+      /* ---- 全站索引 -------------------------------------------------------- */
+      .index { padding: clamp(2rem, 3.4vw, 3rem) var(--ef-pad) 4rem; }
+      .index-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
+      .index h3 { margin: 0 0 .9rem; font-size: 1rem; font-weight: 800; }
+
+      /* ---- narrower desktop windows ---------------------------------------- */
+      @media (max-width: 1099px) {
+        .hero { grid-template-columns: minmax(0, 1fr); }
+        .hero-copy { padding-right: var(--ef-pad); }
+        .featured-entry { grid-column: 1; margin: 0 var(--ef-pad) 2rem; }
+        .overview { grid-template-columns: minmax(0, 1fr); }
+        .recent-columns, .index-grid { grid-template-columns: minmax(0, 1fr); }
+        .latest > a { grid-template-columns: minmax(0, 1fr); }
+        .latest-plate { padding-right: 0; padding-bottom: 1rem; border-right: 0; border-bottom: 1px solid var(--ef-rule); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .chart-bar, .featured-art, .hero .ef-wordmark { transition: none; }
       }
     </style>
   </head>
@@ -211,86 +222,127 @@
     </header>
     <main>
     <section class="hero" data-hero>
-      <div class="meta ef-field ef-in-power">
-        <time data-archive-date>2026.10.27</time>
+      <div class="hero-meta ef-in-power">
+        <time class="hero-date" data-archive-date>2026.10.29</time>
         <span class="hero-counts">
-        <span><b data-fx-load data-archive-count="all">0</b> 条档案</span>
-        <span><b data-fx-load data-archive-count="knowledge">0</b> 条知识</span>
-        <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
+          <span><b data-fx-load data-archive-count="all">0</b> 条档案</span>
+          <span><b data-fx-load data-archive-count="knowledge">0</b> 条知识</span>
+          <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
         </span>
+        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.230</b></span>
       </div>
 
-      <div class="ef-wordmark" aria-hidden="true">
-        <span class="solid ef-in-drive">KNOWLEDGE</span><span class="hollow ef-in-drive" style="animation-delay:80ms">GARDEN</span>
-      </div>
-
-      <div class="copy ef-in-power" style="--i:2">
-        <p class="ef-eyebrow slash">Knowledge Garden</p><h1 class="claim">把学过的，<br>整理成找得到的答案。</h1>
-        <p class="bio">收集知识记录与获奖成果，慢慢积累成自己的档案。</p>
-        <p class="ef-actions">
-        <a class="ef-btn go" href="/archive#quick-capture-title">开始记录</a>
-          <a class="ef-btn" href="/archive?view=knowledge&layout=list">浏览知识库</a>
-        </p>
+      <div class="hero-copy ef-in-power" style="--i:2">
+        <div>
+          <div class="hero-brandplate">
+            <p class="ef-wordmark" aria-hidden="true"><span class="solid ef-in-drive">KNOWLEDGE</span><span class="hollow ef-in-drive" style="animation-delay:80ms">GARDEN</span></p>
+            <p class="hero-brandmeta"><span>Field archive / 个人档案</span><span>01 — Home</span></p>
+          </div>
+          <p class="ef-eyebrow slash">Knowledge Garden</p>
+          <h1 class="claim">把学过的，<br>整理成找得到的答案。</h1>
+          <p class="bio">收集知识记录与获奖成果，慢慢积累成自己的档案。</p>
+          <p class="ef-actions">
+            <a class="ef-btn go" href="/archive#quick-capture-title">开始记录</a>
+            <a class="ef-btn" href="/archive?view=knowledge&layout=list">浏览知识库</a>
+          </p>
+        </div>
+        <ol class="hero-facts">
+          <li><span>Categories / 分类</span><b data-archive-stat="categories">0</b></li>
+          <li><span>Tags / 标签</span><b data-archive-stat="tags">0</b></li>
+          <li><span>Updated / 更新</span><b data-archive-date>—</b></li>
+        </ol>
       </div>
 
       <aside class="featured-entry ef-in-power" style="--i:3" aria-labelledby="featured-heading">
+        <div class="featured-plate">
+          <span class="featured-plate-tag">ARCHIVE / 001</span>
+          <svg class="featured-art" viewBox="0 0 420 160" fill="none" stroke="currentColor" aria-hidden="true"><path pathLength="1" d="M78 34h248v86" opacity=".38"/><path pathLength="1" d="M62 46h264v86" opacity=".6"/><path pathLength="1" d="M34 138V58h108l24 24h220v56z"/><path pathLength="1" d="M34 138h352"/><path pathLength="1" d="M56 106h92v22H56z" stroke-width="2"/><path pathLength="1" d="M170 106h188M170 122h124"/><path pathLength="1" d="M12 152h396" stroke-dasharray="3 7"/></svg>
+        </div>
         <p class="ef-eyebrow slash" id="featured-heading" data-feature-heading>Latest entry / 最近档案</p>
-        <svg class="featured-art" viewBox="0 0 400 150" fill="none" stroke="currentColor" aria-hidden="true"><path pathLength="1" d="M20 130V30h110l25 25h225v75zM40 110V65h320M170 80h170M170 98h120"/><path pathLength="1" d="M40 80h100v30H40z" stroke-width="2"/></svg>
         <p class="ef-field" data-feature-meta>当前浏览器的个人档案</p>
         <h2 data-feature-title>从第一条记录开始</h2>
         <p data-feature-summary>把今天学到的知识或收获保存下来，这里将展示最近更新的档案。</p>
         <a class="ef-btn" data-feature-link href="/archive">打开个人档案 ↗</a>
         <p class="featured-note" data-feature-note>档案保存在当前浏览器，按最近更新选取。</p>
       </aside>
+    </section>
 
-      <div class="ef-ticker" role="region" tabindex="0" aria-label="最近的网站更新，悬停或聚焦暂停滚动">
-        <div class="track">
-          <ul>
+    <div class="ef-ticker" role="region" tabindex="0" aria-label="最近的网站更新，悬停或聚焦暂停滚动">
+      <div class="track">
+        <ul>
 <!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-230"><b>v1.0.230</b>首页与目录新增可视化概览与档案封面构图</a></li>
 <li><a href="reading.html#release-v1-0-229"><b>v1.0.229</b>精修阅读章节、表单与全站更新展示</a></li>
 <li><a href="reading.html#release-v1-0-228"><b>v1.0.228</b>精修档案工具带、记录行与成果证据</a></li>
 <li><a href="reading.html#release-v1-0-227"><b>v1.0.227</b>精修桌面首页的信息层次与档案封面</a></li>
 <li><a href="reading.html#release-v1-0-226"><b>v1.0.226</b>让滚动更新条的键盘焦点保持可见</a></li>
 <li><a href="reading.html#release-v1-0-225"><b>v1.0.225</b>支持首页精选并完善表单反馈</a></li>
 <li><a href="reading.html#release-v1-0-224"><b>v1.0.224</b>档案页新增返回主页入口</a></li>
-<li><a href="reading.html#release-v1-0-223"><b>v1.0.223</b>恢复首页入场与线稿视差动效</a></li>
 <!-- /release -->
 </ul>
-          <ul aria-hidden="true">
+        <ul aria-hidden="true">
 <!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-230" tabindex="-1"><b>v1.0.230</b>首页与目录新增可视化概览与档案封面构图</a></li>
 <li><a href="reading.html#release-v1-0-229" tabindex="-1"><b>v1.0.229</b>精修阅读章节、表单与全站更新展示</a></li>
 <li><a href="reading.html#release-v1-0-228" tabindex="-1"><b>v1.0.228</b>精修档案工具带、记录行与成果证据</a></li>
 <li><a href="reading.html#release-v1-0-227" tabindex="-1"><b>v1.0.227</b>精修桌面首页的信息层次与档案封面</a></li>
 <li><a href="reading.html#release-v1-0-226" tabindex="-1"><b>v1.0.226</b>让滚动更新条的键盘焦点保持可见</a></li>
 <li><a href="reading.html#release-v1-0-225" tabindex="-1"><b>v1.0.225</b>支持首页精选并完善表单反馈</a></li>
 <li><a href="reading.html#release-v1-0-224" tabindex="-1"><b>v1.0.224</b>档案页新增返回主页入口</a></li>
-<li><a href="reading.html#release-v1-0-223" tabindex="-1"><b>v1.0.223</b>恢复首页入场与线稿视差动效</a></li>
 <!-- /release -->
 </ul>
-        </div>
+      </div>
+    </div>
+
+    <section class="overview" aria-labelledby="overview-title">
+      <div>
+        <p class="ef-eyebrow slash">Archive overview</p>
+        <h2 class="ef-bar-title" id="overview-title">内容概览</h2>
+        <p class="overview-note">按当前分区全部记录统计，不随搜索词缩小分母。条形长度对应该分类在分区中的记录数；点选进入个人档案的同一分类。<br /><b data-archive-chart-total>正在统计…</b></p>
+        <a class="overview-link" href="/archive?view=knowledge&layout=list">打开完整目录 →</a>
+      </div>
+      <div class="chart-body">
+        <div class="chart-head" aria-hidden="true"><span>分类</span><span>记录数</span><span>分布</span></div>
+        <ol class="category-chart" data-archive-chart aria-label="按分类的记录分布">
+          <li class="chart-empty">正在读取当前浏览器的分类分布…</li>
+        </ol>
       </div>
     </section>
 
-    <section class="index archive-home" aria-labelledby="archive-home-title">
-      <p class="ef-eyebrow slash">Personal archive</p>
-      <h2 class="ef-bar-title" id="archive-home-title">最近的档案</h2>
-      <p class="ef-read" data-archive-status role="status">正在读取当前浏览器的档案…</p>
-      <div class="archive-home-columns">
-        <section><h3><span class="home-section-number" aria-hidden="true">01</span><a href="/archive?view=knowledge">最近知识 ↗</a></h3><ol class="ef-records" data-recent="knowledge"></ol></section>
-        <section><h3><span class="home-section-number" aria-hidden="true">02</span><a href="/archive?view=award">最近成果 ↗</a></h3><ol class="ef-records" data-recent="award"></ol></section>
+    <section class="recent archive-home" aria-labelledby="archive-home-title">
+      <div class="recent-head">
+        <div>
+          <p class="ef-eyebrow slash">Personal archive</p>
+          <h2 class="ef-bar-title" id="archive-home-title">最近的档案</h2>
+        </div>
+        <p class="recent-status ef-read" data-archive-status role="status">正在读取当前浏览器的档案…</p>
       </div>
-      <h3>按分类浏览</h3><div class="ef-actions" data-archive-categories></div>
+      <div class="recent-columns">
+        <section class="recent-block" aria-labelledby="recent-knowledge-title">
+          <h3 class="recent-heading" id="recent-knowledge-title"><span class="home-section-number" aria-hidden="true">01</span><span>最近知识</span><a class="recent-more" href="/archive?view=knowledge">全部知识 ↗</a></h3>
+          <div class="recent-lead" data-recent-lead="knowledge"></div>
+          <ol class="ef-records recent-rows" data-recent="knowledge"></ol>
+        </section>
+        <section class="recent-block" aria-labelledby="recent-award-title">
+          <h3 class="recent-heading" id="recent-award-title"><span class="home-section-number" aria-hidden="true">02</span><span>最近成果</span><a class="recent-more" href="/archive?view=award">全部成果 ↗</a></h3>
+          <div class="recent-lead" data-recent-lead="award"></div>
+          <ol class="ef-records recent-rows" data-recent="award"></ol>
+        </section>
+      </div>
       <noscript><p>启用 JavaScript 后可显示本地档案，或直接<a href="/archive">打开个人档案</a>。</p></noscript>
     </section>
 
-    <section class="latest" id="latest">
-      <a href="reading.html#release-v1-0-229" data-release-href="latest" data-fx-host>
-        <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">229</span>
-        <span class="body">
-          <span class="ef-field"><span class="flag">最新更新</span> <span data-release="version">v1.0.229</span> │ <span data-release="date">2026.10.29</span></span>
-          <span class="title" data-release="title">精修阅读章节、表单与全站更新展示</span>
-          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8" data-release="summary">章节目录新增当前位置与层级标记，宽桌面保持可见，缩放时回到文档流，保留原生锚点和返回筛选；阅读标题、代码语言与横向滚动说明、关联记录进一步对齐，正文仍为单栏且完整保留；编辑字段分组、详情元数据、本地偏好和异常提示补充分隔，加强控件边界，补齐桌面缩放下长表单的滚动与固定操作区；完整更新历史分别对齐版本与日期，控制台及样张统一标题细节，同步全部站内公告</span>
-          <span class="ef-btn go">阅读最新更新</span>
+    <section class="latest" id="latest" aria-label="最新更新">
+      <a href="reading.html#release-v1-0-230" data-release-href="latest" data-fx-host>
+        <span class="latest-plate">
+          <span class="latest-plate-label">Release note / 版本记录</span>
+          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">230</span>
+        </span>
+        <span class="latest-body">
+          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.230</span> │ <span data-release="date">2026.10.29</span></span>
+          <span class="latest-title" data-release="title">首页与目录新增可视化概览与档案封面构图</span>
+          <span class="latest-summary" data-release="summary">首页首屏重组为档案封面：日期、真实计数与版本组成页眉信息带，实心空心字标成为左侧横向结构，原创线稿与精选合并为同一展陈版块，左栏补上真实的分类与标签计数；首页新增内容概览：按当前分区全部记录统计的分类横向分布，条长对应该类记录数占最大类的比例，点选进入个人档案的同一分类；最近知识、最近成果改为重点记录加连续记录行，成果主条目优先展示真实证据图片；首页最新更新改为墨色内容带，白字显示真实版本与更新标题，黄色只用于最新标记与阅读入口，完整更新日志与全站索引入口全部保留；档案目录新增分类分布与按记录日期十二个月柱形图：数值、统计范围与只读说明齐全，与列表共用同一份归一化档案，不随搜索词缩小分母；成果展陈扩大证据图展台并让字段列填满列高</span>
+          <span class="ef-btn go latest-cta">阅读最新更新</span>
         </span>
       </a>
     </section>
@@ -298,18 +350,25 @@
     <section class="index">
       <p class="ef-eyebrow slash">Index</p>
       <h2 class="ef-bar-title">全站索引</h2>
-      <nav class="ef-actions site-index" aria-label="全站索引"><a class="ef-btn" href="/archive">个人档案</a><a class="ef-btn" href="/archive?view=knowledge">知识库</a><a class="ef-btn" href="/archive?view=award">获奖成果</a><a class="ef-btn" href="/ui-kit/">设计样张</a><a class="ef-btn" href="reading.html#updates">全部更新日志</a></nav>
-      <h3>最近网站更新</h3>
-      <ol class="ef-records">
+      <div class="index-grid">
+        <div>
+          <h3>入口</h3>
+          <nav class="ef-actions site-index" aria-label="全站索引"><a class="ef-btn" href="/archive">个人档案</a><a class="ef-btn" href="/archive?view=knowledge">知识库</a><a class="ef-btn" href="/archive?view=award">获奖成果</a><a class="ef-btn" href="/ui-kit/">设计样张</a><a class="ef-btn" href="reading.html#updates">全部更新日志</a></nav>
+          <p class="ef-actions" style="margin-top: 1.25rem">
+            <button class="ef-btn small" type="button" data-theme-toggle>切换深浅</button>
+          </p>
+        </div>
+        <div>
+          <h3>最近网站更新</h3>
+          <ol class="ef-records">
 <!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-230"><span class="ef-tag">v1.0.230</span><time class="ef-field">2026.10.29</time><span class="name ef-read">首页与目录新增可视化概览与档案封面构图</span><span class="ef-field">04 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-229"><span class="ef-tag">v1.0.229</span><time class="ef-field">2026.10.29</time><span class="name ef-read">精修阅读章节、表单与全站更新展示</span><span class="ef-field">04 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-228"><span class="ef-tag">v1.0.228</span><time class="ef-field">2026.10.29</time><span class="name ef-read">精修档案工具带、记录行与成果证据</span><span class="ef-field">03 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-227"><span class="ef-tag">v1.0.227</span><time class="ef-field">2026.10.29</time><span class="name ef-read">精修桌面首页的信息层次与档案封面</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
-      <p class="ef-actions" style="margin-top: 1.25rem">
-        <button class="ef-btn small" type="button" data-theme-toggle>切换深浅</button>
-      </p>
+        </div>
+      </div>
     </section>
 
     </main>

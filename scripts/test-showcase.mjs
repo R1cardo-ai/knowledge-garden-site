@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {readReleaseData,releaseHref} from './release-data.mjs';
-import {normalizeEntries,formatDisplayDate,compareRecent,selectFeaturedEntry,featuredEntryStorageKey} from '../lib/archive-data.js';
+import {normalizeEntries,formatDisplayDate,compareRecent,selectFeaturedEntry,selectFeaturedAward,proofImageUrl,categoryDistribution,featuredEntryStorageKey} from '../lib/archive-data.js';
 const html=readFileSync('public/ui-kit/templates/showcase.html','utf8');
 assert.ok(html.includes(`href="${releaseHref(readReleaseData().logs[0])}" data-release-href="latest"`));
 assert.ok(html.includes('aria-label="主导航"'));
@@ -42,6 +42,83 @@ console.log('Showcase checks passed: generated latest release target, navigation
     assert.equal(nodes.get('[data-feature-title]').textContent,expected);
   }
   console.log('Homepage rendering passed: manual/automatic/missing/denied preference, reading link and cross-tab preference refresh.');
+}
+// The overview figures and the recent lists must come from the same normalized records.
+{
+  const source=readFileSync('public/ui-kit/assets/kit-nav.js','utf8').replace(/^import[^\n]+\n/,'');
+  const makeNode=tag=>{
+    const node={tagName:String(tag).toUpperCase(),children:[],attributes:{},className:'',textContent:'',href:'',innerHTML:'',owner:null,style:{values:new Map(),setProperty(key,value){this.values.set(key,value);}}};
+    node.append=(...kids)=>{for(const kid of kids){kid.owner=node;node.children.push(kid);}};
+    node.appendChild=node.append;
+    node.replaceChildren=(...kids)=>{for(const kid of kids)kid.owner=node;node.children=[...kids];};
+    node.setAttribute=(key,value)=>{node.attributes[key]=String(value);};
+    node.getAttribute=key=>node.attributes[key]??null;
+    node.before=other=>{const parent=node.owner;if(!parent)return;const at=parent.children.indexOf(node);parent.children.splice(Math.max(0,at),0,other);other.owner=parent;};
+    node.querySelector=selector=>{
+      const name=selector.replace(/^\./,'');
+      const stack=[...node.children];
+      while(stack.length){const current=stack.shift();if(typeof current.className==='string'&&current.className.split(/\s+/).includes(name))return current;if(current.children)stack.push(...current.children);}
+      return null;
+    };
+    return node;
+  };
+  const byClass=(node,className)=>node.children.filter(child=>typeof child.className==='string'&&child.className.split(/\s+/).includes(className));
+  const rows=[
+    {id:'k1',type:'knowledge',title:'最近知识',date:'2026.10.29',updatedAt:9,category:'设计',summary:'摘要一'},
+    {id:'k2',type:'knowledge',title:'较早知识',date:'2026.09.01',updatedAt:8,category:'阅读',summary:'摘要二'},
+    {id:'k3',type:'knowledge',title:'更早知识',date:'2026.08.01',updatedAt:7,category:'设计',summary:'摘要三'},
+    {id:'a1',type:'award',title:'最新成果',date:'2026.10.20',updatedAt:1,category:'竞赛',proof:'https://example.test/proof.png'},
+    {id:'a2',type:'award',title:'较早成果',date:'2026.03.01',updatedAt:2,category:'竞赛'},
+  ];
+  for(const fixture of [rows,[]]){
+    const chart=makeNode('ol');
+    const lead={knowledge:makeNode('div'),award:makeNode('div')};
+    const list={knowledge:makeNode('ol'),award:makeNode('ol')};
+    const feature={title:makeNode('h2'),meta:makeNode('p'),summary:makeNode('p'),note:makeNode('p'),heading:makeNode('p'),link:makeNode('a')};
+    const context={URL,URLSearchParams,Set,normalizeEntries,formatDisplayDate,compareRecent,selectFeaturedEntry,selectFeaturedAward,proofImageUrl,categoryDistribution,featuredEntryStorageKey,
+      localStorage:{getItem:key=>key===featuredEntryStorageKey?null:JSON.stringify(fixture)},
+      location:{href:'https://example.test/ui-kit/templates/showcase.html'},window:{addEventListener(){}},
+      document:{createElement:makeNode,
+        querySelector:selector=>{
+          if(selector==='[data-archive-chart]')return chart;
+          const leadMatch=selector.match(/^\[data-recent-lead="(\w+)"\]$/);if(leadMatch)return lead[leadMatch[1]];
+          const listMatch=selector.match(/^\[data-recent="(\w+)"\]$/);if(listMatch)return list[listMatch[1]];
+          const featureMatch=selector.match(/^\[data-feature-(\w+)\]$/);if(featureMatch)return feature[featureMatch[1]];
+          return null;
+        },
+        querySelectorAll:()=>[]}};
+    vm.runInNewContext(source,context);
+    if(!fixture.length){
+      assert.equal(chart.children.length,1);
+      assert.equal(chart.children[0].className,'chart-empty');
+      assert.equal(lead.knowledge.children.length,1);
+      assert.ok(lead.knowledge.children[0].className.includes('is-empty'));
+      assert.ok(lead.award.children[0].className.includes('is-empty'));
+      assert.equal(list.knowledge.children[0].className,'recent-empty');
+      continue;
+    }
+    const distribution=categoryDistribution(normalizeEntries(fixture,formatDisplayDate(new Date())),'all');
+    assert.equal(chart.children.length,distribution.rows.length);
+    chart.children.forEach((item,index)=>{
+      const link=item.children[0];
+      const [name,count,track]=link.children;
+      assert.equal(name.textContent,distribution.rows[index].category);
+      assert.equal(count.textContent,String(distribution.rows[index].count));
+      assert.ok(link.href.includes(`category=${encodeURIComponent(distribution.rows[index].category)}`));
+      assert.equal(track.children[0].style.values.get('--ratio'),distribution.rows[index].ratio.toFixed(4));
+    });
+    assert.equal(byClass(lead.knowledge.children[0],'lead-title')[0].textContent,'最近知识');
+    assert.ok(lead.knowledge.children[0].href.includes('entry=k1'));
+    assert.equal(byClass(lead.award.children[0],'lead-title')[0].textContent,'最新成果');
+    assert.equal(byClass(lead.award.children[0],'lead-proof').length,1);
+    assert.equal(byClass(lead.knowledge.children[0],'lead-proof').length,0);
+    const knowledgeRows=list.knowledge.children.map(item=>item.children[0]);
+    assert.deepEqual(knowledgeRows.map(link=>link.children[0].textContent),['较早知识','更早知识']);
+    assert.ok(knowledgeRows.every(link=>!link.href.includes('entry=k1')));
+    const awardRows=list.award.children.map(item=>item.children[0]);
+    assert.deepEqual(awardRows.map(link=>link.children[0].textContent),['较早成果']);
+  }
+  console.log('Homepage overview passed: category counts and links match the records, evidence image only on the featured award, recent rows exclude the lead entry and the empty archive keeps a real empty state.');
 }
 // Pointer motion must reach the current art and return to neutral on leave or reduced motion.
 const priorMatchMedia=Object.getOwnPropertyDescriptor(globalThis,'matchMedia');

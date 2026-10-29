@@ -1,0 +1,194 @@
+[
+  {
+    "theme": "light",
+    "rows": [
+      {
+        "label": "panel heading",
+        "color": "rgb(22, 22, 22)",
+        "background": "rgb(244, 244, 242)",
+        "size": "20px",
+        "weight": "750",
+        "ratio": 16.43
+      },
+      {
+        "label": "panel kicker",
+        "color": "rgb(94, 104, 105)",
+        "background": "rgb(244, 244, 242)",
+        "size": "10px",
+        "weight": "700",
+        "ratio": 5.21
+      },
+      {
+        "label": "scope figure",
+        "color": "rgb(94, 104, 105)",
+        "background": "rgb(244, 244, 242)",
+        "size": "11px",
+        "weight": "400",
+        "ratio": 5.21
+      },
+      {
+        "label": "panel note",
+        "color": "rgb(94, 104, 105)",
+        "background": "rgb(244, 244, 242)",
+        "size": "12px",
+        "weight": "400",
+        "ratio": 5.21
+      },
+      {
+        "label": "panel footnote",
+        "color": "rgb(94, 104, 105)",
+        "background": "rgb(244, 244, 242)",
+        "size": "11px",
+        "weight": "400",
+        "ratio": 5.21
+      },
+      {
+        "label": "category name",
+        "color": "rgb(22, 22, 22)",
+        "background": "rgb(244, 244, 242)",
+        "size": "14px",
+        "weight": "400",
+        "ratio": 16.43
+      },
+      {
+        "label": "category count",
+        "color": "rgb(22, 22, 22)",
+        "background": "rgb(244, 244, 242)",
+        "size": "14px",
+        "weight": "650",
+        "ratio": 16.43
+      },
+      {
+        "label": "month count",
+        "color": "rgb(22, 22, 22)",
+        "background": "rgb(244, 244, 242)",
+        "size": "12px",
+        "weight": "650",
+        "ratio": 16.43
+      },
+      {
+        "label": "empty month count",
+        "color": "rgb(94, 104, 105)",
+        "background": "rgb(244, 244, 242)",
+        "size": "12px",
+        "weight": "500",
+        "ratio": 5.21
+      },
+      {
+        "label": "month label",
+        "color": "rgb(94, 104, 105)",
+        "background": "rgb(244, 244, 242)",
+        "size": "10px",
+        "weight": "400",
+        "ratio": 5.21
+      }
+    ],
+    "graphic": {
+      "fill": "rgb(52, 58, 60)",
+      "backdrop": "rgb(244, 244, 242)",
+      "ratio": 10.5
+    },
+    "currentGraphic": {
+      "fill": "rgb(255, 250, 0)",
+      "backdrop": "rgb(244, 244, 242)",
+      "ratio": 1.01
+    },
+    "overflow": 0
+  },
+  {
+    "theme": "dark",
+    "rows": [
+      {
+        "label": "panel heading",
+        "color": "rgb(241, 241, 239)",
+        "background": "rgb(23, 25, 25)",
+        "size": "20px",
+        "weight": "750",
+        "ratio": 15.61
+      },
+      {
+        "label": "panel kicker",
+        "color": "rgb(155, 161, 159)",
+        "background": "rgb(23, 25, 25)",
+        "size": "10px",
+        "weight": "700",
+        "ratio": 6.72
+      },
+      {
+        "label": "scope figure",
+        "color": "rgb(155, 161, 159)",
+        "background": "rgb(23, 25, 25)",
+        "size": "11px",
+        "weight": "400",
+        "ratio": 6.72
+      },
+      {
+        "label": "panel note",
+        "color": "rgb(155, 161, 159)",
+        "background": "rgb(23, 25, 25)",
+        "size": "12px",
+        "weight": "400",
+        "ratio": 6.72
+      },
+      {
+        "label": "panel footnote",
+        "color": "rgb(155, 161, 159)",
+        "background": "rgb(23, 25, 25)",
+        "size": "11px",
+        "weight": "400",
+        "ratio": 6.72
+      },
+      {
+        "label": "category name",
+        "color": "rgb(241, 241, 239)",
+        "background": "rgb(23, 25, 25)",
+        "size": "14px",
+        "weight": "400",
+        "ratio": 15.61
+      },
+      {
+        "label": "category count",
+        "color": "rgb(241, 241, 239)",
+        "background": "rgb(23, 25, 25)",
+        "size": "14px",
+        "weight": "650",
+        "ratio": 15.61
+      },
+      {
+        "label": "month count",
+        "color": "rgb(241, 241, 239)",
+        "background": "rgb(23, 25, 25)",
+        "size": "12px",
+        "weight": "650",
+        "ratio": 15.61
+      },
+      {
+        "label": "empty month count",
+        "color": "rgb(155, 161, 159)",
+        "background": "rgb(23, 25, 25)",
+        "size": "12px",
+        "weight": "500",
+        "ratio": 6.72
+      },
+      {
+        "label": "month label",
+        "color": "rgb(155, 161, 159)",
+        "background": "rgb(23, 25, 25)",
+        "size": "10px",
+        "weight": "400",
+        "ratio": 6.72
+      }
+    ],
+    "graphic": {
+      "fill": "rgb(196, 200, 198)",
+      "backdrop": "rgb(23, 25, 25)",
+      "ratio": 10.44
+    },
+    "currentGraphic": {
+      "fill": "rgb(255, 250, 0)",
+      "backdrop": "rgb(23, 25, 25)",
+      "ratio": 15.91
+    },
+    "overflow": 0
+  }
+]
