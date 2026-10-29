@@ -85,6 +85,65 @@ export function selectFeaturedEntry(entries, preferredId = '') {
 export function selectFeaturedAward(entries) {
     return entries.filter(entry => entry.type === 'award').sort((a, b) => b.date.localeCompare(a.date) || compareRecent(a, b))[0];
 }
+// Category totals for one partition. Search never shrinks the denominator, so the
+// numbers here always match the archive list for the same partition.
+export function categoryDistribution(entries, view = 'all') {
+    const counts = new Map();
+    for (const entry of entries) {
+        if (view !== 'all' && entry.type !== view)
+            continue;
+        const category = typeof entry.category === 'string' && entry.category.trim() ? entry.category.trim() : '未分类';
+        counts.set(category, (counts.get(category) ?? 0) + 1);
+    }
+    const alphabetical = [...counts.keys()].sort((a, b) => a.localeCompare(b));
+    const rows = [...counts].map(([category, count]) => ({ category, count }));
+    rows.sort((a, b) => b.count - a.count || alphabetical.indexOf(a.category) - alphabetical.indexOf(b.category));
+    const max = rows.reduce((largest, row) => Math.max(largest, row.count), 0);
+    const total = rows.reduce((sum, row) => sum + row.count, 0);
+    return { rows: rows.map(row => ({ ...row, ratio: max ? row.count / max : 0 })), max, total };
+}
+
+// Twelve calendar months ending with the local current month, counted from the
+// record date only. Invalid dates are reported apart; records outside the window
+// stay out of the chart instead of being folded into the newest month.
+export function monthlyRecordCounts(entries, now = new Date()) {
+    const end = new Date(now.getFullYear(), now.getMonth(), 1);
+    const months = [];
+    for (let offset = 11; offset >= 0; offset--) {
+        const cursor = new Date(end.getFullYear(), end.getMonth() - offset, 1);
+        const label = `${cursor.getFullYear()}.${String(cursor.getMonth() + 1).padStart(2, '0')}`;
+        months.push({ key: label, label, count: 0 });
+    }
+    const position = new Map(months.map((month, index) => [month.key, index]));
+    let unverified = 0;
+    let outside = 0;
+    for (const entry of entries) {
+        const date = typeof entry.date === 'string' ? entry.date.trim() : '';
+        // Impossible dates (2026.13.01, 2026.02.31) are reported apart, not folded into a month.
+        const normalized = normalizeEntryDate(date, '');
+        if (!normalized) {
+            unverified += 1;
+            continue;
+        }
+        const index = position.get(normalized.slice(0, 7));
+        if (index === undefined) {
+            outside += 1;
+            continue;
+        }
+        months[index].count += 1;
+    }
+    const max = months.reduce((largest, month) => Math.max(largest, month.count), 0);
+    const total = months.reduce((sum, month) => sum + month.count, 0);
+    return {
+        months: months.map(month => ({ ...month, ratio: max ? month.count / max : 0 })),
+        max,
+        total,
+        unverified,
+        outside,
+        range: `${months[0].label} – ${months[months.length - 1].label}`,
+    };
+}
+
 export function proofImageUrl(value = '') {
     const safe = normalizeHttpUrl(value);
     if (!safe) return '';
