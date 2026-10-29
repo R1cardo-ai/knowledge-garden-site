@@ -1,0 +1,54 @@
+{
+  "version": "v1.0.229",
+  "checkedAt": "2026-10-29T08:24:28.596Z",
+  "sourceCommit": "57230aaa022c35ac8a55ddce7a7c8fe841cf9867",
+  "mainCommit": "22eed52516f4096c553632222dba6c27617c1a9f",
+  "cloudflare": [
+    {
+      "status": "completed",
+      "conclusion": "success",
+      "details": "https://dash.cloudflare.com/?to=/0d2d1e6bb473e4a721ba2ef91762ac0a/pages/view/knowledge-garden-site/720de946-093a-406a-af37-ad6ce6dfd4af",
+      "summary": "<table><tr><td><strong>Latest commit:</strong> </td><td>\n<code>57230aa</code>\n</td></tr>\n<tr><td><strong>Status:</strong></td><td>&nbsp;✅&nbsp; Deploy successful!</td></tr>\n<tr><td><strong>Preview URL:</strong></td><td>\n<a href='https://720de946.knowledge-garden-site.pages.dev'>https://720de946.knowledge-garden-site.pages.dev</a>\n</td></tr>\n</table>\n\n[View logs](https://dash.cloudflare.com/?to=/0d2d1e6bb473e4a721ba2ef91762ac0a/pages/view/knowledge-garden-site/720de946-093a-406a-af37-ad6ce6dfd4af)\n"
+    }
+  ],
+  "githubPages": [
+    {
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/R1cardo-ai/knowledge-garden-site/actions/runs/40841602386",
+      "head": "22eed52516f4096c553632222dba6c27617c1a9f"
+    }
+  ],
+  "live": [
+    {
+      "site": "cloudflare",
+      "version": "v1.0.229",
+      "history": {
+        "count": 241,
+        "latest": "精修阅读章节、表单与全站更新展示",
+        "meta": "v1.0.2292026.10.29"
+      },
+      "reader": {
+        "caption": "js长行可在代码区横向滚动",
+        "chapterCount": 3,
+        "heading": "07 / 阅读与章节状态"
+      },
+      "passed": true
+    },
+    {
+      "site": "github",
+      "version": "v1.0.229",
+      "history": {
+        "count": 241,
+        "latest": "精修阅读章节、表单与全站更新展示",
+        "meta": "v1.0.2292026.10.29"
+      },
+      "reader": {
+        "caption": "js长行可在代码区横向滚动",
+        "chapterCount": 3,
+        "heading": "07 / 阅读与章节状态"
+      },
+      "passed": true
+    }
+  ]
+}

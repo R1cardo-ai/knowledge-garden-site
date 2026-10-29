@@ -1,0 +1,28 @@
+{
+  "cloudflare": {
+    "version": "v1.0.229",
+    "history": {
+      "count": 241,
+      "latest": "精修阅读章节、表单与全站更新展示",
+      "meta": "v1.0.2292026.10.29"
+    },
+    "reader": {
+      "caption": "js长行可在代码区横向滚动",
+      "chapterCount": 3,
+      "heading": "07 / 阅读与章节状态"
+    }
+  },
+  "github": {
+    "version": "v1.0.229",
+    "history": {
+      "count": 241,
+      "latest": "精修阅读章节、表单与全站更新展示",
+      "meta": "v1.0.2292026.10.29"
+    },
+    "reader": {
+      "caption": "js长行可在代码区横向滚动",
+      "chapterCount": 3,
+      "heading": "07 / 阅读与章节状态"
+    }
+  }
+}
