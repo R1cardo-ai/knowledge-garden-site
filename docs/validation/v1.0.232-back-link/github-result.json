@@ -1,0 +1,60 @@
+{
+  "baseUrl": "http://127.0.0.1:5211/knowledge-garden-site",
+  "links": [
+    {
+      "label": "返回档案",
+      "target": {
+        "x": 1378.5,
+        "y": 36.5,
+        "href": "/knowledge-garden-site/",
+        "tag": "A"
+      },
+      "state": {
+        "href": "http://127.0.0.1:5211/knowledge-garden-site/ui-kit/templates/showcase.html?variant=standard",
+        "title": "主页展示 | 知识花园",
+        "heading": "把学过的，整理成找得到的答案。",
+        "hasArchiveEntry": true,
+        "version": "v1.0.232",
+        "errors": []
+      }
+    },
+    {
+      "label": "返回知识花园",
+      "target": {
+        "x": 220.9609375,
+        "y": 36.5,
+        "href": "/knowledge-garden-site/",
+        "tag": "A"
+      },
+      "state": {
+        "href": "http://127.0.0.1:5211/knowledge-garden-site/ui-kit/templates/showcase.html?variant=standard",
+        "title": "主页展示 | 知识花园",
+        "heading": "把学过的，整理成找得到的答案。",
+        "hasArchiveEntry": true,
+        "version": "v1.0.232",
+        "errors": []
+      }
+    },
+    {
+      "label": "返回个人档案",
+      "target": {
+        "x": 1429.5,
+        "y": 961.03125,
+        "href": "/knowledge-garden-site/",
+        "tag": "A"
+      },
+      "state": {
+        "href": "http://127.0.0.1:5211/knowledge-garden-site/ui-kit/templates/showcase.html?variant=standard",
+        "title": "主页展示 | 知识花园",
+        "heading": "把学过的，整理成找得到的答案。",
+        "hasArchiveEntry": true,
+        "version": "v1.0.232",
+        "errors": []
+      }
+    }
+  ],
+  "consoleErrors": [],
+  "loadConsoleErrors": [],
+  "pageErrors": "[]",
+  "versionText": null
+}

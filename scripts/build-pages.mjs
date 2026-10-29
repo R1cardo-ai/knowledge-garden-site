@@ -71,7 +71,12 @@ if (basePath) {
       if (statSync(file).isDirectory()) { prefixAssets(file); continue; }
       if (!/\.(?:js|html|css|json|rsc)$/.test(name)) continue;
       const source = readFileSync(file, 'utf8');
-      writeFileSync(file, source.replace(/(?<!knowledge-garden-site)\/_next\//g, `${basePath}/_next/`));
+      // Vite keeps preload dependency lists chunk-relative ("_next/..."). The client
+      // preload helper resolves them against the origin with a leading slash, so a
+      // project base path has to be part of the chunk-relative value.
+      writeFileSync(file, source
+        .replace(/(?<!knowledge-garden-site)\/_next\//g, `${basePath}/_next/`)
+        .replace(/(["'`])_next\//g, `$1${basePath.slice(1)}/_next/`));
     }
   }
   prefixAssets(output);

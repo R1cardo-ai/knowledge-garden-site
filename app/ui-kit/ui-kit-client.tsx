@@ -2,7 +2,6 @@
 
 import { useEffect, useState, type MouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import { ArrowLeft, ArrowUpRight, Moon, Sun } from 'lucide-react';
-import Link from 'next/link';
 import { useDocumentTheme } from '@/hooks/use-document-theme';
 import styles from './page.module.css';
 import { ComponentMatrix } from './component-matrix';
@@ -91,9 +90,11 @@ export default function UIKitPage() {
       <div className={styles.tri} aria-hidden="true"><i /><i /><i /></div>
       <div className={styles.terrain} aria-hidden="true" />
       <header className={styles.topbar}>
-        <Link className={styles.brand} href="/" aria-label="返回知识花园"><span>K</span><strong>知识花园</strong><small>DESKTOP UI / 06 SCREENS</small></Link>
+        {/* oxlint-disable-next-line next/no-html-link-for-pages -- 静态导出没有客户端路由运行时，回主站必须整页跳转 */}
+        <a className={styles.brand} href="/" aria-label="返回知识花园"><span>K</span><strong>知识花园</strong><small>DESKTOP UI / 06 SCREENS</small></a>
         <div className={styles.topActions}>
-          <Link className={styles.back} href="/"><ArrowLeft size={15} />返回档案</Link>
+          {/* oxlint-disable-next-line next/no-html-link-for-pages -- 同上，主站首页是静态跳转目标 */}
+          <a className={styles.back} href="/"><ArrowLeft size={15} />返回档案</a>
           <button className={styles.theme} type="button" aria-label="深色主题" aria-pressed={theme === 'dark'} onClick={toggleTheme}>{theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}<span>{theme === 'dark' ? '浅色' : '深色'}</span></button>
         </div>
       </header>
@@ -144,7 +145,7 @@ export default function UIKitPage() {
         </section>
 
         <ComponentMatrix />
-        <footer className={styles.footer}><span>知识花园 / 桌面网页规范</span><Link href="/">返回个人档案 <ArrowUpRight size={13} /></Link></footer>
+        <footer className={styles.footer}><span>知识花园 / 桌面网页规范</span>{/* oxlint-disable-next-line next/no-html-link-for-pages -- 同上，页脚回到主站首页 */}<a href="/">返回个人档案 <ArrowUpRight size={13} /></a></footer>
       </div>
     </main>
   );
