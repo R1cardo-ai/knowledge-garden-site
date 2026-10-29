@@ -129,7 +129,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.227';
+const currentVersion = 'v1.0.228';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +137,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.228', date: '2026.10.29', title: '精修档案工具带、记录行与成果证据', items: ['搜索筛选工具带与快速记录增加分区线，列表和卡片同步增强行间节奏、聚焦边界及元数据对齐', '保留全部摘要、标签和独立操作，成果字段增加对齐边界，图片说明与预览入口清楚分区', '无图成果补充准确说明，原图、证明链接、图片失败回退和原始比例继续保留'] },
   { version: 'v1.0.227', date: '2026.10.29', title: '精修桌面首页的信息层次与档案封面', items: ['保留原有字标、线稿、真实档案和全部入口，增强日期统计信息带、精选字段与底部斜线细节', '首页补充当前导航标记，最近知识与成果增加栏目编号及日期对齐，最新更新明确分区', '缩短公共按钮扫色反馈，保留双主题、减少动态效果及更新条键盘暂停保护'] },
   { version: 'v1.0.226', date: '2026.10.29', title: '让滚动更新条的键盘焦点保持可见', items: ['首页与档案更新条获得键盘焦点时切换为静态手动浏览，显示原始记录并确保焦点可见；离开后恢复循环并重置滚动位置', '保留鼠标悬停暂停和系统减少动态效果，补充聚焦状态下的高对比定位框'] },
   { version: 'v1.0.225', date: '2026.10.29', title: '支持首页精选并完善表单反馈', items: ['总览可指定首页精选档案，按稳定 ID 保存当前浏览器偏好并同步其他标签页；未指定或目标缺失时回退最近更新，空档案显示真实空状态', '精选偏好独立保存，兼容现有档案与 v2 快照，存储失败明确提示', '首屏入场与数字反馈在480毫秒内完成，减少动态效果时直接静态展示', '成果目录默认按记录日期排列，同时保留最近更新等显式排序及 URL、阅读返回位置', '表单错误就地说明并聚焦对应字段，保存结果支持辅助技术朗读', '控制台圆盘接入规范版本与共享档案校验，读取失败显示未知状态，浏览器返回和跨标签更新保持同步；清理已被主题替代的旧阴影圆角规则'] },

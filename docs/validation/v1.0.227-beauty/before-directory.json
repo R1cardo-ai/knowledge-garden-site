@@ -1,0 +1,152 @@
+{
+  "buttons": [
+    "收起侧边栏",
+    "总览",
+    "知识库15",
+    "获奖记录3",
+    "更新日志238",
+    "// BACKGROUND背景图片",
+    "未设置",
+    "更换图片",
+    "恢复默认",
+    "深色主题",
+    "搜索",
+    "导入",
+    "导出快照",
+    "添加记录",
+    "开始记录",
+    "浏览知识库",
+    "版本记录",
+    "v1.0.226让滚动更新条的键盘焦点保持可见",
+    "v1.0.225支持首页精选并完善表单反馈",
+    "v1.0.224档案页新增返回主页入口",
+    "v1.0.223恢复首页入场与线稿视差动效",
+    "v1.0.222修复主页展示导航与更新交互",
+    "v1.0.221最近更新持续滚动并修复设计样张入口",
+    "v1.0.220恢复阅读前目录位置并整理关联记录",
+    "v1.0.219补齐目录形式筛选与空结果恢复",
+    "v1.0.226让滚动更新条的键盘焦点保持可见",
+    "v1.0.225支持首页精选并完善表单反馈",
+    "v1.0.224档案页新增返回主页入口",
+    "v1.0.223恢复首页入场与线稿视差动效",
+    "v1.0.222修复主页展示导航与更新交互",
+    "v1.0.221最近更新持续滚动并修复设计样张入口",
+    "v1.0.220恢复阅读前目录位置并整理关联记录",
+    "v1.0.219补齐目录形式筛选与空结果恢复",
+    "查看更新内容 ",
+    "知识",
+    "获奖",
+    "保存",
+    "知识条目▼",
+    "全部分类▼",
+    "全部形式▼",
+    "最近更新▼",
+    "卡片视图",
+    "列表视图",
+    "删除记录：长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题",
+    "查看详情 ",
+    "删除记录：UnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitle",
+    "查看详情 ",
+    "删除记录：验收记录 6",
+    "查看详情 ",
+    "删除记录：验收记录 7",
+    "查看详情 ",
+    "删除记录：验收记录 8",
+    "查看详情 ",
+    "删除记录：验收记录 9",
+    "查看详情 ",
+    "删除记录：验收记录 10",
+    "查看详情 ",
+    "删除记录：验收记录 11",
+    "查看详情 ",
+    "删除记录：验收记录 12",
+    "查看详情 ",
+    "删除记录：验收记录 13",
+    "查看详情 ",
+    "删除记录：验收记录 14",
+    "查看详情 ",
+    "删除记录：验收记录 15",
+    "查看详情 ",
+    "删除记录：验收记录 16",
+    "查看详情 ",
+    "删除记录：验收记录 17",
+    "查看详情 ",
+    "删除记录：验收记录 18",
+    "查看详情 ",
+    "添加下一条记录一个新发现",
+    "// MILESTONES / 03 AWARDS成长轨迹",
+    "查看全部获奖 "
+  ],
+  "links": [
+    {
+      "href": "/ui-kit/",
+      "text": "设计样张06"
+    },
+    {
+      "href": "/ui-kit/templates/showcase.html?variant=standard",
+      "text": "返回主页"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-0",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-1",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-5",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-6",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-7",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-8",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-9",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-10",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-11",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-12",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-13",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-14",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-15",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-16",
+      "text": "阅读"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-17",
+      "text": "阅读"
+    }
+  ],
+  "svg": 83,
+  "text": "K知识花园FIELD KNOWLEDGE ARCHIVE\n\n// FIELD INDEX / 05\n\n总览知识库15获奖记录3更新日志238设计样张06\n// BACKGROUND背景图片\n未设置\n更换图片恢复默认\nK\n// PERSONAL ARCHIVE我的空间个人知识库\n浏览器本地保存\n返回主页知识库v1.0.226\n导入导出快照添加记录\n2026.10.2918 条档案15 条知识03 项成果\n\nKNOWLEDGEGARDEN\n\n// KNOWLEDGE ARCHIVE / 2026\n\n把学过的，变成\n下一次找得到的答案。\n\n今天先记一句，之后再慢慢整理。\n\n开始记录浏览知识库版本记录\n\n// KNOWLEDGE ARCHIVE / 2026\n\n知识库\n\n按主题筛选、搜索并回看已整理的学习记录。\n\nKNOWLEDGE / ARCHIVE\n// ARCHIVE TOTALS\nKNOWLEDGE15\nAWARDS03\n// RECENT UPDATES\nv1.0.226让滚动更新条的键盘焦点保持可见v1.0.225支持首页精选并完善表单反馈v1.0.224档案页新增返回主页入口v1.0.223恢复首页入场与线稿视差动效v1.0.222修复主页展示导航与更新交互v1.0.221最近更新持续滚动并修复设计样张入口v1.0.220恢复阅读前目录位置并整理关联记录v1.0.219补齐目录形式筛选与空结果恢复\nv1.0.226让滚动更新条的键盘焦点保持可见v1.0.225支持首页精选并完善表单反馈v1.0.224档案页新增返回主页入口v1.0.223恢复首页入场与线稿视差动效v1.0.222修复主页展示导航与更新交互v1.0.221最近更新持续滚动并修复设计样张入口v1.0.220恢复阅读前目录位置并整理关联记录v1.0.219补齐目录形式筛选与空结果恢复\n1.0.226\n最新更新v1.0.226 │ 2026.10.29\n让滚动更新条的键盘焦点保持可见\n\n首页与档案更新条获得键盘焦点时切换为静态手动浏览，显示原始记录并确保焦点可见；离开后恢复循环并重置滚动位置\n\n查看更新内容 \n\n// KNOWLEDGE ENTRY / QUICK CAPTURE\n\n今天记录什么？\n\n先写下一句话，详细内容之后再补充。\n\n知识获奖\n保存\n\n// KNOWLEDGE LOG / 15 ENTRIES\n\n全部知识条目\n知识条目\n全部分类\n全部形式\n最近更新\n列表 01知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#一#二#三#四#五\n阅读查看详情 \n列表 02知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\nUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitle\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 03知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 6\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 04知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 7\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 05知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 8\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 06知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 9\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 07知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 10\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 08知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 11\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 09知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 12\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 10知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 13\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 11知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 14\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 12知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 15\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 13知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 16\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 14知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 17\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n列表 15知识\n\n验收分类 │ 2026.10.29 │ 笔记\n\n验收记录 18\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n#测试#兼容\n阅读查看详情 \n添加下一条记录一个新发现\n\n// MILESTONES / 03 AWARDS\n\n成长轨迹\n\n2026.10.29\n\n成果图片与说明验收验收分类\n\n2026.10.28\n\n缺少图片的成果验收验收分类\n\n2026.10.27\n\n加载失败图片的成果验收图片失败\n查看全部获奖 \n当前日期 2026.10.29浏览器本地保存 │ 导出 JSON 可备份"
+}

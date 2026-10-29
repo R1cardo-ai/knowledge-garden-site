@@ -1,0 +1,72 @@
+[
+  {
+    "bottom": 420.453125,
+    "left": 0,
+    "outline": "solid",
+    "right": 356.078125,
+    "text": "v1.0.227精修桌面首页的信息层次与档案封面",
+    "top": 378.875,
+    "trackAnimation": "none",
+    "visible": true
+  },
+  {
+    "bottom": 420.453125,
+    "left": 356.078125,
+    "outline": "solid",
+    "right": 698.15625,
+    "text": "v1.0.226让滚动更新条的键盘焦点保持可见",
+    "top": 378.875,
+    "trackAnimation": "none",
+    "visible": true
+  },
+  {
+    "bottom": 420.453125,
+    "left": 698.15625,
+    "outline": "solid",
+    "right": 1012.234375,
+    "text": "v1.0.225支持首页精选并完善表单反馈",
+    "top": 378.875,
+    "trackAnimation": "none",
+    "visible": true
+  },
+  {
+    "bottom": 420.453125,
+    "left": 971.234375,
+    "outline": "solid",
+    "right": 1257.3125,
+    "text": "v1.0.224档案页新增返回主页入口",
+    "top": 378.875,
+    "trackAnimation": "none",
+    "visible": true
+  },
+  {
+    "bottom": 420.453125,
+    "left": 475.3125,
+    "outline": "solid",
+    "right": 789.390625,
+    "text": "v1.0.223恢复首页入场与线稿视差动效",
+    "top": 378.875,
+    "trackAnimation": "none",
+    "visible": true
+  },
+  {
+    "bottom": 420.453125,
+    "left": 789.390625,
+    "outline": "solid",
+    "right": 1103.46875,
+    "text": "v1.0.222修复主页展示导航与更新交互",
+    "top": 378.875,
+    "trackAnimation": "none",
+    "visible": true
+  },
+  {
+    "bottom": 420.453125,
+    "left": 894.46875,
+    "outline": "solid",
+    "right": 1264.546875,
+    "text": "v1.0.221最近更新持续滚动并修复设计样张入口",
+    "top": 378.875,
+    "trackAnimation": "none",
+    "visible": true
+  }
+]

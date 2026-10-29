@@ -1,0 +1,18 @@
+[
+  {
+    "shape": "portrait",
+    "fit": "contain",
+    "height": 319.984375,
+    "naturalHeight": 520,
+    "naturalWidth": 360,
+    "width": 221.515625
+  },
+  {
+    "shape": "landscape",
+    "fit": "contain",
+    "height": 320,
+    "naturalHeight": 400,
+    "naturalWidth": 720,
+    "width": 576
+  }
+]

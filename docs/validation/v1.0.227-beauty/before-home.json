@@ -1,0 +1,193 @@
+{
+  "art": 1,
+  "fonts": [
+    {
+      "selector": "claim",
+      "size": "54.72px"
+    },
+    {
+      "selector": "bio",
+      "size": "15px"
+    },
+    {
+      "selector": "",
+      "size": "37.44px"
+    },
+    {
+      "selector": null,
+      "size": "15px"
+    }
+  ],
+  "links": [
+    {
+      "href": "/archive",
+      "text": "K知识花园"
+    },
+    {
+      "href": "/archive?view=knowledge",
+      "text": "知识库"
+    },
+    {
+      "href": "/archive?view=award",
+      "text": "获奖成果"
+    },
+    {
+      "href": "/ui-kit/",
+      "text": "设计样张"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#updates",
+      "text": "更新日志"
+    },
+    {
+      "href": "/archive#quick-capture-title",
+      "text": "开始记录"
+    },
+    {
+      "href": "/archive?view=knowledge&layout=list",
+      "text": "浏览知识库"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-0",
+      "text": "阅读这条档案 ↗"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-226",
+      "text": "v1.0.226让滚动更新条的键盘焦点保持可见"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-225",
+      "text": "v1.0.225支持首页精选并完善表单反馈"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-224",
+      "text": "v1.0.224档案页新增返回主页入口"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-223",
+      "text": "v1.0.223恢复首页入场与线稿视差动效"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-222",
+      "text": "v1.0.222修复主页展示导航与更新交互"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-221",
+      "text": "v1.0.221最近更新持续滚动并修复设计样张入口"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-220",
+      "text": "v1.0.220恢复阅读前目录位置并整理关联记录"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-226",
+      "text": "v1.0.226让滚动更新条的键盘焦点保持可见"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-225",
+      "text": "v1.0.225支持首页精选并完善表单反馈"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-224",
+      "text": "v1.0.224档案页新增返回主页入口"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-223",
+      "text": "v1.0.223恢复首页入场与线稿视差动效"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-222",
+      "text": "v1.0.222修复主页展示导航与更新交互"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-221",
+      "text": "v1.0.221最近更新持续滚动并修复设计样张入口"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-220",
+      "text": "v1.0.220恢复阅读前目录位置并整理关联记录"
+    },
+    {
+      "href": "/archive?view=knowledge",
+      "text": "最近知识 ↗"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-0",
+      "text": "长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题2026.10.29"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-1",
+      "text": "UnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitle2026.10.29"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-5",
+      "text": "验收记录 62026.10.29"
+    },
+    {
+      "href": "/archive?view=knowledge&entry=qa-6",
+      "text": "验收记录 72026.10.29"
+    },
+    {
+      "href": "/archive?view=award",
+      "text": "最近成果 ↗"
+    },
+    {
+      "href": "/archive?view=award&entry=qa-2",
+      "text": "成果图片与说明验收2026.10.29"
+    },
+    {
+      "href": "/archive?view=award&entry=qa-3",
+      "text": "缺少图片的成果验收2026.10.28"
+    },
+    {
+      "href": "/archive?view=award&entry=qa-4",
+      "text": "加载失败图片的成果验收2026.10.27"
+    },
+    {
+      "href": "/archive?category=%E5%9B%BE%E7%89%87%E5%A4%B1%E8%B4%A5",
+      "text": "图片失败"
+    },
+    {
+      "href": "/archive?category=%E9%AA%8C%E6%94%B6%E5%88%86%E7%B1%BB",
+      "text": "验收分类"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-226",
+      "text": "\n        226\n        \n          最新更新 v1.0.226 │ 2026.10.29\n          让滚动更新条的键盘焦点保持可见\n          首页与档案更新条获得键盘焦点时切换为静态手动浏览，显示原始记录并确保焦点可见；离开后恢复循环并重置滚动位置；保留鼠标悬停暂停和系统减少动态效果，补充聚焦状态下的高对比定位框\n          阅读最新更新\n        \n      "
+    },
+    {
+      "href": "/archive",
+      "text": "个人档案"
+    },
+    {
+      "href": "/archive?view=knowledge",
+      "text": "知识库"
+    },
+    {
+      "href": "/archive?view=award",
+      "text": "获奖成果"
+    },
+    {
+      "href": "/ui-kit/",
+      "text": "设计样张"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#updates",
+      "text": "全部更新日志"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-226",
+      "text": "v1.0.2262026.10.29让滚动更新条的键盘焦点保持可见02 项调整"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-225",
+      "text": "v1.0.2252026.10.29支持首页精选并完善表单反馈06 项调整"
+    },
+    {
+      "href": "http://127.0.0.1:5199/ui-kit/templates/reading.html?variant=standard#release-v1-0-224",
+      "text": "v1.0.2242026.10.29档案页新增返回主页入口01 项调整"
+    }
+  ],
+  "text": "K\n知识花园\n知识库\n获奖成果\n设计样张\n更新日志\n切换深浅\n2026.10.29 \n18 条档案\n15 条知识\n3 项成果\nKNOWLEDGE\nGARDEN\n\nKNOWLEDGE GARDEN\n\n把学过的，\n整理成找得到的答案。\n\n收集知识记录与获奖成果，慢慢积累成自己的档案。\n\n开始记录\n浏览知识库\n\nLATEST ENTRY / 最近档案\n\n2026.10.29 / 验收分类 / 知识\n\n长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题\n\n这是隔离测试内容，仅用于验证排版与交互。\n\n阅读这条档案 ↗\n\n档案保存在当前浏览器，按最近更新选取。\n\nv1.0.226\n让滚动更新条的键盘焦点保持可见\nv1.0.225\n支持首页精选并完善表单反馈\nv1.0.224\n档案页新增返回主页入口\nv1.0.223\n恢复首页入场与线稿视差动效\nv1.0.222\n修复主页展示导航与更新交互\nv1.0.221\n最近更新持续滚动并修复设计样张入口\nv1.0.220\n恢复阅读前目录位置并整理关联记录\nv1.0.226\n让滚动更新条的键盘焦点保持可见\nv1.0.225\n支持首页精选并完善表单反馈\nv1.0.224\n档案页新增返回主页入口\nv1.0.223\n恢复首页入场与线稿视差动效\nv1.0.222\n修复主页展示导航与更新交互\nv1.0.221\n最近更新持续滚动并修复设计样张入口\nv1.0.220\n恢复阅读前目录位置并整理关联记录\n\nPERSONAL ARCHIVE\n\n最近的档案\n\n来自当前浏览器的档案 · 按最近更新排列\n\n最近知识 ↗\n长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题\n2026.10.29\nUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitleUnbrokenTitle\n2026.10.29\n验收记录 6\n2026.10.29\n验收记录 7\n2026.10.29\n最近成果 ↗\n成果图片与说明验收\n2026.10.29\n缺少图片的成果验收\n2026.10.28\n加载失败图片的成果验收\n2026.10.27\n按分类浏览\n图片失败\n验收分类\n226\n最新更新 v1.0.226 │ 2026.10.29\n让滚动更新条的键盘焦点保持可见\n首页与档案更新条获得键盘焦点时切换为静态手动浏览，显示原始记录并确保焦点可见；离开后恢复循环并重置滚动位置；保留鼠标悬停暂停和系统减少动态效果，补充聚焦状态下的高对比定位框\n阅读最新更新\n\nINDEX\n\n全站索引\n个人档案\n知识库\n获奖成果\n设计样张\n全部更新日志\n最近网站更新\nv1.0.226\n2026.10.29\n让滚动更新条的键盘焦点保持可见\n02 项调整\nv1.0.225\n2026.10.29\n支持首页精选并完善表单反馈\n06 项调整\nv1.0.224\n2026.10.29\n档案页新增返回主页入口\n01 项调整\n\n切换深浅",
+  "width": 1440
+}

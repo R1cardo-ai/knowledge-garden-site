@@ -1,0 +1,367 @@
+{
+  "version": "v1.0.227",
+  "base": "https://knowledge-garden-site.pages.dev",
+  "checkedAt": "2026-10-29T07:38:38.760Z",
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/templates/showcase?variant=standard",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/ui-kit/templates/showcase.html?variant=standard",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/templates/showcase?variant=standard",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/ui-kit/assets/archive-data.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/assets/archive-data.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/ui-kit/assets/kit-nav.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/assets/kit-nav.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/ui-kit/assets/endfield.css",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit/assets/endfield.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/archive",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/archive",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/css/index.DpZzbLNg.css",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/css/index.DpZzbLNg.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/index-CIrR2yr1.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/index-CIrR2yr1.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/framework-D_rUT4EX.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-elements-H_Dr48wG.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-elements-H_Dr48wG.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/hash-Cp347hhd.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/hash-Cp347hhd.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/record-uXSNv6cl.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/record-uXSNv6cl.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-rsc-cache-busting-CJadVMX6.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-rsc-cache-busting-CJadVMX6.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-rsc-render-mode-CvTCGruk.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-rsc-render-mode-CvTCGruk.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/headers-C_MtfdF4.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/headers-C_MtfdF4.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/protocol-headers-B9-bVeat.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/protocol-headers-B9-bVeat.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/deployment-id-DFhHa9wO.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/deployment-id-DFhHa9wO.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/navigation-errors-D5LMQqDL.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/navigation-errors-D5LMQqDL.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/layout-segment-context-BnNTyqf9.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/layout-segment-context-BnNTyqf9.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/page-WXlF_syT.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/page-WXlF_syT.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/theme-transition-IKVRhthr.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/theme-transition-IKVRhthr.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/archive?view=knowledge&category=%E6%9C%AC%E5%9C%B0&entry=missing",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/archive?view=knowledge&category=%E6%9C%AC%E5%9C%B0&entry=missing",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/css/index.DpZzbLNg.css",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/css/index.DpZzbLNg.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/index-CIrR2yr1.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/index-CIrR2yr1.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/framework-D_rUT4EX.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-elements-H_Dr48wG.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-elements-H_Dr48wG.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/hash-Cp347hhd.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/hash-Cp347hhd.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/record-uXSNv6cl.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/record-uXSNv6cl.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-rsc-cache-busting-CJadVMX6.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-rsc-cache-busting-CJadVMX6.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-rsc-render-mode-CvTCGruk.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-rsc-render-mode-CvTCGruk.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/headers-C_MtfdF4.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/headers-C_MtfdF4.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/protocol-headers-B9-bVeat.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/protocol-headers-B9-bVeat.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/deployment-id-DFhHa9wO.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/deployment-id-DFhHa9wO.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/navigation-errors-D5LMQqDL.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/navigation-errors-D5LMQqDL.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/layout-segment-context-BnNTyqf9.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/layout-segment-context-BnNTyqf9.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/page-WXlF_syT.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/page-WXlF_syT.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/theme-transition-IKVRhthr.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/theme-transition-IKVRhthr.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/ui-kit",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/ui-kit",
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/css/index.DpZzbLNg.css",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/css/index.DpZzbLNg.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/css/ui-kit-client.CeirXEb7.css",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/css/ui-kit-client.CeirXEb7.css",
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/_next/static/chunks/index-CIrR2yr1.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/index-CIrR2yr1.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/framework-D_rUT4EX.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-elements-H_Dr48wG.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-elements-H_Dr48wG.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/hash-Cp347hhd.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/hash-Cp347hhd.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/record-uXSNv6cl.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/record-uXSNv6cl.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-rsc-cache-busting-CJadVMX6.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-rsc-cache-busting-CJadVMX6.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-rsc-render-mode-CvTCGruk.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-rsc-render-mode-CvTCGruk.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/headers-C_MtfdF4.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/headers-C_MtfdF4.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/protocol-headers-B9-bVeat.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/protocol-headers-B9-bVeat.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/deployment-id-DFhHa9wO.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/deployment-id-DFhHa9wO.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/navigation-errors-D5LMQqDL.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/navigation-errors-D5LMQqDL.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/layout-segment-context-BnNTyqf9.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/layout-segment-context-BnNTyqf9.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/ui-kit-client-Ctqr3W3Z.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/ui-kit-client-Ctqr3W3Z.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/theme-transition-IKVRhthr.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/theme-transition-IKVRhthr.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/app-route-prefetch-policy-LCbZKW-U.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/app-route-prefetch-policy-LCbZKW-U.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/_next/static/chunks/query-DtBGhX2J.js",
+      "status": 200,
+      "url": "https://knowledge-garden-site.pages.dev/_next/static/chunks/query-DtBGhX2J.js",
+      "type": "application/javascript"
+    },
+    {
+      "path": "/not-a-real-route-validation",
+      "status": 404,
+      "url": "https://knowledge-garden-site.pages.dev/not-a-real-route-validation",
+      "type": "text/html; charset=utf-8"
+    }
+  ]
+}

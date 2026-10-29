@@ -1,0 +1,8 @@
+{
+  "filterUrl": "http://127.0.0.1:5199/archive?view=knowledge&q=%E9%AA%8C%E6%94%B6%E8%AE%B0%E5%BD%95+6&category=%E9%AA%8C%E6%94%B6%E5%88%86%E7%B1%BB",
+  "returnState": {
+    "rows": 0,
+    "url": "http://127.0.0.1:5199/archive?view=knowledge&category=%E9%AA%8C%E6%94%B6%E5%88%86%E7%B1%BB&q=%E9%AA%8C%E6%94%B6%E8%AE%B0%E5%BD%95+6"
+  },
+  "returnedFocus": "关闭"
+}

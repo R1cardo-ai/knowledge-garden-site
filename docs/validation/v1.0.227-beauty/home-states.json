@@ -1,0 +1,345 @@
+[
+  {
+    "scene": "empty",
+    "art": 1,
+    "featureVisible": true,
+    "headings": [
+      {
+        "size": "54.72px",
+        "text": "把学过的，整理成找得到的答案。"
+      },
+      {
+        "size": "37.44px",
+        "text": "从第一条记录开始"
+      },
+      {
+        "size": "18.4px",
+        "text": "最近的档案"
+      },
+      {
+        "size": "22px",
+        "text": "01最近知识 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "02最近成果 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "按分类浏览"
+      },
+      {
+        "size": "18.4px",
+        "text": "全站索引"
+      },
+      {
+        "size": "17.55px",
+        "text": "最近网站更新"
+      }
+    ],
+    "links": 34,
+    "overflow": false,
+    "theme": "light",
+    "width": 1440
+  },
+  {
+    "scene": "single",
+    "art": 1,
+    "featureVisible": true,
+    "headings": [
+      {
+        "size": "54.72px",
+        "text": "把学过的，整理成找得到的答案。"
+      },
+      {
+        "size": "37.44px",
+        "text": "长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题"
+      },
+      {
+        "size": "18.4px",
+        "text": "最近的档案"
+      },
+      {
+        "size": "22px",
+        "text": "01最近知识 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "02最近成果 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "按分类浏览"
+      },
+      {
+        "size": "18.4px",
+        "text": "全站索引"
+      },
+      {
+        "size": "17.55px",
+        "text": "最近网站更新"
+      }
+    ],
+    "links": 36,
+    "overflow": false,
+    "theme": "light",
+    "width": 1440
+  },
+  {
+    "scene": "corrupt",
+    "art": 1,
+    "featureVisible": true,
+    "headings": [
+      {
+        "size": "54.72px",
+        "text": "把学过的，整理成找得到的答案。"
+      },
+      {
+        "size": "37.44px",
+        "text": "暂时无法读取档案"
+      },
+      {
+        "size": "18.4px",
+        "text": "最近的档案"
+      },
+      {
+        "size": "22px",
+        "text": "01最近知识 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "02最近成果 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "按分类浏览"
+      },
+      {
+        "size": "18.4px",
+        "text": "全站索引"
+      },
+      {
+        "size": "17.55px",
+        "text": "最近网站更新"
+      }
+    ],
+    "links": 34,
+    "overflow": false,
+    "theme": "light",
+    "width": 1440
+  },
+  {
+    "scene": "read",
+    "art": 1,
+    "featureVisible": true,
+    "headings": [
+      {
+        "size": "54.72px",
+        "text": "把学过的，整理成找得到的答案。"
+      },
+      {
+        "size": "37.44px",
+        "text": "暂时无法读取档案"
+      },
+      {
+        "size": "18.4px",
+        "text": "最近的档案"
+      },
+      {
+        "size": "22px",
+        "text": "01最近知识 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "02最近成果 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "按分类浏览"
+      },
+      {
+        "size": "18.4px",
+        "text": "全站索引"
+      },
+      {
+        "size": "17.55px",
+        "text": "最近网站更新"
+      }
+    ],
+    "links": 34,
+    "overflow": false,
+    "width": 1440
+  },
+  {
+    "scene": "reduced-motion-emulation",
+    "art": 1,
+    "featureVisible": true,
+    "headings": [
+      {
+        "size": "48.64px",
+        "text": "把学过的，整理成找得到的答案。"
+      },
+      {
+        "size": "33.28px",
+        "text": "长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题"
+      },
+      {
+        "size": "18.4px",
+        "text": "最近的档案"
+      },
+      {
+        "size": "22px",
+        "text": "01最近知识 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "02最近成果 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "按分类浏览"
+      },
+      {
+        "size": "18.4px",
+        "text": "全站索引"
+      },
+      {
+        "size": "17.55px",
+        "text": "最近网站更新"
+      }
+    ],
+    "links": 43,
+    "overflow": false,
+    "theme": "light",
+    "width": 1280
+  },
+  {
+    "scene": "reduced-motion-emulation",
+    "art": 1,
+    "featureVisible": true,
+    "headings": [
+      {
+        "size": "54.72px",
+        "text": "把学过的，整理成找得到的答案。"
+      },
+      {
+        "size": "37.44px",
+        "text": "长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题"
+      },
+      {
+        "size": "18.4px",
+        "text": "最近的档案"
+      },
+      {
+        "size": "22px",
+        "text": "01最近知识 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "02最近成果 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "按分类浏览"
+      },
+      {
+        "size": "18.4px",
+        "text": "全站索引"
+      },
+      {
+        "size": "17.55px",
+        "text": "最近网站更新"
+      }
+    ],
+    "links": 43,
+    "overflow": false,
+    "theme": "light",
+    "width": 1440
+  },
+  {
+    "scene": "reduced-motion-emulation",
+    "art": 1,
+    "featureVisible": true,
+    "headings": [
+      {
+        "size": "60.8px",
+        "text": "把学过的，整理成找得到的答案。"
+      },
+      {
+        "size": "41.6px",
+        "text": "长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题"
+      },
+      {
+        "size": "18.4px",
+        "text": "最近的档案"
+      },
+      {
+        "size": "22px",
+        "text": "01最近知识 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "02最近成果 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "按分类浏览"
+      },
+      {
+        "size": "18.4px",
+        "text": "全站索引"
+      },
+      {
+        "size": "17.55px",
+        "text": "最近网站更新"
+      }
+    ],
+    "links": 43,
+    "overflow": false,
+    "theme": "light",
+    "width": 1600
+  },
+  {
+    "scene": "reduced-motion-emulation",
+    "art": 1,
+    "featureVisible": true,
+    "headings": [
+      {
+        "size": "72px",
+        "text": "把学过的，整理成找得到的答案。"
+      },
+      {
+        "size": "41.6px",
+        "text": "长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题长中文标题"
+      },
+      {
+        "size": "18.4px",
+        "text": "最近的档案"
+      },
+      {
+        "size": "22px",
+        "text": "01最近知识 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "02最近成果 ↗"
+      },
+      {
+        "size": "22px",
+        "text": "按分类浏览"
+      },
+      {
+        "size": "18.4px",
+        "text": "全站索引"
+      },
+      {
+        "size": "17.55px",
+        "text": "最近网站更新"
+      }
+    ],
+    "links": 43,
+    "overflow": false,
+    "theme": "light",
+    "width": 1920
+  }
+]

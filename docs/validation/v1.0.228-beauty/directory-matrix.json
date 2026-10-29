@@ -1,0 +1,210 @@
+[
+  {
+    "layout": "列表视图",
+    "fonts": [
+      "20px",
+      "20px"
+    ],
+    "height": 800,
+    "overflow": false,
+    "rows": 15,
+    "theme": "light",
+    "toolCount": 4,
+    "width": 1280
+  },
+  {
+    "layout": "卡片视图",
+    "fonts": [
+      "21px",
+      "21px"
+    ],
+    "height": 800,
+    "overflow": false,
+    "rows": 15,
+    "theme": "light",
+    "toolCount": 4,
+    "width": 1280
+  },
+  {
+    "layout": "列表视图",
+    "fonts": [
+      "20px",
+      "20px"
+    ],
+    "height": 900,
+    "overflow": false,
+    "rows": 15,
+    "theme": "light",
+    "toolCount": 4,
+    "width": 1440
+  },
+  {
+    "layout": "卡片视图",
+    "fonts": [
+      "21px",
+      "21px"
+    ],
+    "height": 900,
+    "overflow": false,
+    "rows": 15,
+    "theme": "light",
+    "toolCount": 4,
+    "width": 1440
+  },
+  {
+    "layout": "列表视图",
+    "fonts": [
+      "20px",
+      "20px"
+    ],
+    "height": 900,
+    "overflow": false,
+    "rows": 15,
+    "theme": "light",
+    "toolCount": 4,
+    "width": 1600
+  },
+  {
+    "layout": "卡片视图",
+    "fonts": [
+      "21px",
+      "21px"
+    ],
+    "height": 900,
+    "overflow": false,
+    "rows": 15,
+    "theme": "light",
+    "toolCount": 4,
+    "width": 1600
+  },
+  {
+    "layout": "列表视图",
+    "fonts": [
+      "20px",
+      "20px"
+    ],
+    "height": 1080,
+    "overflow": false,
+    "rows": 15,
+    "theme": "light",
+    "toolCount": 4,
+    "width": 1920
+  },
+  {
+    "layout": "卡片视图",
+    "fonts": [
+      "21px",
+      "21px"
+    ],
+    "height": 1080,
+    "overflow": false,
+    "rows": 15,
+    "theme": "light",
+    "toolCount": 4,
+    "width": 1920
+  },
+  {
+    "layout": "列表视图",
+    "fonts": [
+      "20px",
+      "20px"
+    ],
+    "height": 800,
+    "overflow": false,
+    "rows": 15,
+    "theme": "dark",
+    "toolCount": 4,
+    "width": 1280
+  },
+  {
+    "layout": "卡片视图",
+    "fonts": [
+      "21px",
+      "21px"
+    ],
+    "height": 800,
+    "overflow": false,
+    "rows": 15,
+    "theme": "dark",
+    "toolCount": 4,
+    "width": 1280
+  },
+  {
+    "layout": "列表视图",
+    "fonts": [
+      "20px",
+      "20px"
+    ],
+    "height": 900,
+    "overflow": false,
+    "rows": 15,
+    "theme": "dark",
+    "toolCount": 4,
+    "width": 1440
+  },
+  {
+    "layout": "卡片视图",
+    "fonts": [
+      "21px",
+      "21px"
+    ],
+    "height": 900,
+    "overflow": false,
+    "rows": 15,
+    "theme": "dark",
+    "toolCount": 4,
+    "width": 1440
+  },
+  {
+    "layout": "列表视图",
+    "fonts": [
+      "20px",
+      "20px"
+    ],
+    "height": 900,
+    "overflow": false,
+    "rows": 15,
+    "theme": "dark",
+    "toolCount": 4,
+    "width": 1600
+  },
+  {
+    "layout": "卡片视图",
+    "fonts": [
+      "21px",
+      "21px"
+    ],
+    "height": 900,
+    "overflow": false,
+    "rows": 15,
+    "theme": "dark",
+    "toolCount": 4,
+    "width": 1600
+  },
+  {
+    "layout": "列表视图",
+    "fonts": [
+      "20px",
+      "20px"
+    ],
+    "height": 1080,
+    "overflow": false,
+    "rows": 15,
+    "theme": "dark",
+    "toolCount": 4,
+    "width": 1920
+  },
+  {
+    "layout": "卡片视图",
+    "fonts": [
+      "21px",
+      "21px"
+    ],
+    "height": 1080,
+    "overflow": false,
+    "rows": 15,
+    "theme": "dark",
+    "toolCount": 4,
+    "width": 1920
+  }
+]

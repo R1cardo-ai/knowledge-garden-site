@@ -1,0 +1,15 @@
+{
+  "cloudflare": {
+    "version": "v1.0.227",
+    "currentPage": "主页",
+    "focus": "知识库",
+    "outline": "solid",
+    "art": 1
+  },
+  "github": {
+    "art": 1,
+    "currentPage": "主页",
+    "overflow": false,
+    "version": "v1.0.227"
+  }
+}

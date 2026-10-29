@@ -29,6 +29,7 @@ export function FeaturedAward({entry, href}:{entry:Award;href:string}) {
   return <section className={`featured-award ${image ? 'has-image' : ''}`} aria-labelledby="featured-award-title">
     <div className="featured-award-copy"><p className="section-kicker">{'// FEATURED ACHIEVEMENT'}</p><p className="award-selection-note">成果精选 / 按当前筛选中的记录日期选取</p><h3 id="featured-award-title">{entry.title}</h3>{entry.summary && <p className="award-summary">{entry.summary}</p>}<div className="award-actions"><a className="award-action" href={href}>阅读成果记录 ↗</a>{proof && <a className="award-action" href={proof} target="_blank" rel="noreferrer">打开证明链接 ↗</a>}</div></div>
     {image && <figure className="featured-award-media"><AwardImage key={`${entry.id}:${image}`} entry={entry} image={image} /><figcaption>{entry.title} / {entry.date}</figcaption></figure>}
+    {!image && <p className="award-image-fallback">这条成果没有附证明图片。{proof ? '可通过证明链接查看已有材料。' : '成果名称、日期与已有字段完整保留，可编辑记录补充证明材料。'}</p>}
     <dl className="featured-award-fields">{fields.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
   </section>;
 }
