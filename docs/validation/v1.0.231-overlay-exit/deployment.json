@@ -1,0 +1,39 @@
+{
+  "version": "v1.0.231",
+  "date": "2026-10-29",
+  "scope": "修复关闭弹层时遮罩回弹造成的整页闪烁",
+  "code": {
+    "sourceCommit": "01684d3968fb171d6527ffec9e2f6c79de894495",
+    "sourceParent": "ea0bab66ed27ce4e465936523481c95c17568d89",
+    "pagesCommit": "611a9a05d1880b992d45b6e7a2fefe54bb41dcab",
+    "pagesParent": "f3e1a1857006228ab077629f643f6f85438c986b",
+    "transport": "github.com:443 在本机不可达；提交通过 GitHub REST API 的 blobs/trees/commits/refs 接口创建，内容与本地提交一致（本地 a3d01f2 / 远端 01684d3）"
+  },
+  "builds": {
+    "production": { "command": "npm run build", "result": "pass" },
+    "cloudflarePages": { "command": "npm run build:pages", "result": "pass", "output": ".pages-build/site", "css": "index.Cz0Z05hc.css" },
+    "githubPages": { "command": "npm run build:github", "result": "pass", "output": ".github-pages-build/site", "css": "index.Dm2MkfZC.css" }
+  },
+  "checks": {
+    "lint": "0 warnings 0 errors, 116 files",
+    "types": "pass",
+    "tests": "npm test pass",
+    "updates": "Release displays consistent: v1.0.231; 243 historical records"
+  },
+  "live": {
+    "cloudflare": {
+      "url": "https://knowledge-garden-site.pages.dev/archive",
+      "css": "index.Cz0Z05hc.css",
+      "cssHasFillModeRule": true,
+      "pageChunkHasVersion": true,
+      "homepageTickerHasVersion": true,
+      "browserProbe": { "frames": 48, "flashFrames": 0, "dialogArticles": 243, "consoleErrors": 0 }
+    },
+    "githubPages": {
+      "url": "https://r1cardo-ai.github.io/knowledge-garden-site/archive.html",
+      "css": "index.Dm2MkfZC.css",
+      "cssHasFillModeRule": true,
+      "pageChunkHasVersion": true
+    }
+  }
+}
