@@ -1,0 +1,89 @@
+{
+  "focused": [
+    {
+      "animation": "none",
+      "inside": true,
+      "leftLimit": 185.109375,
+      "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+      "right": 445.109375,
+      "rightLimit": 1535.609375,
+      "scroll": 0,
+      "x": 185.109375
+    },
+    {
+      "animation": "none",
+      "inside": true,
+      "leftLimit": 185.109375,
+      "name": "v1.0.225支持首页精选并完善表单反馈",
+      "right": 705.109375,
+      "rightLimit": 1535.609375,
+      "scroll": 0,
+      "x": 445.109375
+    },
+    {
+      "animation": "none",
+      "inside": true,
+      "leftLimit": 185.109375,
+      "name": "v1.0.224档案页新增返回主页入口",
+      "right": 965.109375,
+      "rightLimit": 1535.609375,
+      "scroll": 0,
+      "x": 705.109375
+    },
+    {
+      "animation": "none",
+      "inside": true,
+      "leftLimit": 185.109375,
+      "name": "v1.0.223恢复首页入场与线稿视差动效",
+      "right": 1225.109375,
+      "rightLimit": 1535.609375,
+      "scroll": 0,
+      "x": 965.109375
+    },
+    {
+      "animation": "none",
+      "inside": true,
+      "leftLimit": 185.109375,
+      "name": "v1.0.222修复主页展示导航与更新交互",
+      "right": 1485.109375,
+      "rightLimit": 1535.609375,
+      "scroll": 0,
+      "x": 1225.109375
+    },
+    {
+      "animation": "none",
+      "inside": true,
+      "leftLimit": 185.109375,
+      "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+      "right": 1527.109375,
+      "rightLimit": 1535.609375,
+      "scroll": 218,
+      "x": 1267.109375
+    },
+    {
+      "animation": "none",
+      "inside": true,
+      "leftLimit": 185.109375,
+      "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+      "right": 1527.109375,
+      "rightLimit": 1535.609375,
+      "scroll": 478,
+      "x": 1267.109375
+    },
+    {
+      "animation": "none",
+      "inside": true,
+      "leftLimit": 185.109375,
+      "name": "v1.0.219补齐目录形式筛选与空结果恢复",
+      "right": 1536.109375,
+      "rightLimit": 1535.609375,
+      "scroll": 729,
+      "x": 1276.109375
+    }
+  ],
+  "after": {
+    "animation": "archive-ticker-loop",
+    "inside": false,
+    "scroll": 0
+  }
+}

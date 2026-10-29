@@ -2274,6 +2274,11 @@ a.ef-record:is(:hover, :focus-visible) > * {
   .ef-ticker ul[aria-hidden] { display:none; }
 }
 .ef-ticker:focus-visible { outline:2px solid var(--ef-accent, #e5e900); outline-offset:3px; }
+/* Keyboard browsing must reveal the focused original link, even after the loop moved it offscreen. */
+.ef-ticker:is(:focus-visible,:has(a:focus-visible)) { overflow-x:auto; scroll-padding-inline:8px; scroll-behavior:auto; }
+.ef-ticker:is(:focus-visible,:has(a:focus-visible)) .track { animation:none; transform:none; }
+.ef-ticker:is(:focus-visible,:has(a:focus-visible)) ul[aria-hidden] { display:none; }
+.ef-ticker a:focus-visible, .ef-ticker:focus-visible { outline:2px solid currentColor; outline-offset:-3px; }
 /* Canonical release history remains readable with JavaScript disabled. */
 .release-history-item { border-bottom: 1px solid var(--ef-rule); scroll-margin-top: 2rem; }
 .release-history-item summary { cursor: pointer; min-height: 44px; padding: 1.25rem .5rem; overflow-wrap: anywhere; }

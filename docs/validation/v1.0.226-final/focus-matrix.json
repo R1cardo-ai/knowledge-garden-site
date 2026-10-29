@@ -1,0 +1,606 @@
+[
+  {
+    "surface": "home",
+    "theme": "dark",
+    "width": 1280,
+    "steps": [
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 342.078125,
+        "x": 0
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.225支持首页精选并完善表单反馈",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 656.15625,
+        "x": 342.078125
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.224档案页新增返回主页入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 942.234375,
+        "x": 656.15625
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.223恢复首页入场与线稿视差动效",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1256.3125,
+        "x": 942.234375
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.222修复主页展示导航与更新交互",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1257.390625,
+        "x": 943.3125
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 908.46875,
+        "x": 538.390625
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1264.546875,
+        "x": 908.46875
+      }
+    ],
+    "pass": true
+  },
+  {
+    "surface": "home",
+    "theme": "dark",
+    "width": 1600,
+    "steps": [
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 342.078125,
+        "x": 0
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.225支持首页精选并完善表单反馈",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 656.15625,
+        "x": 342.078125
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.224档案页新增返回主页入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 942.234375,
+        "x": 656.15625
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.223恢复首页入场与线稿视差动效",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1256.3125,
+        "x": 942.234375
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.222修复主页展示导航与更新交互",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1570.390625,
+        "x": 1256.3125
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1577.46875,
+        "x": 1207.390625
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1584.546875,
+        "x": 1228.46875
+      }
+    ],
+    "pass": true
+  },
+  {
+    "surface": "home",
+    "theme": "light",
+    "width": 1280,
+    "steps": [
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 342.078125,
+        "x": 0
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.225支持首页精选并完善表单反馈",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 656.15625,
+        "x": 342.078125
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.224档案页新增返回主页入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 942.234375,
+        "x": 656.15625
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.223恢复首页入场与线稿视差动效",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1256.3125,
+        "x": 942.234375
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.222修复主页展示导航与更新交互",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1257.390625,
+        "x": 943.3125
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 908.46875,
+        "x": 538.390625
+      },
+      {
+        "left": 0,
+        "limit": 1265,
+        "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1264.546875,
+        "x": 908.46875
+      }
+    ],
+    "pass": true
+  },
+  {
+    "surface": "home",
+    "theme": "light",
+    "width": 1600,
+    "steps": [
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 342.078125,
+        "x": 0
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.225支持首页精选并完善表单反馈",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 656.15625,
+        "x": 342.078125
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.224档案页新增返回主页入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 942.234375,
+        "x": 656.15625
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.223恢复首页入场与线稿视差动效",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1256.3125,
+        "x": 942.234375
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.222修复主页展示导航与更新交互",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1570.390625,
+        "x": 1256.3125
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1577.46875,
+        "x": 1207.390625
+      },
+      {
+        "left": 0,
+        "limit": 1585,
+        "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1584.546875,
+        "x": 1228.46875
+      }
+    ],
+    "pass": true
+  },
+  {
+    "surface": "archive",
+    "theme": "dark",
+    "width": 1280,
+    "steps": [
+      {
+        "left": 174.234375,
+        "limit": 1221.484375,
+        "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 434.234375,
+        "x": 174.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1221.484375,
+        "name": "v1.0.225支持首页精选并完善表单反馈",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 694.234375,
+        "x": 434.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1221.484375,
+        "name": "v1.0.224档案页新增返回主页入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 954.234375,
+        "x": 694.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1221.484375,
+        "name": "v1.0.223恢复首页入场与线稿视差动效",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1213.234375,
+        "x": 953.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1221.484375,
+        "name": "v1.0.222修复主页展示导航与更新交互",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1213.234375,
+        "x": 953.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1221.484375,
+        "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1213.234375,
+        "x": 953.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1221.484375,
+        "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1213.234375,
+        "x": 953.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1221.484375,
+        "name": "v1.0.219补齐目录形式筛选与空结果恢复",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1221.234375,
+        "x": 961.234375
+      }
+    ],
+    "pass": true
+  },
+  {
+    "surface": "archive",
+    "theme": "dark",
+    "width": 1600,
+    "steps": [
+      {
+        "left": 185.109375,
+        "limit": 1530.609375,
+        "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 445.109375,
+        "x": 185.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1530.609375,
+        "name": "v1.0.225支持首页精选并完善表单反馈",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 705.109375,
+        "x": 445.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1530.609375,
+        "name": "v1.0.224档案页新增返回主页入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 965.109375,
+        "x": 705.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1530.609375,
+        "name": "v1.0.223恢复首页入场与线稿视差动效",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1225.109375,
+        "x": 965.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1530.609375,
+        "name": "v1.0.222修复主页展示导航与更新交互",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1485.109375,
+        "x": 1225.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1530.609375,
+        "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1522.109375,
+        "x": 1262.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1530.609375,
+        "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1522.109375,
+        "x": 1262.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1530.609375,
+        "name": "v1.0.219补齐目录形式筛选与空结果恢复",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1531.109375,
+        "x": 1271.109375
+      }
+    ],
+    "pass": true
+  },
+  {
+    "surface": "archive",
+    "theme": "light",
+    "width": 1280,
+    "steps": [
+      {
+        "left": 174.234375,
+        "limit": 1226.484375,
+        "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 434.234375,
+        "x": 174.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1226.484375,
+        "name": "v1.0.225支持首页精选并完善表单反馈",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 694.234375,
+        "x": 434.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1226.484375,
+        "name": "v1.0.224档案页新增返回主页入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 954.234375,
+        "x": 694.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1226.484375,
+        "name": "v1.0.223恢复首页入场与线稿视差动效",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1214.234375,
+        "x": 954.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1226.484375,
+        "name": "v1.0.222修复主页展示导航与更新交互",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1218.234375,
+        "x": 958.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1226.484375,
+        "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1218.234375,
+        "x": 958.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1226.484375,
+        "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1218.234375,
+        "x": 958.234375
+      },
+      {
+        "left": 174.234375,
+        "limit": 1226.484375,
+        "name": "v1.0.219补齐目录形式筛选与空结果恢复",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1226.234375,
+        "x": 966.234375
+      }
+    ],
+    "pass": true
+  },
+  {
+    "surface": "archive",
+    "theme": "light",
+    "width": 1600,
+    "steps": [
+      {
+        "left": 185.109375,
+        "limit": 1535.609375,
+        "name": "v1.0.226让滚动更新条的键盘焦点保持可见",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 445.109375,
+        "x": 185.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1535.609375,
+        "name": "v1.0.225支持首页精选并完善表单反馈",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 705.109375,
+        "x": 445.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1535.609375,
+        "name": "v1.0.224档案页新增返回主页入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 965.109375,
+        "x": 705.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1535.609375,
+        "name": "v1.0.223恢复首页入场与线稿视差动效",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1225.109375,
+        "x": 965.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1535.609375,
+        "name": "v1.0.222修复主页展示导航与更新交互",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1485.109375,
+        "x": 1225.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1535.609375,
+        "name": "v1.0.221最近更新持续滚动并修复设计样张入口",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1527.109375,
+        "x": 1267.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1535.609375,
+        "name": "v1.0.220恢复阅读前目录位置并整理关联记录",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1527.109375,
+        "x": 1267.109375
+      },
+      {
+        "left": 185.109375,
+        "limit": 1535.609375,
+        "name": "v1.0.219补齐目录形式筛选与空结果恢复",
+        "outline": "solid",
+        "outlineWidth": "2px",
+        "right": 1536.109375,
+        "x": 1276.109375
+      }
+    ],
+    "pass": true
+  }
+]

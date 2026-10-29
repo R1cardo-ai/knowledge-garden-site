@@ -1,0 +1,16 @@
+[
+  {
+    "directory": ".pages-build/site",
+    "base": "",
+    "version": "v1.0.226",
+    "dependencies": 29,
+    "passed": true
+  },
+  {
+    "directory": ".github-pages-build/site",
+    "base": "/knowledge-garden-site",
+    "version": "v1.0.226",
+    "dependencies": 29,
+    "passed": true
+  }
+]

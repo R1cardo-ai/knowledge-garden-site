@@ -1,0 +1,44 @@
+[
+  {
+    "site": "cloudflare",
+    "headings": [
+      "知识库"
+    ],
+    "overflow": false,
+    "url": "https://knowledge-garden-site.pages.dev/archive?view=knowledge",
+    "version": "v1.0.225"
+  },
+  {
+    "site": "cloudflare",
+    "test": "award-default-order",
+    "sort": "最近记录"
+  },
+  {
+    "site": "cloudflare",
+    "test": "featured-preference-control",
+    "enabled": true
+  },
+  {
+    "site": "cloudflare",
+    "test": "dial-version",
+    "readout": "225",
+    "version": "v1.0.225"
+  },
+  {
+    "site": "github-pages",
+    "test": "home-version",
+    "url": "https://r1cardo-ai.github.io/knowledge-garden-site/ui-kit/templates/showcase.html?variant=standard",
+    "version": "v1.0.225",
+    "featureUsesProjectBase": true
+  },
+  {
+    "site": "github-pages",
+    "test": "knowledge-entry",
+    "headings": [
+      "知识库"
+    ],
+    "overflow": false,
+    "url": "https://r1cardo-ai.github.io/knowledge-garden-site/archive?view=knowledge",
+    "version": "v1.0.225"
+  }
+]

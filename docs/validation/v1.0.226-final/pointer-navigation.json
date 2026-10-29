@@ -1,0 +1,14 @@
+[
+  {
+    "surface": "home",
+    "expectedHash": "#release-v1-0-225",
+    "actual": "#release-v1-0-225"
+  },
+  {
+    "surface": "archive",
+    "expectedVersion": "v1.0.225",
+    "actualVersion": "v1.0.225",
+    "title": "支持首页精选并完善表单反馈",
+    "pass": true
+  }
+]

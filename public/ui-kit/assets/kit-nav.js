@@ -75,6 +75,15 @@ import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry
   refreshArchive();
   window.addEventListener('pageshow', refreshArchive);
   window.addEventListener('storage', (event) => { if (event.key === 'knowledge-garden-entries' || event.key === featuredEntryStorageKey || event.key === null) refreshArchive(); });
+  document.querySelectorAll('.ef-ticker').forEach(ticker => {
+    ticker.addEventListener('focusin', event => {
+      const link = event.target.closest('a');
+      if (link && ticker.contains(link) && link.matches(':focus-visible')) link.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+    });
+    ticker.addEventListener('focusout', event => {
+      if (!ticker.contains(event.relatedTarget) && !matchMedia('(prefers-reduced-motion: reduce)').matches) ticker.scrollLeft = 0;
+    });
+  });
 
   document.querySelectorAll('[data-archive-date]').forEach((node) => {
     const now = new Date();

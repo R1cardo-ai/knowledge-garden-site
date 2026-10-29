@@ -2373,6 +2373,10 @@
 .site-shell .archive-update-strip:focus-within .archive-update-track,
 html[data-archive-page-visible='false'] .site-shell .archive-update-track { animation-play-state:paused !important; }
 .site-shell .archive-update-item::after { animation:none !important; display:none !important; }
+.site-shell .archive-update-strip:has(.archive-update-item:focus-visible) .archive-update-viewport { overflow-x:auto !important; scroll-padding-inline:8px; scroll-behavior:auto; }
+.site-shell .archive-update-strip:has(.archive-update-item:focus-visible) .archive-update-track { animation:none !important; transform:none !important; }
+.site-shell .archive-update-strip:has(.archive-update-item:focus-visible) .archive-update-group-clone { display:none !important; }
+.site-shell .archive-update-item:focus-visible { outline:2px solid currentColor; outline-offset:-3px; }
 @media (prefers-reduced-motion:reduce) {
   .site-shell .archive-update-viewport { overflow-x:auto !important; }
   .site-shell .archive-update-track { animation:none !important; transform:none !important; }

@@ -129,7 +129,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.225';
+const currentVersion = 'v1.0.226';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +137,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.226', date: '2026.10.29', title: '让滚动更新条的键盘焦点保持可见', items: ['首页与档案更新条获得键盘焦点时切换为静态手动浏览，显示原始记录并确保焦点可见；离开后恢复循环并重置滚动位置', '保留鼠标悬停暂停和系统减少动态效果，补充聚焦状态下的高对比定位框'] },
   { version: 'v1.0.225', date: '2026.10.29', title: '支持首页精选并完善表单反馈', items: ['总览可指定首页精选档案，按稳定 ID 保存当前浏览器偏好并同步其他标签页；未指定或目标缺失时回退最近更新，空档案显示真实空状态', '精选偏好独立保存，兼容现有档案与 v2 快照，存储失败明确提示', '首屏入场与数字反馈在480毫秒内完成，减少动态效果时直接静态展示', '成果目录默认按记录日期排列，同时保留最近更新等显式排序及 URL、阅读返回位置', '表单错误就地说明并聚焦对应字段，保存结果支持辅助技术朗读', '控制台圆盘接入规范版本与共享档案校验，读取失败显示未知状态，浏览器返回和跨标签更新保持同步；清理已被主题替代的旧阴影圆角规则'] },
   { version: 'v1.0.224', date: '2026.10.29', title: '档案页新增返回主页入口', items: ['档案页顶部增加带主页图标的返回主页按钮，桌面和手机均可直接返回知识花园首页'] },
   { version: 'v1.0.223', date: '2026.10.29', title: '恢复首页入场与线稿视差动效', items: ['恢复首页双行字标、介绍与最近档案卡片的错峰入场，以及线稿描绘和版本数字反馈', '视差样式接入当前线稿节点，鼠标移出时归位，减少动态效果模式使用静态展示'] },
@@ -925,7 +926,7 @@ export default function Home() {
                 <span className="archive-hero-art-label">KNOWLEDGE / ARCHIVE</span>
                 <div className="heading-note"><span className="note-line" /><div><span className="status-caption">{"// ARCHIVE TOTALS"}</span><div className="archive-tally" aria-label={`共${knowledgeCount}条知识记录，${awardCount}项获奖记录`}><div className="archive-tally-row"><span>KNOWLEDGE</span><strong><AnimatedCount value={knowledgeCount} /></strong></div><div className="archive-tally-row"><span>AWARDS</span><strong><AnimatedCount value={awardCount} /></strong></div></div></div></div>
             </figure>
-            <div className="archive-update-strip" aria-label="最近更新">
+            <div onFocusCapture={event => { if (event.target.matches(':focus-visible')) event.target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'}); }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) { const viewport = event.currentTarget.querySelector<HTMLElement>('.archive-update-viewport'); if (viewport) viewport.scrollLeft = 0; } }} className="archive-update-strip" aria-label="最近更新">
               <span className="archive-update-label">{"// RECENT UPDATES"}</span>
               <section className="archive-update-viewport" aria-label="最近更新，悬停或聚焦暂停滚动"><div className="archive-update-track">
                 <div className="archive-update-group">{updateLogs.slice(0, 8).map((release) => <button type="button" className="archive-update-item" key={release.version} onClick={() => openRelease(release)}><span className="archive-update-version">{release.version}</span><span className="archive-update-title">{release.title}</span><ChevronRight size={13} aria-hidden="true" /></button>)}</div>
