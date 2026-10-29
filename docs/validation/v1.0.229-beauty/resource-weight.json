@@ -1,0 +1,16 @@
+{
+  "baseline": "v1.0.228 GitHub Pages main",
+  "previous": {
+    "files": 59,
+    "totalBytes": 2698285,
+    "scriptAndStyleBytes": 1272964,
+    "imageAndFontBytes": 1113673
+  },
+  "current": {
+    "files": 59,
+    "totalBytes": 2741078,
+    "scriptAndStyleBytes": 1281651,
+    "imageAndFontBytes": 1113673
+  },
+  "newDependencies": false
+}

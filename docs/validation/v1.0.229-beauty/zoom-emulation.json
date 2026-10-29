@@ -1,0 +1,166 @@
+[
+  {
+    "scale": 1,
+    "page": "home",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": null,
+    "height": 900,
+    "overflow": false,
+    "toc": null,
+    "width": 1440
+  },
+  {
+    "scale": 1,
+    "page": "directory",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": null,
+    "height": 900,
+    "overflow": false,
+    "toc": null,
+    "width": 1440
+  },
+  {
+    "scale": 1,
+    "page": "reader",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": "200px 736px",
+    "height": 900,
+    "overflow": false,
+    "toc": "sticky",
+    "width": 1440
+  },
+  {
+    "scale": 1,
+    "page": "form",
+    "bottom": 873.9235439300537,
+    "height": 900,
+    "left": 456.267333984375,
+    "right": 973.732666015625,
+    "scrollable": true,
+    "top": 26.07649803161621,
+    "width": 1440
+  },
+  {
+    "scale": 1.25,
+    "page": "home",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": null,
+    "height": 720,
+    "overflow": false,
+    "toc": null,
+    "width": 1152
+  },
+  {
+    "scale": 1.25,
+    "page": "directory",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": null,
+    "height": 720,
+    "overflow": false,
+    "toc": null,
+    "width": 1152
+  },
+  {
+    "scale": 1.25,
+    "page": "reader",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": "987.844px",
+    "height": 720,
+    "overflow": false,
+    "toc": "static",
+    "width": 1152
+  },
+  {
+    "scale": 1.25,
+    "page": "form",
+    "bottom": 695.1034870147705,
+    "height": 720,
+    "left": 311.6936950683594,
+    "right": 830.3063659667969,
+    "scrollable": true,
+    "top": 24.896455764770508,
+    "width": 1152
+  },
+  {
+    "scale": 1.5,
+    "page": "home",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": null,
+    "height": 600,
+    "overflow": false,
+    "toc": null,
+    "width": 960
+  },
+  {
+    "scale": 1.5,
+    "page": "directory",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": null,
+    "height": 600,
+    "overflow": false,
+    "toc": null,
+    "width": 960
+  },
+  {
+    "scale": 1.5,
+    "page": "reader",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": "591.438px",
+    "height": 600,
+    "overflow": false,
+    "toc": "static",
+    "width": 960
+  },
+  {
+    "scale": 1.5,
+    "page": "form",
+    "bottom": 575.1417064666748,
+    "height": 600,
+    "left": 215.8085021972656,
+    "right": 734.1914367675781,
+    "scrollable": true,
+    "top": 24.858259201049805,
+    "width": 960
+  },
+  {
+    "scale": 2,
+    "page": "home",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": null,
+    "height": 450,
+    "overflow": false,
+    "toc": null,
+    "width": 720
+  },
+  {
+    "scale": 2,
+    "page": "directory",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": null,
+    "height": 450,
+    "overflow": false,
+    "toc": null,
+    "width": 720
+  },
+  {
+    "scale": 2,
+    "page": "reader",
+    "method": "effective CSS viewport emulation; not actual browser zoom",
+    "columns": "612.406px",
+    "height": 450,
+    "overflow": false,
+    "toc": "static",
+    "width": 720
+  },
+  {
+    "scale": 2,
+    "page": "form",
+    "bottom": 436.7118587493897,
+    "height": 450,
+    "left": 76.69334411621094,
+    "right": 633.3066253662109,
+    "scrollable": true,
+    "top": 13.288152694702148,
+    "width": 720
+  }
+]

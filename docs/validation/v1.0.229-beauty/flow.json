@@ -1,0 +1,10 @@
+{
+  "exportPath": "Downloaded synthetic JSON snapshot (19 records)",
+  "filterUrl": "http://127.0.0.1:5199/archive?view=knowledge&q=%E6%9C%AC%E8%BD%AE%E6%A1%8C%E9%9D%A2%E6%B5%81%E7%A8%8B%E9%AA%8C%E6%94%B6&category=%E6%B5%81%E7%A8%8B%E9%AA%8C%E6%94%B6",
+  "returnUrl": "http://127.0.0.1:5199/archive?view=knowledge&category=%E6%B5%81%E7%A8%8B%E9%AA%8C%E6%94%B6&q=%E6%9C%AC%E8%BD%AE%E6%A1%8C%E9%9D%A2%E6%B5%81%E7%A8%8B%E9%AA%8C%E6%94%B6",
+  "cancelImportCount": 1,
+  "errorField": "entry-title",
+  "editTitle": "本轮桌面流程验收（已补充）",
+  "recovered": "本轮桌面流程验收（已补充）",
+  "deleteThenRestore": true
+}

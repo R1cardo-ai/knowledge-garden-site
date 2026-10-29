@@ -1,0 +1,62 @@
+[
+  {
+    "file": "app/archive/page.tsx",
+    "sha256": "bf45d4bf647be2209e2e2513a736a261e2c2646998d2bd4a2e76b7e954bf4f23"
+  },
+  {
+    "file": "app/archive/entry-reader.tsx",
+    "sha256": "f5f0219cf29375c381c7507ea036beb9bebc3795bf5f666dcd7d18d9b1b25f0b"
+  },
+  {
+    "file": "app/archive/reader-toc.tsx",
+    "sha256": "5513bef49281991dcf45c702bb8547fa4253362874255daf51a8e24ff8acf267"
+  },
+  {
+    "file": "app/archive/archive-record-row.tsx",
+    "sha256": "3b38f7423a86cb7075d02a1bc9a6416c2f4119fb9abbb5a163ef3903961ca35a"
+  },
+  {
+    "file": "app/archive/featured-award.tsx",
+    "sha256": "07c2a657a949622cd1dd54547597c0a947b9c1bc62a2db18ac96a749fddc1b96"
+  },
+  {
+    "file": "app/globals.css",
+    "sha256": "467c682a23ee275bfbf67a75940e517a8601b6d9afe21273481826f859fe650d"
+  },
+  {
+    "file": "app/endfield-theme.css",
+    "sha256": "c37c50391ebce383789aca056aea96d5b812e224a537181c38ef40ce09975f79"
+  },
+  {
+    "file": "app/endfield-desktop-controls.css",
+    "sha256": "65532133384cb157df6d1cdd26080fbb44d05e9b4ee2506fb151bfaacbb81938"
+  },
+  {
+    "file": "app/ui-kit/component-matrix.tsx",
+    "sha256": "14e4201f5529c531705506a5174b4f1b3d32da7f8c9c93505e18efb0ad09f7b6"
+  },
+  {
+    "file": "lib/reader-outline.ts",
+    "sha256": "61f153de845e4514df0b291334c0fe0f0e29506394d23ebabc4cb57f04dfb019"
+  },
+  {
+    "file": "scripts/test-reader-outline.mjs",
+    "sha256": "7ba5e8dea8b75efe0e2bc72ee56077cb797cd380202cb7706e135bb0932e126e"
+  },
+  {
+    "file": "scripts/release-data.mjs",
+    "sha256": "604a36d1bf347fb17dd466a37698ef91d492e09b71ebec298b2e0e907d9054fc"
+  },
+  {
+    "file": "public/ui-kit/assets/endfield.css",
+    "sha256": "a015aeb2bd7c0cf4506ee73c8dc8d44616d1c1ba4ea007be9ab1fe57bf47d324"
+  },
+  {
+    "file": "public/ui-kit/assets/kit-nav.css",
+    "sha256": "0592229f33171181055eba7bebd548464988bbe39172b41dd2c53fdc036186b5"
+  },
+  {
+    "file": "package.json",
+    "sha256": "70c21042a05a9f6ab91b2f839ea8b748372aef037c41aa57c5a6029c17be9c73"
+  }
+]

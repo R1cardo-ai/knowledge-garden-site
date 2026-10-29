@@ -57,7 +57,7 @@
     --archive-control-idle: var(--archive-surface);
     --archive-control-hover: #e8ece7;
     --archive-control-pressed: #ece800;
-    --archive-control-border: var(--archive-line-strong);
+    --archive-control-border: #737d76;
     --archive-control-focus: var(--archive-ink);
     --archive-control-motion: 140ms ease;
   }
@@ -772,7 +772,7 @@
     --archive-rail-text: #e0e2df;
     --archive-rail-hover: #292d2d;
     --archive-control-idle: #202323;
-    --archive-control-border: #505756;
+    --archive-control-border: #87908a;
     --archive-control-focus: #f1f1ef;
     --background: var(--archive-canvas);
     --foreground: var(--archive-ink);

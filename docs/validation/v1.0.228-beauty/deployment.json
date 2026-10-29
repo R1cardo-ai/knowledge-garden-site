@@ -1,0 +1,36 @@
+{
+  "version": "v1.0.228",
+  "checkedAt": "2026-10-29T07:56:31.530Z",
+  "sourceCommit": "ac459e20f2b3d736e140271f310da944237d81c9",
+  "mainCommit": "d4cbb01c7be70eeccaefbed9162a44a15f927a68",
+  "cloudflare": [
+    {
+      "status": "completed",
+      "conclusion": "success",
+      "details": "https://dash.cloudflare.com/?to=/0d2d1e6bb473e4a721ba2ef91762ac0a/pages/view/knowledge-garden-site/15d90769-f603-4c38-85c0-399dbe1ff8f5",
+      "summary": "<table><tr><td><strong>Latest commit:</strong> </td><td>\n<code>ac459e2</code>\n</td></tr>\n<tr><td><strong>Status:</strong></td><td>&nbsp;✅&nbsp; Deploy successful!</td></tr>\n<tr><td><strong>Preview URL:</strong></td><td>\n<a href='https://15d90769.knowledge-garden-site.pages.dev'>https://15d90769.knowledge-garden-site.pages.dev</a>\n</td></tr>\n</table>\n\n[View logs](https://dash.cloudflare.com/?to=/0d2d1e6bb473e4a721ba2ef91762ac0a/pages/view/knowledge-garden-site/15d90769-f603-4c38-85c0-399dbe1ff8f5)\n"
+    }
+  ],
+  "githubPages": [
+    {
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/R1cardo-ai/knowledge-garden-site/actions/runs/40838143040",
+      "head": "d4cbb01c7be70eeccaefbed9162a44a15f927a68"
+    }
+  ],
+  "live": [
+    {
+      "site": "cloudflare",
+      "version": "v1.0.228",
+      "noImageDescription": "这条成果没有附证明图片。成果名称、日期与已有字段完整保留，可编辑记录补充证明材料。",
+      "passed": true
+    },
+    {
+      "site": "github",
+      "version": "v1.0.228",
+      "noImageDescription": "这条成果没有附证明图片。成果名称、日期与已有字段完整保留，可编辑记录补充证明材料。",
+      "passed": true
+    }
+  ]
+}

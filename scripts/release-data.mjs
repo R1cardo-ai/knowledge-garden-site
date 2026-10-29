@@ -48,7 +48,7 @@ export function releaseBlock(name, data) {
   if (name === 'index') return logs.slice(0, 3).map(row).join('\n');
   if (name === 'sample') return logs.slice(0, 2).map(row).join('\n');
   if (name === 'recent') return logs.slice(0, 4).map(row).join('\n');
-  if (name === 'history') return logs.map((log, index) => `<details class="release-history-item" id="${releaseAnchor(log)}"${index === 0 ? ' open' : ''}><summary><span class="ef-field">${escapeHtml(log.version)} / ${escapeHtml(log.date)}</span><strong>${escapeHtml(log.title)}</strong>${index === 0 ? '<span class="ef-marker">最新</span>' : ''}</summary><ul>${log.items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul></details>`).join('\n');
+  if (name === 'history') return logs.map((log, index) => `<details class="release-history-item" id="${releaseAnchor(log)}"${index === 0 ? ' open' : ''}><summary><span class="release-history-heading"><span class="release-history-meta"><span class="ef-field">${escapeHtml(log.version)}</span><time class="ef-field">${escapeHtml(log.date)}</time></span><strong>${escapeHtml(log.title)}</strong>${index === 0 ? '<span class="ef-marker">最新</span>' : ''}</span></summary><ul>${log.items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul></details>`).join('\n');
   if (name === 'console') return logs.slice(0, 2).map(log => `<li><div><div>${escapeHtml(log.title)} <span class="ef-state">已更新</span></div><div class="meta"><span>${escapeHtml(log.version)}</span><span>${releaseCount(log)} 项调整</span><span>${escapeHtml(log.date)}</span></div></div><div class="acts"><a class="ef-btn small" href="${releaseHref(log)}">阅读更新</a></div></li>`).join('\n');
   throw new Error(`Unknown generated release block: ${name}`);
 }

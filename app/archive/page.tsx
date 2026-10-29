@@ -129,7 +129,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.228';
+const currentVersion = 'v1.0.229';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +137,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.229', date: '2026.10.29', title: '精修阅读章节、表单与全站更新展示', items: ['章节目录新增当前位置与层级标记，宽桌面保持可见，缩放时回到文档流，保留原生锚点和返回筛选', '阅读标题、代码语言与横向滚动说明、关联记录进一步对齐，正文仍为单栏且完整保留', '编辑字段分组、详情元数据、本地偏好和异常提示补充分隔，加强控件边界，补齐桌面缩放下长表单的滚动与固定操作区', '完整更新历史分别对齐版本与日期，控制台及样张统一标题细节，同步全部站内公告'] },
   { version: 'v1.0.228', date: '2026.10.29', title: '精修档案工具带、记录行与成果证据', items: ['搜索筛选工具带与快速记录增加分区线，列表和卡片同步增强行间节奏、聚焦边界及元数据对齐', '保留全部摘要、标签和独立操作，成果字段增加对齐边界，图片说明与预览入口清楚分区', '无图成果补充准确说明，原图、证明链接、图片失败回退和原始比例继续保留'] },
   { version: 'v1.0.227', date: '2026.10.29', title: '精修桌面首页的信息层次与档案封面', items: ['保留原有字标、线稿、真实档案和全部入口，增强日期统计信息带、精选字段与底部斜线细节', '首页补充当前导航标记，最近知识与成果增加栏目编号及日期对齐，最新更新明确分区', '缩短公共按钮扫色反馈，保留双主题、减少动态效果及更新条键盘暂停保护'] },
   { version: 'v1.0.226', date: '2026.10.29', title: '让滚动更新条的键盘焦点保持可见', items: ['首页与档案更新条获得键盘焦点时切换为静态手动浏览，显示原始记录并确保焦点可见；离开后恢复循环并重置滚动位置', '保留鼠标悬停暂停和系统减少动态效果，补充聚焦状态下的高对比定位框'] },

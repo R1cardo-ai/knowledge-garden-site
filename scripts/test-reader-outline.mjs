@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import ts from 'typescript';
+const js=ts.transpile(readFileSync('lib/reader-outline.ts','utf8'),{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2017});
+const {activeSection}=await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
+assert.equal(activeSection([]),'');
+assert.equal(activeSection([{id:'a',top:600},{id:'b',top:900}]),'a');
+assert.equal(activeSection([{id:'a',top:-500},{id:'b',top:128},{id:'c',top:900}]),'b');
+assert.equal(activeSection([{id:'a',top:-500},{id:'b',top:129}]),'a');
+assert.equal(activeSection([{id:'a',top:-900},{id:'b',top:250}],128,true),'b');
+assert.equal(activeSection([{id:'a',top:20},{id:'b',top:600}]),'a');
+assert.equal(activeSection([{id:'new-entry',top:900}]),'new-entry');
+assert.equal(activeSection([{id:'a',top:-13},{id:'b',top:112},{id:'c',top:287}],128,true,'b'),'b');
+assert.equal(activeSection([{id:'a',top:-13},{id:'b',top:112},{id:'c',top:287}],128,true,'c'),'c');
+assert.equal(activeSection([{id:'a',top:-13},{id:'b',top:112}],128,true,'missing'),'b');
+assert.equal(activeSection([{id:'a',top:-13},{id:'b',top:112}],128,true,'a'),'b');
+console.log('Reader outline behavior passed: empty/first/current/boundary, short final section, scroll back, changed entry.');

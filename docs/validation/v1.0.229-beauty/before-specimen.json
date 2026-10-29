@@ -1,0 +1,20 @@
+{
+  "headings": [
+    "网页部件 Specimen",
+    "颜色 tokens",
+    "字体 界面 / 阅读 / 代码",
+    "入口 .ef-tag .ef-kv .ef-chip",
+    "按钮 .ef-btn",
+    "状态与提示 .ef-state .ef-notice",
+    "记录字段 .ef-field .ef-facts .ef-marker",
+    "看板 .ef-panel（hover：页签伸开）",
+    "列表行 .ef-records",
+    "表单 .ef-form",
+    "展示 .ef-hollow-no .ef-bar-title",
+    "斜线纹带标题",
+    "数据表 .ef-table",
+    "柱图 .ef-bars"
+  ],
+  "links": 8,
+  "title": "网页部件 | 知识花园"
+}

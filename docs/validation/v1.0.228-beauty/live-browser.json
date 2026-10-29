@@ -1,0 +1,10 @@
+{
+  "cloudflare": {
+    "version": "v1.0.228",
+    "noImageDescription": "这条成果没有附证明图片。成果名称、日期与已有字段完整保留，可编辑记录补充证明材料。"
+  },
+  "github": {
+    "version": "v1.0.228",
+    "noImageDescription": "这条成果没有附证明图片。成果名称、日期与已有字段完整保留，可编辑记录补充证明材料。"
+  }
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "id": "entry-title",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-date",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-category",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-tags",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "base-ui-_r_13_",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "BUTTON",
+    "text": "笔记▼",
+    "visible": true
+  },
+  {
+    "id": "entry-related",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-source",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-summary",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "TEXTAREA",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-notes",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "TEXTAREA",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "none",
+    "tag": "BUTTON",
+    "text": "取消",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "none",
+    "tag": "BUTTON",
+    "text": "保存记录",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "none",
+    "tag": "BUTTON",
+    "text": "关闭",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "none",
+    "shadow": "rgb(241, 241, 239) 0px 0px 0px 2px inset",
+    "tag": "BUTTON",
+    "text": "学到的知识",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "none",
+    "shadow": "rgb(241, 241, 239) 0px 0px 0px 2px inset",
+    "tag": "BUTTON",
+    "text": "获奖情况",
+    "visible": true
+  },
+  {
+    "id": "entry-title",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-date",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-category",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-tags",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "base-ui-_r_13_",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "BUTTON",
+    "text": "笔记▼",
+    "visible": true
+  },
+  {
+    "id": "entry-related",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-source",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-summary",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "TEXTAREA",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-notes",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "TEXTAREA",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "none",
+    "tag": "BUTTON",
+    "text": "取消",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "none",
+    "tag": "BUTTON",
+    "text": "保存记录",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "none",
+    "tag": "BUTTON",
+    "text": "关闭",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "none",
+    "shadow": "rgb(241, 241, 239) 0px 0px 0px 2px inset",
+    "tag": "BUTTON",
+    "text": "学到的知识",
+    "visible": true
+  },
+  {
+    "id": "",
+    "inside": true,
+    "outline": "none",
+    "shadow": "rgb(241, 241, 239) 0px 0px 0px 2px inset",
+    "tag": "BUTTON",
+    "text": "获奖情况",
+    "visible": true
+  },
+  {
+    "id": "entry-title",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  },
+  {
+    "id": "entry-date",
+    "inside": true,
+    "outline": "solid",
+    "shadow": "rgb(255, 250, 0) 3px 0px 0px 0px inset",
+    "tag": "INPUT",
+    "text": "",
+    "visible": true
+  }
+]
