@@ -16,9 +16,10 @@
     <link rel="stylesheet" href="../assets/endfield.css" />
     <link rel="stylesheet" href="../assets/kit-nav.css" />
     <style>
-      .showcase-nav { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; padding:.75rem var(--ef-pad); border-bottom:1px solid var(--ef-rule); }
+      .showcase-nav { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; padding:1rem var(--ef-pad); border-bottom:1px solid var(--ef-rule); background:var(--ef-panel); }
       .showcase-nav nav, .site-index { display:flex; flex-wrap:wrap; gap:.5rem; }
       .showcase-nav a, .showcase-nav button { min-height:44px; }
+      .showcase-nav [aria-current='page'] { --fill:var(--ef-signal); color:var(--ef-on-signal); font-weight:800; }
       /* page-specific layout only; every look comes from endfield.css */
       .hero {
         --mx: 0;
@@ -43,6 +44,8 @@
         color: var(--ef-rule);
       }
       .hero-counts { display:inline-flex; flex-wrap:wrap; gap:.75em; }
+      .hero-counts > span + span { border-left:1px solid var(--ef-rule); padding-left:.75em; }
+      .hero-counts b { font-size:1.1em; font-variant-numeric:tabular-nums; }
       .hero .ef-wordmark {
         grid-column: 1;
         align-self: end;
@@ -107,6 +110,8 @@
         align-items: flex-start;
         gap: 0.9rem;
         max-width: 44rem;
+        padding-left: clamp(1.25rem, 3vw, 3rem);
+        border-left: 1px solid var(--ef-rule);
       }
       .latest .title {
         font-size: clamp(1.6rem, 3.4vw, 2.6rem);
@@ -140,7 +145,7 @@
         .latest > a {
           grid-template-columns: minmax(0, 1fr);
         }
-        .hero > .meta {
+      .hero > .meta { 
           display: grid;
           grid-template-columns: repeat(3, max-content);
           justify-content: space-between;
@@ -154,12 +159,16 @@
       }
 
       /* Content cover: shared palette, quieter wordmark, readable Chinese heading. */
-      .hero { grid-template-rows: auto auto 1fr auto; min-height: 0; }
+      .hero { grid-template-rows: auto auto 1fr auto; min-height: 0; padding-top:2rem; }
+      .hero > .meta { padding-block:.75rem; margin-left:var(--ef-pad); margin-right:1rem; padding-inline:0; border-block:1px solid var(--ef-rule); align-self:start; display:flex; flex-wrap:wrap; gap:.75rem 1.5rem; }
+      .hero > .meta > * + *::before { content:none; }
       .hero .ef-wordmark { --ef-wordmark: clamp(2rem, 4.4vw, 5rem); margin-top: 2.5rem; opacity: .45; }
       .hero .copy { padding-top: 1rem; }
-      .hero .claim { margin: .75rem 0 0; font-size: clamp(2rem, 3.8vw, 4.5rem); font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; }
+      .hero .claim { margin: .75rem 0 0; font-size: clamp(3rem, 3.8vw, 4.5rem); font-weight: 800; line-height: 1.3; overflow-wrap: anywhere; }
       .hero .bio { line-height: 1.8; }
-      .featured-entry { grid-column: 2; grid-row: 1 / 4; align-self: stretch; min-width: 0; margin: 0 var(--ef-pad) 2rem 0; padding: clamp(1.25rem, 3vw, 2.5rem); border-top: 4px solid var(--ef-ink); background: var(--ef-panel); }
+      .featured-entry { position:relative; grid-column: 2; grid-row: 1 / 4; align-self: stretch; min-width: 0; margin: 0 var(--ef-pad) 2rem 0; padding: clamp(1.25rem, 3vw, 2.5rem); border:1px solid var(--ef-rule); border-top: 4px solid var(--ef-ink); background: var(--ef-panel); }
+      .featured-entry::after { content:''; position:absolute; bottom:0; inset-inline:0; height:8px; background:var(--ef-hatch); pointer-events:none; }
+      .featured-entry [data-feature-meta] { border-block:1px solid var(--ef-rule); padding-block:.75rem; font-variant-numeric:tabular-nums; }
       .featured-entry h2 { margin: 1rem 0; font-size: clamp(1.5rem, 2.6vw, 2.6rem); line-height: 1.35; overflow-wrap: anywhere; }
       .featured-entry p { overflow-wrap: anywhere; }
       .featured-entry [data-feature-summary] { color: var(--ef-ink-2); line-height: 1.8; white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -176,7 +185,7 @@
       }
       @keyframes home-art-draw { from { stroke-dashoffset:1; } to { stroke-dashoffset:0; } }
       .featured-art { width: 100%; height: 9rem; margin-block: 1rem; color: var(--ef-ink-2); }
-      .featured-note { margin-top: 1.5rem; font-size: .75rem; color: var(--ef-ink-2); }
+      .featured-note { margin-top: 1.5rem; padding-top:1rem; border-top:1px solid var(--ef-rule); font-size: .75rem; color: var(--ef-ink-2); }
       .hero .ef-actions { gap: .75rem; }
       @media(max-width:899px) {
         .hero > .meta { display:contents; }
@@ -198,7 +207,7 @@
 
     <header class="showcase-nav">
       <a class="ef-kit-home" href="/knowledge-garden-site/archive"><span aria-hidden="true">K</span><span>知识花园</span></a>
-      <nav aria-label="主导航"><a class="ef-btn small" href="/knowledge-garden-site/archive?view=knowledge">知识库</a><a class="ef-btn small" href="/knowledge-garden-site/archive?view=award">获奖成果</a><a class="ef-btn small" href="/knowledge-garden-site/ui-kit/">设计样张</a><a class="ef-btn small" href="reading.html#updates">更新日志</a><button class="ef-btn small" type="button" data-theme-toggle aria-label="深色模式">切换深浅</button></nav>
+      <nav aria-label="主导航"><a class="ef-btn small" href="showcase.html" aria-current="page">主页</a><a class="ef-btn small" href="/knowledge-garden-site/archive?view=knowledge">知识库</a><a class="ef-btn small" href="/knowledge-garden-site/archive?view=award">获奖成果</a><a class="ef-btn small" href="/knowledge-garden-site/ui-kit/">设计样张</a><a class="ef-btn small" href="reading.html#updates">更新日志</a><button class="ef-btn small" type="button" data-theme-toggle aria-label="深色模式">切换深浅</button></nav>
     </header>
     <main>
     <section class="hero" data-hero>
@@ -238,24 +247,24 @@
         <div class="track">
           <ul>
 <!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-227"><b>v1.0.227</b>精修桌面首页的信息层次与档案封面</a></li>
 <li><a href="reading.html#release-v1-0-226"><b>v1.0.226</b>让滚动更新条的键盘焦点保持可见</a></li>
 <li><a href="reading.html#release-v1-0-225"><b>v1.0.225</b>支持首页精选并完善表单反馈</a></li>
 <li><a href="reading.html#release-v1-0-224"><b>v1.0.224</b>档案页新增返回主页入口</a></li>
 <li><a href="reading.html#release-v1-0-223"><b>v1.0.223</b>恢复首页入场与线稿视差动效</a></li>
 <li><a href="reading.html#release-v1-0-222"><b>v1.0.222</b>修复主页展示导航与更新交互</a></li>
 <li><a href="reading.html#release-v1-0-221"><b>v1.0.221</b>最近更新持续滚动并修复设计样张入口</a></li>
-<li><a href="reading.html#release-v1-0-220"><b>v1.0.220</b>恢复阅读前目录位置并整理关联记录</a></li>
 <!-- /release -->
 </ul>
           <ul aria-hidden="true">
 <!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-227" tabindex="-1"><b>v1.0.227</b>精修桌面首页的信息层次与档案封面</a></li>
 <li><a href="reading.html#release-v1-0-226" tabindex="-1"><b>v1.0.226</b>让滚动更新条的键盘焦点保持可见</a></li>
 <li><a href="reading.html#release-v1-0-225" tabindex="-1"><b>v1.0.225</b>支持首页精选并完善表单反馈</a></li>
 <li><a href="reading.html#release-v1-0-224" tabindex="-1"><b>v1.0.224</b>档案页新增返回主页入口</a></li>
 <li><a href="reading.html#release-v1-0-223" tabindex="-1"><b>v1.0.223</b>恢复首页入场与线稿视差动效</a></li>
 <li><a href="reading.html#release-v1-0-222" tabindex="-1"><b>v1.0.222</b>修复主页展示导航与更新交互</a></li>
 <li><a href="reading.html#release-v1-0-221" tabindex="-1"><b>v1.0.221</b>最近更新持续滚动并修复设计样张入口</a></li>
-<li><a href="reading.html#release-v1-0-220" tabindex="-1"><b>v1.0.220</b>恢复阅读前目录位置并整理关联记录</a></li>
 <!-- /release -->
 </ul>
         </div>
@@ -267,20 +276,20 @@
       <h2 class="ef-bar-title" id="archive-home-title">最近的档案</h2>
       <p class="ef-read" data-archive-status role="status">正在读取当前浏览器的档案…</p>
       <div class="archive-home-columns">
-        <section><h3><a href="/knowledge-garden-site/archive?view=knowledge">最近知识 ↗</a></h3><ol class="ef-records" data-recent="knowledge"></ol></section>
-        <section><h3><a href="/knowledge-garden-site/archive?view=award">最近成果 ↗</a></h3><ol class="ef-records" data-recent="award"></ol></section>
+        <section><h3><span class="home-section-number" aria-hidden="true">01</span><a href="/knowledge-garden-site/archive?view=knowledge">最近知识 ↗</a></h3><ol class="ef-records" data-recent="knowledge"></ol></section>
+        <section><h3><span class="home-section-number" aria-hidden="true">02</span><a href="/knowledge-garden-site/archive?view=award">最近成果 ↗</a></h3><ol class="ef-records" data-recent="award"></ol></section>
       </div>
       <h3>按分类浏览</h3><div class="ef-actions" data-archive-categories></div>
       <noscript><p>启用 JavaScript 后可显示本地档案，或直接<a href="/knowledge-garden-site/archive">打开个人档案</a>。</p></noscript>
     </section>
 
     <section class="latest" id="latest">
-      <a href="reading.html#release-v1-0-226" data-release-href="latest" data-fx-host>
-        <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">226</span>
+      <a href="reading.html#release-v1-0-227" data-release-href="latest" data-fx-host>
+        <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">227</span>
         <span class="body">
-          <span class="ef-field"><span class="flag">最新更新</span> <span data-release="version">v1.0.226</span> │ <span data-release="date">2026.10.29</span></span>
-          <span class="title" data-release="title">让滚动更新条的键盘焦点保持可见</span>
-          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8" data-release="summary">首页与档案更新条获得键盘焦点时切换为静态手动浏览，显示原始记录并确保焦点可见；离开后恢复循环并重置滚动位置；保留鼠标悬停暂停和系统减少动态效果，补充聚焦状态下的高对比定位框</span>
+          <span class="ef-field"><span class="flag">最新更新</span> <span data-release="version">v1.0.227</span> │ <span data-release="date">2026.10.29</span></span>
+          <span class="title" data-release="title">精修桌面首页的信息层次与档案封面</span>
+          <span class="ef-read" style="color: var(--ef-ink-2); line-height: 1.8" data-release="summary">保留原有字标、线稿、真实档案和全部入口，增强日期统计信息带、精选字段与底部斜线细节；首页补充当前导航标记，最近知识与成果增加栏目编号及日期对齐，最新更新明确分区；缩短公共按钮扫色反馈，保留双主题、减少动态效果及更新条键盘暂停保护</span>
           <span class="ef-btn go">阅读最新更新</span>
         </span>
       </a>
@@ -293,9 +302,9 @@
       <h3>最近网站更新</h3>
       <ol class="ef-records">
 <!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-227"><span class="ef-tag">v1.0.227</span><time class="ef-field">2026.10.29</time><span class="name ef-read">精修桌面首页的信息层次与档案封面</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-226"><span class="ef-tag">v1.0.226</span><time class="ef-field">2026.10.29</time><span class="name ef-read">让滚动更新条的键盘焦点保持可见</span><span class="ef-field">02 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-225"><span class="ef-tag">v1.0.225</span><time class="ef-field">2026.10.29</time><span class="name ef-read">支持首页精选并完善表单反馈</span><span class="ef-field">06 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-224"><span class="ef-tag">v1.0.224</span><time class="ef-field">2026.10.29</time><span class="name ef-read">档案页新增返回主页入口</span><span class="ef-field">01 项调整</span></a></li>
 <!-- /release -->
 </ol>
       <p class="ef-actions" style="margin-top: 1.25rem">
