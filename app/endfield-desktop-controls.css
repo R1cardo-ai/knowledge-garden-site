@@ -2366,6 +2366,15 @@
   -webkit-backdrop-filter: none !important;
 }
 
+/* v1.0.231 — the scrim finishes fading before its panel does, and Base UI keeps the
+   whole portal mounted until the panel ends. Without a forwards fill the scrim snaps
+   back to full opacity for the remaining frames, which reads as a page flash. */
+[data-slot='dialog-overlay'][data-closed],
+[data-slot='sheet-overlay'][data-closed],
+[data-slot='alert-dialog-overlay'][data-closed] {
+  animation-fill-mode: forwards;
+}
+
 /* Two identical groups form a seamless loop; controls pause for reading. */
 .site-shell .archive-update-viewport { min-width:0; overflow:hidden !important; }
 .site-shell .archive-update-track { display:flex; width:max-content; animation:archive-ticker-loop 60s linear infinite !important; }

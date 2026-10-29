@@ -1,0 +1,86 @@
+{
+  "method": "Headless Chrome 1660x920, dark theme, Page.startScreencast with everyNthFrame=1; each row is a composited frame with mean luminance (0-255) and the brightest pixel in the frame. A frame where the 68% scrim covers the page has max well below 200 (measured 111); a normal page frame reaches 252-255.",
+  "cases": {
+    "changelog-close-before-fix": {
+      "build": "v1.0.230 (.github-pages-build/site, 2026-10-29 19:14)",
+      "action": "click the dialog close button",
+      "flashFrames": [34, 35, 36, 37, 38, 39],
+      "rows": [
+        { "i": 19, "mean": 32.21, "max": 255 },
+        { "i": 20, "mean": 32.11, "max": 255 },
+        { "i": 21, "mean": 32.11, "max": 255 },
+        { "i": 22, "mean": 32.11, "max": 255 },
+        { "i": 23, "mean": 37.72, "max": 166 },
+        { "i": 24, "mean": 38.6, "max": 177 },
+        { "i": 25, "mean": 38.6, "max": 177 },
+        { "i": 26, "mean": 42.47, "max": 219 },
+        { "i": 27, "mean": 43.91, "max": 234 },
+        { "i": 28, "mean": 44.93, "max": 242 },
+        { "i": 29, "mean": 44.81, "max": 248 },
+        { "i": 30, "mean": 45.4, "max": 250 },
+        { "i": 31, "mean": 45.55, "max": 251 },
+        { "i": 32, "mean": 45.59, "max": 252 },
+        { "i": 33, "mean": 45.58, "max": 252 },
+        { "i": 34, "mean": 23.36, "max": 111 },
+        { "i": 35, "mean": 23.36, "max": 111 },
+        { "i": 36, "mean": 23.36, "max": 111 },
+        { "i": 37, "mean": 23.36, "max": 111 },
+        { "i": 38, "mean": 23.36, "max": 111 },
+        { "i": 39, "mean": 23.36, "max": 111 },
+        { "i": 40, "mean": 45.57, "max": 255 },
+        { "i": 41, "mean": 45.57, "max": 255 },
+        { "i": 42, "mean": 45.57, "max": 255 }
+      ],
+      "domSampling": {
+        "scrimOpacity": ["fades 1 to 5.3e-7 over 260ms", "snaps back to 1 at 293ms", "stays 1 until the portal unmounts at 355ms"],
+        "layout": "site-shell left 0 and width 1645 in every frame; scrollbar-gutter stable; no horizontal shift"
+      }
+    },
+    "changelog-close-after-fix": {
+      "build": "v1.0.231 (.github-pages-build/site, 2026-10-29 19:44)",
+      "action": "click the dialog close button",
+      "flashFrames": [],
+      "rows": [
+        { "i": 21, "mean": 36.64, "max": 217 },
+        { "i": 22, "mean": 37.73, "max": 216 },
+        { "i": 23, "mean": 37.74, "max": 216 },
+        { "i": 24, "mean": 41.69, "max": 221 },
+        { "i": 25, "mean": 41.69, "max": 221 },
+        { "i": 26, "mean": 41.69, "max": 221 },
+        { "i": 27, "mean": 44.22, "max": 239 },
+        { "i": 28, "mean": 44.22, "max": 239 },
+        { "i": 29, "mean": 44.22, "max": 239 },
+        { "i": 30, "mean": 45.43, "max": 250 },
+        { "i": 31, "mean": 45.6, "max": 252 },
+        { "i": 32, "mean": 45.59, "max": 252 },
+        { "i": 33, "mean": 45.59, "max": 252 },
+        { "i": 34, "mean": 45.59, "max": 252 },
+        { "i": 41, "mean": 45.58, "max": 255 }
+      ],
+      "domSampling": {
+        "scrimOpacity": ["fades 1 to 0.0 at 276ms", "stays 0 until the portal unmounts at 342ms"],
+        "layout": "site-shell left 0 and width 1645 in every frame"
+      }
+    },
+    "detail-sheet-close-after-fix": {
+      "build": "v1.0.231 (.github-pages-build/site)",
+      "action": "click the sheet close button",
+      "flashFrames": [],
+      "rows": [
+        { "i": 0, "mean": 24.16, "max": 241 },
+        { "i": 4, "mean": 25.39, "max": 226 },
+        { "i": 6, "mean": 29.72, "max": 209 },
+        { "i": 9, "mean": 31.87, "max": 225 },
+        { "i": 12, "mean": 32.85, "max": 235 },
+        { "i": 16, "mean": 33.07, "max": 239 },
+        { "i": 20, "mean": 33.08, "max": 241 },
+        { "i": 35, "mean": 33.07, "max": 241 }
+      ]
+    }
+  },
+  "computedStyle": {
+    "probe": "detached element with data-slot=<overlay slot> and data-closed, no animation override",
+    "animationFillMode": { "dialog-overlay": "forwards", "sheet-overlay": "forwards", "alert-dialog-overlay": "forwards" },
+    "note": "On v1.0.230 the closed overlay's computed opacity returned to 1 after its 260ms exit, which is what the tw-animate-css default fill-mode none produces; the compiled --animate-out declaration has no forwards fill."
+  }
+}

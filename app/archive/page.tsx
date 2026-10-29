@@ -129,7 +129,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.230';
+const currentVersion = 'v1.0.231';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +137,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.231', date: '2026.10.29', title: '修复关闭弹层时整页压暗的闪烁', items: ['更新日志、记录表单、详情抽屉与删除确认关闭时，遮罩淡出立即结束，不再在弹层卸载前回弹成整屏压暗再消失', '保留原有打开动效与关闭节奏：遮罩 260 毫秒淡出、弹层 320 至 340 毫秒淡出，退出后遮罩保持透明直到整体卸载', '深浅主题、减少动态效果与键盘关闭共用同一修复，未改档案数据、存储键或任何页面内容'] },
   { version: 'v1.0.230', date: '2026.10.29', title: '首页与目录新增可视化概览与档案封面构图', items: ['首页首屏重组为档案封面：日期、真实计数与版本组成页眉信息带，实心空心字标成为左侧横向结构，原创线稿与精选合并为同一展陈版块，左栏补上真实的分类与标签计数', '首页新增内容概览：按当前分区全部记录统计的分类横向分布，条长对应该类记录数占最大类的比例，点选进入个人档案的同一分类；最近知识、最近成果改为重点记录加连续记录行，成果主条目优先展示真实证据图片', '首页最新更新改为墨色内容带，白字显示真实版本与更新标题，黄色只用于最新标记与阅读入口，完整更新日志与全站索引入口全部保留', '档案目录新增分类分布与按记录日期十二个月柱形图：数值、统计范围与只读说明齐全，与列表共用同一份归一化档案，不随搜索词缩小分母；成果展陈扩大证据图展台并让字段列填满列高'] },
   { version: 'v1.0.229', date: '2026.10.29', title: '精修阅读章节、表单与全站更新展示', items: ['章节目录新增当前位置与层级标记，宽桌面保持可见，缩放时回到文档流，保留原生锚点和返回筛选', '阅读标题、代码语言与横向滚动说明、关联记录进一步对齐，正文仍为单栏且完整保留', '编辑字段分组、详情元数据、本地偏好和异常提示补充分隔，加强控件边界，补齐桌面缩放下长表单的滚动与固定操作区', '完整更新历史分别对齐版本与日期，控制台及样张统一标题细节，同步全部站内公告'] },
   { version: 'v1.0.228', date: '2026.10.29', title: '精修档案工具带、记录行与成果证据', items: ['搜索筛选工具带与快速记录增加分区线，列表和卡片同步增强行间节奏、聚焦边界及元数据对齐', '保留全部摘要、标签和独立操作，成果字段增加对齐边界，图片说明与预览入口清楚分区', '无图成果补充准确说明，原图、证明链接、图片失败回退和原始比例继续保留'] },
