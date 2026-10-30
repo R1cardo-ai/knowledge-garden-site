@@ -1,6 +1,6 @@
 {
   "../../node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js": {
-    "file": "knowledge-garden-site/_next/static/chunks/app-route-prefetch-policy-CpfggEzs.js",
+    "file": "knowledge-garden-site/_next/static/chunks/app-route-prefetch-policy-Bf0DECec.js",
     "name": "app-route-prefetch-policy",
     "src": "../../node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
     "isDynamicEntry": true,
@@ -9,7 +9,7 @@
     ]
   },
   "../../node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "knowledge-garden-site/_next/static/chunks/layout-segment-context-CLRDDGfr.js",
+    "file": "knowledge-garden-site/_next/static/chunks/layout-segment-context-DESKfUw-.js",
     "name": "layout-segment-context",
     "src": "../../node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -40,8 +40,8 @@
     "file": "knowledge-garden-site/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
     "name": "rolldown-runtime"
   },
-  "_theme-transition-CB02g4ko.js": {
-    "file": "knowledge-garden-site/_next/static/chunks/theme-transition-CB02g4ko.js",
+  "_theme-transition-D3K8cJxZ.js": {
+    "file": "knowledge-garden-site/_next/static/chunks/theme-transition-D3K8cJxZ.js",
     "name": "theme-transition",
     "imports": [
       "_rolldown-runtime-C60lm6uB.js",
@@ -49,24 +49,24 @@
     ]
   },
   "app/archive/page.tsx": {
-    "file": "knowledge-garden-site/_next/static/chunks/page-EurfcbEd.js",
+    "file": "knowledge-garden-site/_next/static/chunks/page-CgXoJvUo.js",
     "name": "page",
     "src": "app/archive/page.tsx",
     "isDynamicEntry": true,
     "imports": [
       "_rolldown-runtime-C60lm6uB.js",
-      "_theme-transition-CB02g4ko.js",
+      "_theme-transition-D3K8cJxZ.js",
       "_framework-D_rUT4EX.js"
     ]
   },
   "app/ui-kit/ui-kit-client.tsx": {
-    "file": "knowledge-garden-site/_next/static/chunks/ui-kit-client-IlxxND38.js",
+    "file": "knowledge-garden-site/_next/static/chunks/ui-kit-client-BkQ6DiMe.js",
     "name": "ui-kit-client",
     "src": "app/ui-kit/ui-kit-client.tsx",
     "isDynamicEntry": true,
     "imports": [
       "_rolldown-runtime-C60lm6uB.js",
-      "_theme-transition-CB02g4ko.js",
+      "_theme-transition-D3K8cJxZ.js",
       "_framework-D_rUT4EX.js"
     ],
     "css": [
@@ -74,7 +74,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "knowledge-garden-site/_next/static/chunks/index-CEzf__Kr.js",
+    "file": "knowledge-garden-site/_next/static/chunks/index-D08_DrL3.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,

@@ -1420,13 +1420,13 @@ a.ef-record:is(:hover, :focus-visible) > * {
 .ef-dial .beam {
   stroke-width: 1.5;
 }
-.ef-dial .seg:is(:hover, :focus-visible) .plate {
+.ef-dial .seg:is(:hover, :focus-visible, .is-selected) .plate {
   fill: var(--ef-signal);
 }
-.ef-dial .seg:is(:hover, :focus-visible) :is(.zh, .en) {
+.ef-dial .seg:is(:hover, :focus-visible, .is-selected) :is(.zh, .en) {
   fill: var(--ef-on-signal);
 }
-.ef-dial .seg:is(:hover, :focus-visible) :is(.lock, .beam) {
+.ef-dial .seg:is(:hover, :focus-visible, .is-selected) :is(.lock, .beam) {
   stroke-dashoffset: 0;
 }
 .ef-dial .seg:focus-visible {

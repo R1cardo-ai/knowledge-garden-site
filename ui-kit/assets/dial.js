@@ -20,7 +20,7 @@ const node = (tag, attrs = {}, text) => {
   return el;
 };
 
-export function drawDial(svg, { sections, gauges = [], idle }) {
+export function drawDial(svg, { sections, gauges = [], idle, onSelect }) {
   const W = 300; // centre
   const [R1, R2, GAP] = [228, 288, 1.6];
   const step = 360 / sections.length;
@@ -77,10 +77,12 @@ export function drawDial(svg, { sections, gauges = [], idle }) {
       const [fx, fy] = at(R2 - 14, mid + step / 3);
       a.append(node('rect', { class: 'flag', x: fx - 7, y: fy - 7, width: 14, height: 14 }));
     }
-    a.addEventListener('pointerenter', () => show(s));
-    a.addEventListener('focus', () => show(s));
-    a.addEventListener('pointerleave', () => show(idle ?? sections[0]));
-    a.addEventListener('blur', () => show(idle ?? sections[0]));
+    const select = () => { svg.querySelectorAll('.seg.is-selected').forEach(el => el.classList.remove('is-selected')); a.classList.add('is-selected'); show(s); onSelect?.(s); };
+    const clear = () => { a.classList.remove('is-selected'); show(idle ?? sections[0]); onSelect?.(null); };
+    a.addEventListener('pointerenter', select);
+    a.addEventListener('focus', select);
+    a.addEventListener('pointerleave', clear);
+    a.addEventListener('blur', clear);
     svg.append(a);
   });
 
