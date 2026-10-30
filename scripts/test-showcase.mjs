@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {readReleaseData,releaseHref} from './release-data.mjs';
-import {normalizeEntries,formatDisplayDate,compareRecent,selectFeaturedEntry,selectFeaturedAward,proofImageUrl,categoryDistribution,featuredEntryStorageKey} from '../lib/archive-data.js';
+import {normalizeEntries,formatDisplayDate,compareRecent,compareEssayDate,essayExcerpt,selectFeaturedEntry,selectFeaturedAward,proofImageUrl,categoryDistribution,featuredEntryStorageKey} from '../lib/archive-data.js';
 const html=readFileSync('public/ui-kit/templates/showcase.html','utf8');
 assert.ok(html.includes(`href="${releaseHref(readReleaseData().logs[0])}" data-release-href="latest"`));
 assert.ok(html.includes('aria-label="主导航"'));
@@ -29,7 +29,7 @@ console.log('Showcase checks passed: generated latest release target, navigation
   for(const preference of ['first','missing','',null]) {
     const nodes=new Map(['title','meta','summary','link','heading','note'].map(name=>[`[data-feature-${name}]`,{}]));
     const events=new Map();
-    const context={URL,URLSearchParams,Set,normalizeEntries,formatDisplayDate,compareRecent,selectFeaturedEntry,featuredEntryStorageKey,
+    const context={URL,URLSearchParams,Set,normalizeEntries,formatDisplayDate,compareRecent,compareEssayDate,essayExcerpt,selectFeaturedEntry,featuredEntryStorageKey,
       localStorage:{getItem:key=>{if(key===featuredEntryStorageKey){if(preference===null)throw new Error('Denied preference');return preference;}return JSON.stringify(rows);}},
       location:{href:'https://example.test/ui-kit/templates/showcase.html'},window:{addEventListener:(name,callback)=>events.set(name,callback)},
       document:{querySelector:selector=>nodes.get(selector),querySelectorAll:()=>[],createElement:()=>({setAttribute(){}})}};
@@ -65,7 +65,7 @@ console.log('Showcase checks passed: generated latest release target, navigation
   const byClass=(node,className)=>node.children.filter(child=>typeof child.className==='string'&&child.className.split(/\s+/).includes(className));
   const rows=[
     {id:'k1',type:'knowledge',title:'最近知识',date:'2026.10.29',updatedAt:9,category:'设计',summary:'摘要一'},
-    {id:'k2',type:'knowledge',title:'较早知识',date:'2026.09.01',updatedAt:8,category:'阅读',summary:'摘要二'},
+    {id:'k2',type:'knowledge',title:'较早知识',date:'2026.09.01',updatedAt:99,category:'阅读',summary:'摘要二'},
     {id:'k3',type:'knowledge',title:'更早知识',date:'2026.08.01',updatedAt:7,category:'设计',summary:'摘要三'},
     {id:'a1',type:'award',title:'最新成果',date:'2026.10.20',updatedAt:1,category:'竞赛',proof:'https://example.test/proof.png'},
     {id:'a2',type:'award',title:'较早成果',date:'2026.03.01',updatedAt:2,category:'竞赛'},
@@ -75,7 +75,7 @@ console.log('Showcase checks passed: generated latest release target, navigation
     const lead={knowledge:makeNode('div'),award:makeNode('div')};
     const list={knowledge:makeNode('ol'),award:makeNode('ol')};
     const feature={title:makeNode('h2'),meta:makeNode('p'),summary:makeNode('p'),note:makeNode('p'),heading:makeNode('p'),link:makeNode('a')};
-    const context={URL,URLSearchParams,Set,normalizeEntries,formatDisplayDate,compareRecent,selectFeaturedEntry,selectFeaturedAward,proofImageUrl,categoryDistribution,featuredEntryStorageKey,
+    const context={URL,URLSearchParams,Set,normalizeEntries,formatDisplayDate,compareRecent,compareEssayDate,essayExcerpt,selectFeaturedEntry,selectFeaturedAward,proofImageUrl,categoryDistribution,featuredEntryStorageKey,
       localStorage:{getItem:key=>key===featuredEntryStorageKey?null:JSON.stringify(fixture)},
       location:{href:'https://example.test/ui-kit/templates/showcase.html'},window:{addEventListener(){}},
       document:{createElement:makeNode,

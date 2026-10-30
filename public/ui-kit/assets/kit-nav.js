@@ -1,4 +1,4 @@
-import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry, selectFeaturedAward, proofImageUrl, categoryDistribution, featuredEntryStorageKey } from './archive-data.js';
+import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, essayExcerpt, selectFeaturedEntry, selectFeaturedAward, proofImageUrl, categoryDistribution, featuredEntryStorageKey } from './archive-data.js';
 (() => {
   function refreshArchive() {
   try {
@@ -11,8 +11,8 @@ import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry
     setFeatureText('[data-feature-heading]', featured && featured.id === preferredId ? 'Featured entry / 精选档案' : 'Latest entry / 最近档案');
     setFeatureText('[data-feature-note]', featured && featured.id === preferredId ? '当前浏览器手动精选的档案。' : '档案保存在当前浏览器，按最近更新选取。');
     setFeatureText('[data-feature-title]', featured?.title || '从第一条记录开始');
-    setFeatureText('[data-feature-meta]', featured ? `${featured.date} / ${featured.category} / ${featured.type === 'award' ? '成果' : '知识'}` : '当前浏览器的个人档案');
-    setFeatureText('[data-feature-summary]', featured ? (featured.summary || '这条档案还没有摘要，打开记录查看详细内容。') : '把今天学到的知识或收获保存下来，这里将展示最近更新的档案。');
+    setFeatureText('[data-feature-meta]', featured ? `${featured.date} / ${featured.category} / ${featured.type === 'award' ? '成果' : '随笔'}` : '当前浏览器的个人档案');
+    setFeatureText('[data-feature-summary]', featured ? (featured.summary || '这条档案还没有摘要，打开记录查看详细内容。') : '把今天的想法或收获保存下来，这里将展示最近更新的档案。');
     const featuredLink = document.querySelector('[data-feature-link]');
     if (featuredLink) { featuredLink.href = featured ? `/archive?${new URLSearchParams({view:featured.type,entry:featured.id})}` : '/archive'; featuredLink.textContent = featured ? '阅读这条档案 ↗' : '打开个人档案 ↗'; }
     const award = entries.filter((entry) => entry.type === 'award').length;
@@ -22,7 +22,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry
       const key = node.getAttribute('data-archive-count');
       if (key in counts) {
         const value = counts[key];
-        const unit = key === 'award' ? ' 项' : ' 条';
+        const unit = key === 'award' ? ' 项' : key === 'knowledge' ? ' 篇' : ' 条';
         node.textContent = node.tagName === 'SPAN' ? `${value}${unit}` : String(value);
       }
     });
@@ -31,7 +31,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry
     document.querySelectorAll('[data-archive-stat="categories"]').forEach((node) => { node.textContent = String(categories.size); });
     document.querySelectorAll('[data-archive-stat="tags"]').forEach((node) => { node.textContent = String(tags.size); });
     const status = document.querySelector('[data-archive-status]');
-    if (status) status.textContent = saved === null ? '首次访问：从一条知识或成果开始。档案保存在当前浏览器。' : entries.length ? '来自当前浏览器的档案 · 按最近更新排列' : '档案为空，可以打开个人档案添加记录。';
+    if (status) status.textContent = saved === null ? '首次访问：从一篇随笔或一项成果开始。档案保存在当前浏览器。' : entries.length ? '来自当前浏览器的档案 · 随笔按记录日期排列' : '档案为空，可以打开个人档案添加记录。';
     // 内容概览：真实分类分布。条长为该类记录数 / 最大类记录数，点击进入已有分类筛选。
     const chart = document.querySelector('[data-archive-chart]');
     if (chart) {
@@ -82,21 +82,21 @@ import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry
     for (const type of ['knowledge', 'award']) {
       const list = document.querySelector(`[data-recent="${type}"]`);
       const leadHost = document.querySelector(`[data-recent-lead="${type}"]`);
-      const recent = entries.filter(entry => entry.type === type).sort(compareRecent);
-      // 成果按记录日期选主展陈，其余沿用最近更新顺序；知识直接取最近更新的一条。
+      const recent = entries.filter(entry => entry.type === type).sort(type === 'knowledge' ? compareEssayDate : compareRecent);
+      // 随笔按记录日期回看；成果展陈仍按原有规则选主记录。
       const lead = type === 'award' ? selectFeaturedAward(entries) : recent[0];
       const rows = recent.filter(entry => entry.id !== lead?.id).slice(0, 3);
       if (leadHost) {
         leadHost.replaceChildren();
         if (!lead) {
-          leadHost.append(leadEntry(`/archive?view=${type}`, '01', null, type === 'award' ? '还没有成果记录' : '还没有知识记录', '打开个人档案，记下第一条；首页会在同一浏览器里自动更新。', '前往个人档案 ↗', true));
+          leadHost.append(leadEntry(`/archive?view=${type}`, '01', null, type === 'award' ? '还没有成果记录' : '还没有随笔', '打开个人档案，记下第一篇；首页会在同一浏览器里自动更新。', '前往个人档案 ↗', true));
         } else {
           const link = leadEntry(
             `/archive?${new URLSearchParams({ view: type, entry: lead.id })}`,
             '01',
             { date: lead.date, category: lead.category },
             lead.title,
-            lead.summary || '这条档案还没有摘要，打开记录查看详细内容。',
+            (type === 'knowledge' ? essayExcerpt(lead) : lead.summary) || '打开记录查看详细内容。',
             '阅读这条档案 ↗',
           );
           const image = type === 'award' ? proofImageUrl(lead.proof || '') : '';
@@ -115,7 +115,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry
       if (!rows.length) {
         const item = document.createElement('li');
         item.className = 'recent-empty';
-        item.textContent = recent.length ? '以上是当前分区的全部记录。' : type === 'award' ? '还没有更多成果记录。' : '还没有更多知识记录。';
+        item.textContent = recent.length ? '以上是当前分区的全部记录。' : type === 'award' ? '还没有更多成果记录。' : '还没有更多随笔。';
         list.append(item);
         continue;
       }
@@ -125,7 +125,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, selectFeaturedEntry
         link.href = `/archive?${new URLSearchParams({ view: type, entry: entry.id })}`;
         const title = document.createElement('strong'); title.className = 'recent-row-title'; title.textContent = entry.title;
         const date = document.createElement('time'); date.textContent = entry.date;
-        const summary = document.createElement('span'); summary.className = 'recent-row-summary'; summary.textContent = entry.summary || '这条档案还没有摘要。';
+        const summary = document.createElement('span'); summary.className = 'recent-row-summary'; summary.textContent = (type === 'knowledge' ? essayExcerpt(entry) : entry.summary) || '打开记录查看详细内容。';
         link.append(title, date, summary);
         item.append(link);
         list.append(item);

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {normalizeEntries, compareRecent, selectFeaturedAward, proofImageUrl, categoryDistribution, monthlyRecordCounts} from '../lib/archive-data.js';
+import {normalizeEntries, compareRecent, compareEssayDate, essayExcerpt, selectFeaturedAward, proofImageUrl, categoryDistribution, monthlyRecordCounts} from '../lib/archive-data.js';
 for (const value of [{}, [null], [4], [[]]]) assert.throws(() => normalizeEntries(value, '2026.10.28'));
 assert.deepEqual(normalizeEntries([], '2026.10.28'), []);
 const entries = normalizeEntries({entries:[{id:'a',title:'<img onerror=alert(1)>',date:'2026-10-25',type:'award',proof:'javascript:alert(1)'},{id:'b',date:'2026.10.26',updatedAt:1},{id:'c',date:'2026.10.20',updatedAt:9999999999999}]}, '2026.10.28');
@@ -7,6 +7,10 @@ assert.equal(entries[0].date,'2026.10.25');
 assert.equal(entries[0].proof,'');
 assert.equal(entries[0].title,'<img onerror=alert(1)>');
 assert.deepEqual([...entries].sort(compareRecent).map(e=>e.id), ['c','a','b']);
+assert.deepEqual([{id:'older',date:'2026.09.01',updatedAt:999},{id:'newer',date:'2026.10.01',updatedAt:1}].sort(compareEssayDate).map(e=>e.id),['newer','older']);
+assert.equal(essayExcerpt({summary:'',notes:'## 想法\n今天读了[一本书](https://example.com)，记住一句话。'}),'想法 今天读了一本书，记住一句话。');
+assert.equal(essayExcerpt({summary:'自己写的摘要',notes:'另一段正文'}),'自己写的摘要');
+assert.equal(essayExcerpt({summary:'',notes:''}),'');
 console.log('Shared archive data: invalid structures rejected, empty preserved, legacy envelope normalized, links sanitized and recent order verified.');
 
 const legacy=[{title:'old'}, {id:'same',title:'one'}, {id:'same',title:'two'}, {id:'',title:'empty'}];

@@ -132,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.235';
+const currentVersion = 'v1.0.236';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -140,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.236', date: '2026.10.30', title: '知识库升级为随笔', items: ['全站当前栏目改为随笔与 ESSAYS，旧 knowledge 存储类型、稳定 ID、浏览器数据和 /archive?view=knowledge 链接继续兼容；成果仍独立展示', '随笔目录与首页最近随笔按记录日期从新到旧排列，旧链接显式 sort=updated 仍按更新时间排序；无摘要时仅从正文生成展示预览，不改写原文', '写作表单突出标题和正文，把分类、标签、形式、来源及关联放入补充信息；退出未保存修改时提示，阅读页及首页随笔文字使用自托管思源宋体'] },
   { version: 'v1.0.235', date: '2026.10.30', title: '状态插图、日志封面与控制台联动', items: ['空档案、无匹配、读取失败和写入失败分别显示原创小型状态图，保留真实说明与对应操作；导入文件读取时显示处理中，成功与错误反馈使用不同图标', '最新版本日志使用独立封面式层级，搜索历史记录时只标记真实当前版本，完整历史仍可查看', '控制台圆盘聚焦或悬停时联动文字、真实计数与入口；分类及月份图提取为共享组件，并在实际组件矩阵中展示同一实现和状态图，样张历史示例保留各自原日期与条数'] },
   { version: 'v1.0.234', date: '2026.10.29', title: '阅读封面与真实关联示意', items: ['独立阅读页重组标题封面：真实日期、分类、形式、摘要和编辑入口分层展示，正文仍保留原有单栏、章节目录与全部内容', '真实章节按文内顺序显示序号，原有标题锚点、代码滚动、图片原图入口与阅读返回继续工作', '已绑定且仍存在的关联记录显示稳定连接示意，重复目标去重、最多六个节点；完整文字列表保留，未绑定或已删除目标不画连线'] },
   { version: 'v1.0.233', date: '2026.10.29', title: '目录月份筛选与成果日期纵线', items: ['档案目录的十二个月记录量图可用鼠标和键盘点选月份，筛选结果写入可分享的 URL；再次点选或使用清除入口可恢复全部月份', '月份条件与分类、搜索、形式、排序和阅读返回状态共同保留；图表仍按当前分区全集统计，非法或范围外日期继续单独说明', '成果按记录日期排序时，列表与卡片增加真实月份节点和日期纵线；其他排序保持原有顺序与呈现，不把无效日期并入当前月'] },
@@ -425,6 +426,8 @@ export default function Home() {
   const [notice, setNotice] = useState('');
   const [isImporting, setIsImporting] = useState(false);
   const [draft, setDraft] = useState(emptyDraft);
+  const draftBaseline = useRef(emptyDraft);
+  const [discardOpen, setDiscardOpen] = useState(false);
   const [formError, setFormError] = useState<{field:string;message:string} | null>(null);
   const [backgroundImage, setBackgroundImage] = useState(defaultBackgroundImage);
   const [backgroundOpacity, setBackgroundOpacity] = useState(0.13);
@@ -585,7 +588,7 @@ export default function Home() {
     void Promise.resolve(modelContext.registerTool({
       name: 'add_knowledge_garden_record',
       title: '添加知识花园记录',
-      description: '在个人知识花园中新增一条学习知识或获奖记录，并同步更新页面内容。',
+      description: '在个人知识花园中新增一篇随笔或一项获奖记录，并同步更新页面内容。',
       inputSchema: { type: 'object', properties: { type: { type: 'string', enum: ['knowledge', 'award'] }, title: { type: 'string' }, category: { type: 'string' }, summary: { type: 'string' }, tags: { type: 'array', items: { type: 'string' } } }, required: ['type', 'title', 'category'], additionalProperties: false },
       annotations: { readOnlyHint: false, untrustedContentHint: false },
       execute(input) {
@@ -668,8 +671,8 @@ export default function Home() {
   const knowledgeCount = entries.filter((entry) => entry.type === 'knowledge').length;
   const awardCount = entries.filter((entry) => entry.type === 'award').length;
   const entriesInActiveView = activeView === 'all' ? entries : entries.filter((entry) => entry.type === activeView);
-  const emptyStateTitle = entriesInActiveView.length > 0 ? '这里还没有匹配的内容' : activeView === 'award' ? '还没有获奖记录' : activeView === 'knowledge' ? '还没有知识记录' : '还没有档案记录';
-  const emptyStateDescription = entriesInActiveView.length > 0 ? `当前条件：${[search.trim() ? `搜索“${search.trim()}”` : '', categoryFilter !== 'all' ? `分类“${categoryFilter}”` : '', monthFilter ? `月份“${monthFilter}”` : '', formatFilter !== 'all' ? `形式“${formatLabels[formatFilter]}”` : ''].filter(Boolean).join(' / ') || '当前视图'}。可清除筛选后继续浏览。` : activeView === 'award' ? '记录获得的荣誉与成果，方便以后回看。' : activeView === 'knowledge' ? '先记下一条知识，之后可以慢慢补充分类与笔记。' : '从一条知识或获奖经历开始，之后可以继续补充细节。';
+  const emptyStateTitle = entriesInActiveView.length > 0 ? '这里还没有匹配的内容' : activeView === 'award' ? '还没有获奖记录' : activeView === 'knowledge' ? '还没有随笔' : '还没有档案记录';
+  const emptyStateDescription = entriesInActiveView.length > 0 ? `当前条件：${[search.trim() ? `搜索“${search.trim()}”` : '', categoryFilter !== 'all' ? `分类“${categoryFilter}”` : '', monthFilter ? `月份“${monthFilter}”` : '', formatFilter !== 'all' ? `形式“${formatLabels[formatFilter]}”` : ''].filter(Boolean).join(' / ') || '当前视图'}。可清除筛选后继续浏览。` : activeView === 'award' ? '记录获得的荣誉与成果，方便以后回看。' : activeView === 'knowledge' ? '写下第一篇随笔，之后可以慢慢补充想法。' : '从一篇随笔或一项获奖经历开始，之后可以继续补充细节。';
   const filteredUpdateLogs = useMemo(() => {
     const query = changelogQuery.trim().toLocaleLowerCase();
     if (!query) return updateLogs;
@@ -710,10 +713,10 @@ export default function Home() {
   const showAwardDateGroups = activeView === 'award' && (sortBy === 'latest' || sortBy === 'oldest');
   const awardMonthLabel = (entry: Entry) => normalizeEntryDate(entry.date, '').slice(0, 7) || '日期待核对';
   const featuredAward = activeView === 'award' ? selectFeaturedAward(filteredEntries) : undefined;
-  const viewTitle = activeView === 'award' ? '获奖记录' : activeView === 'knowledge' ? '知识库' : '总览';
+  const viewTitle = activeView === 'award' ? '获奖记录' : activeView === 'knowledge' ? '随笔' : '总览';
   const newRecordType = activeView === 'all' ? quickCaptureType : activeView;
-  const logEyebrow = activeView === 'award' ? '// AWARD LOG /' : activeView === 'knowledge' ? '// KNOWLEDGE LOG /' : '// FIELD LOG /';
-  const changeView = (view: ViewMode) => { setReadingId(''); if (view !== activeView) setSortBy(view === 'award' ? 'latest' : 'updated'); setActiveView(view); setCategoryFilter('all'); setMonthFilter(''); setFormatFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
+  const logEyebrow = activeView === 'award' ? '// AWARD LOG /' : activeView === 'knowledge' ? '// ESSAYS /' : '// FIELD LOG /';
+  const changeView = (view: ViewMode) => { setReadingId(''); if (view !== activeView) setSortBy(view === 'all' ? 'updated' : 'latest'); setActiveView(view); setCategoryFilter('all'); setMonthFilter(''); setFormatFilter('all'); if (view !== 'all') setQuickCaptureType(view); };
   function readingHref(id: string) {
     const url = writeArchiveUrl(new URL('https://local.invalid/archive'), { view: activeView, category: categoryFilter, month: monthFilter, format: formatFilter, search, sort: sortBy, layout: entryView });
     if (id) url.searchParams.set('entry', id);
@@ -725,13 +728,13 @@ export default function Home() {
     input?.focus({ preventScroll: true });
   }
   function openRelease(release: UpdateLog) { setChangelogQuery(release.title); setChangelogOpen(true); }
-  const archiveEyebrow = activeView === 'award' ? '// AWARD ARCHIVE' : activeView === 'knowledge' ? '// KNOWLEDGE ARCHIVE' : '// PERSONAL ARCHIVE';
-  const heroTitle = activeView === 'award' ? <>把走过的，变成<br /><em>下一次出发的底气。</em></> : <>把学过的，变成<br /><em>下一次找得到的答案。</em></>;
+  const archiveEyebrow = activeView === 'award' ? '// AWARD ARCHIVE' : activeView === 'knowledge' ? '// ESSAYS' : '// PERSONAL ARCHIVE';
+  const heroTitle = activeView === 'award' ? <>把走过的，变成<br /><em>下一次出发的底气。</em></> : <>把想到的，写成<br /><em>以后能重读的片段。</em></>;
   const heroDescription = activeView === 'award' ? '每一份成果，都值得被认真归档。' : '今天先记一句，之后再慢慢整理。';
-  const archiveViewDescription = activeView === 'award' ? '集中回看已获得的成果与相关证明。' : '按主题筛选、搜索并回看已整理的学习记录。';
+  const archiveViewDescription = activeView === 'award' ? '集中回看已获得的成果与相关证明。' : '记录日常的观察、思考与片刻感受。';
   const quickCaptureHint = quickCaptureType === 'award' ? '先记下成果名称，详情可以随后补充。' : '先写下一句话，详细内容之后再补充。';
   const quickCapturePlaceholder = quickCaptureType === 'award' ? '输入荣誉或成果名称' : '例如：今天学会了如何拆解复杂问题';
-  const quickCaptureEyebrow = quickCaptureType === 'award' ? '// AWARD ENTRY / QUICK CAPTURE' : '// KNOWLEDGE ENTRY / QUICK CAPTURE';
+  const quickCaptureEyebrow = quickCaptureType === 'award' ? '// AWARD ENTRY / QUICK CAPTURE' : '// ESSAY / QUICK CAPTURE';
 
   function showNotice(message: string) { setNotice(message); window.setTimeout(() => setNotice(''), 2600); }
   function saveQuickCapture(event: { preventDefault: () => void }) {
@@ -739,27 +742,33 @@ export default function Home() {
     const title = quickCaptureTitle.trim();
     if (!title) { showNotice('先写下一句话，再保存记录'); return; }
     const id = `${quickCaptureType}-${Date.now()}`;
-    setEntries((current) => [{ id, type: quickCaptureType, format: quickCaptureType === 'award' ? 'project' : 'note', title, category: '待整理', date: displayDate || formatDisplayDate(new Date()), summary: '先记录下来，之后再补充。', tags: [], color: quickCaptureType === 'award' ? 'gold' : ['coral', 'sky', 'lilac', 'mint'][knowledgeCount % 4], updatedAt: Date.now() }, ...current]);
+    setEntries((current) => [{ id, type: quickCaptureType, format: quickCaptureType === 'award' ? 'project' : 'note', title, category: '待整理', date: displayDate || formatDisplayDate(new Date()), summary: '', tags: [], color: quickCaptureType === 'award' ? 'gold' : ['coral', 'sky', 'lilac', 'mint'][knowledgeCount % 4], updatedAt: Date.now() }, ...current]);
     setQuickCaptureTitle('');
     showNotice('已快速保存，之后可以打开详情补充内容');
   }
-  function openCreate(type: EntryType = 'knowledge') { setFormError(null); setEditingId(null); setDraft({ ...emptyDraft, type, format: type === 'award' ? 'project' : 'note', date: displayDate || formatDisplayDate(new Date()) }); setDialogOpen(true); }
+  function openCreate(type: EntryType = 'knowledge') { const initial = { ...emptyDraft, type, format: type === 'award' ? 'project' as EntryFormat : 'note' as EntryFormat, date: displayDate || formatDisplayDate(new Date()) }; draftBaseline.current = initial; setFormError(null); setEditingId(null); setDraft(initial); setDialogOpen(true); }
   function openEdit(entry: Entry) {
     setFormError(null);
     setEditingId(entry.id);
-    setDraft({ type: entry.type, format: entry.format, title: entry.title, category: entry.category, date: entry.date, summary: entry.summary, tags: entry.tags.join(', '), notes: entry.notes ?? '', source: entry.source ?? '', issuer: entry.issuer ?? '', awardLevel: entry.awardLevel ?? '', role: entry.role ?? '', proof: entry.proof ?? '', related: relatedLabels(entry, entries) });
+    const initial = { type: entry.type, format: entry.format, title: entry.title, category: entry.category, date: entry.date, summary: entry.summary, tags: entry.tags.join(', '), notes: entry.notes ?? '', source: entry.source ?? '', issuer: entry.issuer ?? '', awardLevel: entry.awardLevel ?? '', role: entry.role ?? '', proof: entry.proof ?? '', related: relatedLabels(entry, entries) };
+    draftBaseline.current = initial;
+    setDraft(initial);
     setDetailsOpen(false);
     setDialogOpen(true);
+  }
+  function requestEditorClose() {
+    if (JSON.stringify(draft) !== JSON.stringify(draftBaseline.current)) setDiscardOpen(true);
+    else setDialogOpen(false);
   }
   function saveEntry() {
     const reject = (field:string, message:string) => { setFormError({field,message}); document.getElementById(`entry-${field}`)?.focus(); };
     if (!draft.title.trim()) { reject('title','请填写标题'); return; }
-    if (!draft.category.trim()) { reject('category','请填写分类'); return; }
+    if (draft.type === 'award' && !draft.category.trim()) { reject('category','请填写分类'); return; }
     const date = normalizeEntryDate(draft.date, '');
     if (!date) { reject('date','请输入有效日期，格式为 YYYY.MM.DD'); return; }
     const proof = normalizeHttpUrl(draft.proof);
     if (proof === null) { reject('proof','证明链接需以 http:// 或 https:// 开头'); return; }
-    const nextEntry: Entry = { ...entries.find(entry => entry.id === editingId), id: editingId ?? `${draft.type}-${Date.now()}`, type: draft.type, format: draft.format, title: draft.title.trim(), category: draft.category.trim(), date, summary: draft.summary.trim() || '还没有写下摘要，之后再来补充。', tags: draft.tags.split(/[,，]/).map((tag) => tag.trim()).filter(Boolean), color: draft.type === 'award' ? 'gold' : editingId ? entries.find((entry) => entry.id === editingId)?.color ?? 'coral' : ['coral', 'sky', 'lilac', 'mint'][knowledgeCount % 4], notes: draft.notes.trim(), source: draft.source.trim(), issuer: draft.issuer.trim(), awardLevel: draft.awardLevel.trim(), role: draft.role.trim(), proof, related: draft.related.trim(), relatedRefs: relatedReferences(draft.related, entries, entries.find(entry => entry.id === editingId)?.relatedRefs), updatedAt: Date.now() };
+    const nextEntry: Entry = { ...entries.find(entry => entry.id === editingId), id: editingId ?? `${draft.type}-${Date.now()}`, type: draft.type, format: draft.format, title: draft.title.trim(), category: draft.category.trim() || '未分类', date, summary: draft.summary.trim(), tags: draft.tags.split(/[,，]/).map((tag) => tag.trim()).filter(Boolean), color: draft.type === 'award' ? 'gold' : editingId ? entries.find((entry) => entry.id === editingId)?.color ?? 'coral' : ['coral', 'sky', 'lilac', 'mint'][knowledgeCount % 4], notes: draft.notes.trim(), source: draft.source.trim(), issuer: draft.issuer.trim(), awardLevel: draft.awardLevel.trim(), role: draft.role.trim(), proof, related: draft.related.trim(), relatedRefs: relatedReferences(draft.related, entries, entries.find(entry => entry.id === editingId)?.relatedRefs), updatedAt: Date.now() };
     setEntries((current) => editingId ? current.map((entry) => entry.id === editingId ? nextEntry : entry) : [nextEntry, ...current]);
     setFormError(null); setDialogOpen(false); setEditingId(null); setDraft(emptyDraft); showNotice(editingId ? '记录已更新' : '已添加到你的知识花园');
   }
@@ -843,7 +852,7 @@ export default function Home() {
         <p className="rail-section-label">{"// FIELD INDEX "}<span>/</span> 05</p>
         <nav className="side-nav" aria-label="主导航">
           <ArchiveNavItem label="总览" active={activeView === 'all'} onClick={() => changeView('all')}><LayoutGrid size={18} /><span>总览</span></ArchiveNavItem>
-          <ArchiveNavItem label="知识库" active={activeView === 'knowledge'} onClick={() => changeView('knowledge')}><BookOpen size={18} /><span>知识库</span><span className="nav-count">{knowledgeCount}</span></ArchiveNavItem>
+          <ArchiveNavItem label="随笔" active={activeView === 'knowledge'} onClick={() => changeView('knowledge')}><BookOpen size={18} /><span>随笔</span><span className="nav-count">{knowledgeCount}</span></ArchiveNavItem>
           <ArchiveNavItem label="获奖记录" active={activeView === 'award'} onClick={() => changeView('award')}><Medal size={18} /><span>获奖记录</span><span className="nav-count">{awardCount}</span></ArchiveNavItem>
           <button className="nav-item" type="button" aria-label="更新日志" title="更新日志" onClick={() => setChangelogOpen(true)}><History size={18} /><span>更新日志</span><span className="nav-count">{updateLogs.length}</span></button>
           {/* Full document navigation also works with the directory index on static hosts. */}
@@ -852,7 +861,7 @@ export default function Home() {
         </nav>
         <section className="rail-background" data-expanded={backgroundExpanded ? 'true' : 'false'} aria-label="背景图片设置"><button type="button" className="rail-background-heading" aria-label={backgroundExpanded ? '收起背景图片设置' : '展开背景图片设置'} aria-expanded={backgroundExpanded} aria-controls="rail-background-content" onClick={() => setBackgroundExpanded((current) => !current)}><div><span className="rail-background-label">{"// BACKGROUND"}</span><strong>背景图片</strong></div><span className="rail-background-toggle" aria-hidden="true">{backgroundExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span></button><div id="rail-background-content" className="rail-background-content" data-open={backgroundExpanded} aria-hidden={!backgroundExpanded} inert={!backgroundExpanded}><button type="button" className={`rail-background-preview ${backgroundImage ? 'has-background' : 'is-empty'}`} aria-label={backgroundImage ? '更换背景图片' : '选择背景图片'} onClick={() => backgroundInputRef.current?.click()} style={backgroundImage ? { backgroundImage: `url("${backgroundImage}")` } : undefined}><span>{backgroundImage ? `${Math.round(backgroundOpacity * 100)}%` : '未设置'}</span></button><input ref={backgroundInputRef} className="sr-only" type="file" accept="image/*" tabIndex={-1} onChange={customizeBackground} /><div className="rail-background-actions"><button type="button" className="rail-background-button" onClick={() => backgroundInputRef.current?.click()}><FileUp size={13} />更换图片</button><button type="button" className="rail-background-reset" onClick={resetBackground}>恢复默认</button></div>{backgroundImage && <label className="rail-opacity-control" htmlFor="background-opacity"><span>透明度</span><input id="background-opacity" type="range" min="0.04" max="0.3" step="0.01" value={backgroundOpacity} onChange={(event) => changeBackgroundOpacity(Number(event.target.value))} /></label>}</div></section>
         <div className="rail-bottom">
-          <div className="rail-account"><div className="avatar" aria-label="个人头像">K</div><div className="account-copy"><span className="account-eyebrow">{"// PERSONAL ARCHIVE"}</span><strong>我的空间</strong><small>个人知识库</small></div></div>
+          <div className="rail-account"><div className="avatar" aria-label="个人头像">K</div><div className="account-copy"><span className="account-eyebrow">{"// PERSONAL ARCHIVE"}</span><strong>我的空间</strong><small>个人随笔档案</small></div></div>
           <div className="account-status" aria-label={saveStatus}><span className="streak-dot" aria-hidden="true" />{saveStatus}</div>
         </div>
       </aside>
@@ -870,13 +879,14 @@ export default function Home() {
             <input ref={importInputRef} className="sr-only" type="file" accept="application/json,.json" tabIndex={-1} onChange={importSnapshot} />
             <Button variant="outline" className="export-button import-button" onClick={() => importInputRef.current?.click()}><FileUp size={15} />导入</Button>
             <Button variant="outline" className="export-button" onClick={exportSnapshot}><Download size={15} />导出快照</Button>
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <DialogTrigger render={<Button className="add-button" onClick={() => openCreate(newRecordType)}><Plus size={16} />添加记录</Button>} />
+            <Dialog open={dialogOpen} onOpenChange={(open) => { if (open) setDialogOpen(true); else requestEditorClose(); }}>
+              <DialogTrigger render={<Button className="add-button" onClick={() => openCreate(newRecordType)}><Plus size={16} />{newRecordType === 'knowledge' ? '写随笔' : '添加获奖记录'}</Button>} />
               <DialogContent className="entry-dialog form-dialog">
-                <DialogHeader><DialogTitle>{editingId ? '编辑记录' : '添加一条记录'}</DialogTitle><DialogDescription>{editingId ? '把这条记录补充得更完整。' : '把刚学会的，或刚获得的，放进你的长期积累里。'}</DialogDescription></DialogHeader>
+                <DialogHeader><DialogTitle>{editingId ? (draft.type === 'knowledge' ? '编辑随笔' : '编辑获奖记录') : (draft.type === 'knowledge' ? '写随笔' : '添加获奖记录')}</DialogTitle><DialogDescription>{draft.type === 'knowledge' ? '写下此刻的想法，保存在当前浏览器。' : editingId ? '补充这项成果的细节与证明。' : '记录一项成果和相关证明。'}</DialogDescription></DialogHeader>
                 <div className="dialog-form">
                   {formError && <p className="entry-form-error" id="entry-form-error" role="alert">{formError.message}</p>}
-                  <fieldset className="type-picker" aria-label="记录类型"><button type="button" className={draft.type === 'knowledge' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'knowledge'} onClick={() => setDraft((current) => ({ ...current, type: 'knowledge', format: 'note' }))}><BookOpen size={16} />学到的知识</button><button type="button" className={draft.type === 'award' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'award'} onClick={() => setDraft((current) => ({ ...current, type: 'award', format: 'project' }))}><Trophy size={16} />获奖情况</button></fieldset>
+                  <fieldset className="type-picker" aria-label="记录类型"><button type="button" className={draft.type === 'knowledge' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'knowledge'} onClick={() => setDraft((current) => ({ ...current, type: 'knowledge', format: 'note' }))}><BookOpen size={16} />写随笔</button><button type="button" className={draft.type === 'award' ? 'type-option selected' : 'type-option'} aria-pressed={draft.type === 'award'} onClick={() => setDraft((current) => ({ ...current, type: 'award', format: 'project' }))}><Trophy size={16} />获奖情况</button></fieldset>
+                  {draft.type === 'award' ? <>
                   <p className="form-section-label">{"// CORE FIELDS"}</p>
                   <div className="form-grid"><label htmlFor="entry-title">标题<Input id="entry-title" aria-invalid={formError?.field === 'title'} aria-describedby={formError?.field === 'title' ? 'entry-form-error' : undefined} placeholder={draft.type === 'award' ? '例如：设计大赛 · 最佳创意奖' : '例如：卡片分类法'} value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label><label htmlFor="entry-date">日期<Input id="entry-date" aria-invalid={formError?.field === 'date'} aria-describedby={formError?.field === 'date' ? 'entry-form-error' : undefined} inputMode="numeric" placeholder="YYYY.MM.DD" value={draft.date} onChange={(event) => setDraft({ ...draft, date: event.target.value })} /></label></div>
                   <div className="form-grid"><label htmlFor="entry-category">分类<Input id="entry-category" aria-invalid={formError?.field === 'category'} aria-describedby={formError?.field === 'category' ? 'entry-form-error' : undefined} placeholder={draft.type === 'award' ? '例如：竞赛获奖' : '例如：产品设计'} value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} /></label><label htmlFor="entry-tags">标签（选填）<Input id="entry-tags" placeholder="用逗号分隔" value={draft.tags} onChange={(event) => setDraft({ ...draft, tags: event.target.value })} /></label></div>
@@ -887,8 +897,19 @@ export default function Home() {
                   <p className="form-section-label">{"// NOTES / DETAILS"}</p>
                   <label htmlFor="entry-summary">摘要（选填）<Textarea id="entry-summary" placeholder="写下最值得以后再次回看的那句话…" value={draft.summary} onChange={(event) => setDraft({ ...draft, summary: event.target.value })} /></label>
                   <label htmlFor="entry-notes">详细笔记（选填）<Textarea id="entry-notes" className="notes-textarea" placeholder="补充例子、关键洞察或下一步行动…" value={draft.notes} onChange={(event) => setDraft({ ...draft, notes: event.target.value })} /></label>
+                  </> : <>
+                  <p className="form-section-label">{"// WRITE / ESSAY"}</p>
+                  <label htmlFor="entry-title">随笔标题<Input id="entry-title" aria-invalid={formError?.field === 'title'} aria-describedby={formError?.field === 'title' ? 'entry-form-error' : undefined} placeholder="给这段想法起个标题" value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label>
+                  <label htmlFor="entry-notes">正文<Textarea id="entry-notes" className="essay-body-input" placeholder="从此刻的观察或想法开始写…" value={draft.notes} onChange={(event) => setDraft({ ...draft, notes: event.target.value })} /></label>
+                  <div className="form-grid"><label htmlFor="entry-date">记录日期<Input id="entry-date" aria-invalid={formError?.field === 'date'} aria-describedby={formError?.field === 'date' ? 'entry-form-error' : undefined} inputMode="numeric" placeholder="YYYY.MM.DD" value={draft.date} onChange={(event) => setDraft({ ...draft, date: event.target.value })} /></label><label htmlFor="entry-summary">摘要（选填）<Textarea id="entry-summary" placeholder="不填写时从正文生成列表预览" value={draft.summary} onChange={(event) => setDraft({ ...draft, summary: event.target.value })} /></label></div>
+                  <details className="essay-extra" open={formError?.field === 'category' ? true : undefined}><summary>补充信息 <span>分类、标签、形式、来源与关联</span></summary><div className="essay-extra-fields">
+                    <div className="form-grid"><label htmlFor="entry-category">分类（选填）<Input id="entry-category" placeholder="例如：日常、思考、读书、学习、回顾" value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} /></label><label htmlFor="entry-tags">标签（选填）<Input id="entry-tags" placeholder="用逗号分隔" value={draft.tags} onChange={(event) => setDraft({ ...draft, tags: event.target.value })} /></label></div>
+                    <div className="form-grid"><div className="form-field"><span>内容形式</span><Select value={draft.format} itemToStringLabel={(value) => formatLabels[value as EntryFormat] ?? value} onValueChange={(value) => setDraft({ ...draft, format: value as EntryFormat })}><SelectTrigger className="form-select" aria-label="内容形式"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="note">笔记</SelectItem><SelectItem value="book">书籍</SelectItem><SelectItem value="course">课程</SelectItem><SelectItem value="article">文章</SelectItem><SelectItem value="video">视频</SelectItem><SelectItem value="project">项目</SelectItem></SelectContent></Select></div><label htmlFor="entry-source">来源（选填）<Input id="entry-source" placeholder="书籍、课程或链接" value={draft.source} onChange={(event) => setDraft({ ...draft, source: event.target.value })} /></label></div>
+                    <label htmlFor="entry-related">相关记录（选填）<Input id="entry-related" placeholder="输入记录标题，用逗号分隔" value={draft.related} onChange={(event) => setDraft({ ...draft, related: event.target.value })} /></label>
+                  </div></details>
+                  </>}
                 </div>
-                <DialogFooter><Button variant="outline" onClick={() => setDialogOpen(false)}>取消</Button><Button onClick={saveEntry}><Check size={15} />{editingId ? '保存修改' : '保存记录'}</Button></DialogFooter>
+                <DialogFooter><Button variant="outline" onClick={requestEditorClose}>取消</Button><Button onClick={saveEntry}><Check size={15} />{editingId ? '保存修改' : draft.type === 'knowledge' ? '保存随笔' : '保存记录'}</Button></DialogFooter>
               </DialogContent>
             </Dialog>
           </div>
@@ -899,21 +920,21 @@ export default function Home() {
           {readingId && <EntryReader entry={entries.find(entry => entry.id === readingId)} returnHref={readingHref('')} onEdit={() => { const entry = entries.find(item => item.id === readingId); if (entry) openEdit(entry); }} related={entries} hrefFor={readingHref} />}
           <div hidden={Boolean(readingId)}>
           <section className="page-heading" aria-label={activeView === 'all' ? '个人档案首页' : viewTitle}>
-            <div className="archive-meta-line" aria-label={`当前日期 ${displayDate}，共 ${entries.length} 条档案，${knowledgeCount} 条知识，${awardCount} 项成果`}>
+            <div className="archive-meta-line" aria-label={`当前日期 ${displayDate}，共 ${entries.length} 条档案，${knowledgeCount} 篇随笔，${awardCount} 项成果`}>
               <span>{displayDate || currentYear}</span><i aria-hidden="true" />
               <span><AnimatedCount value={entries.length} initialScramble delay={0} /> 条档案</span><i aria-hidden="true" />
-              <span><AnimatedCount value={knowledgeCount} initialScramble delay={70} /> 条知识</span><i aria-hidden="true" />
+              <span><AnimatedCount value={knowledgeCount} initialScramble delay={70} /> 篇随笔</span><i aria-hidden="true" />
               <span><AnimatedCount value={awardCount} initialScramble delay={140} /> 项成果</span>
             </div>
             <div className="heading-copy-block">
               <div className="archive-overview-copy">
-                <p className="archive-wordmark" aria-hidden="true"><span className="archive-wordmark-solid">KNOWLEDGE</span><span className="archive-wordmark-outline">GARDEN</span></p>
+                <p className="archive-wordmark" aria-hidden="true"><span className="archive-wordmark-solid">ESSAYS</span><span className="archive-wordmark-outline">GARDEN</span></p>
                 <p className="eyebrow"><span className="signal-mark" aria-hidden="true" />{archiveEyebrow} <span className="eyebrow-divider">/</span> {currentYear}</p>
                 <h1>{heroTitle}</h1>
                 <p className="heading-copy">{heroDescription}</p>
                 <div className="archive-hero-actions" aria-label="档案快捷入口">
                   <button type="button" className="archive-hero-action primary" onClick={focusQuickCapture}><Plus size={15} />开始记录</button>
-                  <button type="button" className="archive-hero-action" onClick={() => changeView('knowledge')}><BookOpen size={15} />浏览知识库</button>
+                  <button type="button" className="archive-hero-action" onClick={() => changeView('knowledge')}><BookOpen size={15} />阅读随笔</button>
                   <button type="button" className="archive-hero-action" onClick={() => { setChangelogQuery(''); setChangelogOpen(true); }}><History size={15} />版本记录</button>
                 </div>
               </div>
@@ -949,8 +970,8 @@ export default function Home() {
                   <path pathLength={1} d="M83 326h64m18 0h38m20 0h74" strokeDasharray="3 7" />
                   <path pathLength={1} d="M40 368h320" stroke="currentColor" strokeWidth="2" />
                 </svg>
-                <span className="archive-hero-art-label">KNOWLEDGE / ARCHIVE</span>
-                <div className="heading-note"><span className="note-line" /><div><span className="status-caption">{"// ARCHIVE TOTALS"}</span><div className="archive-tally" aria-label={`共${knowledgeCount}条知识记录，${awardCount}项获奖记录`}><div className="archive-tally-row"><span>KNOWLEDGE</span><strong><AnimatedCount value={knowledgeCount} /></strong></div><div className="archive-tally-row"><span>AWARDS</span><strong><AnimatedCount value={awardCount} /></strong></div></div></div></div>
+                <span className="archive-hero-art-label">ESSAYS / ARCHIVE</span>
+                <div className="heading-note"><span className="note-line" /><div><span className="status-caption">{"// ARCHIVE TOTALS"}</span><div className="archive-tally" aria-label={`共${knowledgeCount}篇随笔，${awardCount}项获奖记录`}><div className="archive-tally-row"><span>ESSAYS</span><strong><AnimatedCount value={knowledgeCount} /></strong></div><div className="archive-tally-row"><span>AWARDS</span><strong><AnimatedCount value={awardCount} /></strong></div></div></div></div>
             </figure>
             <div onFocusCapture={event => { if (event.target.matches(':focus-visible')) event.target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'}); }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) { const viewport = event.currentTarget.querySelector<HTMLElement>('.archive-update-viewport'); if (viewport) viewport.scrollLeft = 0; } }} className="archive-update-strip" aria-label="最近更新">
               <span className="archive-update-label">{"// RECENT UPDATES"}</span>
@@ -970,17 +991,17 @@ export default function Home() {
             </div>
           </section>
           <section className="quick-capture" aria-label="快速记录">
-            <div className="quick-capture-copy"><span className="quick-capture-icon"><Plus size={16} /></span><div><p className="section-kicker">{quickCaptureEyebrow}</p><h2>今天记录什么？</h2><p>{quickCaptureHint}</p></div></div>
-            <form className="quick-capture-form" onSubmit={saveQuickCapture}><fieldset className="quick-type-picker" aria-label="记录类型"><button type="button" aria-pressed={quickCaptureType === 'knowledge'} className={quickCaptureType === 'knowledge' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('knowledge')}><BookOpen size={14} />知识</button><button type="button" aria-pressed={quickCaptureType === 'award'} className={quickCaptureType === 'award' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('award')}><Trophy size={14} />获奖</button></fieldset><Input id="quick-capture-title" aria-label="快速记录标题" placeholder={quickCapturePlaceholder} value={quickCaptureTitle} onChange={(event) => setQuickCaptureTitle(event.target.value)} /><Button type="submit" className="quick-capture-submit"><Plus size={15} />保存</Button></form>
+            <div className="quick-capture-copy"><span className="quick-capture-icon"><Plus size={16} /></span><div><p className="section-kicker">{quickCaptureEyebrow}</p><h2>{quickCaptureType === 'award' ? '今天记录什么？' : '记下一个想法'}</h2><p>{quickCaptureHint}</p></div></div>
+            <form className="quick-capture-form" onSubmit={saveQuickCapture}><fieldset className="quick-type-picker" aria-label="记录类型"><button type="button" aria-pressed={quickCaptureType === 'knowledge'} className={quickCaptureType === 'knowledge' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('knowledge')}><BookOpen size={14} />随笔</button><button type="button" aria-pressed={quickCaptureType === 'award'} className={quickCaptureType === 'award' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('award')}><Trophy size={14} />获奖</button></fieldset><Input id="quick-capture-title" aria-label="快速记录标题" placeholder={quickCapturePlaceholder} value={quickCaptureTitle} onChange={(event) => setQuickCaptureTitle(event.target.value)} /><Button type="submit" className="quick-capture-submit"><Plus size={15} />保存</Button></form>
           </section>
 
           <ArchiveInsights categoryStats={categoryStats} monthStats={monthStats} categoryFilter={categoryFilter} monthFilter={monthFilter} onCategorySelect={category=>{setCategoryFilter(category);focusResultHeading();}} onMonthSelect={month=>{setMonthFilter(monthFilter===month?'':month);focusResultHeading();}} onMonthClear={()=>setMonthFilter('')} />
 
           <div className="workspace-grid">
             <section className="knowledge-section">
-              <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2 id="archive-results-heading" tabIndex={-1}>{viewTitle === '总览' ? '最近收集' : viewTitle === '知识库' ? '全部知识条目' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索知识与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '知识条目' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">知识条目</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={formatFilter} itemToStringLabel={value=>value === 'all' ? '全部形式' : formatLabels[value]} onValueChange={value=>{if(value)setFormatFilter(value as EntryFormat | 'all');}}><SelectTrigger className={'filter-trigger format-trigger' + (formatFilter !== 'all' ? ' filter-active' : '')} aria-label="按内容形式筛选"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="all">全部形式</SelectItem>{Object.entries(formatLabels).map(([value,label])=><SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== (activeView === 'award' ? 'latest' : 'updated') ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><fieldset className="view-mode-toggle" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></fieldset></div></div>
+              <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2 id="archive-results-heading" tabIndex={-1}>{viewTitle === '总览' ? '最近收集' : viewTitle === '随笔' ? '全部随笔' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索随笔与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '随笔' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">随笔</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={formatFilter} itemToStringLabel={value=>value === 'all' ? '全部形式' : formatLabels[value]} onValueChange={value=>{if(value)setFormatFilter(value as EntryFormat | 'all');}}><SelectTrigger className={'filter-trigger format-trigger' + (formatFilter !== 'all' ? ' filter-active' : '')} aria-label="按内容形式筛选"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="all">全部形式</SelectItem>{Object.entries(formatLabels).map(([value,label])=><SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== (activeView === 'award' ? 'latest' : 'updated') ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><fieldset className="view-mode-toggle" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></fieldset></div></div>
                {featuredAward && <FeaturedAward entry={featuredAward} href={readingHref(featuredAward.id)} />}
-               {sortedEntries.length === 0 ? <ArchiveEmptyState kind={entriesInActiveView.length ? 'filter' : 'empty'} title={emptyStateTitle} description={emptyStateDescription} action={entriesInActiveView.length ? '清除筛选' : newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'} onAction={() => { if (entriesInActiveView.length) { setSearch(''); setCategoryFilter('all'); setMonthFilter(''); setFormatFilter('all'); } else openCreate(newRecordType); }} /> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}${showAwardDateGroups ? ' award-date-groups' : ''}`}>{sortedEntries.map((entry, index) => <Fragment key={entry.id}>{showAwardDateGroups && (index === 0 || awardMonthLabel(sortedEntries[index - 1]) !== awardMonthLabel(entry)) && <h3 className="award-month-heading"><span>{awardMonthLabel(entry)}</span><small>按记录日期</small></h3>}<ArchiveRecordRow entry={entry} index={index} href={readingHref(entry.id)} onRead={event=>rememberReadingPosition(event,entry.id)} onDelete={() => setPendingConfirmation({ kind: 'delete', entry })} onDetails={() => { setSelectedEntry(entry); setDetailsOpen(true); }} /></Fragment>)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
+               {sortedEntries.length === 0 ? <ArchiveEmptyState kind={entriesInActiveView.length ? 'filter' : 'empty'} title={emptyStateTitle} description={emptyStateDescription} action={entriesInActiveView.length ? '清除筛选' : newRecordType === 'award' ? '添加获奖记录' : '写随笔'} onAction={() => { if (entriesInActiveView.length) { setSearch(''); setCategoryFilter('all'); setMonthFilter(''); setFormatFilter('all'); } else openCreate(newRecordType); }} /> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}${showAwardDateGroups ? ' award-date-groups' : ''}`}>{sortedEntries.map((entry, index) => <Fragment key={entry.id}>{showAwardDateGroups && (index === 0 || awardMonthLabel(sortedEntries[index - 1]) !== awardMonthLabel(entry)) && <h3 className="award-month-heading"><span>{awardMonthLabel(entry)}</span><small>按记录日期</small></h3>}<ArchiveRecordRow entry={entry} index={index} href={readingHref(entry.id)} onRead={event=>rememberReadingPosition(event,entry.id)} onDelete={() => setPendingConfirmation({ kind: 'delete', entry })} onDetails={() => { setSelectedEntry(entry); setDetailsOpen(true); }} /></Fragment>)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
             </section>
 
             <aside className="right-column">
@@ -994,17 +1015,20 @@ export default function Home() {
         </div>
       </section>
 
+      <AlertDialog open={discardOpen} onOpenChange={setDiscardOpen}>
+        <AlertDialogContent className="archive-delete-dialog"><AlertDialogHeader><p className="delete-dialog-kicker">{'// UNSAVED ESSAY'}</p><AlertDialogTitle>放弃未保存的修改？</AlertDialogTitle><AlertDialogDescription>当前填写的内容还没有保存到浏览器。</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>继续编辑</AlertDialogCancel><AlertDialogAction className="archive-delete-confirm" onClick={() => { setDiscardOpen(false); setDialogOpen(false); }}>放弃修改</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
+      </AlertDialog>
       <Sheet open={detailsOpen} onOpenChange={setDetailsOpen}>
         <SheetContent className="entry-sheet detail-dialog" side="right">
           {selectedEntry && <>
-            <p className="detail-record-kicker">{"// "}{selectedEntry.type === 'award' ? 'AWARD RECORD' : 'KNOWLEDGE RECORD'}</p>
-            <div className="detail-topline"><Badge className={`entry-type ${selectedEntry.type === 'award' ? 'award-badge' : ''}`}>{selectedEntry.type === 'award' ? '获奖' : '知识'}</Badge><span>{selectedEntry.date}</span></div>
+            <p className="detail-record-kicker">{"// "}{selectedEntry.type === 'award' ? 'AWARD RECORD' : 'ESSAY'}</p>
+            <div className="detail-topline"><Badge className={`entry-type ${selectedEntry.type === 'award' ? 'award-badge' : ''}`}>{selectedEntry.type === 'award' ? '获奖' : '随笔'}</Badge><span>{selectedEntry.date}</span></div>
             <SheetHeader><SheetTitle>{selectedEntry.title}</SheetTitle><SheetDescription>{selectedEntry.category}</SheetDescription></SheetHeader>
-            <div className="detail-copy"><h4>摘要</h4><p>{selectedEntry.summary}</p>{selectedEntry.notes && <><h4>详细笔记</h4><p>{selectedEntry.notes}</p></>}{selectedEntry.tags.length > 0 && <div className="detail-tags">{selectedEntry.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>}</div>
-            <div className="detail-meta-grid"><div><span>内容形式</span><strong>{formatLabels[selectedEntry.format]}</strong></div>{selectedEntry.type === 'award' ? <>{selectedEntry.issuer && <div><span>颁发机构</span><strong>{selectedEntry.issuer}</strong></div>}{selectedEntry.awardLevel && <div><span>获奖级别</span><strong>{selectedEntry.awardLevel}</strong></div>}{selectedEntry.role && <div><span>个人角色</span><strong>{selectedEntry.role}</strong></div>}</> : <>{selectedEntry.source && <div><span>学习来源</span><strong>{selectedEntry.source}</strong></div>}</>}</div>
-            {(selectedEntry.relatedRefs?.length || selectedEntry.related) && <div className="detail-related"><span>关联记录</span>{(selectedEntry.relatedRefs ?? relatedReferences(selectedEntry.related ?? '', entries)).map((ref, index) => { const target = entries.find(entry => entry.id === ref.id); return target ? <button type="button" key={index} onClick={() => setSelectedEntry(target)}>{target.title} <ChevronRight size={13} /></button> : <span key={index}>{ref.title}（{ref.id ? '目标已删除或不在此快照' : '未绑定，请编辑确认目标'}）</span>; })}</div>}
+            <div className="detail-copy">{selectedEntry.summary.trim() && <><h4>摘要</h4><p>{selectedEntry.summary}</p></>}{selectedEntry.notes && <><h4>{selectedEntry.type === 'knowledge' ? '正文' : '详细笔记'}</h4><p>{selectedEntry.notes}</p></>}{selectedEntry.tags.length > 0 && <div className="detail-tags">{selectedEntry.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>}</div>
+            <div className="detail-meta-grid"><div><span>内容形式</span><strong>{formatLabels[selectedEntry.format]}</strong></div>{selectedEntry.type === 'award' ? <>{selectedEntry.issuer && <div><span>颁发机构</span><strong>{selectedEntry.issuer}</strong></div>}{selectedEntry.awardLevel && <div><span>获奖级别</span><strong>{selectedEntry.awardLevel}</strong></div>}{selectedEntry.role && <div><span>个人角色</span><strong>{selectedEntry.role}</strong></div>}</> : <>{selectedEntry.source && <div><span>来源</span><strong>{selectedEntry.source}</strong></div>}</>}</div>
+            {(selectedEntry.relatedRefs?.length || selectedEntry.related) && <div className="detail-related"><span>相关记录</span>{(selectedEntry.relatedRefs ?? relatedReferences(selectedEntry.related ?? '', entries)).map((ref, index) => { const target = entries.find(entry => entry.id === ref.id); return target ? <button type="button" key={index} onClick={() => setSelectedEntry(target)}>{target.title} <ChevronRight size={13} /></button> : <span key={index}>{ref.title}（{ref.id ? '目标已删除或不在此快照' : '未绑定，请编辑确认目标'}）</span>; })}</div>}
             {selectedEntry.proof && <a className="detail-link" href={selectedEntry.proof} target="_blank" rel="noreferrer"><ExternalLink size={14} />打开证明链接</a>}
-            <SheetFooter><Button variant="outline" onClick={() => { setReadingId(selectedEntry.id); setDetailsOpen(false); }}>完整阅读</Button><Button variant="outline" onClick={() => openEdit(selectedEntry)}><Pencil size={14} />编辑记录</Button><Button variant="destructive" onClick={() => setPendingConfirmation({ kind: 'delete', entry: selectedEntry })}><Trash2 size={14} />删除记录</Button></SheetFooter>
+            <SheetFooter><Button variant="outline" onClick={() => { setReadingId(selectedEntry.id); setDetailsOpen(false); }}>完整阅读</Button><Button variant="outline" onClick={() => openEdit(selectedEntry)}><Pencil size={14} />{selectedEntry.type === 'knowledge' ? '编辑随笔' : '编辑记录'}</Button><Button variant="destructive" onClick={() => setPendingConfirmation({ kind: 'delete', entry: selectedEntry })}><Trash2 size={14} />删除记录</Button></SheetFooter>
           </>}
         </SheetContent>
       </Sheet>
@@ -1013,7 +1037,7 @@ export default function Home() {
           <AlertDialogHeader>
               <p className="delete-dialog-kicker">{pendingConfirmation?.kind === 'import' ? '// IMPORT SNAPSHOT' : '// DELETE RECORD'}</p>
               <AlertDialogTitle>{pendingConfirmation?.kind === 'import' ? '确认覆盖当前档案？' : '确认删除这条记录？'}</AlertDialogTitle>
-              <AlertDialogDescription>{pendingConfirmation?.kind === 'import' ? `将用文件中的 ${pendingConfirmation.entries.length} 条记录替换当前 ${pendingConfirmation.replaceCount} 条记录，此操作无法撤销。` : `“${pendingConfirmation?.kind === 'delete' ? pendingConfirmation.entry.title : ''}”将从知识档案中移除，此操作无法撤销。`}</AlertDialogDescription>
+              <AlertDialogDescription>{pendingConfirmation?.kind === 'import' ? `将用文件中的 ${pendingConfirmation.entries.length} 条记录替换当前 ${pendingConfirmation.replaceCount} 条记录，此操作无法撤销。` : `“${pendingConfirmation?.kind === 'delete' ? pendingConfirmation.entry.title : ''}”将从个人档案中移除，此操作无法撤销。`}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>取消</AlertDialogCancel>

@@ -4,8 +4,8 @@ import './endfield-theme.css';
 import './endfield-desktop-controls.css';
 
 export const metadata: Metadata = {
-  title: '我的知识花园 | 个人知识库',
-  description: '记录学习路径、知识卡片与获奖经历的个人知识库。',
+  title: '我的知识花园 | 随笔与成果',
+  description: '记录日常观察、个人思考与获奖经历的本地档案。',
 };
 
 export default function RootLayout({

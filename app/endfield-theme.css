@@ -471,6 +471,12 @@
 .form-section-label::before { width: 5px; height: 5px; content: ''; background: var(--archive-signal); }
 .dialog-form input, .dialog-form textarea, .form-select { min-height: 42px; border-color: var(--archive-control-border); transition: border-color .2s ease, box-shadow .2s ease; }
 .dialog-form textarea { min-height: 96px; }
+.dialog-form .essay-body-input { min-height: 260px; resize: vertical; font: 400 17px/1.8 'Garden Serif SC', 'SimSun', serif; }
+.essay-extra { border-top: 1px solid var(--archive-line-strong); padding-top: 12px; }
+.essay-extra summary { min-height: 44px; display: flex; align-items: center; gap: 16px; cursor: pointer; font-weight: 750; }
+.essay-extra summary span { color: var(--archive-grey); font-size: 12px; font-weight: 400; }
+.essay-extra summary:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: 3px; }
+.essay-extra-fields { display: grid; gap: 18px; padding: 12px 0 4px; }
 .dialog-form input:focus-visible, .dialog-form textarea:focus-visible, .form-select:focus-visible { border-color: var(--archive-signal-ink); box-shadow: inset 3px 0 0 var(--archive-signal); }
 .type-picker { border-color: var(--archive-line-strong); border-radius: 2px; }
 .type-option { min-height: 40px; }
@@ -819,6 +825,20 @@
   font-style: normal;
   font-weight: 100 900;
   font-stretch: 50% 125%;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Garden Serif SC';
+  src: url('/fonts/GardenSerifSC-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Garden Serif SC';
+  src: url('/fonts/GardenSerifSC-SemiBold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600 900;
   font-display: swap;
 }
 
@@ -1411,6 +1431,8 @@ body { color: var(--archive-ink); background: var(--archive-canvas); font-family
 :root[data-ark-theme='endfield'] .entry-grid.list-view .entry-card { background: var(--archive-surface); }
 :root[data-ark-theme='endfield'] .entry-grid.list-view .entry-card:is(:hover,:focus-within) { background: var(--archive-paper); }
 :root[data-ark-theme='endfield'] .entry-grid.list-view .entry-body h3 { font-size: 20px; line-height: 1.45; }
+:root[data-ark-theme='endfield'] .entry-card.entry-knowledge .entry-body h3,
+:root[data-ark-theme='endfield'] .entry-card.entry-knowledge .entry-excerpt { font-family: 'Garden Serif SC', 'SimSun', serif; }
 :root[data-ark-theme='endfield'] .entry-grid.list-view .entry-category { font-variant-numeric: tabular-nums; line-height: 1.7; }
 :root[data-ark-theme='endfield'] .entry-category { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 8px; }
 :root[data-ark-theme='endfield'] .entry-category .entry-meta-separator { margin:0; }
@@ -1422,6 +1444,9 @@ body { color: var(--archive-ink); background: var(--archive-canvas); font-family
 :root[data-ark-theme='endfield'] .reader-cover-top { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; padding: 20px 26px 0; color: var(--archive-grey); font-size: 12px; }
 :root[data-ark-theme='endfield'] .reader-cover-top .section-kicker { margin: 0; color: var(--archive-ink); }
 :root[data-ark-theme='endfield'] .reader-cover h1 { max-width: 900px; margin: 38px 26px 24px; font-size: clamp(36px, 4vw, 52px); line-height: 1.2; }
+:root[data-ark-theme='endfield'] .entry-reader[data-entry-type='knowledge'] .reader-cover h1,
+:root[data-ark-theme='endfield'] .entry-reader[data-entry-type='knowledge'] .reader-summary,
+:root[data-ark-theme='endfield'] .entry-reader[data-entry-type='knowledge'] .reader-body { font-family: 'Garden Serif SC', 'SimSun', serif; }
 :root[data-ark-theme='endfield'] .reader-cover-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 28px; margin: 0 26px; padding-bottom: 20px; }
 :root[data-ark-theme='endfield'] .reader-cover-meta p { margin: 0; color: var(--archive-grey); font-variant-numeric: tabular-nums; }
 :root[data-ark-theme='endfield'] .reader-cover-summary { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; margin: 0 26px; padding-top: 18px; border-top: 1px solid var(--archive-line-strong); }

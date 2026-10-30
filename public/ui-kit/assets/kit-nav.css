@@ -6,6 +6,24 @@
   font-stretch: 50% 125%;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Garden Serif SC';
+  src: url('../../fonts/GardenSerifSC-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Garden Serif SC';
+  src: url('../../fonts/GardenSerifSC-SemiBold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: swap;
+}
+.recent-block:first-child .lead-title,
+.recent-block:first-child .lead-summary,
+.recent-block:first-child .recent-row-title,
+.recent-block:first-child .recent-row-summary { font-family: 'Garden Serif SC', 'SimSun', serif; }
 
 @font-face {
   font-family: 'Saira Numeric';
