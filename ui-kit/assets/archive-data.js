@@ -74,6 +74,17 @@ export function normalizeEntries(value, fallbackDate) {
 }
 
 export function compareRecent(a, b) { return (b.updatedAt ?? entryDateTimestamp(b.date)) - (a.updatedAt ?? entryDateTimestamp(a.date)); }
+// Stable sort keeps the saved order when two essays share a record date.
+export function compareEssayDate(a, b) { return b.date.localeCompare(a.date); }
+export function essayExcerpt(entry) {
+    if (entry.summary?.trim()) return entry.summary.trim();
+    if (!entry.notes?.trim()) return '';
+    return entry.notes.replace(/```[\s\S]*?```/g, ' ')
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .replace(/^\s{0,3}#{1,6}\s+/gm, '')
+        .replace(/\s+/g, ' ').trim().slice(0, 180);
+}
 
 // A browser preference points to an existing stable ID; snapshots remain schema v2.
 export const featuredEntryStorageKey = 'knowledge-garden-featured-entry';

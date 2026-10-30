@@ -107,7 +107,7 @@
       <a class="brand" href="/knowledge-garden-site/"><span class="seal" aria-hidden="true">K</span>知识花园</a>
       <nav aria-label="分区">
         <a href="/knowledge-garden-site/archive">总览<small>Overview</small></a>
-        <a href="/knowledge-garden-site/archive?view=knowledge">知识库<small>Knowledge</small></a>
+        <a href="/knowledge-garden-site/archive?view=knowledge">随笔<small>Essays</small></a>
         <a href="/knowledge-garden-site/archive?view=award">获奖记录<small>Awards</small></a>
         <a href="reading.html">使用说明<small>Guide</small></a>
         <a href="/knowledge-garden-site/ui-kit">样张<small>Previews</small></a>
@@ -116,7 +116,7 @@
     </header>
 
     <main>
-      <header class="ef-head"><p class="ef-eyebrow">Archive overview</p><h1>档案总览</h1><p class="ef-field">当前版本 <span data-release="version">v1.0.235</span></p><p data-archive-status>正在读取当前浏览器档案。</p></header>
+      <header class="ef-head"><p class="ef-eyebrow">Archive overview</p><h1>档案总览</h1><p class="ef-field">当前版本 <span data-release="version">v1.0.236</span></p><p data-archive-status>正在读取当前浏览器档案。</p></header>
       <div class="board">
         <div class="orbit">
           <figure class="hub"><svg class="ef-dial" data-dial role="group" aria-label="分区"></svg><figcaption class="dial-detail" data-dial-detail><strong data-dial-label>当前档案</strong><b data-dial-count>—</b><a data-dial-link href="/knowledge-garden-site/archive">打开档案</a></figcaption></figure>
@@ -125,7 +125,7 @@
             <h2><span class="ef-pair"><span class="ef-eyebrow">Archive</span><span>档案记录</span></span> <a href="/knowledge-garden-site/archive">全部</a></h2>
             <div class="ef-figs">
               <a href="/knowledge-garden-site/archive"><b data-fx-load data-archive-count="all">0</b><span>全部记录</span></a>
-              <a href="/knowledge-garden-site/archive"><b data-fx-load data-archive-count="knowledge">0</b><span>知识记录</span></a>
+              <a href="/knowledge-garden-site/archive?view=knowledge"><b data-fx-load data-archive-count="knowledge">0</b><span>随笔</span></a>
               <a href="/knowledge-garden-site/archive"><b data-fx-load data-archive-count="award">0</b><span>获奖成果</span></a>
             </div>
           </section>
@@ -175,8 +175,8 @@
           <h2>最近的档案更新 <a href="reading.html#full-history">全部更新</a></h2>
           <ul class="ef-rows">
 <!-- release:console -->
+<li><div><div>知识库升级为随笔 <span class="ef-state">已更新</span></div><div class="meta"><span>v1.0.236</span><span>03 项调整</span><span>2026.10.30</span></div></div><div class="acts"><a class="ef-btn small" href="reading.html#release-v1-0-236">阅读更新</a></div></li>
 <li><div><div>状态插图、日志封面与控制台联动 <span class="ef-state">已更新</span></div><div class="meta"><span>v1.0.235</span><span>03 项调整</span><span>2026.10.30</span></div></div><div class="acts"><a class="ef-btn small" href="reading.html#release-v1-0-235">阅读更新</a></div></li>
-<li><div><div>阅读封面与真实关联示意 <span class="ef-state">已更新</span></div><div class="meta"><span>v1.0.234</span><span>03 项调整</span><span>2026.10.29</span></div></div><div class="acts"><a class="ef-btn small" href="reading.html#release-v1-0-234">阅读更新</a></div></li>
 <!-- /release -->
 </ul>
         </section>
@@ -219,7 +219,7 @@
         idle: { label: failed ? '读取失败' : '当前档案', big: total, unit: '条', sub: failed ? '请打开个人档案恢复' : '浏览器本地保存' },
         sections: [
           { zh: '总览', en: 'Overview', big: total, unit: '条', here: true, href: '/knowledge-garden-site/archive' },
-          { zh: '知识库', en: 'Knowledge', big: knowledge, unit: '条', sub: '个人记录', href: '/knowledge-garden-site/archive?view=knowledge' },
+          { zh: '随笔', en: 'Essays', big: knowledge, unit: '篇', sub: '个人写作', href: '/knowledge-garden-site/archive?view=knowledge' },
           { zh: '获奖记录', en: 'Awards', big: awards, unit: '项', sub: '成果归档', href: '/knowledge-garden-site/archive?view=award' },
           { zh: '更新日志', en: 'Updates', big: version.split('.').at(-1), sub: version, href:'reading.html#updates' },
           { zh: '备份', en: 'Backup', big: 'JSON', sub: '手动导出', href: '/knowledge-garden-site/archive' },
