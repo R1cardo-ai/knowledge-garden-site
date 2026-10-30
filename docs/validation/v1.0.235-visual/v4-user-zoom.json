@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-30",
+  "site": "https://knowledge-garden-site.pages.dev/",
+  "version": "v1.0.236",
+  "browser": "Microsoft Edge",
+  "zoomLevels": ["125%", "150%", "200%"],
+  "requestedChecks": ["navigation", "search", "chart labels", "image preview", "long editor dialog", "reader chapters", "return to list"],
+  "userReply": "成功",
+  "evidenceType": "user-reported manual acceptance",
+  "note": "This is the user's confirmation, not an automated browser zoom capture."
+}
