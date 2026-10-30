@@ -1,0 +1,21 @@
+{
+  "version": "v1.0.235",
+  "sourceCommit": "f95c664a84d3c29df8d3881190f12ffb1d435019",
+  "githubPagesCommit": "f7461b2c68b2ce419a9ad2961625b162076fdb9c",
+  "cloudflarePages": "completed/success",
+  "githubPagesRun": 40997256899,
+  "githubPages": "completed/success",
+  "live": {
+    "cloudflareArchiveVersion": "v1.0.235",
+    "githubArchiveVersion": "v1.0.235",
+    "updateLogs": 247,
+    "bothHomeTickers": "状态插图、日志封面与控制台联动",
+    "cloudflareEmptyIllustration": "空档案示意",
+    "cloudflareMatrixMonthButtons": 12,
+    "cloudflareMatrixStateIllustrations": 4,
+    "githubConsoleKnowledgeCount": "4条",
+    "githubConsoleKnowledgeHref": "/knowledge-garden-site/archive?view=knowledge",
+    "consoleErrors": 0
+  },
+  "notes": ["GitHub Pages homepage browser cache initially served v1.0.234; a cache-busting query returned the deployed v1.0.235 document, matching direct HTTP and the main branch artifact.", "Actual browser zoom 125%, 150%, 200% remains for V4."]
+}
