@@ -1354,7 +1354,7 @@
   html[data-theme='dark'] .side-card-toggle,
   html[data-theme='dark'] .empty-state-action,
   html[data-theme='dark'] .version-badge,
-  html[data-theme='dark'] .release-item:first-child .release-version,
+  html[data-theme='dark'] .release-item.is-current .release-version,
   html[data-theme='dark'] .archive-update-version {
     color: var(--archive-signal-ink);
   }
@@ -2445,7 +2445,7 @@ html[data-archive-page-visible='false'] .site-shell .archive-update-track { anim
    Directory overview: category distribution and records by record date.
    Both figures derive from the same normalized archive the list uses.
    ========================================================================== */
-:root[data-ark-theme='endfield'] .site-shell .archive-insights {
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .archive-insights {
   position: relative;
   z-index: 1;
   display: grid;
@@ -2457,22 +2457,22 @@ html[data-archive-page-visible='false'] .site-shell .archive-update-track { anim
   border-top: 2px solid var(--archive-ink);
   background: var(--archive-paper);
 }
-:root[data-ark-theme='endfield'] .site-shell .insight-panel { min-width: 0; }
-:root[data-ark-theme='endfield'] .site-shell .insight-panel + .insight-panel {
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-panel { min-width: 0; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-panel + .insight-panel {
   padding-left: clamp(16px, 2vw, 28px);
   border-left: 1px solid var(--archive-line);
 }
-:root[data-ark-theme='endfield'] .site-shell .insight-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
-:root[data-ark-theme='endfield'] .site-shell .insight-head .section-kicker { margin: 0; color: var(--archive-grey); }
-:root[data-ark-theme='endfield'] .site-shell .insight-head h2 { margin: 0; font-size: 20px; font-weight: 750; letter-spacing: -.02em; }
-:root[data-ark-theme='endfield'] .site-shell .insight-scope { margin-left: auto; color: var(--archive-grey); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-:root[data-ark-theme='endfield'] .site-shell .insight-note { margin: 7px 0 0; color: var(--archive-grey); font-size: 12px; line-height: 1.7; }
-:root[data-ark-theme='endfield'] .site-shell .insight-empty { margin: 12px 0 0; padding: 12px; border: 1px solid var(--archive-line); color: var(--archive-grey); font-size: 12px; line-height: 1.7; }
-:root[data-ark-theme='endfield'] .site-shell .insight-foot { margin: 10px 0 0; color: var(--archive-grey); font-size: 11px; line-height: 1.7; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-head .section-kicker { margin: 0; color: var(--archive-grey); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-head h2 { margin: 0; font-size: 20px; font-weight: 750; letter-spacing: -.02em; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-scope { margin-left: auto; color: var(--archive-grey); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-note { margin: 7px 0 0; color: var(--archive-grey); font-size: 12px; line-height: 1.7; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-empty { margin: 12px 0 0; padding: 12px; border: 1px solid var(--archive-line); color: var(--archive-grey); font-size: 12px; line-height: 1.7; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-foot { margin: 10px 0 0; color: var(--archive-grey); font-size: 11px; line-height: 1.7; }
 
 /* Category bars: name, real count, then a bar sized against the largest category. */
-:root[data-ark-theme='endfield'] .site-shell .insight-bars { display: grid; gap: 1px; margin: 12px 0 0; padding: 0; list-style: none; }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar {
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bars { display: grid; gap: 1px; margin: 12px 0 0; padding: 0; list-style: none; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar {
   display: grid;
   grid-template-columns: minmax(0, 9rem) 2.9rem minmax(0, 1fr);
   align-items: center;
@@ -2489,19 +2489,19 @@ html[data-archive-page-visible='false'] .site-shell .archive-update-track { anim
   background: none;
   cursor: pointer;
 }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar:is(:hover, :focus-visible) { background: var(--archive-paper); border-left-color: var(--archive-line-strong); }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: -2px; }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar.is-current { border-left-color: var(--archive-signal); background: var(--archive-paper); }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar-name { padding-left: 7px; overflow-wrap: anywhere; font-size: 14px; line-height: 1.5; }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar.is-current .insight-bar-name { font-weight: 700; }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar-count { color: var(--archive-ink); font-size: 14px; font-variant-numeric: tabular-nums; font-weight: 650; text-align: right; }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar-track { display: block; height: 10px; background-color: color-mix(in srgb, var(--archive-line) 68%, transparent); background-image: repeating-linear-gradient(to right, transparent 0 calc(25% - 1px), var(--archive-line-strong) calc(25% - 1px) 25%); background-repeat: no-repeat; background-size: 100% 100%; }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar-fill { display: block; height: 100%; min-width: 3px; background: var(--archive-ink-soft); transition: width .22s ease; }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar:is(:hover, :focus-visible) .insight-bar-fill { background: var(--archive-ink); }
-:root[data-ark-theme='endfield'] .site-shell .insight-bar.is-current .insight-bar-fill { background: var(--archive-signal); box-shadow: inset 0 0 0 2px var(--archive-ink); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar:is(:hover, :focus-visible) { background: var(--archive-paper); border-left-color: var(--archive-line-strong); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: -2px; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar.is-current { border-left-color: var(--archive-signal); background: var(--archive-paper); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar-name { padding-left: 7px; overflow-wrap: anywhere; font-size: 14px; line-height: 1.5; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar.is-current .insight-bar-name { font-weight: 700; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar-count { color: var(--archive-ink); font-size: 14px; font-variant-numeric: tabular-nums; font-weight: 650; text-align: right; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar-track { display: block; height: 10px; background-color: color-mix(in srgb, var(--archive-line) 68%, transparent); background-image: repeating-linear-gradient(to right, transparent 0 calc(25% - 1px), var(--archive-line-strong) calc(25% - 1px) 25%); background-repeat: no-repeat; background-size: 100% 100%; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar-fill { display: block; height: 100%; min-width: 3px; background: var(--archive-ink-soft); transition: width .22s ease; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar:is(:hover, :focus-visible) .insight-bar-fill { background: var(--archive-ink); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar.is-current .insight-bar-fill { background: var(--archive-signal); box-shadow: inset 0 0 0 2px var(--archive-ink); }
 
 /* Twelve calendar months: the count is always printed, the bar only repeats it. */
-:root[data-ark-theme='endfield'] .site-shell .month-chart {
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-chart {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   align-items: end;
@@ -2511,34 +2511,34 @@ html[data-archive-page-visible='false'] .site-shell .archive-update-track { anim
   list-style: none;
   border-bottom: 1px solid var(--archive-line-strong);
 }
-:root[data-ark-theme='endfield'] .site-shell .month-column { min-width: 0; text-align: center; }
-:root[data-ark-theme='endfield'] .site-shell .month-button { display: grid; grid-template-rows: auto 84px auto; align-items: end; gap: 4px; width: 100%; min-width: 0; margin: 0; padding: 3px 0 0; border: 0; border-top: 2px solid transparent; background: transparent; color: inherit; font: inherit; cursor: pointer; }
-:root[data-ark-theme='endfield'] .site-shell .month-button:hover { border-top-color: var(--archive-ink-soft); }
-:root[data-ark-theme='endfield'] .site-shell .month-button:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: 2px; }
-:root[data-ark-theme='endfield'] .site-shell .month-column.is-selected .month-button { border-top-color: var(--archive-ink); }
-:root[data-ark-theme='endfield'] .site-shell .month-column.is-selected .month-bar { background: var(--archive-signal); box-shadow: inset 0 0 0 2px var(--archive-ink); }
-:root[data-ark-theme='endfield'] .site-shell .month-column.is-selected .month-label { color: var(--archive-ink); font-weight: 700; }
-:root[data-ark-theme='endfield'] .site-shell .month-filter-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; font-size: 12px; color: var(--archive-ink); }
-:root[data-ark-theme='endfield'] .site-shell .month-filter-status button { padding: 4px 6px; border: 1px solid var(--archive-ink); background: transparent; color: inherit; font: inherit; cursor: pointer; }
-:root[data-ark-theme='endfield'] .site-shell .month-filter-status button:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: 2px; }
-:root[data-ark-theme='endfield'] .site-shell .month-count { color: var(--archive-ink); font-size: 12px; font-variant-numeric: tabular-nums; font-weight: 650; line-height: 1.4; }
-:root[data-ark-theme='endfield'] .site-shell .month-column.is-empty .month-count { color: var(--archive-grey); font-weight: 500; }
-:root[data-ark-theme='endfield'] .site-shell .month-track { display: flex; align-items: flex-end; justify-content: center; height: 84px; padding-bottom: 2px; }
-:root[data-ark-theme='endfield'] .site-shell .month-bar { display: block; width: 100%; min-height: 2px; background: var(--archive-ink-soft); transition: height .22s ease; }
-:root[data-ark-theme='endfield'] .site-shell .month-column.is-empty .month-bar { background: var(--archive-line-strong); }
-:root[data-ark-theme='endfield'] .site-shell .month-column.is-current .month-bar { background: var(--archive-signal); box-shadow: inset 0 0 0 2px var(--archive-ink); }
-:root[data-theme='dark'] .site-shell .month-column.is-current .month-bar,
-:root[data-theme='dark'] .site-shell .insight-bar.is-current .insight-bar-fill { box-shadow: inset 0 0 0 1px var(--archive-ink); }
-:root[data-ark-theme='endfield'] .site-shell .month-column.is-current .month-label { color: var(--archive-ink); font-weight: 700; }
-:root[data-ark-theme='endfield'] .site-shell .month-label { padding-bottom: 6px; color: var(--archive-grey); font-size: 10px; font-variant-numeric: tabular-nums; letter-spacing: .02em; white-space: nowrap; }
-:root[data-ark-theme='endfield'] .site-shell .month-column.is-year-start .month-label { color: var(--archive-ink); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column { min-width: 0; text-align: center; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-button { display: grid; grid-template-rows: auto 84px auto; align-items: end; gap: 4px; width: 100%; min-width: 0; margin: 0; padding: 3px 0 0; border: 0; border-top: 2px solid transparent; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-button:hover { border-top-color: var(--archive-ink-soft); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-button:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: 2px; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column.is-selected .month-button { border-top-color: var(--archive-ink); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column.is-selected .month-bar { background: var(--archive-signal); box-shadow: inset 0 0 0 2px var(--archive-ink); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column.is-selected .month-label { color: var(--archive-ink); font-weight: 700; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-filter-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; font-size: 12px; color: var(--archive-ink); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-filter-status button { padding: 4px 6px; border: 1px solid var(--archive-ink); background: transparent; color: inherit; font: inherit; cursor: pointer; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-filter-status button:focus-visible { outline: 2px solid var(--archive-ink); outline-offset: 2px; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-count { color: var(--archive-ink); font-size: 12px; font-variant-numeric: tabular-nums; font-weight: 650; line-height: 1.4; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column.is-empty .month-count { color: var(--archive-grey); font-weight: 500; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-track { display: flex; align-items: flex-end; justify-content: center; height: 84px; padding-bottom: 2px; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-bar { display: block; width: 100%; min-height: 2px; background: var(--archive-ink-soft); transition: height .22s ease; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column.is-empty .month-bar { background: var(--archive-line-strong); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column.is-current .month-bar { background: var(--archive-signal); box-shadow: inset 0 0 0 2px var(--archive-ink); }
+:root[data-theme='dark'] :is(.site-shell, .component-matrix) .month-column.is-current .month-bar,
+:root[data-theme='dark'] :is(.site-shell, .component-matrix) .insight-bar.is-current .insight-bar-fill { box-shadow: inset 0 0 0 1px var(--archive-ink); }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column.is-current .month-label { color: var(--archive-ink); font-weight: 700; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-label { padding-bottom: 6px; color: var(--archive-grey); font-size: 10px; font-variant-numeric: tabular-nums; letter-spacing: .02em; white-space: nowrap; }
+:root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-column.is-year-start .month-label { color: var(--archive-ink); }
 @media (max-width: 1279px) {
-  :root[data-ark-theme='endfield'] .site-shell .archive-insights { grid-template-columns: minmax(0, 1fr); }
-  :root[data-ark-theme='endfield'] .site-shell .insight-panel + .insight-panel { padding-left: 0; padding-top: 18px; border-left: 0; border-top: 1px solid var(--archive-line); }
+  :root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .archive-insights { grid-template-columns: minmax(0, 1fr); }
+  :root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-panel + .insight-panel { padding-left: 0; padding-top: 18px; border-left: 0; border-top: 1px solid var(--archive-line); }
 }
 @media (prefers-reduced-motion: reduce) {
-  :root[data-ark-theme='endfield'] .site-shell .insight-bar-fill,
-  :root[data-ark-theme='endfield'] .site-shell .month-bar { transition: none; }
+  :root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .insight-bar-fill,
+  :root[data-ark-theme='endfield'] :is(.site-shell, .component-matrix) .month-bar { transition: none; }
 }
 
 /* ==========================================================================

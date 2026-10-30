@@ -18,10 +18,12 @@ for(const [saved,expected] of [
 ]) {
   const configs=[];
   const listeners=new Map();
+  const detailFields={label:{},count:{},link:{}};
+  const detail={classList:{toggle:(_name,selected)=>{detail.selected=selected;}},querySelector:selector=>detailFields[selector==='[data-dial-label]'?'label':selector==='[data-dial-count]'?'count':'link']};
   vm.runInNewContext(source,{
     normalizeEntries,formatDisplayDate,
     localStorage:{getItem:()=>saved},
-    document:{querySelector:selector=>selector==='[data-release="version"]'?{textContent:version}:{}},
+    document:{querySelector:selector=>selector==='[data-release="version"]'?{textContent:version}:selector==='[data-dial-detail]'?detail:{}},
     window:{addEventListener:(event,callback)=>listeners.set(event,callback)},
     drawDial:(_node,config)=>configs.push(config),wireReadouts(){},wireTheme(){},
   });
@@ -34,6 +36,14 @@ for(const [saved,expected] of [
     assert.equal(config.sections[1].href,'/archive?view=knowledge');
     assert.equal(config.sections[2].href,'/archive?view=award');
     assert.ok(!('gauges' in config));
+    config.onSelect(config.sections[1]);
+    assert.equal(detail.selected,true);
+    assert.equal(detailFields.label.textContent,'知识库');
+    assert.equal(detailFields.count.textContent,`${expected.knowledge}条`);
+    assert.equal(detailFields.link.href,'/archive?view=knowledge');
+    config.onSelect(null);
+    assert.equal(detail.selected,false);
+    assert.equal(detailFields.count.textContent,expected.total==='—'?'—':`${expected.total}条`);
   }
   listeners.get('pageshow')();
   listeners.get('storage')({key:'knowledge-garden-entries'});

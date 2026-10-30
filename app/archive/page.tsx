@@ -15,6 +15,7 @@ import {
   House,
   LayoutGrid,
   List,
+  LoaderCircle,
   Medal,
   Moon,
   PanelLeftClose,
@@ -26,6 +27,7 @@ import {
   Sun,
   Trash2,
   Trophy,
+  TriangleAlert,
   X,
 } from 'lucide-react';
 
@@ -60,7 +62,8 @@ import { saveArchivePosition, readArchivePosition, clearArchivePosition } from '
 import { EntryReader } from './entry-reader';
 import { FeaturedAward } from './featured-award';
 import { ArchiveRecordRow } from './archive-record-row';
-import { ArchiveNavItem, ArchiveEmptyState } from './archive-components';
+import { ArchiveNavItem, ArchiveEmptyState, ArchiveStateIllustration } from './archive-components';
+import { ArchiveInsights } from './archive-insights';
 import { readArchiveUrl, writeArchiveUrl } from '@/lib/archive-url';
 import { transitionTheme } from '@/lib/theme-transition';
 
@@ -129,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.234';
+const currentVersion = 'v1.0.235';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -137,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.235', date: '2026.10.30', title: '状态插图、日志封面与控制台联动', items: ['空档案、无匹配、读取失败和写入失败分别显示原创小型状态图，保留真实说明与对应操作；导入文件读取时显示处理中，成功与错误反馈使用不同图标', '最新版本日志使用独立封面式层级，搜索历史记录时只标记真实当前版本，完整历史仍可查看', '控制台圆盘聚焦或悬停时联动文字、真实计数与入口；分类及月份图提取为共享组件，并在实际组件矩阵中展示同一实现和状态图，样张历史示例保留各自原日期与条数'] },
   { version: 'v1.0.234', date: '2026.10.29', title: '阅读封面与真实关联示意', items: ['独立阅读页重组标题封面：真实日期、分类、形式、摘要和编辑入口分层展示，正文仍保留原有单栏、章节目录与全部内容', '真实章节按文内顺序显示序号，原有标题锚点、代码滚动、图片原图入口与阅读返回继续工作', '已绑定且仍存在的关联记录显示稳定连接示意，重复目标去重、最多六个节点；完整文字列表保留，未绑定或已删除目标不画连线'] },
   { version: 'v1.0.233', date: '2026.10.29', title: '目录月份筛选与成果日期纵线', items: ['档案目录的十二个月记录量图可用鼠标和键盘点选月份，筛选结果写入可分享的 URL；再次点选或使用清除入口可恢复全部月份', '月份条件与分类、搜索、形式、排序和阅读返回状态共同保留；图表仍按当前分区全集统计，非法或范围外日期继续单独说明', '成果按记录日期排序时，列表与卡片增加真实月份节点和日期纵线；其他排序保持原有顺序与呈现，不把无效日期并入当前月'] },
   { version: 'v1.0.232', date: '2026.10.29', title: '修复样张页“返回档案”点击无反应', items: ['桌面样张页顶部“返回档案”“返回知识花园”和页脚“返回个人档案”改为普通链接：点击后整页跳转到主站首页，不再依赖客户端路由', '原因：这三处链接使用客户端跳转组件，静态导出后浏览器侧缺少对应路由运行时，点击会先取消默认跳转、随后抛出错误，地址与页面都不变化', '跳转目标、深浅主题、六份样张、外观预设与组件状态矩阵均未改动'] },
@@ -419,6 +423,7 @@ export default function Home() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selectedEntry, setSelectedEntry] = useState<Entry | null>(null);
   const [notice, setNotice] = useState('');
+  const [isImporting, setIsImporting] = useState(false);
   const [draft, setDraft] = useState(emptyDraft);
   const [formError, setFormError] = useState<{field:string;message:string} | null>(null);
   const [backgroundImage, setBackgroundImage] = useState(defaultBackgroundImage);
@@ -676,7 +681,6 @@ export default function Home() {
   // Overview figures count the whole partition, so a search never changes the denominator.
   const categoryStats = useMemo(() => categoryDistribution(entries, activeView), [activeView, entries]);
   const monthStats = useMemo(() => monthlyRecordCounts(activeView === 'all' ? entries : entries.filter((entry) => entry.type === activeView)), [activeView, entries]);
-  const currentMonthKey = monthStats.months[monthStats.months.length - 1]?.key ?? '';
   function focusResultHeading() {
     const heading = document.getElementById('archive-results-heading');
     heading?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
@@ -777,14 +781,16 @@ export default function Home() {
   async function importSnapshot(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
+    setIsImporting(true);
     try {
-      const imported = normalizeEntries(JSON.parse(await file.text()), displayDate || formatDisplayDate(new Date()));
       const source = JSON.parse(await file.text());
+      const imported = normalizeEntries(source, displayDate || formatDisplayDate(new Date()));
       const rows = Array.isArray(source) ? source : source?.entries;
       if (!Array.isArray(rows) || rows.some((row: unknown) => !row || typeof row !== 'object' || Array.isArray(row))) throw new Error('invalid');
       if (entries.length || storageBlocked) setPendingConfirmation({ kind: 'import', entries: imported, replaceCount: entries.length });
       else { setStorageBlocked(false); setEntries(imported); showNotice(`已导入 ${imported.length} 条记录`); }
     } catch { showNotice('导入失败，请选择知识花园导出的 JSON 文件'); }
+    finally { setIsImporting(false); }
     event.target.value = '';
   }
   function customizeBackground(event: React.ChangeEvent<HTMLInputElement>) {
@@ -852,7 +858,7 @@ export default function Home() {
       </aside>
 
       <section className="content-area">
-        {storageMessage && <section role="alert" className="storage-recovery"><p>{storageMessage}</p>{rawBackup !== null && <Button variant="outline" onClick={downloadRawBackup}>下载原始备份</Button>}<Button variant="outline" onClick={() => importInputRef.current?.click()}>导入有效快照</Button><Button variant="outline" onClick={exportSnapshot}>导出当前快照</Button></section>}
+        {storageMessage && <section role="alert" className="storage-recovery"><ArchiveStateIllustration kind={storageBlocked ? 'read' : 'write'} /><p>{storageMessage}</p>{rawBackup !== null && <Button variant="outline" onClick={downloadRawBackup}>下载原始备份</Button>}<Button variant="outline" onClick={() => importInputRef.current?.click()}>导入有效快照</Button><Button variant="outline" onClick={exportSnapshot}>导出当前快照</Button></section>}
         <header className="topbar">
           <div className="breadcrumb">
             {/* The home showcase is a static HTML document and needs a full navigation. */}
@@ -968,42 +974,13 @@ export default function Home() {
             <form className="quick-capture-form" onSubmit={saveQuickCapture}><fieldset className="quick-type-picker" aria-label="记录类型"><button type="button" aria-pressed={quickCaptureType === 'knowledge'} className={quickCaptureType === 'knowledge' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('knowledge')}><BookOpen size={14} />知识</button><button type="button" aria-pressed={quickCaptureType === 'award'} className={quickCaptureType === 'award' ? 'quick-type selected' : 'quick-type'} onClick={() => setQuickCaptureType('award')}><Trophy size={14} />获奖</button></fieldset><Input id="quick-capture-title" aria-label="快速记录标题" placeholder={quickCapturePlaceholder} value={quickCaptureTitle} onChange={(event) => setQuickCaptureTitle(event.target.value)} /><Button type="submit" className="quick-capture-submit"><Plus size={15} />保存</Button></form>
           </section>
 
-          <section className="archive-insights" aria-label="内容分布概览">
-            <div className="insight-panel">
-              <div className="insight-head">
-                <p className="section-kicker">{"// CATEGORY DISTRIBUTION"}</p>
-                <h2>分类分布</h2>
-                <span className="insight-scope">{categoryStats.rows.length} 个分类 / {categoryStats.total} 条记录</span>
-              </div>
-              <p className="insight-note">按当前分区全部记录统计，不随搜索词缩小分母；条长为该类记录数 ÷ 最大类记录数，点选分类即筛选下方列表。</p>
-              {categoryStats.rows.length === 0 ? <p className="insight-empty">当前分区还没有记录。添加或导入档案后，这里会显示真实分布。</p> : <ol className="insight-bars">
-                {categoryStats.rows.map((row) => <li key={row.category}><button type="button" className={`insight-bar${categoryFilter === row.category ? ' is-current' : ''}`} aria-pressed={categoryFilter === row.category} aria-label={`${row.category}：${row.count} 条记录，${categoryFilter === row.category ? '当前筛选' : '筛选此分类'}`} onClick={() => { setCategoryFilter(row.category); focusResultHeading(); }}><span className="insight-bar-name">{row.category}</span><span className="insight-bar-count">{row.count}</span><span className="insight-bar-track" aria-hidden="true"><span className="insight-bar-fill" style={{ width: `${(row.ratio * 100).toFixed(2)}%` }} /></span></button></li>)}
-              </ol>}
-            </div>
-            <div className="insight-panel">
-              <div className="insight-head">
-                <p className="section-kicker">{"// RECORDS BY DATE"}</p>
-                <h2>按记录日期</h2>
-                <span className="insight-scope">{monthStats.range}</span>
-              </div>
-              <p className="insight-note">按每条记录的日期计数，不受最近更新时间影响；柱高与上方数字一致。点选月份可筛选下方列表。</p>
-              <ol className="month-chart" aria-label={`最近十二个自然月的记录数量：${monthStats.range}`}>
-                {monthStats.months.map((month) => <li key={month.key} className={`month-column${month.count === 0 ? ' is-empty' : ''}${month.key === currentMonthKey ? ' is-current' : ''}${monthFilter === month.key ? ' is-selected' : ''}${month.label.endsWith('.01') ? ' is-year-start' : ''}`}><button type="button" className="month-button" aria-pressed={monthFilter === month.key} aria-label={`${month.label}：${month.count} 条记录，${monthFilter === month.key ? '当前筛选，点击取消' : '筛选此月份'}`} onClick={() => { setMonthFilter(monthFilter === month.key ? '' : month.key); focusResultHeading(); }}>
-                  <span className="month-count">{month.count}</span>
-                  <span className="month-track" aria-hidden="true"><span className="month-bar" style={{ height: `${(month.ratio * 100).toFixed(2)}%` }} /></span>
-                  <span className="month-label"><span className="sr-only">{month.label}，</span>{month.label.slice(2)}</span>
-                </button></li>)}
-              </ol>
-              <p className="insight-foot">{monthStats.total} 条记录落在 {monthStats.range} 内{monthStats.unverified ? `；另有 ${monthStats.unverified} 条记录日期待核对，未计入图中` : ''}{monthStats.outside ? `；${monthStats.outside} 条记录在此范围之外，保留在下方列表` : ''}。</p>
-              {monthFilter && <p className="month-filter-status">正在筛选 {monthFilter} 的记录。<button type="button" onClick={() => setMonthFilter('')}>清除月份筛选</button></p>}
-            </div>
-          </section>
+          <ArchiveInsights categoryStats={categoryStats} monthStats={monthStats} categoryFilter={categoryFilter} monthFilter={monthFilter} onCategorySelect={category=>{setCategoryFilter(category);focusResultHeading();}} onMonthSelect={month=>{setMonthFilter(monthFilter===month?'':month);focusResultHeading();}} onMonthClear={()=>setMonthFilter('')} />
 
           <div className="workspace-grid">
             <section className="knowledge-section">
               <div className="section-header"><div><p className="section-kicker">{logEyebrow} {String(sortedEntries.length).padStart(2, '0')} ENTRIES</p><h2 id="archive-results-heading" tabIndex={-1}>{viewTitle === '总览' ? '最近收集' : viewTitle === '知识库' ? '全部知识条目' : '全部获奖记录'}</h2></div><div className="view-tools"><div className="search-box"><Search size={16} /><Input id="search" aria-label="搜索知识与获奖记录" placeholder="搜索条目…" value={search} onChange={(event) => setSearch(event.target.value)} />{search && <button type="button" className="clear-search" aria-label="清除搜索" onClick={() => setSearch('')}><X size={14} /></button>}</div><Select value={activeView} itemToStringLabel={(value) => value === 'all' ? '全部内容' : value === 'knowledge' ? '知识条目' : '获奖经历'} onValueChange={(value) => { if (value) changeView(value as ViewMode); }}><SelectTrigger className={'filter-trigger' + (activeView !== 'all' ? ' filter-active' : '')} aria-label="筛选内容类型"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部内容</SelectItem><SelectItem value="knowledge">知识条目</SelectItem><SelectItem value="award">获奖经历</SelectItem></SelectContent></Select><Select value={categoryFilter} itemToStringLabel={(value) => value === 'all' ? '全部分类' : value} onValueChange={(value) => { if (value) setCategoryFilter(value); }}><SelectTrigger className={'filter-trigger category-trigger' + (categoryFilter !== 'all' ? ' filter-active' : '')} aria-label="按分类筛选"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">全部分类</SelectItem>{categories.map((category) => <SelectItem value={category} key={category}>{category}</SelectItem>)}</SelectContent></Select><Select value={formatFilter} itemToStringLabel={value=>value === 'all' ? '全部形式' : formatLabels[value]} onValueChange={value=>{if(value)setFormatFilter(value as EntryFormat | 'all');}}><SelectTrigger className={'filter-trigger format-trigger' + (formatFilter !== 'all' ? ' filter-active' : '')} aria-label="按内容形式筛选"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="all">全部形式</SelectItem>{Object.entries(formatLabels).map(([value,label])=><SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent></Select><Select value={sortBy} itemToStringLabel={(value) => value === 'updated' ? '最近更新' : value === 'latest' ? '最近记录' : value === 'oldest' ? '最早记录' : '按标题'} onValueChange={(value) => { if (value) setSortBy(value as 'updated' | 'latest' | 'oldest' | 'title'); }}><SelectTrigger className={'filter-trigger sort-trigger' + (sortBy !== (activeView === 'award' ? 'latest' : 'updated') ? ' filter-active' : '')} aria-label="排序记录"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="updated">最近更新</SelectItem><SelectItem value="latest">最近记录</SelectItem><SelectItem value="oldest">最早记录</SelectItem><SelectItem value="title">按标题</SelectItem></SelectContent></Select><fieldset className="view-mode-toggle" aria-label="记录展示方式"><button type="button" aria-label="卡片视图" aria-pressed={entryView === 'cards'} className={entryView === 'cards' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('cards')}><LayoutGrid size={14} /></button><button type="button" aria-label="列表视图" aria-pressed={entryView === 'list'} className={entryView === 'list' ? 'view-mode-button selected' : 'view-mode-button'} onClick={() => setEntryView('list')}><List size={14} /></button></fieldset></div></div>
                {featuredAward && <FeaturedAward entry={featuredAward} href={readingHref(featuredAward.id)} />}
-               {sortedEntries.length === 0 ? <ArchiveEmptyState title={emptyStateTitle} description={emptyStateDescription} action={entriesInActiveView.length ? '清除筛选' : newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'} onAction={() => { if (entriesInActiveView.length) { setSearch(''); setCategoryFilter('all'); setMonthFilter(''); setFormatFilter('all'); } else openCreate(newRecordType); }} /> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}${showAwardDateGroups ? ' award-date-groups' : ''}`}>{sortedEntries.map((entry, index) => <Fragment key={entry.id}>{showAwardDateGroups && (index === 0 || awardMonthLabel(sortedEntries[index - 1]) !== awardMonthLabel(entry)) && <h3 className="award-month-heading"><span>{awardMonthLabel(entry)}</span><small>按记录日期</small></h3>}<ArchiveRecordRow entry={entry} index={index} href={readingHref(entry.id)} onRead={event=>rememberReadingPosition(event,entry.id)} onDelete={() => setPendingConfirmation({ kind: 'delete', entry })} onDetails={() => { setSelectedEntry(entry); setDetailsOpen(true); }} /></Fragment>)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
+               {sortedEntries.length === 0 ? <ArchiveEmptyState kind={entriesInActiveView.length ? 'filter' : 'empty'} title={emptyStateTitle} description={emptyStateDescription} action={entriesInActiveView.length ? '清除筛选' : newRecordType === 'award' ? '添加获奖记录' : '添加知识记录'} onAction={() => { if (entriesInActiveView.length) { setSearch(''); setCategoryFilter('all'); setMonthFilter(''); setFormatFilter('all'); } else openCreate(newRecordType); }} /> : <div className={`entry-grid ${entryView === 'list' ? 'list-view' : ''}${showAwardDateGroups ? ' award-date-groups' : ''}`}>{sortedEntries.map((entry, index) => <Fragment key={entry.id}>{showAwardDateGroups && (index === 0 || awardMonthLabel(sortedEntries[index - 1]) !== awardMonthLabel(entry)) && <h3 className="award-month-heading"><span>{awardMonthLabel(entry)}</span><small>按记录日期</small></h3>}<ArchiveRecordRow entry={entry} index={index} href={readingHref(entry.id)} onRead={event=>rememberReadingPosition(event,entry.id)} onDelete={() => setPendingConfirmation({ kind: 'delete', entry })} onDetails={() => { setSelectedEntry(entry); setDetailsOpen(true); }} /></Fragment>)}<button className="add-card" type="button" onClick={() => openCreate(activeView === 'award' ? 'award' : 'knowledge')}><span><Plus size={18} /></span><strong>添加下一条</strong><small>记录一个新发现</small></button></div>}
             </section>
 
             <aside className="right-column">
@@ -1048,10 +1025,11 @@ export default function Home() {
         <DialogContent className="entry-dialog changelog-dialog">
           <DialogHeader><p className="dialog-kicker">{'// CHANGE HISTORY'}</p><DialogTitle>更新日志</DialogTitle><DialogDescription>每次迭代都留下版本记录，方便回看知识花园如何慢慢长大。</DialogDescription></DialogHeader>
           <div className="release-tools"><label className="release-search"><Search size={15} aria-hidden="true" /><Input aria-label="搜索更新日志" placeholder="搜索版本、日期、标题或内容" value={changelogQuery} onChange={(event) => setChangelogQuery(event.target.value)} />{changelogQuery && <button type="button" className="release-search-clear" aria-label="清除更新日志搜索" onClick={() => setChangelogQuery('')}><X size={14} /></button>}</label><span className="release-count">{filteredUpdateLogs.length} / {updateLogs.length} 条</span></div>
-          <div className="release-list">{filteredUpdateLogs.length > 0 ? filteredUpdateLogs.map((release) => <article className="release-item" key={release.version}><div className="release-heading"><span className="release-version">{release.version}</span><time>{release.date}</time></div><h3>{release.title}</h3><ul>{release.items.map((item) => <li key={item}>{item}</li>)}</ul></article>) : <div className="release-empty"><p>没有找到匹配的更新日志，请换个关键词试试。</p><button type="button" onClick={() => setChangelogQuery('')}>清空搜索</button></div>}</div>
+          <div className="release-list">{filteredUpdateLogs.length > 0 ? filteredUpdateLogs.map((release) => <article className={`release-item${release.version === currentVersion ? ' is-current' : ''}`} key={release.version}><div className="release-heading"><span className="release-version">{release.version}</span><time>{release.date}</time></div><h3>{release.title}</h3><ul>{release.items.map((item) => <li key={item}>{item}</li>)}</ul></article>) : <div className="release-empty"><p>没有找到匹配的更新日志，请换个关键词试试。</p><button type="button" onClick={() => setChangelogQuery('')}>清空搜索</button></div>}</div>
         </DialogContent>
       </Dialog>
-      {notice && <output className="toast" aria-live="polite"><Check size={15} aria-hidden="true" /> {notice}</output>}
+      {isImporting && <output className="toast is-processing" aria-live="polite"><LoaderCircle size={15} aria-hidden="true" /> 正在读取导入文件…</output>}
+      {notice && !isImporting && <output className="toast" aria-live="polite">{/失败|无法|未能|不足|请先/.test(notice) ? <TriangleAlert size={15} aria-hidden="true" /> : <Check size={15} aria-hidden="true" />} {notice}</output>}
     </main>
   );
 }

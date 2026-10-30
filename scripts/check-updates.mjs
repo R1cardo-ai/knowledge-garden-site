@@ -17,6 +17,15 @@ for (const [file, blocks] of Object.entries(required)) {
   assert.ok(!/data-release="([^"]+)"\s+data-release=/.test(html), `${file}: duplicate release binding`);
 }
 const reading = readFileSync('public/ui-kit/templates/reading.html', 'utf8');
+const specimen = readFileSync('public/ui-kit/templates/specimen.html', 'utf8');
+for (const version of ['v1.0.196', 'v1.0.195']) {
+  const log = data.logs.find(item => item.version === version);
+  const row = specimen.match(new RegExp(`<tr><td>${version.replaceAll('.', '\\.')}<\\/td>[\\s\\S]*?<\\/tr>`))?.[0];
+  assert.ok(row && log, `specimen: missing historical ${version}`);
+  assert.ok(!row.includes('data-release='), `specimen: historical ${version} must not bind to current release`);
+  assert.ok(row.includes(`<td>${log.date}</td>`), `specimen: wrong historical date for ${version}`);
+  assert.ok(row.includes(`<td class="num">${String(log.items.length).padStart(2,'0')}</td>`), `specimen: wrong historical count for ${version}`);
+}
 assert.equal((reading.match(/class="release-history-item"/g) || []).length, data.logs.length);
 let previous = -1;
 for (const log of data.logs) {
