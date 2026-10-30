@@ -1,0 +1,20 @@
+{
+  "version": "v1.0.236",
+  "sourceCommit": "eb4e429b5636b0e3675b24df6e4e644cc1a2790c",
+  "githubPagesCommit": "8fbccb9b7eb37bf5a1cabe7d908672d42fe4d458",
+  "cloudflarePages": "completed/success",
+  "githubPagesRun": 41000626346,
+  "githubPages": "completed/success",
+  "live": {
+    "cloudflareArchiveVersion": "v1.0.236",
+    "githubArchiveVersion": "v1.0.236",
+    "updateLogs": 248,
+    "bothHomeTickers": "知识库升级为随笔",
+    "bothEssayNavigation": true,
+    "legacyKnowledgeReader": "/knowledge-garden-site/archive?view=knowledge&entry=k-1",
+    "githubReaderFont": "Garden Serif SC",
+    "fontFilesStatus": 200,
+    "consoleErrors": 0
+  },
+  "notes": ["Cloudflare and GitHub Pages assets match the v1.0.236 release.", "Native browser zoom remains in V4 audit scope."]
+}
