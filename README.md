@@ -1,6 +1,6 @@
 # Knowledge Garden
 
-个人知识档案网站。**Agent 入口：**先读 [`AGENTS.md`](AGENTS.md) 和 [`docs/项目手册.md`](docs/项目手册.md)，再按任务查阅下方文档。当前产品版本和更新日志以 `app/archive/page.tsx` 为准。
+个人随笔与成果档案网站。**Agent 入口：**先读 [`AGENTS.md`](AGENTS.md) 和 [`docs/项目手册.md`](docs/项目手册.md)，再按任务查阅下方文档。当前产品版本和更新日志以 `app/archive/page.tsx` 为准。
 
 ## 文档导航
 
