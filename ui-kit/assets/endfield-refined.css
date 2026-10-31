@@ -662,3 +662,135 @@
     left: 0.2rem;
   }
 }
+
+/* ==========================================================================
+   13. 品牌标志：「归档定位框」
+   --------------------------------------------------------------------------
+   原来左上角是一块黄底字母 K。它有三个问题：读起来像导航按钮、字母和右侧
+   导航抢位置、以及在阅读页与紧挨着的「知识花园」大字重复出现两次。
+
+   现在换成一个定位框：四角 L 型角标围着一颗信号黄中心点。它和主档案板上
+   的四角角标、标尺刻度是同一套语汇——「这条记录被框住了」，而不是「点这里」。
+
+   字母退场，中文名和一行小字组成了真正的锁定组合。小字随场景变化：
+   首页写 Knowledge Garden，样张页写「样张索引」，档案页写 Field archive。
+   ========================================================================== */
+
+svg.kg-mark {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  overflow: visible;
+}
+svg.kg-mark path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+/* 中心那颗黄点：整页唯一不比文字小的黄，面积只有 6px，却把视线钉在图标的中心。 */
+svg.kg-mark rect {
+  fill: var(--ef-signal);
+  stroke: none;
+}
+
+.kg-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  line-height: 1.06;
+}
+.kg-text b {
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+/* 父级（cmdbar / rail）会给整块加字距，中文名必须按自己的节奏来。 */
+.kg-brand .kg-text b,
+.ef-kit-home .kg-text b {
+  letter-spacing: 0.02em;
+}
+.kg-text small {
+  margin-top: 3px;
+  color: currentColor;
+  font-family: 'Saira', var(--ef-font-ui), sans-serif;
+  font-size: 0.54rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  line-height: 1;
+  text-transform: uppercase;
+  opacity: 0.55;
+  white-space: nowrap;
+}
+
+.kg-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+}
+
+/* ---------- 首页导航里的那一个 ---------- */
+
+/* kit-nav.css 把它做成了带边框的小按钮，悬停整块变黄。这里拆掉外壳，
+   只留下「图标 + 名称 + 小字」，并把黄降到中心那一点。
+
+   注意特异性：console 与 motion 的 kit-nav.css 排在增强层之后加载，
+   同权重的规则会被它反过来盖住（边框和整块黄底会回来）。所以这里统一
+   加一级 `.ef` 前缀，不依赖样式表顺序。 */
+.ef .ef-kit-home {
+  gap: 0.5rem;
+  padding: 0.2rem 0.35rem;
+  border-color: transparent;
+  background: none;
+  font-size: inherit;
+  font-weight: inherit;
+}
+.ef .ef-kit-home:is(:hover, :focus-visible) {
+  border-color: var(--ef-rule);
+  background: none;
+}
+.ef .ef-kit-home .kg-text small {
+  letter-spacing: 0.15em;
+  font-size: 0.54rem;
+}
+.ef-kit-home svg.kg-mark {
+  transition: transform 0.24s var(--ef-ease);
+}
+/* 指针落上去，定位框微微张开一格——像镜头对焦，而不是按钮按下。 */
+.ef-kit-home:is(:hover, :focus-visible) svg.kg-mark {
+  transform: scale(1.08);
+}
+
+/* ---------- 阅读页侧栏 ---------- */
+
+.ef-rail .brand.kg-brand {
+  padding: 0 1.25rem 1.6rem;
+  letter-spacing: 0;
+}
+
+/* ---------- 控制台命令栏 ---------- */
+
+.ef-cmdbar .brand.kg-brand {
+  gap: 0.55rem;
+  padding-block: 0.6rem;
+  letter-spacing: 0;
+}
+
+/* ---------- 去重：已有品牌的地方，不再显示注入的样张索引小牌 ---------- */
+
+/* kit-nav.js 会往 .ef-rail / .ef-cmdbar 里塞一个「K + 知识花园 + 样张索引」的
+   快捷入口。阅读页和命令栏本身就有品牌，两个并排出现时右侧那个大字会显得
+   莫名其妙。有了品牌就把它藏掉，没有品牌的样张页仍然靠它撑住左上角。 */
+.ef-rail:has(> .brand) > .ef-kit-home,
+.ef-cmdbar:has(.brand) .ef-kit-home {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ef-kit-home svg.kg-mark {
+    transition: none;
+  }
+  .ef-kit-home:is(:hover, :focus-visible) svg.kg-mark {
+    transform: none;
+  }
+}
