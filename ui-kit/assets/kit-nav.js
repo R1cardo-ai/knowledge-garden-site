@@ -14,7 +14,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
     setFeatureText('[data-feature-meta]', featured ? `${featured.date} / ${featured.category} / ${featured.type === 'award' ? '成果' : '随笔'}` : '当前浏览器的个人档案');
     setFeatureText('[data-feature-summary]', featured ? (featured.summary || '这条档案还没有摘要，打开记录查看详细内容。') : '把今天的想法或收获保存下来，这里将展示最近更新的档案。');
     const featuredLink = document.querySelector('[data-feature-link]');
-    if (featuredLink) { featuredLink.href = featured ? `/archive?${new URLSearchParams({view:featured.type,entry:featured.id})}` : '/archive'; featuredLink.textContent = featured ? '阅读这条档案 ↗' : '打开个人档案 ↗'; }
+    if (featuredLink) { featuredLink.href = featured ? `/knowledge-garden-site/archive?${new URLSearchParams({view:featured.type,entry:featured.id})}` : '/knowledge-garden-site/archive'; featuredLink.textContent = featured ? '阅读这条档案 ↗' : '打开个人档案 ↗'; }
     const award = entries.filter((entry) => entry.type === 'award').length;
     const knowledge = entries.length - award;
     const counts = { all: entries.length, knowledge, award };
@@ -41,7 +41,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
         const item = document.createElement('li');
         const link = document.createElement('a');
         link.className = 'chart-row';
-        link.href = `/archive?${new URLSearchParams({ category: row.category })}`;
+        link.href = `/knowledge-garden-site/archive?${new URLSearchParams({ category: row.category })}`;
         link.setAttribute('aria-label', `${row.category}：${row.count} 条记录，打开该分类的档案列表`);
         const name = document.createElement('span'); name.className = 'chart-name'; name.textContent = row.category;
         const count = document.createElement('span'); count.className = 'chart-count'; count.textContent = String(row.count);
@@ -89,10 +89,10 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
       if (leadHost) {
         leadHost.replaceChildren();
         if (!lead) {
-          leadHost.append(leadEntry(`/archive?view=${type}`, '01', null, type === 'award' ? '还没有成果记录' : '还没有随笔', '打开个人档案，记下第一篇；首页会在同一浏览器里自动更新。', '前往个人档案 ↗', true));
+          leadHost.append(leadEntry(`/knowledge-garden-site/archive?view=${type}`, '01', null, type === 'award' ? '还没有成果记录' : '还没有随笔', '打开个人档案，记下第一篇；首页会在同一浏览器里自动更新。', '前往个人档案 ↗', true));
         } else {
           const link = leadEntry(
-            `/archive?${new URLSearchParams({ view: type, entry: lead.id })}`,
+            `/knowledge-garden-site/archive?${new URLSearchParams({ view: type, entry: lead.id })}`,
             '01',
             { date: lead.date, category: lead.category },
             lead.title,
@@ -122,7 +122,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
       for (const entry of rows) {
         const item = document.createElement('li');
         const link = document.createElement('a'); link.className = 'recent-row';
-        link.href = `/archive?${new URLSearchParams({ view: type, entry: entry.id })}`;
+        link.href = `/knowledge-garden-site/archive?${new URLSearchParams({ view: type, entry: entry.id })}`;
         const title = document.createElement('strong'); title.className = 'recent-row-title'; title.textContent = entry.title;
         const date = document.createElement('time'); date.textContent = entry.date;
         const summary = document.createElement('span'); summary.className = 'recent-row-summary'; summary.textContent = (type === 'knowledge' ? essayExcerpt(entry) : entry.summary) || '打开记录查看详细内容。';
@@ -135,7 +135,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
     document.querySelectorAll('[data-feature-title]').forEach(node => {node.textContent = '暂时无法读取档案';});
     document.querySelectorAll('[data-feature-summary]').forEach(node => {node.textContent = '请打开个人档案下载原始备份并恢复。';});
     document.querySelectorAll('[data-feature-meta]').forEach(node => {node.textContent = '读取失败';});
-    document.querySelectorAll('[data-feature-link]').forEach(node => {node.href = '/archive'; node.textContent = '打开个人档案 ↗';});
+    document.querySelectorAll('[data-feature-link]').forEach(node => {node.href = '/knowledge-garden-site/archive'; node.textContent = '打开个人档案 ↗';});
     document.querySelectorAll('[data-archive-count], [data-archive-stat]').forEach(node => {node.textContent = '—';});
     const status = document.querySelector('[data-archive-status]');
     if (status) status.textContent = '无法读取本地档案。请打开个人档案下载原始备份并恢复。';
@@ -166,7 +166,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
 
   const home = document.createElement('a');
   home.className = 'ef-kit-home';
-  home.href = '/ui-kit/';
+  home.href = '/knowledge-garden-site/ui-kit/';
   home.setAttribute('aria-label', '返回桌面样张索引');
   home.innerHTML = '<svg class="kg-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M1 8V1h7M16 1h7v7M23 16v7h-7M8 23H1v-7" /><rect x="9" y="9" width="6" height="6" /></svg><span class="kg-text"><b>知识花园</b><small>样张索引</small></span>';
 
@@ -178,7 +178,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
   const current = new URL(location.href);
   document.querySelectorAll('a[href]').forEach(link => {
     const url = new URL(link.getAttribute('href'), current);
-    if (url.origin !== current.origin || !url.pathname.includes('/ui-kit/templates/')) return;
+    if (url.origin !== current.origin || !url.pathname.includes('/knowledge-garden-site/ui-kit/templates/')) return;
     for (const key of appearanceKeys) {
       if (current.searchParams.has(key) && !url.searchParams.has(key)) url.searchParams.set(key, current.searchParams.get(key));
     }
