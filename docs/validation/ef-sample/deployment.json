@@ -1,0 +1,30 @@
+{
+  "version": "v1.0.237",
+  "sourceCommit": "c10e7dc34f7591cf4b6e412a1be28eb496d32391",
+  "githubPagesCommit": "5b6be01b",
+  "cloudflarePages": "verified",
+  "githubPages": "verified",
+  "live": {
+    "cloudflareArchiveVersion": "v1.0.237",
+    "githubArchiveVersion": "v1.0.237",
+    "cloudflareConsoleVersion": "v1.0.237",
+    "githubConsoleVersion": "v1.0.237",
+    "updateLogs": 249,
+    "homeTicker": "全站补齐工程制图线条层",
+    "refinedStylesheet": {
+      "cloudflare": 200,
+      "githubPages": 200
+    },
+    "fonts": {
+      "gardenSerifSC": 200,
+      "saira": 200
+    },
+    "homepageScreenshotMatchesLocalBuild": true,
+    "archiveScreenshotMatchesLocalBuild": true
+  },
+  "notes": [
+    "Homepage and archive screenshots from both live sites are byte-identical to the local production build of the same commit, so the deployed CSS layer is confirmed applied rather than merely present.",
+    "The latest band dark-theme fix (system dark without an explicit theme choice) shipped in this release.",
+    "specimen.html and antipatterns.html intentionally do not load the drafting layer; only their release version strings changed."
+  ]
+}
