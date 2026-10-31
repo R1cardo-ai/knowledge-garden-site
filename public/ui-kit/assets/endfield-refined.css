@@ -1,0 +1,664 @@
+/* ==========================================================================
+   endfield-refined.css: 「工程制图」增强层
+   --------------------------------------------------------------------------
+   这一层只做两件事，都建立在 endfield.css 既有 token 之上，不覆盖主主题：
+     1. 加线：标尺刻度、四角定位角标、切角亮边、区段编号。
+     2. 加材质：半调网点只出现在读数字的背面，不做装饰。
+
+   信号黄保持原有强度，不降量：黄块该是黄块，这一层只负责给它配上尺规。
+   加载顺序必须晚于页面内联 <style>，否则同特异性的覆盖不生效。
+   覆盖范围：showcase（首屏 + 整页）、reading（阅读页）、导航栏。
+   ========================================================================== */
+
+/* ---------- 1. 这一层新引入的 token ---------- */
+
+:root {
+  /* 结构线：比 --ef-rule 更轻，用于标尺刻度这类高频重复的线 */
+  --ef-scale: color-mix(in srgb, var(--ef-ink) 48%, transparent);
+  /* 半调网点：读数字的背面材质，颜色跟随 currentColor，只改透明度 */
+  --ef-halftone: radial-gradient(circle at 1.5px 1.5px, currentColor 0.9px, transparent 1.2px) 0 0 / 6px 6px;
+  /* 四角定位角标，边长 */
+  --ef-reticle: 9px;
+  /* 切角，随 --ef-cut-k 缩放，和其他切角保持同一套比例 */
+  --ef-plate-cut: calc(11px * var(--ef-cut-k));
+}
+
+/* ---------- 2. 标尺：把「一条边框」换成「一把尺」 ---------- */
+
+/* hero 顶部信息条的下沿原来只是一条 hairline。加一层等距刻度，
+   视线扫过去就有刻度尺的意思，成本是一条 repeating-gradient。 */
+.site-shell .hero-meta,
+.hero-meta {
+  position: relative;
+}
+.hero-meta::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, var(--ef-scale) 0 1px, transparent 1px 24px);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 55%, transparent 92%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 55%, transparent 92%);
+  pointer-events: none;
+}
+
+/* 三个读数格：每个格子顶端一把小刻度，右上角一个区段序号。
+   序号由 counter 生成，不用改 HTML。 */
+.hero-facts {
+  counter-reset: ef-fact;
+}
+.hero-facts li {
+  counter-increment: ef-fact;
+  position: relative;
+  padding-top: 1.05rem;
+}
+.hero-facts li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, var(--ef-scale) 0 1px, transparent 1px 5px);
+  pointer-events: none;
+}
+.hero-facts li::after {
+  content: counter(ef-fact, decimal-leading-zero);
+  position: absolute;
+  top: 0.55rem;
+  right: 0.6rem;
+  color: var(--ef-ink-2);
+  font-family: var(--ef-font-mono);
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ---------- 3. 信号黄：保持原有强度，只补线条 ---------- */
+
+/* ticker 的版本号仍是黄底块，和原来一致。这一层不碰它的填充色，
+   只在条目之间加一道极轻的竖线，让黄块之间的节奏有落点。 */
+.ef-ticker a {
+  position: relative;
+}
+.ef-ticker li a::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 1px;
+  height: 13px;
+  background: currentColor;
+  opacity: 0.22;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ---------- 4. 主档案板：切角 + 四角角标 + 读数材质 ---------- */
+
+/* 原来靠一条 4px 实心顶边表示「这是一份档案」。改成：
+   1px 常规边框 + 右上切角 + 四角定位角标 + 顶端 38% 长的黄色读数线。
+   顶边从「一条粗黑杠」变成「一段被截断的测量线」，更像仪器面板。 */
+.featured-entry {
+  border-top-width: 1px;
+  border-top-color: var(--ef-rule);
+  background-color: var(--ef-panel);
+  background-image:
+    var(--ef-hatch),
+    linear-gradient(var(--ef-signal), var(--ef-signal));
+  background-repeat: no-repeat, no-repeat;
+  background-position: left bottom, left top;
+  background-size: 100% 8px, 38% 2px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--ef-plate-cut)) 0,
+    100% var(--ef-plate-cut),
+    100% 100%,
+    0 100%
+  );
+}
+
+/* 切边上的一段亮线。它压在 clip-path 的边界上，外侧一半会被裁掉，
+   最终留下的正好是 1px 斜边高光：缺口因此不是「被啃掉」，而是「折了一下」。 */
+.featured-entry::after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  inset: auto;
+  top: calc(var(--ef-plate-cut) / 2 - 0.7px);
+  right: calc(var(--ef-plate-cut) / 2 - 0.7px);
+  width: calc(var(--ef-plate-cut) * 1.415);
+  height: 2px;
+  background: var(--ef-signal);
+  transform: translate(50%, -50%) rotate(45deg);
+  pointer-events: none;
+}
+/* 四角 L 型定位角标。右上角因为切角，留空。 */
+.featured-entry::before {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  inset: var(--ef-reticle);
+  background:
+    linear-gradient(var(--ef-signal) 0 0) left top / var(--ef-reticle) 1px no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) left top / 1px var(--ef-reticle) no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) left bottom / var(--ef-reticle) 1px no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) left bottom / 1px var(--ef-reticle) no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) right bottom / var(--ef-reticle) 1px no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) right bottom / 1px var(--ef-reticle) no-repeat;
+  opacity: 0.75;
+  pointer-events: none;
+  transition: opacity 0.18s var(--ef-ease);
+}
+.featured-entry:is(:hover, :focus-within)::before {
+  opacity: 0.9;
+}
+
+/* 插图板背面铺半调网点，只在右上角一带，用遮罩淡出，避免变成图案墙 */
+.featured-plate {
+  position: relative;
+}
+.featured-plate::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: var(--ef-halftone);
+  color: var(--ef-ink);
+  opacity: 0.22;
+  -webkit-mask-image: radial-gradient(120% 105% at 100% 0%, #000 0%, transparent 64%);
+  mask-image: radial-gradient(120% 105% at 100% 0%, #000 0%, transparent 64%);
+  pointer-events: none;
+}
+
+/* 插图板上的标签保持原型：黄底、黑字、全大写。这一层不改它的填充，
+   只把字距再放宽一点，让它更像一张贴在图纸上的标签。 */
+.featured-plate-tag {
+  letter-spacing: 0.14em;
+}
+
+/* ---------- 5. 最近档案：空态也当成「待填的档案位」 ---------- */
+
+/* 空态卡保留边长，但把强调色让给角标和编号，正文回到中性色。
+   有内容时的左侧 3px 实线仍是 ink，只有指针落上去才换黄。 */
+.lead-entry {
+  position: relative;
+}
+.lead-entry::before {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 7px;
+  background:
+    linear-gradient(var(--ef-signal) 0 0) right top / 7px 1px no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) right top / 1px 7px no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) left bottom / 7px 1px no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) left bottom / 1px 7px no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s var(--ef-ease);
+}
+.lead-entry:is(:hover, :focus-visible)::before {
+  opacity: 0.85;
+}
+.lead-entry.is-empty::before {
+  opacity: 0.5;
+}
+
+/* 区段编号前加一颗信号灯，让 01 / 02 有「通道」的意思 */
+.recent-heading .home-section-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  color: var(--ef-ink);
+}
+.recent-heading .home-section-number::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: var(--ef-signal);
+}
+
+/* ---------- 6. 内容概览：空态当成一张待填的空表 ---------- */
+
+/* 没有记录时，右下角只剩一句话，整块区域是页面上最大的空洞。
+   这里把它当成一张已经画好栏线、等着填数的空表：等距横线 + 一把空刻度尺。 */
+.chart-body {
+  position: relative;
+}
+.chart-body:has(> .category-chart > .chart-empty)::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 2.35rem 0 auto 0;
+  height: calc(100% - 2.35rem);
+  background: repeating-linear-gradient(180deg, transparent 0 43px, var(--ef-rule) 43px 44px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.category-chart .chart-empty {
+  position: relative;
+  z-index: 1;
+  padding-top: 2.9rem;
+}
+/* 空态上方那把尺：只有刻度，没有读数 */
+.chart-empty::before {
+  content: '';
+  position: absolute;
+  top: 1.05rem;
+  right: 0;
+  left: 0;
+  height: 9px;
+  background: repeating-linear-gradient(90deg, var(--ef-scale) 0 1px, transparent 1px 18px);
+  border-bottom: 1px solid var(--ef-rule);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 72%, transparent 100%);
+  pointer-events: none;
+}
+.chart-empty::after {
+  content: 'NO SAMPLE';
+  position: absolute;
+  top: 0.4rem;
+  right: 0;
+  color: var(--ef-ink-2);
+  font-family: var(--ef-font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.18em;
+  opacity: 0.55;
+}
+
+/* ---------- 7. 最新更新带：读数字左侧加一把竖尺 ---------- */
+
+/* 那块黑底上的空心 236 是整页唯一的大号读数。给它配一把竖尺，
+   数字就从「一个大字」变成「仪表上的一格」。
+   长短刻两层叠：55px 一格长刻，11px 一格短刻，都右对齐贴着分隔线。 */
+.latest-plate {
+  position: relative;
+}
+.latest-plate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  background:
+    repeating-linear-gradient(180deg, var(--ef-ink) 0 1px, transparent 1px 44px) right top / 10px 100% no-repeat,
+    repeating-linear-gradient(180deg, var(--ef-ink) 0 1px, transparent 1px 11px) right top / 5px 100% no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ---------- 8. 全站索引：两栏之间立一道分隔 ---------- */
+
+/* 桌面下索引是左右两栏，中间只有空白。加一条 hairline，
+   两栏就从「并排」变成「一张表的两页」。 */
+@media (min-width: 1100px) {
+  /* 原布局 align-items: start 会让两栏各自塌到内容高度，中间那道线因此半截就断。
+     撑成等高，线才是「一页的两侧」而不是「一段下划线」。 */
+  .index-grid {
+    align-items: stretch;
+  }
+  .index-grid > div:nth-child(2) {
+    padding-left: clamp(1rem, 3vw, 2.5rem);
+    border-left: 1px solid var(--ef-rule);
+  }
+}
+
+/* ---------- 9. 补一处主题缺口：跟随系统深色时「最新更新」带的文字会隐形 ---------- */
+
+/* endfield 的页面默认跟随系统配色，不写 data-theme。
+   而最新更新带的深色修正在原样式里只挂在 [data-theme='dark'] 上，
+   于是深色系统下 --band-fg 取到深色的纸色，标题和 236 与背景同色、看不见。
+   这里把 prefers-color-scheme 这一支补齐，与手动深色表现一致。 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .latest {
+    --band-bg: #262626;
+    --band-fg: #f0f0ee;
+    border-top: 2px solid var(--ef-signal);
+  }
+}
+
+/* ---------- 10. 动效：按下时角标闪一下，代替位移 ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .featured-entry {
+    transition: background-size 0.22s var(--ef-ease);
+  }
+  .featured-entry:is(:hover, :focus-within) {
+    background-size: 100% 8px, 100% 2px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .featured-entry,
+  .featured-entry::before,
+  .lead-entry::before {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   11. 导航：给每一档加序号，给侧栏配一把竖尺
+   ========================================================================== */
+
+/* 侧栏（阅读页 .ef-rail）是整页最长的空白。它的下半截没有任何东西，
+   一整列导航浮在顶端，下面空出半屏。这里不填内容，只沿右边缘立一把竖尺，
+   空白就从「没做完」变成「留白」——量具的空白本身是有意义的。 */
+.ef-rail {
+  counter-reset: ef-nav;
+}
+@media (min-width: 1100px) {
+  .ef-rail::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 9px;
+    height: 42%;
+    background:
+      repeating-linear-gradient(180deg, var(--ef-ink) 0 1px, transparent 1px 44px) right bottom / 9px 100% no-repeat,
+      repeating-linear-gradient(180deg, var(--ef-ink) 0 1px, transparent 1px 11px) right bottom / 4px 100% no-repeat;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}
+
+/* 导航项前加两位数序号。它取代不了标签，但让这一列读起来像一张目录，
+   而不是六个并排的链接；当前项的黄块因此也有了「第几档」的上下文。 */
+.ef-rail a:not(.brand):not(.ef-kit-home) {
+  counter-increment: ef-nav;
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+.ef-rail a:not(.brand):not(.ef-kit-home)::before {
+  content: counter(ef-nav, decimal-leading-zero);
+  flex: none;
+  color: currentColor;
+  font-family: var(--ef-font-mono);
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  opacity: 0.42;
+}
+/* 当前项压在黄块上，序号要跟着提亮，否则会被黄底吃掉。 */
+.ef-rail a[aria-current]::before {
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   12. 阅读页：一张被量过的纸
+   ========================================================================== */
+
+/* 标题下那道 3.5rem 黄线原来只是一段色块。给它两端补上端头刻线，
+   它就变成一把卷尺上的一格：有起点、有终点、有长度。 */
+.ef-title-rule {
+  width: min(22rem, 100%);
+  height: 9px;
+  background:
+    linear-gradient(var(--ef-signal) 0 0) left bottom / 100% 2px no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) left bottom / 1px 9px no-repeat,
+    linear-gradient(var(--ef-signal) 0 0) right bottom / 1px 9px no-repeat;
+}
+
+/* 正文章节的顶线现在是通栏 hairline，分不出「从哪起」。
+   在左端压一段实墨，再接一小截刻度，读者一眼能定位章节起点。 */
+.ef-prose h2 {
+  position: relative;
+}
+.ef-prose h2::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 16rem;
+  height: 4px;
+  background:
+    linear-gradient(var(--ef-ink), var(--ef-ink)) left top / 2.6rem 1px no-repeat,
+    repeating-linear-gradient(90deg, var(--ef-scale) 0 1px, transparent 1px 26px) left top / 11rem 4px no-repeat;
+  pointer-events: none;
+}
+
+/* 引文的墨色竖线上压一段黄，像夹在尺子上的一枚标记。 */
+.ef-prose blockquote {
+  position: relative;
+}
+.ef-prose blockquote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -3px;
+  width: 3px;
+  background: linear-gradient(var(--ef-signal), var(--ef-signal)) left top / 3px 1.4rem no-repeat;
+  pointer-events: none;
+}
+
+/* 记录行原来靠左侧 4px 的轨迹条提示悬停，没有编号。
+   补上 01/02/03 的行号，列表就从「三条链接」变成「一张台账」。
+   行号绝对定位，不参与 grid，也不跟着 hover 的 translateX 移动——
+   它像贴在纸边的印刷序号，内容在动，标尺不动。 */
+.ef-records {
+  counter-reset: ef-row;
+}
+.ef-records > li {
+  counter-increment: ef-row;
+}
+/* 行号要占出一条真的左边距。原样式用的是 `a.ef-record`（含元素选择器），
+   只写 `.ef-records .ef-record` 会被它的 padding 简写盖掉，所以这里带上 a。 */
+.ef-records a.ef-record,
+.ef-records .ef-record {
+  padding-left: 3.1rem;
+}
+.ef-records .ef-record::after {
+  content: counter(ef-row, decimal-leading-zero);
+  position: absolute;
+  top: 0.8rem;
+  left: 0.7rem;
+  color: var(--ef-ink-2);
+  font-family: var(--ef-font-mono);
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* 组标题的分隔线左端压一段 2px 黄，代替「加粗」来表达这是分区起点。
+   贴着线的内侧放（bottom: 0），因为下面的元素可能是 1px hairline，
+   也可能是展开项那 3px 的粗顶边——黄色若压在线上会被吞掉一半。 */
+.ef-group-head {
+  position: relative;
+}
+.ef-group-head::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2.25rem;
+  height: 3px;
+  background: var(--ef-signal);
+  pointer-events: none;
+}
+
+/* 更新日志的展开标记原来是浏览器默认的三角。换成一枚方形指示灯：
+   关着是空心描边，展开是实心黄。开关状态直接可读，不必看箭头朝向。 */
+.release-history-item summary {
+  position: relative;
+  padding-left: 2.1rem;
+  list-style: none;
+}
+.release-history-item summary::-webkit-details-marker {
+  display: none;
+}
+.release-history-item summary::before {
+  content: '';
+  position: absolute;
+  top: 1.6rem;
+  left: 0.55rem;
+  width: 9px;
+  height: 9px;
+  box-shadow: inset 0 0 0 1px var(--ef-ink-2);
+  transition: background-color 0.15s var(--ef-ease), box-shadow 0.15s var(--ef-ease);
+}
+.release-history-item[open] summary::before {
+  background: var(--ef-signal);
+  box-shadow: inset 0 0 0 1px var(--ef-ink);
+}
+
+/* 展开的那一条左侧立一道刻度尺，和首页「最新更新」带用同一套语言：
+   长刻 44px、短刻 11px，右对齐贴着边界。 */
+.release-history-item[open] {
+  position: relative;
+  padding-left: 0.5rem;
+}
+.release-history-item[open]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 7px;
+  background:
+    repeating-linear-gradient(180deg, var(--ef-ink) 0 1px, transparent 1px 44px) left top / 7px 100% no-repeat,
+    repeating-linear-gradient(180deg, var(--ef-ink) 0 1px, transparent 1px 11px) left top / 3px 100% no-repeat;
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+/* 页边目录：左侧那道 1px 竖线上，每一条目落一个短刻，
+   整条目录因此读成一把带标注的尺，而不是一列链接。 */
+.toc ol li {
+  position: relative;
+}
+.toc ol li::before {
+  content: '';
+  position: absolute;
+  top: 0.72rem;
+  left: 0;
+  width: 6px;
+  height: 1px;
+  background: var(--ef-scale);
+  pointer-events: none;
+}
+
+/* 「按分类」的账目行：标签与数字之间补点线引导。
+   工程目录里所有「名称 → 数值」的配对都是这样接的。 */
+.ef-ledger > li > :first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ef-ledger > li > :first-child::after {
+  content: '';
+  flex: 1 1 0;
+  min-width: 0.9rem;
+  height: 1px;
+  align-self: center;
+  background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 4px);
+  opacity: 0.38;
+}
+
+/* 页边顶部的分区标签：给每个 margin 区块一个编号，
+   和首页的 01/02/03 是同一套编号系统。 */
+.ef-margin {
+  counter-reset: ef-margin;
+}
+.ef-margin .margin-h {
+  counter-increment: ef-margin;
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--ef-rule);
+}
+.ef-margin .margin-h::before {
+  content: counter(ef-margin, decimal-leading-zero);
+  color: var(--ef-ink-2);
+  font-family: var(--ef-font-mono);
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .release-history-item summary::before {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   13. 分节编号：01 / 02 / 03 由 counter 生成
+   ========================================================================== */
+
+/* 样张页的每个分区标题右侧已经有一道斜纹条（.ef-bar-title::after），
+   左边却是光秃秃的一句话。给它补一个两位数分区号，
+   整页就从「几个区块」变成「一份编号的册页」。 */
+.ef {
+  counter-reset: ef-sheet;
+}
+.ef-bar-title {
+  counter-increment: ef-sheet;
+}
+.ef-bar-title::before {
+  content: counter(ef-sheet, decimal-leading-zero);
+  flex: none;
+  align-self: center;
+  color: var(--ef-ink-2);
+  font-family: var(--ef-font-mono);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+}
+
+/* ==========================================================================
+   14. 命令栏：给每一档加站号
+   ========================================================================== */
+
+/* 黑底命令栏里的五档导航只有中英双行，没有位置感。
+   在每档左上角放一个两位站号，和阅读页侧栏的 01–06 是同一套编号：
+   编号一起出现时，导航才像一张「站表」而不是一排链接。 */
+.ef-cmdbar nav {
+  counter-reset: ef-station;
+}
+.ef-cmdbar nav a {
+  counter-increment: ef-station;
+  padding-top: 0.85rem;
+}
+.ef-cmdbar nav a::before {
+  content: counter(ef-station, decimal-leading-zero);
+  position: absolute;
+  top: 0.3rem;
+  left: 0.8rem;
+  color: currentColor;
+  font-family: var(--ef-font-mono);
+  font-size: 0.5rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+  pointer-events: none;
+}
+/* 窄屏：行号的留白按比例收窄，否则一行只剩三个字的空间。 */
+@media (max-width: 719px) {
+  .ef-records a.ef-record,
+  .ef-records .ef-record {
+    padding-left: 2.4rem;
+  }
+  .ef-records .ef-record::after {
+    left: 0.5rem;
+  }
+  .release-history-item summary {
+    padding-left: 1.7rem;
+  }
+  .release-history-item summary::before {
+    left: 0.2rem;
+  }
+}

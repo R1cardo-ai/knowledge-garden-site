@@ -132,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.236';
+const currentVersion = 'v1.0.237';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -140,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.237', date: '2026.10.31', title: '全站补齐工程制图线条层', items: ['首页首屏与下方分区补充标尺刻度、区段编号、切角亮边与四角定位角标；插图板背后铺半调网点，信号黄沿用原主题强度不改配色', '阅读页侧栏导航与记录行加序号、标题线两端加端头、章节线标出起点、更新日志改用方形指示灯、页边目录加短刻与点线引导；档案页补信息条刻度与卡片顶边测量线', '控制台命令栏与动效样张加入站号和分区编号；修复跟随系统深色时首页「最新更新」区块文字与背景同色不可见，未手动切过主题的访客不再看到空带'] },
   { version: 'v1.0.236', date: '2026.10.30', title: '知识库升级为随笔', items: ['全站当前栏目改为随笔与 ESSAYS，旧 knowledge 存储类型、稳定 ID、浏览器数据和 /archive?view=knowledge 链接继续兼容；成果仍独立展示', '随笔目录与首页最近随笔按记录日期从新到旧排列，旧链接显式 sort=updated 仍按更新时间排序；无摘要时仅从正文生成展示预览，不改写原文', '写作表单突出标题和正文，把分类、标签、形式、来源及关联放入补充信息；退出未保存修改时提示，阅读页及首页随笔文字使用自托管思源宋体'] },
   { version: 'v1.0.235', date: '2026.10.30', title: '状态插图、日志封面与控制台联动', items: ['空档案、无匹配、读取失败和写入失败分别显示原创小型状态图，保留真实说明与对应操作；导入文件读取时显示处理中，成功与错误反馈使用不同图标', '最新版本日志使用独立封面式层级，搜索历史记录时只标记真实当前版本，完整历史仍可查看', '控制台圆盘聚焦或悬停时联动文字、真实计数与入口；分类及月份图提取为共享组件，并在实际组件矩阵中展示同一实现和状态图，样张历史示例保留各自原日期与条数'] },
   { version: 'v1.0.234', date: '2026.10.29', title: '阅读封面与真实关联示意', items: ['独立阅读页重组标题封面：真实日期、分类、形式、摘要和编辑入口分层展示，正文仍保留原有单栏、章节目录与全部内容', '真实章节按文内顺序显示序号，原有标题锚点、代码滚动、图片原图入口与阅读返回继续工作', '已绑定且仍存在的关联记录显示稳定连接示意，重复目标去重、最多六个节点；完整文字列表保留，未绑定或已删除目标不画连线'] },

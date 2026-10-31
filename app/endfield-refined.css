@@ -1,0 +1,100 @@
+/* ==========================================================================
+   endfield-refined.css: 档案页（React）的「工程制图」增强层
+   --------------------------------------------------------------------------
+   和 public/ui-kit/assets/endfield-refined.css 是同一套语言，只是这里作用在
+   /archive 上：它用的是另一套 token（--archive-*），所以没法共用一份文件。
+
+   档案页本身已经很密——// RECORD 编号、类型徽标、3px 侧条、切角按钮、
+   页标题下沿的刻度尺、分区头右端的斜切段，全部已经存在。
+   所以这一层只补三处真的空着的地方，不改任何既有装饰、尺寸或布局：
+
+     1. 信息条下沿：原来只是一行浮着的小字，补一把刻度。
+     2. 记录卡片顶边：原来完全干净，补一段测量起点。
+     3. // RECORD 编号：前面接一段点线，把编号和卡片右缘连起来。
+   ========================================================================== */
+
+:root {
+  /* 结构线：比 --archive-line 更轻，供高频重复的刻度使用 */
+  --archive-scale: color-mix(in srgb, var(--archive-ink) 40%, transparent);
+}
+
+/* ---------- 1. 顶部信息条：下沿加一把刻度 ---------- */
+
+/* 「2026.10.31 ◆ 06 条档案 ◆ 05 篇随笔」这一行下面什么都没有，
+   于是它读起来像一句附注，而不是页眉。补一把向右淡出的刻度，
+   它才和下面的标题区接上。 */
+.archive-meta-line {
+  position: relative;
+  padding-bottom: 0.6rem;
+}
+.archive-meta-line::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, var(--archive-scale) 0 1px, transparent 1px 24px);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 46%, transparent 88%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 46%, transparent 88%);
+  pointer-events: none;
+}
+
+/* ---------- 2. 记录卡片：顶边刻度 ---------- */
+
+/* 卡片顶边原本完全干净（standard 变体把四角角标关掉了，只留边框）。
+   只沿上缘铺 3.5rem 的细刻度：卡片有了「测量起点」，也不会和变体
+   刻意去掉的角标打架。
+
+   注意这里的选择器链：主题对列表视图用的是
+   `.site-shell .entry-grid.list-view .entry-card`（`background` 简写，
+   特异性 0-6-0），会把 background-image 重置成 none。所以必须沿同一条链、
+   并且补上 hover 一支，否则指针一落上去刻度就消失。
+   `:is(.list-view, :not(.list-view))` 让卡片视图和列表视图共用同一份声明，
+   特异性和带 `.list-view` 的那条持平。 */
+:root[data-ark-theme='endfield'] .site-shell .entry-grid:is(.list-view, :not(.list-view)) .entry-card {
+  background-image: repeating-linear-gradient(90deg, var(--archive-scale) 0 1px, transparent 1px 9px);
+  background-position: left top;
+  background-size: 3.5rem 3px;
+  background-repeat: no-repeat;
+}
+:root[data-ark-theme='endfield'] .site-shell .entry-grid.list-view .entry-card:is(:hover, :focus-within) {
+  background-image: repeating-linear-gradient(90deg, var(--archive-scale) 0 1px, transparent 1px 9px);
+  background-position: left top;
+  background-size: 5.5rem 3px;
+  background-repeat: no-repeat;
+}
+
+/* ---------- 3. 编号引线 ---------- */
+
+/* 「// RECORD / 01」贴着卡片右缘浮着，和正文没有关系。
+   前面接一小段点线，编号就和卡片连成一体，像注记被引出来。 */
+.entry-card::after {
+  padding-left: 1.6rem;
+  background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 4px) left center / 1.1rem 1px no-repeat;
+}
+
+/* 列表视图的行号：等宽数字，和右侧的编号列对齐 */
+.entry-grid.list-view .entry-list-position {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- 4. 动效 ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 指针落上去，顶边那把刻度从 3.5rem 伸到 5.5rem：像把尺子推出去一点。
+     只补 background-size 的过渡，原有 transform / border-color 过渡继续生效。 */
+  :root[data-ark-theme='endfield'] .site-shell .entry-grid .entry-card {
+    transition:
+      background-size 0.24s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+      border-color 0.25s ease,
+      background-color 0.25s ease;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-ark-theme='endfield'] .site-shell .entry-grid .entry-card {
+    transition: none;
+  }
+}

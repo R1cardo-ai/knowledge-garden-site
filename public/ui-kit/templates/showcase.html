@@ -212,6 +212,8 @@
         .chart-bar, .featured-art, .hero .ef-wordmark { transition: none; }
       }
     </style>
+    <!-- 工程制图增强层：必须晚于上面的内联 <style> -->
+    <link rel="stylesheet" href="../assets/endfield-refined.css" />
   </head>
   <body class="ef ef-contours">
     <div class="ef-tri ef-in-sweep" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -229,7 +231,7 @@
           <span><b data-fx-load data-archive-count="knowledge">0</b> 篇随笔</span>
           <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
         </span>
-        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.236</b></span>
+        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.237</b></span>
       </div>
 
       <div class="hero-copy ef-in-power" style="--i:2">
@@ -271,24 +273,24 @@
       <div class="track">
         <ul>
 <!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-237"><b>v1.0.237</b>全站补齐工程制图线条层</a></li>
 <li><a href="reading.html#release-v1-0-236"><b>v1.0.236</b>知识库升级为随笔</a></li>
 <li><a href="reading.html#release-v1-0-235"><b>v1.0.235</b>状态插图、日志封面与控制台联动</a></li>
 <li><a href="reading.html#release-v1-0-234"><b>v1.0.234</b>阅读封面与真实关联示意</a></li>
 <li><a href="reading.html#release-v1-0-233"><b>v1.0.233</b>目录月份筛选与成果日期纵线</a></li>
 <li><a href="reading.html#release-v1-0-232"><b>v1.0.232</b>修复样张页“返回档案”点击无反应</a></li>
 <li><a href="reading.html#release-v1-0-231"><b>v1.0.231</b>修复关闭弹层时整页压暗的闪烁</a></li>
-<li><a href="reading.html#release-v1-0-230"><b>v1.0.230</b>首页与目录新增可视化概览与档案封面构图</a></li>
 <!-- /release -->
 </ul>
         <ul aria-hidden="true">
 <!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-237" tabindex="-1"><b>v1.0.237</b>全站补齐工程制图线条层</a></li>
 <li><a href="reading.html#release-v1-0-236" tabindex="-1"><b>v1.0.236</b>知识库升级为随笔</a></li>
 <li><a href="reading.html#release-v1-0-235" tabindex="-1"><b>v1.0.235</b>状态插图、日志封面与控制台联动</a></li>
 <li><a href="reading.html#release-v1-0-234" tabindex="-1"><b>v1.0.234</b>阅读封面与真实关联示意</a></li>
 <li><a href="reading.html#release-v1-0-233" tabindex="-1"><b>v1.0.233</b>目录月份筛选与成果日期纵线</a></li>
 <li><a href="reading.html#release-v1-0-232" tabindex="-1"><b>v1.0.232</b>修复样张页“返回档案”点击无反应</a></li>
 <li><a href="reading.html#release-v1-0-231" tabindex="-1"><b>v1.0.231</b>修复关闭弹层时整页压暗的闪烁</a></li>
-<li><a href="reading.html#release-v1-0-230" tabindex="-1"><b>v1.0.230</b>首页与目录新增可视化概览与档案封面构图</a></li>
 <!-- /release -->
 </ul>
       </div>
@@ -333,15 +335,15 @@
     </section>
 
     <section class="latest" id="latest" aria-label="最新更新">
-      <a href="reading.html#release-v1-0-236" data-release-href="latest" data-fx-host>
+      <a href="reading.html#release-v1-0-237" data-release-href="latest" data-fx-host>
         <span class="latest-plate">
           <span class="latest-plate-label">Release note / 版本记录</span>
-          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">236</span>
+          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">237</span>
         </span>
         <span class="latest-body">
-          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.236</span> │ <span data-release="date">2026.10.30</span></span>
-          <span class="latest-title" data-release="title">知识库升级为随笔</span>
-          <span class="latest-summary" data-release="summary">全站当前栏目改为随笔与 ESSAYS，旧 knowledge 存储类型、稳定 ID、浏览器数据和 /archive?view=knowledge 链接继续兼容；成果仍独立展示；随笔目录与首页最近随笔按记录日期从新到旧排列，旧链接显式 sort=updated 仍按更新时间排序；无摘要时仅从正文生成展示预览，不改写原文；写作表单突出标题和正文，把分类、标签、形式、来源及关联放入补充信息；退出未保存修改时提示，阅读页及首页随笔文字使用自托管思源宋体</span>
+          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.237</span> │ <span data-release="date">2026.10.31</span></span>
+          <span class="latest-title" data-release="title">全站补齐工程制图线条层</span>
+          <span class="latest-summary" data-release="summary">首页首屏与下方分区补充标尺刻度、区段编号、切角亮边与四角定位角标；插图板背后铺半调网点，信号黄沿用原主题强度不改配色；阅读页侧栏导航与记录行加序号、标题线两端加端头、章节线标出起点、更新日志改用方形指示灯、页边目录加短刻与点线引导；档案页补信息条刻度与卡片顶边测量线；控制台命令栏与动效样张加入站号和分区编号；修复跟随系统深色时首页「最新更新」区块文字与背景同色不可见，未手动切过主题的访客不再看到空带</span>
           <span class="ef-btn go latest-cta">阅读最新更新</span>
         </span>
       </a>
@@ -362,9 +364,9 @@
           <h3>最近网站更新</h3>
           <ol class="ef-records">
 <!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-237"><span class="ef-tag">v1.0.237</span><time class="ef-field">2026.10.31</time><span class="name ef-read">全站补齐工程制图线条层</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-236"><span class="ef-tag">v1.0.236</span><time class="ef-field">2026.10.30</time><span class="name ef-read">知识库升级为随笔</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-235"><span class="ef-tag">v1.0.235</span><time class="ef-field">2026.10.30</time><span class="name ef-read">状态插图、日志封面与控制台联动</span><span class="ef-field">03 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-234"><span class="ef-tag">v1.0.234</span><time class="ef-field">2026.10.29</time><span class="name ef-read">阅读封面与真实关联示意</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
         </div>

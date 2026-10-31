@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './endfield-theme.css';
 import './endfield-desktop-controls.css';
+import './endfield-refined.css';
 
 export const metadata: Metadata = {
   title: '我的知识花园 | 随笔与成果',
