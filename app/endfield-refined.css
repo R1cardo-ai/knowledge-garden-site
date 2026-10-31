@@ -98,3 +98,64 @@
     transition: none;
   }
 }
+
+/* ---------- 品牌标志：折叠态那颗定位框 ---------- */
+
+/* 展开时侧栏是纯文字锁定组合（v1.0.21 的决定：撤掉图形 Logo，避免和导航抢位置），
+   收起时才有图形位。原来的做法是往黄牌里塞一个字母 K，现在换成和样张页同一枚
+   定位框：四角角标 + 信号黄中心点。黄不再是底，而是被框住的那一点。 */
+.site-shell .brand-symbol {
+  color: #f0f3ef;
+  background: none;
+  clip-path: none;
+}
+.site-shell .brand-symbol svg {
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+}
+.site-shell .brand-symbol path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.site-shell .brand-symbol rect {
+  fill: var(--archive-signal);
+  stroke: none;
+}
+
+/* 展开态也把定位框放到文字左边：原来的做法是整块黄牌，和导航抢位置，所以被撤过；
+   现在它只是一圈 1px 角标，22px、透明底，安静地待在中文名左侧。 */
+.site-shell .brand-symbol {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+}
+.site-shell .brand-symbol svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ---------- 5. 窄屏：返回主页按钮被一起吞掉的图标 ---------- */
+
+/* globals.css 在 ≤720px 用 `.breadcrumb span, .breadcrumb svg { display:none }`
+   清场，本意是收掉分隔箭头和版本号；但它连返回主页链接里的房子图标和文字
+   一起隐藏了，边框还在——顶栏左上就留下一个 18×44 的空框。
+   这里把图标放回来（文字仍然隐藏），并把它撑成 44×44 的点按区。 */
+@media (max-width: 720px) {
+  .site-shell .archive-home-link {
+    justify-content: center;
+    gap: 0;
+    width: 44px;
+    padding: 0;
+  }
+  .site-shell .archive-home-link svg {
+    display: block;
+    width: 17px;
+    height: 17px;
+  }
+  .site-shell .archive-home-link span {
+    display: none;
+  }
+}

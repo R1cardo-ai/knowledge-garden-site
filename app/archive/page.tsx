@@ -132,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.237';
+const currentVersion = 'v1.0.238';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -140,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.238', date: '2026.10.31', title: '重做左上角标志并修复手机端空按钮', items: ['首页、档案页与五份设计样张统一换用新的定位框标志：四角角标围住信号黄中心点，取代原来的黄底字母块；中文名与英文副题位置不变，黄只留下被框住的那一点', '折叠侧栏、展开侧栏、档案页顶栏与样张页命令栏共用同一枚图形，尺寸按各页原有留白取 22 至 24px，收起态与展开态都不再出现重复标志', '修复手机宽度下档案页左上角「返回主页」只剩一个 18×44 空框：图标此前被窄屏规则连同分隔箭头一起隐藏，现保留主页图标并撑足 44×44 点按区，文字仍在窄屏隐藏'] },
   { version: 'v1.0.237', date: '2026.10.31', title: '全站补齐工程制图线条层', items: ['首页首屏与下方分区补充标尺刻度、区段编号、切角亮边与四角定位角标；插图板背后铺半调网点，信号黄沿用原主题强度不改配色', '阅读页侧栏导航与记录行加序号、标题线两端加端头、章节线标出起点、更新日志改用方形指示灯、页边目录加短刻与点线引导；档案页补信息条刻度与卡片顶边测量线', '控制台命令栏与动效样张加入站号和分区编号；修复跟随系统深色时首页「最新更新」区块文字与背景同色不可见，未手动切过主题的访客不再看到空带'] },
   { version: 'v1.0.236', date: '2026.10.30', title: '知识库升级为随笔', items: ['全站当前栏目改为随笔与 ESSAYS，旧 knowledge 存储类型、稳定 ID、浏览器数据和 /archive?view=knowledge 链接继续兼容；成果仍独立展示', '随笔目录与首页最近随笔按记录日期从新到旧排列，旧链接显式 sort=updated 仍按更新时间排序；无摘要时仅从正文生成展示预览，不改写原文', '写作表单突出标题和正文，把分类、标签、形式、来源及关联放入补充信息；退出未保存修改时提示，阅读页及首页随笔文字使用自托管思源宋体'] },
   { version: 'v1.0.235', date: '2026.10.30', title: '状态插图、日志封面与控制台联动', items: ['空档案、无匹配、读取失败和写入失败分别显示原创小型状态图，保留真实说明与对应操作；导入文件读取时显示处理中，成功与错误反馈使用不同图标', '最新版本日志使用独立封面式层级，搜索历史记录时只标记真实当前版本，完整历史仍可查看', '控制台圆盘聚焦或悬停时联动文字、真实计数与入口；分类及月份图提取为共享组件，并在实际组件矩阵中展示同一实现和状态图，样张历史示例保留各自原日期与条数'] },
@@ -849,7 +850,7 @@ export default function Home() {
       <div className="site-background-image" aria-hidden="true" style={{ backgroundImage: backgroundImage ? `url("${backgroundImage}")` : 'none', opacity: backgroundOpacity }} />
       <div className="terrain-contour-overlay" aria-hidden="true" />
       <aside className="side-rail">
-        <div className="rail-topline"><div className="brand-mark" aria-label="我的知识花园"><span className="brand-symbol" aria-hidden="true">K</span><span className="brand-lockup"><strong>知识花园</strong><small>FIELD KNOWLEDGE ARCHIVE</small></span></div><button type="button" className="rail-collapse-toggle" aria-label={sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'} aria-expanded={!sidebarCollapsed} title={sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'} onClick={toggleSidebar}>{sidebarCollapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}</button></div>
+        <div className="rail-topline"><div className="brand-mark" aria-label="我的知识花园"><span className="brand-symbol" aria-hidden="true"><svg className="kg-mark" viewBox="0 0 24 24" focusable="false"><path d="M1 8V1h7M16 1h7v7M23 16v7h-7M8 23H1v-7" /><rect x="9" y="9" width="6" height="6" /></svg></span><span className="brand-lockup"><strong>知识花园</strong><small>FIELD KNOWLEDGE ARCHIVE</small></span></div><button type="button" className="rail-collapse-toggle" aria-label={sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'} aria-expanded={!sidebarCollapsed} title={sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'} onClick={toggleSidebar}>{sidebarCollapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}</button></div>
         <p className="rail-section-label">{"// FIELD INDEX "}<span>/</span> 05</p>
         <nav className="side-nav" aria-label="主导航">
           <ArchiveNavItem label="总览" active={activeView === 'all'} onClick={() => changeView('all')}><LayoutGrid size={18} /><span>总览</span></ArchiveNavItem>

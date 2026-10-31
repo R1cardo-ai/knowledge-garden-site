@@ -168,7 +168,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
   home.className = 'ef-kit-home';
   home.href = '/ui-kit/';
   home.setAttribute('aria-label', '返回桌面样张索引');
-  home.innerHTML = '<span aria-hidden="true">K</span><span>知识花园</span><small>样张索引</small>';
+  home.innerHTML = '<svg class="kg-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M1 8V1h7M16 1h7v7M23 16v7h-7M8 23H1v-7" /><rect x="9" y="9" width="6" height="6" /></svg><span class="kg-text"><b>知识花园</b><small>样张索引</small></span>';
 
   const target = document.querySelector('.ef-cmdbar .util, .top .ef-actions, .ef-rail, .ef-head > p');
   if (target) target.prepend(home);

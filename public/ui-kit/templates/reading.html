@@ -91,7 +91,7 @@
     <div class="ef-tri" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="shell">
       <nav class="ef-rail rail" aria-label="主导航">
-        <a class="brand" href="/">知识花园</a>
+        <a class="brand kg-brand" href="/" aria-label="知识花园"><svg class="kg-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M1 8V1h7M16 1h7v7M23 16v7h-7M8 23H1v-7" /><rect x="9" y="9" width="6" height="6" /></svg><span class="kg-text"><b>知识花园</b><small>Field archive</small></span></a>
         <a href="/">总览</a>
         <a href="/ui-kit/templates/showcase.html">主页</a>
         <a href="/ui-kit/templates/console.html">档案</a>
@@ -130,16 +130,17 @@
           <h2 class="ef-group-head ef-read" id="updates"><span>最近更新</span><span class="ef-field">04 条</span></h2>
           <ol class="ef-records">
 <!-- release:recent -->
+<li><a class="ef-record" href="reading.html#release-v1-0-238"><span class="ef-tag">v1.0.238</span><time class="ef-field">2026.10.31</time><span class="name ef-read">重做左上角标志并修复手机端空按钮</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-237"><span class="ef-tag">v1.0.237</span><time class="ef-field">2026.10.31</time><span class="name ef-read">全站补齐工程制图线条层</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-236"><span class="ef-tag">v1.0.236</span><time class="ef-field">2026.10.30</time><span class="name ef-read">知识库升级为随笔</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-235"><span class="ef-tag">v1.0.235</span><time class="ef-field">2026.10.30</time><span class="name ef-read">状态插图、日志封面与控制台联动</span><span class="ef-field">03 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-234"><span class="ef-tag">v1.0.234</span><time class="ef-field">2026.10.29</time><span class="name ef-read">阅读封面与真实关联示意</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
-          <h2 class="ef-group-head ef-read" id="full-history"><span>完整更新日志</span><span class="ef-field" data-release="total">249 条</span></h2>
+          <h2 class="ef-group-head ef-read" id="full-history"><span>完整更新日志</span><span class="ef-field" data-release="total">250 条</span></h2>
 <div class="release-history">
 <!-- release:history -->
-<details class="release-history-item" id="release-v1-0-237" open><summary><span class="release-history-heading"><span class="release-history-meta"><span class="ef-field">v1.0.237</span><time class="ef-field">2026.10.31</time></span><strong>全站补齐工程制图线条层</strong><span class="ef-marker">最新</span></span></summary><ul><li>首页首屏与下方分区补充标尺刻度、区段编号、切角亮边与四角定位角标；插图板背后铺半调网点，信号黄沿用原主题强度不改配色</li><li>阅读页侧栏导航与记录行加序号、标题线两端加端头、章节线标出起点、更新日志改用方形指示灯、页边目录加短刻与点线引导；档案页补信息条刻度与卡片顶边测量线</li><li>控制台命令栏与动效样张加入站号和分区编号；修复跟随系统深色时首页「最新更新」区块文字与背景同色不可见，未手动切过主题的访客不再看到空带</li></ul></details>
+<details class="release-history-item" id="release-v1-0-238" open><summary><span class="release-history-heading"><span class="release-history-meta"><span class="ef-field">v1.0.238</span><time class="ef-field">2026.10.31</time></span><strong>重做左上角标志并修复手机端空按钮</strong><span class="ef-marker">最新</span></span></summary><ul><li>首页、档案页与五份设计样张统一换用新的定位框标志：四角角标围住信号黄中心点，取代原来的黄底字母块；中文名与英文副题位置不变，黄只留下被框住的那一点</li><li>折叠侧栏、展开侧栏、档案页顶栏与样张页命令栏共用同一枚图形，尺寸按各页原有留白取 22 至 24px，收起态与展开态都不再出现重复标志</li><li>修复手机宽度下档案页左上角「返回主页」只剩一个 18×44 空框：图标此前被窄屏规则连同分隔箭头一起隐藏，现保留主页图标并撑足 44×44 点按区，文字仍在窄屏隐藏</li></ul></details>
+<details class="release-history-item" id="release-v1-0-237"><summary><span class="release-history-heading"><span class="release-history-meta"><span class="ef-field">v1.0.237</span><time class="ef-field">2026.10.31</time></span><strong>全站补齐工程制图线条层</strong></span></summary><ul><li>首页首屏与下方分区补充标尺刻度、区段编号、切角亮边与四角定位角标；插图板背后铺半调网点，信号黄沿用原主题强度不改配色</li><li>阅读页侧栏导航与记录行加序号、标题线两端加端头、章节线标出起点、更新日志改用方形指示灯、页边目录加短刻与点线引导；档案页补信息条刻度与卡片顶边测量线</li><li>控制台命令栏与动效样张加入站号和分区编号；修复跟随系统深色时首页「最新更新」区块文字与背景同色不可见，未手动切过主题的访客不再看到空带</li></ul></details>
 <details class="release-history-item" id="release-v1-0-236"><summary><span class="release-history-heading"><span class="release-history-meta"><span class="ef-field">v1.0.236</span><time class="ef-field">2026.10.30</time></span><strong>知识库升级为随笔</strong></span></summary><ul><li>全站当前栏目改为随笔与 ESSAYS，旧 knowledge 存储类型、稳定 ID、浏览器数据和 /archive?view=knowledge 链接继续兼容；成果仍独立展示</li><li>随笔目录与首页最近随笔按记录日期从新到旧排列，旧链接显式 sort=updated 仍按更新时间排序；无摘要时仅从正文生成展示预览，不改写原文</li><li>写作表单突出标题和正文，把分类、标签、形式、来源及关联放入补充信息；退出未保存修改时提示，阅读页及首页随笔文字使用自托管思源宋体</li></ul></details>
 <details class="release-history-item" id="release-v1-0-235"><summary><span class="release-history-heading"><span class="release-history-meta"><span class="ef-field">v1.0.235</span><time class="ef-field">2026.10.30</time></span><strong>状态插图、日志封面与控制台联动</strong></span></summary><ul><li>空档案、无匹配、读取失败和写入失败分别显示原创小型状态图，保留真实说明与对应操作；导入文件读取时显示处理中，成功与错误反馈使用不同图标</li><li>最新版本日志使用独立封面式层级，搜索历史记录时只标记真实当前版本，完整历史仍可查看</li><li>控制台圆盘聚焦或悬停时联动文字、真实计数与入口；分类及月份图提取为共享组件，并在实际组件矩阵中展示同一实现和状态图，样张历史示例保留各自原日期与条数</li></ul></details>
 <details class="release-history-item" id="release-v1-0-234"><summary><span class="release-history-heading"><span class="release-history-meta"><span class="ef-field">v1.0.234</span><time class="ef-field">2026.10.29</time></span><strong>阅读封面与真实关联示意</strong></span></summary><ul><li>独立阅读页重组标题封面：真实日期、分类、形式、摘要和编辑入口分层展示，正文仍保留原有单栏、章节目录与全部内容</li><li>真实章节按文内顺序显示序号，原有标题锚点、代码滚动、图片原图入口与阅读返回继续工作</li><li>已绑定且仍存在的关联记录显示稳定连接示意，重复目标去重、最多六个节点；完整文字列表保留，未绑定或已删除目标不画连线</li></ul></details>
