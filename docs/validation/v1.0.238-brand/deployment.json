@@ -1,0 +1,32 @@
+{
+  "version": "v1.0.238",
+  "sourceCommit": "5d8ae0c5f0eb75d8245f3b833a95078b1864f503",
+  "githubPagesCommit": "bcb08983",
+  "cloudflarePages": "verified",
+  "githubPages": "verified",
+  "live": {
+    "cloudflareArchiveVersion": "v1.0.238",
+    "githubArchiveVersion": "v1.0.238",
+    "cloudflareShowcaseVersion": "v1.0.238",
+    "githubShowcaseVersion": "v1.0.238",
+    "githubConsoleVersion": "v1.0.238",
+    "updateLogs": 250,
+    "brandMark": {
+      "cloudflareShowcase": "svg.kg-mark present",
+      "archiveRendersSvg": true
+    },
+    "mobileBackLink": {
+      "cloudflare390": "house icon inside 44x44 bordered button",
+      "github390": "house icon inside 44x44 bordered button"
+    },
+    "refinedStylesheet": {
+      "cloudflare": 200,
+      "githubPages": 200
+    }
+  },
+  "notes": [
+    "The first GitHub Pages push for this release was built from .pages-build/site (the Cloudflare export, whose asset URLs are root-relative). GitHub Pages serves the project site under /knowledge-garden-site, so every script 404'd and the page stayed on the loading splash; commit bcb08983 republished from .github-pages-build/site, which prefixes the base path, and the page renders v1.0.238.",
+    "The mobile defect was a naming collision in globals.css: `.breadcrumb span, .breadcrumb svg` at <=720px also hid the house icon and label inside the back-home link, leaving an empty 18x44 bordered box. The fix keeps the icon and hides only the label.",
+    "The retired yellow letter tile had no separate asset: it was a text node inside .brand-symbol, so nothing else had to be deleted."
+  ]
+}
