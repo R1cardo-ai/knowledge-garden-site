@@ -12,7 +12,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
     setFeatureText('[data-feature-note]', featured && featured.id === preferredId ? '当前浏览器手动精选的档案。' : '档案保存在当前浏览器，按最近更新选取。');
     setFeatureText('[data-feature-title]', featured?.title || '从第一条记录开始');
     setFeatureText('[data-feature-meta]', featured ? `${featured.date} / ${featured.category} / ${featured.type === 'award' ? '成果' : '随笔'}` : '当前浏览器的个人档案');
-    setFeatureText('[data-feature-summary]', featured ? (featured.summary || '这条档案还没有摘要，打开记录查看详细内容。') : '把今天的想法或收获保存下来，这里将展示最近更新的档案。');
+    setFeatureText('[data-feature-summary]', featured ? (featured.summary || '这条档案还没有摘要，打开记录查看详细内容。') : '把今天的想法或收获记录下来，最近更新的档案会显示在这里。');
     const featuredLink = document.querySelector('[data-feature-link]');
     if (featuredLink) { featuredLink.href = featured ? `/archive?${new URLSearchParams({view:featured.type,entry:featured.id})}` : '/archive'; featuredLink.textContent = featured ? '阅读这条档案 ↗' : '打开个人档案 ↗'; }
     const award = entries.filter((entry) => entry.type === 'award').length;
