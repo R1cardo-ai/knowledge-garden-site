@@ -57,19 +57,19 @@ npm start -- --ip 127.0.0.1 --port 5201
 
 ## 页面截图
 
-以下截图来自项目的桌面验收记录，展示首页、档案页和设计样张页面。
+以下截图来自项目的桌面验收记录，展示首页、档案页和设计样张页面；图片标题标明对应的验收版本。
 
 ### 首页
 
-![Knowledge Garden 首页（浅色主题，1440px）](docs/validation/v1.0.239-gates/home-gates-light-1440.png)
+![Knowledge Garden 首页（v1.0.239，浅色主题，1440px）](docs/validation/v1.0.239-gates/home-gates-light-1440.png)
 
 ### 档案页
 
-![档案更新记录页（1440px）](docs/validation/v1.0.239-gates/archive-version-1440.png)
+![档案更新记录页（v1.0.239，1440px）](docs/validation/v1.0.239-gates/archive-version-1440.png)
 
 ### 设计样张
 
-![设计样张页面底部（浅色主题，1440px）](docs/validation/v1.0.243-top/specimen-bottom-light-1440.png)
+![设计样张页面底部（v1.0.243，浅色主题，1440px）](docs/validation/v1.0.243-top/specimen-bottom-light-1440.png)
 
 ## 致谢
 
