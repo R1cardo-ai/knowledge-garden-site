@@ -54,3 +54,25 @@ npm start -- --ip 127.0.0.1 --port 5201
 - [历史记录](docs/archive/历史-2026-10.md) · [验收记录汇编](docs/validation/验收-历史记录汇编.md)
 
 项目协作约定见 [`AGENTS.md`](AGENTS.md)。
+
+## 页面截图
+
+以下截图来自项目的桌面验收记录，展示首页、档案页和设计样张页面。
+
+### 首页
+
+![Knowledge Garden 首页（浅色主题，1440px）](docs/validation/v1.0.239-gates/home-gates-light-1440.png)
+
+### 档案页
+
+![档案更新记录页（1440px）](docs/validation/v1.0.239-gates/archive-version-1440.png)
+
+### 设计样张
+
+![设计样张页面底部（浅色主题，1440px）](docs/validation/v1.0.243-top/specimen-bottom-light-1440.png)
+
+## 致谢
+
+感谢以下网站提供产品结构、知识组织和视觉表达方面的参考： [Capacities](https://capacities.io/)、[Tana](https://outliner.tana.inc/)、[Craft](https://www.craft.do/)、[Are.na](https://www.are.na/about)、[Andy Matuschak 的公开笔记](https://notes.andymatuschak.org/)、[Notion](https://www.notion.com/product/features)、[Obsidian](https://obsidian.md/help/plugins/graph)、[Amytis](https://github.com/Rongkangqi/amytis)、[Zettelgarden](https://zettelgarden.com/app)、[Roam Garden](https://labrisa.roam.garden/)、[C4ss1us Digital Garden](https://c4ss1usgarden.vercel.app/)、[Recurse](https://www.recurse.cc/)、[Conception](https://conception.app/)、[DO Knowledge Studio](https://github.com/d-oit/do-knowledge-studio)、[Mindweave](https://www.mindweave.space/)、[Notis+](https://abduzeedo.com/notis-ai-workspace-ux-ui-design-dashboard-done-quietly/)、[Cosmind](https://www.simonenegro.com/project/cosmind) 与 [AI Second Brain](https://github.com/balabhadra3141/AI-Second-Brain)。工业档案式的信息设计研究参考了[《明日方舟：终末地》官方网站](https://endfield.hypergryph.com/)；本站未使用其游戏图片、角色立绘或标志。
+
+感谢技能作者 [hhikr](https://github.com/hhikr) 的 [endfield-ui](https://github.com/hhikr/endfield-ui-skill)，以及 [Brandon030722](https://github.com/Brandon030722) 的 [ark-ui](https://github.com/Brandon030722/ark-ui-skill)，为界面设计与实现工作流提供参考。完整的设计观察与素材说明见[外部设计参考](docs/设计-外部参考.md)。
