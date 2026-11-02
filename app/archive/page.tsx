@@ -132,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.241';
+const currentVersion = 'v1.0.242';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -140,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.242', date: '2026.11.02', title: '样张索引补分区跳转与内容说明', items: ['设计样张页顶部新增「颜色 / 字阶 / 动效 / 影像 / 组件」五个 44px 锚点，点击直接跳到对应分区；长页不必再滚动查找', '样张索引卡片的说明改为颜色、字阶、动效、影像、标签与状态，与页面实际内容一致', '只改样张导航与文案；未改颜色、字阶、动效、影像的实现，也未改首页、档案、阅读或数据'] },
   { version: 'v1.0.241', date: '2026.11.02', title: '首页证据图低饱和与样张影像规范', items: ['首页「最近成果」的真实证据图在卡片内统一低饱和显示，指针移入或键盘聚焦时恢复全彩；打开档案与阅读页仍显示未处理的原图，不裁切、不改比例', '设计样张新增「影像」对照：低饱和预览、还原状态与无图占位三格，说明证据图不裁切、无图不生成假封面；占位沿用虚线框与斜纹', '只改展示层；档案数据、图片地址、存储键、排序与阅读页保持原样，减少动态效果时滤镜不做过渡'] },
   { version: 'v1.0.240', date: '2026.11.02', title: '设计样张补字阶与动效对照', items: ['设计样张页新增「字阶」对照：从 display 到 micro 九级，按真实字号与行高渲染示例，右侧标注 token、尺寸与用途；display 只用于字标和扉页，正文页最多到 h1', '新增「动效」对照：press 到 drive 十档时长的比例条、snap／mech／ease 三条贝塞尔曲线，以及指针移入才触发的 520ms 演示；减少动态效果时方块直接到终点', '两块只出现在设计样张，不进入首页、档案或阅读界面；未改数据、存储键、排序或既有组件状态'] },
   { version: 'v1.0.239', date: '2026.11.02', title: '首页新增五个入口的档案地图', items: ['首页在更新条之后新增「从这里进入」入口地图：随笔、获奖成果、设计样张、更新日志、控制台五块直角档案块横向排开，编号 01–05，块与块之间用 1px 墨线分隔；窄桌面改为两列，最后一块通栏', '随笔与成果计数读取当前浏览器的真实档案，更新日志条数取站内版本记录，设计样张为现有六份模板；控制台入口只显示真实读数状态，不生成虚构数字', '入口块补齐键盘焦点、悬停刻度延伸与减少动态效果；未改档案数据、存储键、搜索筛选、排序或版本记录结构'] },

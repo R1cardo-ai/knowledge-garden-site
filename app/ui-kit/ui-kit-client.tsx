@@ -11,7 +11,7 @@ const previews = [
   { number: '01', file: 'showcase', name: '主页展示', label: 'SHOWCASE', description: '大字标、主页主视觉与最近记录的展示布局。', type: '展示' },
   { number: '02', file: 'reading', name: '阅读详情', label: 'READING', description: '窄栏正文、档案字段、目录与相关文章。', type: '阅读' },
   { number: '03', file: 'console', name: '档案总览', label: 'CONSOLE', description: '命令栏、分段圆盘、真实读数与工作列表。', type: '控制台' },
-  { number: '04', file: 'specimen', name: '网页部件', label: 'SPECIMEN', description: '颜色、标签、按钮、表格、状态与空白状态。', type: '样张' },
+  { number: '04', file: 'specimen', name: '网页部件', label: 'SPECIMEN', description: '颜色、字阶、动效、影像、标签与状态。', type: '样张' },
   { number: '05', file: 'motion', name: '交互动效', label: 'MOTION', description: '入场、按压、切换、提示、弹层与减少动态效果。', type: '动效' },
   { number: '06', file: 'antipatterns', name: '规则对照', label: 'COMPARISON', description: '常见误区与对应做法，逐项并排查看。', type: '对照' },
 ];
