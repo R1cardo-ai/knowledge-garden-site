@@ -7,6 +7,7 @@ import './endfield-refined.css';
 export const metadata: Metadata = {
   title: '我的知识花园 | 随笔与成果',
   description: '记录日常观察、个人思考与获奖经历的本地档案。',
+  icons: { icon: '/favicon.svg' },
 };
 
 export default function RootLayout({
