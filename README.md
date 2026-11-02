@@ -1,78 +1,91 @@
-# Knowledge Garden
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%" alt="Knowledge Garden：知识花园，把所想收进花园。记录所想，再次回看。">
+</p>
 
-**Knowledge Garden（我的知识花园）**是一款桌面优先的个人随笔与成果档案网站。它把写作、成果记录和阅读整理放在一个可本地运行的界面中，采用 Endfield 风格的纸面色彩、工程线条和清晰分区。
+<p align="center">
+  <a href="https://r1cardo-ai.github.io/knowledge-garden-site/">打开网站</a> &nbsp;·&nbsp;
+  <a href="https://knowledge-garden-site.pages.dev/">Cloudflare Pages</a> &nbsp;·&nbsp;
+  <a href="https://github.com/R1cardo-ai/knowledge-garden-site">源码仓库</a>
+</p>
 
-- **在线预览**：[GitHub Pages](https://r1cardo-ai.github.io/knowledge-garden-site/) · [Cloudflare Pages](https://knowledge-garden-site.pages.dev/)
-- **当前产品版本**：v1.0.245（版本与完整更新日志以 [`app/archive/page.tsx`](app/archive/page.tsx) 为准）
-- **项目语言**：界面为简体中文，源码与样张包含中英文内容
+<p align="center"><code>DESKTOP FIRST</code> &nbsp; <code>LOCAL-FIRST</code> &nbsp; <code>ESSAYS + AWARDS</code> &nbsp; <code>v1.0.245</code></p>
 
-## 功能
+**Knowledge Garden（知识花园）**是一座属于个人的随笔与成果档案。写下日常观察和想法，整理获奖经历，再通过搜索、关联与独立阅读把它们找回来。
 
-- 记录、编辑、搜索和整理随笔及获奖成果；支持分类、形式、日期、标签和关联记录。
-- 在首页查看真实档案概览、精选成果、最近记录、更新信息和常用入口。
-- 在独立阅读页查看记录正文、章节导航与相关记录。
-- 导入、导出个人档案，并在浏览器中保存主题和首页精选偏好。
-- 查看设计样张、完整版本更新日志与档案状态控制台。
+## 01 / 站点实况
 
-## 本地运行
+界面由真实档案结构驱动：随笔、获奖成果、目录筛选、独立阅读、更新记录和设计样张，各自有明确入口。以下验收截图中的记录来自隔离样例数据，不是访问者的浏览器档案。
 
-需要 Node.js 22.13 或更高版本。
+### 首页 · 写下与发现
+
+[![首页：记录入口、内容概览、精选成果与最近档案（v1.0.239 浅色主题，桌面首屏）](assets/readme/screenshots/home-900.jpg)](assets/readme/screenshots/home-900.jpg)
+
+<sub>HOME / 浅色主题 / 1440px / v1.0.239 验收样例</sub>
+
+### 随笔目录 · 搜索与整理
+
+[![随笔目录：快速记录栏、分类分布、日期统计与搜索筛选（v1.0.236 桌面截图）](assets/readme/screenshots/archive-900.jpg)](assets/readme/screenshots/archive-900.jpg)
+
+<sub>ESSAYS / 浅色主题 / 1440px / v1.0.236 隔离数据验收</sub>
+
+### 组件样张 · 设计系统与页面状态
+
+[![设计样张：颜色、控件、列表、表单、字阶、动效与影像规范（v1.0.243 桌面截图）](assets/readme/screenshots/specimen-900.jpg)](assets/readme/screenshots/specimen-900.jpg)
+
+<sub>UI SPECIMEN / 浅色主题 / 1440px / v1.0.243</sub>
+
+## 02 / 从记录到回看
+
+<p align="center"><img src="./assets/readme/workflow.svg" width="100%" alt="记录、整理、回看：写下随笔或成果，搜索整理，再通过阅读页回顾。"></p>
+
+- **记录**：创建随笔或获奖成果，补充日期、分类、标签、来源、摘要和正文。
+- **整理**：按关键词、分类、形式和日期筛选；用精选与关联记录建立自己的阅读路径。
+- **回看**：独立阅读页保留全文、章节导航与相关记录；版本页记录每次产品更新。
+- **迁移**：通过 JSON 导入和导出，自己保留备份并决定迁移时机。
+
+## 03 / 你的档案，留在你的浏览器
+
+<p align="center"><img src="./assets/readme/data-boundary.svg" width="100%" alt="数据边界：网站在当前浏览器来源使用 localStorage，用户可手动导入或导出 JSON 文件。"></p>
+
+档案保存在当前浏览器来源的 `localStorage` 中，不会上传到 Git 仓库，也不会自动同步到其他设备、域名或端口。更换浏览器或迁移站点前，请先导出 JSON 备份。完整步骤见[档案与素材操作指南](docs/档案-本地操作与素材.md)。
+
+## 04 / 快速开始
+
+需要 **Node.js 22.13 或更高版本**。
 
 ```sh
 npm ci
 npm run dev -- --host 127.0.0.1
 ```
 
-开发服务器启动后，按终端显示的地址打开网站。生产构建与本地预览：
+开发服务器会在终端显示本地地址。构建和预览生产版本：
 
 ```sh
 npm run build
 npm start -- --ip 127.0.0.1 --port 5201
 ```
 
-常用项目命令可在 [`package.json`](package.json) 中查看。Cloudflare Pages 静态构建使用 `npm run build:pages`，GitHub Pages 静态构建使用 `npm run build:github`。
+部署构建：Cloudflare Pages 使用 `npm run build:pages`；GitHub Pages 使用 `npm run build:github`。更多命令见 [`package.json`](package.json)。
 
-## 个人档案与隐私
+## 05 / 技术构成
 
-随笔和成果保存在**当前浏览器来源的 localStorage** 中。档案不会随源码提交到 GitHub，也不会自动同步到其他设备、域名或端口。更换浏览器或迁移网站前，请先从网站导出档案备份；操作说明见[档案与素材操作指南](docs/档案-本地操作与素材.md)。
+| 界面 | 样式 | 发布 |
+| --- | --- | --- |
+| React 19 · TypeScript · Vinext · Vite | Tailwind CSS 4 | Cloudflare Pages · GitHub Pages |
 
-## 技术栈
+当前版本 **v1.0.245**。版本号与完整更新记录以 [`app/archive/page.tsx`](app/archive/page.tsx) 为准。
 
-- React 19、TypeScript、Vinext 与 Vite
-- Tailwind CSS 4
-- Cloudflare Workers / Pages 静态部署
-- GitHub Pages 静态发布
+## 06 / 项目地图
 
-## 项目文档
+- **了解项目**：[当前桌面状态与验收](docs/现状-桌面验收.md) · [项目手册](docs/项目-手册.md)
+- **设计资料**：[设计规范与规划](docs/设计-规范与规划.md) · [外部设计参考](docs/设计-外部参考.md)
+- **个人档案**：[档案操作与素材指南](docs/档案-本地操作与素材.md)
+- **完整记录**：[产品更新日志](app/archive/page.tsx) · [历史验收汇编](docs/validation/验收-历史记录汇编.md)
 
-- [项目手册](docs/项目-手册.md)：项目约束、权威信息来源与版本要求
-- [当前桌面状态与验收](docs/现状-桌面验收.md)：最新实现、验证和发布情况
-- [设计规范与规划](docs/设计-规范与规划.md) · [外部设计参考](docs/设计-外部参考.md)
-- [桌面视觉化 UI 规划](docs/规划-桌面视觉化UI升级_2026-10-29.md) · [知识库改为随笔规划](docs/规划-知识库改为随笔_2026-10-29.md)
-- [档案与素材操作指南](docs/档案-本地操作与素材.md)
-- [待办事项](docs/待办-v1.0.232.md)
-- [历史记录](docs/archive/历史-2026-10.md) · [验收记录汇编](docs/validation/验收-历史记录汇编.md)
+## 07 / 致谢
 
-项目协作约定见 [`AGENTS.md`](AGENTS.md)。
+**产品与数字花园参考**： [Capacities](https://capacities.io/) · [Tana](https://outliner.tana.inc/) · [Craft](https://www.craft.do/) · [Are.na](https://www.are.na/about) · [Andy Matuschak 的公开笔记](https://notes.andymatuschak.org/) · [Notion](https://www.notion.com/product/features) · [Obsidian](https://obsidian.md/help/plugins/graph) · [Amytis](https://github.com/Rongkangqi/amytis) · [Zettelgarden](https://zettelgarden.com/app) · [Roam Garden](https://labrisa.roam.garden/) · [C4ss1us Digital Garden](https://c4ss1usgarden.vercel.app/) · [Recurse](https://www.recurse.cc/) · [Conception](https://conception.app/) · [DO Knowledge Studio](https://github.com/d-oit/do-knowledge-studio) · [Mindweave](https://www.mindweave.space/) · [Notis+](https://abduzeedo.com/notis-ai-workspace-ux-ui-design-dashboard-done-quietly/) · [Cosmind](https://www.simonenegro.com/project/cosmind) · [AI Second Brain](https://github.com/balabhadra3141/AI-Second-Brain)。
 
-## 页面截图
+**视觉研究**：[《明日方舟：终末地》官方网站](https://endfield.hypergryph.com/)。本站参考其工程信息设计，不使用游戏图片、角色立绘或标志。
 
-以下截图来自项目的桌面验收记录，展示首页、档案页和设计样张页面；图片标题标明对应的验收版本。
-
-### 首页
-
-![Knowledge Garden 首页（v1.0.239，浅色主题，1440px）](docs/validation/v1.0.239-gates/home-gates-light-1440.png)
-
-### 档案页
-
-![档案更新记录页（v1.0.239，1440px）](docs/validation/v1.0.239-gates/archive-version-1440.png)
-
-### 设计样张
-
-![设计样张页面底部（v1.0.243，浅色主题，1440px）](docs/validation/v1.0.243-top/specimen-bottom-light-1440.png)
-
-## 致谢
-
-感谢以下网站提供产品结构、知识组织和视觉表达方面的参考： [Capacities](https://capacities.io/)、[Tana](https://outliner.tana.inc/)、[Craft](https://www.craft.do/)、[Are.na](https://www.are.na/about)、[Andy Matuschak 的公开笔记](https://notes.andymatuschak.org/)、[Notion](https://www.notion.com/product/features)、[Obsidian](https://obsidian.md/help/plugins/graph)、[Amytis](https://github.com/Rongkangqi/amytis)、[Zettelgarden](https://zettelgarden.com/app)、[Roam Garden](https://labrisa.roam.garden/)、[C4ss1us Digital Garden](https://c4ss1usgarden.vercel.app/)、[Recurse](https://www.recurse.cc/)、[Conception](https://conception.app/)、[DO Knowledge Studio](https://github.com/d-oit/do-knowledge-studio)、[Mindweave](https://www.mindweave.space/)、[Notis+](https://abduzeedo.com/notis-ai-workspace-ux-ui-design-dashboard-done-quietly/)、[Cosmind](https://www.simonenegro.com/project/cosmind) 与 [AI Second Brain](https://github.com/balabhadra3141/AI-Second-Brain)。工业档案式的信息设计研究参考了[《明日方舟：终末地》官方网站](https://endfield.hypergryph.com/)；本站未使用其游戏图片、角色立绘或标志。
-
-感谢技能作者 [hhikr](https://github.com/hhikr) 的 [endfield-ui](https://github.com/hhikr/endfield-ui-skill)，以及 [Brandon030722](https://github.com/Brandon030722) 的 [ark-ui](https://github.com/Brandon030722/ark-ui-skill)，为界面设计与实现工作流提供参考。完整的设计观察与素材说明见[外部设计参考](docs/设计-外部参考.md)。
+**技能作者**：[hhikr](https://github.com/hhikr)（[endfield-ui](https://github.com/hhikr/endfield-ui-skill)） · [Brandon030722](https://github.com/Brandon030722)（[ark-ui](https://github.com/Brandon030722/ark-ui-skill)）。更多来源与素材说明见[外部设计参考](docs/设计-外部参考.md)。

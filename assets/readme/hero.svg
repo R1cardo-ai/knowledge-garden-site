@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">知识花园 Knowledge Garden</title>
+  <desc id="desc">记录所想，再次回看。个人随笔与成果的本地档案。</desc>
+  <rect width="1200" height="360" rx="12" fill="#F4F4F2"/>
+  <rect x="1" y="1" width="1198" height="358" rx="11" fill="none" stroke="#D9D9D6" stroke-width="2"/>
+  <rect x="54" y="54" width="10" height="10" fill="#FFFA00"/>
+  <text x="86" y="155" fill="#161616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="86" font-weight="800" letter-spacing="-2">知识花园</text>
+  <text x="60" y="224" fill="#161616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="48" font-weight="650">记录所想，再次回看。</text>
+  <line x1="60" y1="272" x2="615" y2="272" stroke="#D9D9D6" stroke-width="2"/>
+  <rect x="60" y="294" width="34" height="10" fill="#161616"/>
+  <rect x="102" y="294" width="10" height="10" fill="#FFFA00"/>
+  <rect x="690" y="70" width="454" height="224" rx="5" fill="#FFFFFF" stroke="#D9D9D6" stroke-width="2"/>
+  <line x1="690" y1="145" x2="1144" y2="145" stroke="#D9D9D6" stroke-width="2"/>
+  <line x1="690" y1="219" x2="1144" y2="219" stroke="#D9D9D6" stroke-width="2"/>
+  <line x1="738" y1="106" x2="738" y2="258" stroke="#A8B0AA" stroke-width="2"/>
+  <circle cx="738" cy="108" r="9" fill="#FFFA00" stroke="#161616" stroke-width="2"/>
+  <circle cx="738" cy="182" r="7" fill="#FFFFFF" stroke="#161616" stroke-width="2"/>
+  <circle cx="738" cy="256" r="7" fill="#FFFFFF" stroke="#161616" stroke-width="2"/>
+  <text x="778" y="123" fill="#161616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="48" font-weight="700">随笔</text>
+  <text x="778" y="197" fill="#161616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="48" font-weight="700">获奖成果</text>
+  <text x="778" y="271" fill="#161616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="48" font-weight="700">阅读回看</text>
+</svg>
