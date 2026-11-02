@@ -261,6 +261,8 @@
       .specimen-jump a:focus-visible { border-color: var(--ef-ink); background: var(--ef-signal); color: var(--ef-on-signal); }
       .specimen-jump a:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: 2px; }
       #tokens, #components, #type-scale, #motion-scale, #media { scroll-margin-top: 1.5rem; }
+      .specimen-top { display: flex; justify-content: flex-end; margin: 1.25rem 0 0; }
+      .specimen-top a { min-height: 44px; }
       @media (max-width: 900px) {
         .type-scale > li { grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }
         .ease-grid, .media-grid { grid-template-columns: minmax(0, 1fr); }
@@ -272,7 +274,7 @@
   </head>
   <body class="ef ef-contours">
     <div class="ef-tri" aria-hidden="true"><i></i><i></i><i></i></div>
-    <main>
+    <main id="top">
       <header class="ef-head">
         <h1>网页部件 <small>Specimen</small></h1>
         <p><a class="ef-btn" href="/knowledge-garden-site/ui-kit#component-matrix">打开实际组件状态矩阵 ↗</a></p>
@@ -311,7 +313,7 @@
             <p>--ef-font-ui：宽体几何英文（Saira）+ 思源黑体。导航、按钮、标签、标题。</p>
             <p class="ef-read" style="font-size: 1.3rem; font-weight: 700">阅读 --ef-font-text</p>
             <p class="ef-read">思源黑体常规字重，行高放宽，用于正文。</p>
-            <p class="ef-field">字段 .ef-field │ <span data-release="version">v1.0.242</span> │ <span data-release="date">2026.11.02</span> │ <span data-release="count">03 项调整</span></p>
+            <p class="ef-field">字段 .ef-field │ <span data-release="version">v1.0.243</span> │ <span data-release="date">2026.11.02</span> │ <span data-release="count">03 项调整</span></p>
             <p class="ef-eyebrow slash">Section title prefix</p>
             <p><span class="ef-pair"><span class="ef-eyebrow">ESSAYS</span><span>随笔</span></span>　英文小字在上，中文粗体在下</p>
           </div>
@@ -321,7 +323,7 @@
           <h2>入口 <small>.ef-tag .ef-kv .ef-chip</small></h2>
           <div class="row">
             <span class="ef-tag">v1.0.196</span>
-            <span class="ef-tag is-current" data-release="version">v1.0.242</span>
+            <span class="ef-tag is-current" data-release="version">v1.0.243</span>
             <a class="ef-kv" href="#"><span>分类</span><span>记录</span></a>
             <span class="ef-chip">实验 <span class="n">2</span></span>
             <span class="ef-chip is-active">全部 <span class="n">16</span></span>
@@ -361,7 +363,7 @@
           <h2>记录字段 <small>.ef-field .ef-facts .ef-marker</small></h2>
           <ul class="ef-facts ef-field">
             <li data-release="date">2026.11.02</li>
-            <li data-release="version">v1.0.242</li>
+            <li data-release="version">v1.0.243</li>
             <li data-release="count">03 项调整</li>
           </ul>
           <p style="margin: 1rem 0 0"><span class="ef-marker">一句话说明这是什么</span></p>
@@ -381,8 +383,8 @@
           <h2>列表行 <small>.ef-records</small></h2>
           <ol class="ef-records">
 <!-- release:sample -->
+<li><a class="ef-record" href="reading.html#release-v1-0-243"><span class="ef-tag">v1.0.243</span><time class="ef-field">2026.11.02</time><span class="name ef-read">设计样张长页补回到顶部入口</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-242"><span class="ef-tag">v1.0.242</span><time class="ef-field">2026.11.02</time><span class="name ef-read">样张索引补分区跳转与内容说明</span><span class="ef-field">03 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-241"><span class="ef-tag">v1.0.241</span><time class="ef-field">2026.11.02</time><span class="name ef-read">首页证据图低饱和与样张影像规范</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
         </section>
@@ -411,7 +413,7 @@
             <table class="ef-table">
               <thead><tr><th>版本</th><th class="num">更新项</th><th>日期</th></tr></thead>
               <tbody>
-                <tr><td data-release="version">v1.0.242</td><td class="num" data-release="item-number">03</td><td data-release="date">2026.11.02</td></tr>
+                <tr><td data-release="version">v1.0.243</td><td class="num" data-release="item-number">03</td><td data-release="date">2026.11.02</td></tr>
                 <tr><td>v1.0.196</td><td class="num">01</td><td>2026.10.28</td></tr>
                 <tr><td>v1.0.195</td><td class="num">01</td><td>2026.10.28</td></tr>
               </tbody>
@@ -444,7 +446,7 @@
           <li><span class="ts-sample ts-h2">次级标题：内容概览</span><span class="ts-meta"><b>H2</b><em>22 / 1.45</em><em>次级区块</em></span></li>
           <li><span class="ts-sample ts-body">正文用它承载长句；行高 1.85，一行约 38 个汉字，阅读时不必来回找行。</span><span class="ts-meta"><b>BODY</b><em>17 / 1.85</em><em>measure 640</em></span></li>
           <li><span class="ts-sample ts-ui">导航与按钮 15 / 1.6</span><span class="ts-meta"><b>UI</b><em>15 / 1.6</em><em>导航 · 按钮 · 表单</em></span></li>
-          <li><span class="ts-sample ts-field">2026.11.02　/　<span data-release="version">v1.0.242</span>　/　03 项调整</span><span class="ts-meta"><b>FIELD</b><em>13 / 1.5</em><em>字段 · 辅助信息</em></span></li>
+          <li><span class="ts-sample ts-field">2026.11.02　/　<span data-release="version">v1.0.243</span>　/　03 项调整</span><span class="ts-meta"><b>FIELD</b><em>13 / 1.5</em><em>字段 · 辅助信息</em></span></li>
           <li><span class="ts-sample ts-eyebrow">Field archive / 个人档案</span><span class="ts-meta"><b>EYEBROW</b><em>11 / .14em</em><em>英文与编号标签</em></span></li>
           <li><span class="ts-sample ts-micro">01 — HOME　/　2026.11.02</span><span class="ts-meta"><b>MICRO</b><em>10 / .13em</em><em>刻度 · 页码 · 状态</em></span></li>
         </ol>
@@ -507,6 +509,7 @@
         </div>
         <p class="note">两块渐变色块只用于演示滤镜，不代表真实成果图片；真实证据图不裁切、不改比例。</p>
       </section>
+      <p class="specimen-top"><a class="ef-btn small" href="#top">回到顶部 ↑</a></p>
     </main>
     <script type="module">
       import { wireTheme } from '../assets/fx.js';
