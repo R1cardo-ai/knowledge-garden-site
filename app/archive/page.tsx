@@ -132,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.243';
+const currentVersion = 'v1.0.244';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -140,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.244', date: '2026.11.02', title: '样张页补齐 favicon 与线上核对', items: ['六份样张的 head 补 favicon 声明，浏览器不再请求缺失的 /favicon.ico；图标沿用站内 favicon.svg，GitHub Pages 构建会自动补上项目前缀', '线上 1440 桌面核对 Cloudflare 首页、样张与档案：无横向溢出，首页五块入口、样张 v1.0.244 与回到顶部入口可见；此前首页唯一的 404 是 favicon.ico，本次消除', '只改样张 head 与验收记录；未改视觉、数据、存储或交互'] },
   { version: 'v1.0.243', date: '2026.11.02', title: '设计样张长页补回到顶部入口', items: ['设计样张整页约 3300px，读完影像分区后新增「回到顶部 ↑」入口，直接回到顶部五个分区锚点；点按区高度 44px，保留键盘焦点', '回到顶部复用 #top 锚点，不新增脚本；顶部导航与底部入口指向同一组分区', '只改样张页导航；未改颜色、字阶、动效、影像内容，也未改其他页面或档案数据'] },
   { version: 'v1.0.242', date: '2026.11.02', title: '样张索引补分区跳转与内容说明', items: ['设计样张页顶部新增「颜色 / 字阶 / 动效 / 影像 / 组件」五个 44px 锚点，点击直接跳到对应分区；长页不必再滚动查找', '样张索引卡片的说明改为颜色、字阶、动效、影像、标签与状态，与页面实际内容一致', '只改样张导航与文案；未改颜色、字阶、动效、影像的实现，也未改首页、档案、阅读或数据'] },
   { version: 'v1.0.241', date: '2026.11.02', title: '首页证据图低饱和与样张影像规范', items: ['首页「最近成果」的真实证据图在卡片内统一低饱和显示，指针移入或键盘聚焦时恢复全彩；打开档案与阅读页仍显示未处理的原图，不裁切、不改比例', '设计样张新增「影像」对照：低饱和预览、还原状态与无图占位三格，说明证据图不裁切、无图不生成假封面；占位沿用虚线框与斜纹', '只改展示层；档案数据、图片地址、存储键、排序与阅读页保持原样，减少动态效果时滤镜不做过渡'] },
