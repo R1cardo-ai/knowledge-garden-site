@@ -198,6 +198,32 @@
       .index-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
       .index h3 { margin: 0 0 .9rem; font-size: 1rem; font-weight: 800; }
 
+      /* ---- 入口地图：五个真实入口 ----------------------------------------- */
+      .gates { padding: clamp(2rem, 3.4vw, 3rem) var(--ef-pad); border-bottom: 1px solid var(--ef-rule); }
+      .gates-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: .75rem 2rem; margin-bottom: 1.5rem; }
+      .gates-head .ef-eyebrow { margin: 0 0 .35rem; }
+      .gates-head .ef-bar-title { margin: 0; }
+      .gates-note { max-width: 30rem; margin: 0; color: var(--ef-ink-2); font-size: .8125rem; line-height: 1.7; }
+      .gate-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 0; background: var(--ef-rule); border: 1px solid var(--ef-rule); list-style: none; }
+      .gate-grid > li { min-width: 0; background: var(--ef-panel); }
+      .gate { position: relative; display: flex; flex-direction: column; height: 100%; min-height: 12rem; padding: 1rem 1.1rem 1.2rem; color: var(--ef-ink); text-decoration: none; background: var(--ef-panel); }
+      .gate::before { content: ''; position: absolute; top: 0; left: 0; width: 3.5rem; height: 3px; background: var(--ef-ink); transition: width .24s var(--ef-ease), background-color .18s; }
+      .gate-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+      .gate-index { color: var(--ef-ink-2); font-family: var(--ef-font-mono); font-size: .6875rem; font-variant-numeric: tabular-nums; letter-spacing: .12em; }
+      .gate-arrow { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid var(--ef-rule); color: var(--ef-ink); font-size: .9375rem; line-height: 1; transition: background-color .18s, border-color .18s, color .18s; }
+      .gate-body { display: flex; flex-direction: column; gap: .4rem; margin-top: auto; }
+      .gate-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: .45rem; margin: 0; font-size: clamp(1.15rem, 1.55vw, 1.45rem); font-weight: 800; line-height: 1.2; }
+      .gate-name small { color: var(--ef-ink-2); font-family: var(--ef-font-ui); font-size: .625rem; font-weight: 600; font-stretch: var(--ef-wider); letter-spacing: .14em; text-transform: uppercase; }
+      .gate-metric { display: inline-flex; align-items: baseline; gap: .2rem; color: var(--ef-ink-2); font-size: .75rem; font-variant-numeric: tabular-nums; line-height: 1.4; }
+      .gate-metric b { color: var(--ef-ink); font-size: 1.125rem; font-weight: 800; font-stretch: var(--ef-wide); }
+      .gate-metric.is-state { align-items: center; gap: .45rem; letter-spacing: .04em; }
+      .gate-metric.is-state i { display: block; width: 7px; height: 7px; background: var(--ef-signal); box-shadow: inset 0 0 0 1px var(--ef-ink); }
+      .gate-desc { margin: 0; color: var(--ef-ink-2); font-size: .8125rem; line-height: 1.65; overflow-wrap: anywhere; }
+      .gate:is(:hover, :focus-visible) { background: var(--ef-paper); }
+      .gate:is(:hover, :focus-visible)::before { width: 5.5rem; background: var(--ef-signal); }
+      .gate:is(:hover, :focus-visible) .gate-arrow { border-color: var(--ef-ink); background: var(--ef-signal); color: var(--ef-on-signal); }
+      .gate:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: -5px; }
+
       /* ---- narrower desktop windows ---------------------------------------- */
       @media (max-width: 1099px) {
         .hero { grid-template-columns: minmax(0, 1fr); }
@@ -207,9 +233,12 @@
         .recent-columns, .index-grid { grid-template-columns: minmax(0, 1fr); }
         .latest > a { grid-template-columns: minmax(0, 1fr); }
         .latest-plate { padding-right: 0; padding-bottom: 1rem; border-right: 0; border-bottom: 1px solid var(--ef-rule); }
+        .gate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .gate-grid > li:last-child { grid-column: span 2; }
+        .gate { min-height: 0; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .chart-bar, .featured-art, .hero .ef-wordmark { transition: none; }
+        .chart-bar, .featured-art, .hero .ef-wordmark, .gate::before, .gate-arrow { transition: none; }
       }
     </style>
     <!-- 工程制图增强层：必须晚于上面的内联 <style> -->
@@ -231,7 +260,7 @@
           <span><b data-fx-load data-archive-count="knowledge">0</b> 篇随笔</span>
           <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
         </span>
-        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.238</b></span>
+        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.239</b></span>
       </div>
 
       <div class="hero-copy ef-in-power" style="--i:2">
@@ -273,28 +302,81 @@
       <div class="track">
         <ul>
 <!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-239"><b>v1.0.239</b>首页新增五个入口的档案地图</a></li>
 <li><a href="reading.html#release-v1-0-238"><b>v1.0.238</b>重做左上角标志并修复手机端空按钮</a></li>
 <li><a href="reading.html#release-v1-0-237"><b>v1.0.237</b>全站补齐工程制图线条层</a></li>
 <li><a href="reading.html#release-v1-0-236"><b>v1.0.236</b>知识库升级为随笔</a></li>
 <li><a href="reading.html#release-v1-0-235"><b>v1.0.235</b>状态插图、日志封面与控制台联动</a></li>
 <li><a href="reading.html#release-v1-0-234"><b>v1.0.234</b>阅读封面与真实关联示意</a></li>
 <li><a href="reading.html#release-v1-0-233"><b>v1.0.233</b>目录月份筛选与成果日期纵线</a></li>
-<li><a href="reading.html#release-v1-0-232"><b>v1.0.232</b>修复样张页“返回档案”点击无反应</a></li>
 <!-- /release -->
 </ul>
         <ul aria-hidden="true">
 <!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-239" tabindex="-1"><b>v1.0.239</b>首页新增五个入口的档案地图</a></li>
 <li><a href="reading.html#release-v1-0-238" tabindex="-1"><b>v1.0.238</b>重做左上角标志并修复手机端空按钮</a></li>
 <li><a href="reading.html#release-v1-0-237" tabindex="-1"><b>v1.0.237</b>全站补齐工程制图线条层</a></li>
 <li><a href="reading.html#release-v1-0-236" tabindex="-1"><b>v1.0.236</b>知识库升级为随笔</a></li>
 <li><a href="reading.html#release-v1-0-235" tabindex="-1"><b>v1.0.235</b>状态插图、日志封面与控制台联动</a></li>
 <li><a href="reading.html#release-v1-0-234" tabindex="-1"><b>v1.0.234</b>阅读封面与真实关联示意</a></li>
 <li><a href="reading.html#release-v1-0-233" tabindex="-1"><b>v1.0.233</b>目录月份筛选与成果日期纵线</a></li>
-<li><a href="reading.html#release-v1-0-232" tabindex="-1"><b>v1.0.232</b>修复样张页“返回档案”点击无反应</a></li>
 <!-- /release -->
 </ul>
       </div>
     </div>
+
+    <section class="gates" aria-labelledby="gates-title">
+      <div class="gates-head">
+        <div>
+          <p class="ef-eyebrow slash">Entry map</p>
+          <h2 class="ef-bar-title" id="gates-title">从这里进入</h2>
+        </div>
+        <p class="gates-note">随笔与成果的计数来自当前浏览器，更新日志为站内真实记录数；五个入口对应写、看、查、读、调。</p>
+      </div>
+      <ol class="gate-grid">
+        <li><a class="gate" href="/archive?view=knowledge&amp;layout=list">
+          <span class="gate-top"><span class="gate-index" aria-hidden="true">01</span><span class="gate-arrow" aria-hidden="true">↗</span></span>
+          <span class="gate-body">
+            <span class="gate-name">随笔<small>Essays</small></span>
+            <span class="gate-metric"><b data-archive-count="knowledge">0</b> 篇</span>
+            <span class="gate-desc">按记录日期回看日常观察。</span>
+          </span>
+        </a></li>
+        <li><a class="gate" href="/archive?view=award">
+          <span class="gate-top"><span class="gate-index" aria-hidden="true">02</span><span class="gate-arrow" aria-hidden="true">↗</span></span>
+          <span class="gate-body">
+            <span class="gate-name">获奖成果<small>Awards</small></span>
+            <span class="gate-metric"><b data-archive-count="award">0</b> 项</span>
+            <span class="gate-desc">带证据与来源的成果档案。</span>
+          </span>
+        </a></li>
+        <li><a class="gate" href="/ui-kit/">
+          <span class="gate-top"><span class="gate-index" aria-hidden="true">03</span><span class="gate-arrow" aria-hidden="true">↗</span></span>
+          <span class="gate-body">
+            <span class="gate-name">设计样张<small>UI kit</small></span>
+            <!-- 六份模板：showcase / reading / console / motion / specimen / antipatterns；增删模板时同步此数。 -->
+            <span class="gate-metric"><b>06</b> 组</span>
+            <span class="gate-desc">六组桌面样张与组件矩阵。</span>
+          </span>
+        </a></li>
+        <li><a class="gate" href="reading.html#updates">
+          <span class="gate-top"><span class="gate-index" aria-hidden="true">04</span><span class="gate-arrow" aria-hidden="true">↗</span></span>
+          <span class="gate-body">
+            <span class="gate-name">更新日志<small>Release log</small></span>
+            <span class="gate-metric"><b data-release="total">251 条</b></span>
+            <span class="gate-desc">每次变更的原因与范围。</span>
+          </span>
+        </a></li>
+        <li><a class="gate" href="console.html">
+          <span class="gate-top"><span class="gate-index" aria-hidden="true">05</span><span class="gate-arrow" aria-hidden="true">↗</span></span>
+          <span class="gate-body">
+            <span class="gate-name">控制台<small>Console</small></span>
+            <span class="gate-metric is-state"><i aria-hidden="true"></i>实时读数</span>
+            <span class="gate-desc">命令台、矩阵与真实读数。</span>
+          </span>
+        </a></li>
+      </ol>
+    </section>
 
     <section class="overview" aria-labelledby="overview-title">
       <div>
@@ -335,15 +417,15 @@
     </section>
 
     <section class="latest" id="latest" aria-label="最新更新">
-      <a href="reading.html#release-v1-0-238" data-release-href="latest" data-fx-host>
+      <a href="reading.html#release-v1-0-239" data-release-href="latest" data-fx-host>
         <span class="latest-plate">
           <span class="latest-plate-label">Release note / 版本记录</span>
-          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">238</span>
+          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">239</span>
         </span>
         <span class="latest-body">
-          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.238</span> │ <span data-release="date">2026.10.31</span></span>
-          <span class="latest-title" data-release="title">重做左上角标志并修复手机端空按钮</span>
-          <span class="latest-summary" data-release="summary">首页、档案页与五份设计样张统一换用新的定位框标志：四角角标围住信号黄中心点，取代原来的黄底字母块；中文名与英文副题位置不变，黄只留下被框住的那一点；折叠侧栏、展开侧栏、档案页顶栏与样张页命令栏共用同一枚图形，尺寸按各页原有留白取 22 至 24px，收起态与展开态都不再出现重复标志；修复手机宽度下档案页左上角「返回主页」只剩一个 18×44 空框：图标此前被窄屏规则连同分隔箭头一起隐藏，现保留主页图标并撑足 44×44 点按区，文字仍在窄屏隐藏</span>
+          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.239</span> │ <span data-release="date">2026.11.02</span></span>
+          <span class="latest-title" data-release="title">首页新增五个入口的档案地图</span>
+          <span class="latest-summary" data-release="summary">首页在更新条之后新增「从这里进入」入口地图：随笔、获奖成果、设计样张、更新日志、控制台五块直角档案块横向排开，编号 01–05，块与块之间用 1px 墨线分隔；窄桌面改为两列，最后一块通栏；随笔与成果计数读取当前浏览器的真实档案，更新日志条数取站内版本记录，设计样张为现有六份模板；控制台入口只显示真实读数状态，不生成虚构数字；入口块补齐键盘焦点、悬停刻度延伸与减少动态效果；未改档案数据、存储键、搜索筛选、排序或版本记录结构</span>
           <span class="ef-btn go latest-cta">阅读最新更新</span>
         </span>
       </a>
@@ -364,9 +446,9 @@
           <h3>最近网站更新</h3>
           <ol class="ef-records">
 <!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-239"><span class="ef-tag">v1.0.239</span><time class="ef-field">2026.11.02</time><span class="name ef-read">首页新增五个入口的档案地图</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-238"><span class="ef-tag">v1.0.238</span><time class="ef-field">2026.10.31</time><span class="name ef-read">重做左上角标志并修复手机端空按钮</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-237"><span class="ef-tag">v1.0.237</span><time class="ef-field">2026.10.31</time><span class="name ef-read">全站补齐工程制图线条层</span><span class="ef-field">03 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-236"><span class="ef-tag">v1.0.236</span><time class="ef-field">2026.10.30</time><span class="name ef-read">知识库升级为随笔</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
         </div>
