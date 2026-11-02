@@ -93,6 +93,127 @@
       .hollow-demo .full {
         background-size: 100% 100%;
       }
+      /* 字阶与动效：整页宽度的两块对照 */
+      .specimen-block {
+        margin-top: 1.25rem;
+      }
+      .specimen-block > h2 {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6rem;
+        margin: 0 0 0.35rem;
+      }
+      .type-scale,
+      .dur-list {
+        margin: 1rem 0 0;
+        padding: 0;
+        list-style: none;
+        border-top: 1px solid var(--ef-rule);
+      }
+      .type-scale > li {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 17rem;
+        align-items: baseline;
+        gap: 1.5rem;
+        padding: 0.7rem 0;
+        border-bottom: 1px solid var(--ef-rule);
+      }
+      .ts-sample {
+        display: block;
+        min-width: 0;
+        color: var(--ef-ink);
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+      }
+      .ts-display { font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 800; letter-spacing: -0.045em; font-stretch: var(--ef-wider); }
+      .ts-h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.25; letter-spacing: -0.03em; }
+      .ts-title { font-size: 1.875rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.02em; }
+      .ts-h2 { font-size: 1.375rem; font-weight: 700; line-height: 1.45; }
+      .ts-body { font-size: 1.0625rem; line-height: 1.85; }
+      .ts-ui { font-size: 0.9375rem; line-height: 1.6; }
+      .ts-field { font-size: 0.8125rem; line-height: 1.5; color: var(--ef-ink-2); font-variant-numeric: tabular-nums; }
+      .ts-eyebrow { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ef-ink-2); }
+      .ts-micro { font-size: 0.625rem; letter-spacing: 0.13em; color: var(--ef-ink-2); }
+      .ts-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.25rem 0.6rem;
+        color: var(--ef-ink-2);
+        font-family: var(--ef-font-mono);
+        font-size: 0.6875rem;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.5;
+      }
+      .ts-meta b { color: var(--ef-ink); font-weight: 700; letter-spacing: 0.06em; }
+      .ts-meta em { font-style: normal; }
+      .motion-spec .note { max-width: 46rem; }
+      .dur-list > li {
+        display: grid;
+        grid-template-columns: 7rem minmax(0, 1fr) 4.5rem;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.32rem 0;
+        font-family: var(--ef-font-mono);
+        font-size: 0.6875rem;
+        color: var(--ef-ink-2);
+      }
+      .dur-list span { letter-spacing: 0.06em; }
+      .dur-list i {
+        display: block;
+        height: 6px;
+        width: calc(var(--w) / 650 * 100%);
+        background: var(--ef-ink);
+      }
+      .dur-list li.is-landmark i { background: var(--ef-signal); box-shadow: inset 0 0 0 1px var(--ef-ink); }
+      .dur-list b { color: var(--ef-ink); font-weight: 700; text-align: right; }
+      .ease-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        margin-top: 1.5rem;
+        background: var(--ef-rule);
+        border: 1px solid var(--ef-rule);
+      }
+      .ease-card {
+        display: grid;
+        gap: 0.4rem;
+        align-content: start;
+        padding: 0.9rem 1rem 1rem;
+        background: var(--ef-panel);
+      }
+      .ease-card b { font-size: 0.875rem; letter-spacing: 0.04em; }
+      .ease-card code { color: var(--ef-ink-2); font-size: 0.6875rem; }
+      .ease-card small { color: var(--ef-ink-2); font-size: 0.75rem; line-height: 1.5; }
+      .ease-demo {
+        position: relative;
+        display: block;
+        height: 34px;
+        margin-bottom: 0.35rem;
+        border: 1px solid var(--ef-rule);
+        background: var(--ef-paper);
+        overflow: hidden;
+      }
+      .ease-demo i {
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        width: 18px;
+        height: 18px;
+        background: var(--ef-ink);
+        transition: left 520ms var(--ease, var(--ef-ease));
+      }
+      .ease-card:hover .ease-demo i { left: calc(100% - 25px); }
+      .ease-snap { --ease: cubic-bezier(0.16, 1, 0.3, 1); }
+      .ease-mech { --ease: cubic-bezier(0.7, 0, 0.2, 1); }
+      .ease-ease { --ease: cubic-bezier(0.2, 0.7, 0.1, 1); }
+      @media (max-width: 900px) {
+        .type-scale > li { grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }
+        .ease-grid { grid-template-columns: minmax(0, 1fr); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ease-demo i { transition: none; }
+      }
     </style>
   </head>
   <body class="ef ef-contours">
@@ -101,7 +222,7 @@
       <header class="ef-head">
         <h1>网页部件 <small>Specimen</small></h1>
         <p><a class="ef-btn" href="/ui-kit#component-matrix">打开实际组件状态矩阵 ↗</a></p>
-        <p>查看本网站使用的颜色、标签、按钮、表格和状态。预览数字只用于说明样式，不代表当前档案。<button class="ef-btn small" type="button" data-theme-toggle>切换深浅</button></p>
+        <p>查看本网站使用的颜色、字阶、动效、标签、按钮、表格和状态。预览数字只用于说明样式，不代表当前档案。<button class="ef-btn small" type="button" data-theme-toggle>切换深浅</button></p>
       </header>
 
       <section class="ef-panel is-demo-hover">
@@ -129,7 +250,7 @@
             <p>--ef-font-ui：宽体几何英文（Saira）+ 思源黑体。导航、按钮、标签、标题。</p>
             <p class="ef-read" style="font-size: 1.3rem; font-weight: 700">阅读 --ef-font-text</p>
             <p class="ef-read">思源黑体常规字重，行高放宽，用于正文。</p>
-            <p class="ef-field">字段 .ef-field │ <span data-release="version">v1.0.239</span> │ <span data-release="date">2026.11.02</span> │ <span data-release="count">03 项调整</span></p>
+            <p class="ef-field">字段 .ef-field │ <span data-release="version">v1.0.240</span> │ <span data-release="date">2026.11.02</span> │ <span data-release="count">03 项调整</span></p>
             <p class="ef-eyebrow slash">Section title prefix</p>
             <p><span class="ef-pair"><span class="ef-eyebrow">ESSAYS</span><span>随笔</span></span>　英文小字在上，中文粗体在下</p>
           </div>
@@ -139,7 +260,7 @@
           <h2>入口 <small>.ef-tag .ef-kv .ef-chip</small></h2>
           <div class="row">
             <span class="ef-tag">v1.0.196</span>
-            <span class="ef-tag is-current" data-release="version">v1.0.239</span>
+            <span class="ef-tag is-current" data-release="version">v1.0.240</span>
             <a class="ef-kv" href="#"><span>分类</span><span>记录</span></a>
             <span class="ef-chip">实验 <span class="n">2</span></span>
             <span class="ef-chip is-active">全部 <span class="n">16</span></span>
@@ -179,7 +300,7 @@
           <h2>记录字段 <small>.ef-field .ef-facts .ef-marker</small></h2>
           <ul class="ef-facts ef-field">
             <li data-release="date">2026.11.02</li>
-            <li data-release="version">v1.0.239</li>
+            <li data-release="version">v1.0.240</li>
             <li data-release="count">03 项调整</li>
           </ul>
           <p style="margin: 1rem 0 0"><span class="ef-marker">一句话说明这是什么</span></p>
@@ -199,8 +320,8 @@
           <h2>列表行 <small>.ef-records</small></h2>
           <ol class="ef-records">
 <!-- release:sample -->
+<li><a class="ef-record" href="reading.html#release-v1-0-240"><span class="ef-tag">v1.0.240</span><time class="ef-field">2026.11.02</time><span class="name ef-read">设计样张补字阶与动效对照</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-239"><span class="ef-tag">v1.0.239</span><time class="ef-field">2026.11.02</time><span class="name ef-read">首页新增五个入口的档案地图</span><span class="ef-field">03 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-238"><span class="ef-tag">v1.0.238</span><time class="ef-field">2026.10.31</time><span class="name ef-read">重做左上角标志并修复手机端空按钮</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
         </section>
@@ -229,7 +350,7 @@
             <table class="ef-table">
               <thead><tr><th>版本</th><th class="num">更新项</th><th>日期</th></tr></thead>
               <tbody>
-                <tr><td data-release="version">v1.0.239</td><td class="num" data-release="item-number">03</td><td data-release="date">2026.11.02</td></tr>
+                <tr><td data-release="version">v1.0.240</td><td class="num" data-release="item-number">03</td><td data-release="date">2026.11.02</td></tr>
                 <tr><td>v1.0.196</td><td class="num">01</td><td>2026.10.28</td></tr>
                 <tr><td>v1.0.195</td><td class="num">01</td><td>2026.10.28</td></tr>
               </tbody>
@@ -251,6 +372,60 @@
           <p class="note" style="margin-top: 2rem">灰柱；当前或被指向的一根是"这里"色；超过阈值的挂黄色小方块。</p>
         </section>
       </div>
+
+      <section class="ef-panel specimen-block" aria-labelledby="type-scale-title">
+        <h2 id="type-scale-title">字阶 <small>type scale</small></h2>
+        <p class="note">主体数值与 <code>tokens.json</code> 的 type 级一致；示例按真实字号和行高渲染。英文与数字使用 Saira，中文使用思源黑体。display 只用于字标和分区扉页，正文页最多用到 h1；micro 是站内刻度标签的补充级。</p>
+        <ol class="type-scale">
+          <li><span class="ts-sample ts-display">KNOWLEDGE</span><span class="ts-meta"><b>DISPLAY</b><em>clamp(48, 10vw, 176) / 1</em><em>字标 · 扉页</em></span></li>
+          <li><span class="ts-sample ts-h1">一级标题：把想到的写下来</span><span class="ts-meta"><b>H1</b><em>40 / 1.25</em><em>页面标题</em></span></li>
+          <li><span class="ts-sample ts-title">区块标题：最近的档案</span><span class="ts-meta"><b>TITLE</b><em>30 / 1.35</em><em>区块与卡片主标题</em></span></li>
+          <li><span class="ts-sample ts-h2">次级标题：内容概览</span><span class="ts-meta"><b>H2</b><em>22 / 1.45</em><em>次级区块</em></span></li>
+          <li><span class="ts-sample ts-body">正文用它承载长句；行高 1.85，一行约 38 个汉字，阅读时不必来回找行。</span><span class="ts-meta"><b>BODY</b><em>17 / 1.85</em><em>measure 640</em></span></li>
+          <li><span class="ts-sample ts-ui">导航与按钮 15 / 1.6</span><span class="ts-meta"><b>UI</b><em>15 / 1.6</em><em>导航 · 按钮 · 表单</em></span></li>
+          <li><span class="ts-sample ts-field">2026.11.02　/　<span data-release="version">v1.0.240</span>　/　03 项调整</span><span class="ts-meta"><b>FIELD</b><em>13 / 1.5</em><em>字段 · 辅助信息</em></span></li>
+          <li><span class="ts-sample ts-eyebrow">Field archive / 个人档案</span><span class="ts-meta"><b>EYEBROW</b><em>11 / .14em</em><em>英文与编号标签</em></span></li>
+          <li><span class="ts-sample ts-micro">01 — HOME　/　2026.11.02</span><span class="ts-meta"><b>MICRO</b><em>10 / .13em</em><em>刻度 · 页码 · 状态</em></span></li>
+        </ol>
+      </section>
+
+      <section class="ef-panel specimen-block motion-spec" aria-labelledby="motion-scale-title">
+        <h2 id="motion-scale-title">动效 <small>motion tokens</small></h2>
+        <p class="note">时长与曲线来自 <code>tokens.json</code>。每页只允许一个入场演出，其余动效只回答点击、悬停和状态变化；循环装饰不在样张里出现。</p>
+        <ol class="dur-list" aria-label="动效时长，单位毫秒">
+          <li class="is-landmark"><span>press</span><i style="--w:100"></i><b>100ms</b></li>
+          <li><span>row</span><i style="--w:200"></i><b>200ms</b></li>
+          <li><span>figFill</span><i style="--w:220"></i><b>220ms</b></li>
+          <li><span>wipe</span><i style="--w:280"></i><b>280ms</b></li>
+          <li><span>edge</span><i style="--w:300"></i><b>300ms</b></li>
+          <li class="is-landmark"><span>sheetIn</span><i style="--w:360"></i><b>360ms</b></li>
+          <li><span>stroke</span><i style="--w:420"></i><b>420ms</b></li>
+          <li><span>fill</span><i style="--w:450"></i><b>450ms</b></li>
+          <li><span>power</span><i style="--w:520"></i><b>520ms</b></li>
+          <li class="is-landmark"><span>drive</span><i style="--w:620"></i><b>620ms</b></li>
+        </ol>
+        <div class="ease-grid">
+          <div class="ease-card ease-snap">
+            <span class="ease-demo" aria-hidden="true"><i></i></span>
+            <b>SNAP</b>
+            <code>cubic-bezier(.16, 1, .3, 1)</code>
+            <small>到位快、收得住：列表落位、卡片出现、位置追赶。</small>
+          </div>
+          <div class="ease-card ease-mech">
+            <span class="ease-demo" aria-hidden="true"><i></i></span>
+            <b>MECH</b>
+            <code>cubic-bezier(.7, 0, .2, 1)</code>
+            <small>起步慢、停得硬：遮罩、擦除、抽屉，以及所有退场。</small>
+          </div>
+          <div class="ease-card ease-ease">
+            <span class="ease-demo" aria-hidden="true"><i></i></span>
+            <b>EASE</b>
+            <code>cubic-bezier(.2, .7, .1, 1)</code>
+            <small>普通过渡：颜色变化、细线扫过、当前项切换。</small>
+          </div>
+        </div>
+        <p class="note">指针移入任一曲线卡，18px 方块用 520ms 走完；这是本页唯一需要手动触发的演示。系统开启减少动态效果时，方块直接跳到终点。</p>
+      </section>
     </main>
     <script type="module">
       import { wireTheme } from '../assets/fx.js';

@@ -132,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.239';
+const currentVersion = 'v1.0.240';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -140,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.240', date: '2026.11.02', title: '设计样张补字阶与动效对照', items: ['设计样张页新增「字阶」对照：从 display 到 micro 九级，按真实字号与行高渲染示例，右侧标注 token、尺寸与用途；display 只用于字标和扉页，正文页最多到 h1', '新增「动效」对照：press 到 drive 十档时长的比例条、snap／mech／ease 三条贝塞尔曲线，以及指针移入才触发的 520ms 演示；减少动态效果时方块直接到终点', '两块只出现在设计样张，不进入首页、档案或阅读界面；未改数据、存储键、排序或既有组件状态'] },
   { version: 'v1.0.239', date: '2026.11.02', title: '首页新增五个入口的档案地图', items: ['首页在更新条之后新增「从这里进入」入口地图：随笔、获奖成果、设计样张、更新日志、控制台五块直角档案块横向排开，编号 01–05，块与块之间用 1px 墨线分隔；窄桌面改为两列，最后一块通栏', '随笔与成果计数读取当前浏览器的真实档案，更新日志条数取站内版本记录，设计样张为现有六份模板；控制台入口只显示真实读数状态，不生成虚构数字', '入口块补齐键盘焦点、悬停刻度延伸与减少动态效果；未改档案数据、存储键、搜索筛选、排序或版本记录结构'] },
   { version: 'v1.0.238', date: '2026.10.31', title: '重做左上角标志并修复手机端空按钮', items: ['首页、档案页与五份设计样张统一换用新的定位框标志：四角角标围住信号黄中心点，取代原来的黄底字母块；中文名与英文副题位置不变，黄只留下被框住的那一点', '折叠侧栏、展开侧栏、档案页顶栏与样张页命令栏共用同一枚图形，尺寸按各页原有留白取 22 至 24px，收起态与展开态都不再出现重复标志', '修复手机宽度下档案页左上角「返回主页」只剩一个 18×44 空框：图标此前被窄屏规则连同分隔箭头一起隐藏，现保留主页图标并撑足 44×44 点按区，文字仍在窄屏隐藏'] },
   { version: 'v1.0.237', date: '2026.10.31', title: '全站补齐工程制图线条层', items: ['首页首屏与下方分区补充标尺刻度、区段编号、切角亮边与四角定位角标；插图板背后铺半调网点，信号黄沿用原主题强度不改配色', '阅读页侧栏导航与记录行加序号、标题线两端加端头、章节线标出起点、更新日志改用方形指示灯、页边目录加短刻与点线引导；档案页补信息条刻度与卡片顶边测量线', '控制台命令栏与动效样张加入站号和分区编号；修复跟随系统深色时首页「最新更新」区块文字与背景同色不可见，未手动切过主题的访客不再看到空带'] },
