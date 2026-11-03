@@ -30,6 +30,54 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
     const tags = new Set(entries.flatMap((entry) => Array.isArray(entry?.tags) ? entry.tags : []).filter(Boolean));
     document.querySelectorAll('[data-archive-stat="categories"]').forEach((node) => { node.textContent = String(categories.size); });
     document.querySelectorAll('[data-archive-stat="tags"]').forEach((node) => { node.textContent = String(tags.size); });
+    // 主题书架：把真实标签按记录数聚合，取前六个；点选进入档案搜索，不新造标签或第二个数据源。
+    const shelf = document.querySelector('[data-shelf-grid]');
+    if (shelf) {
+      const byTag = new Map();
+      for (const entry of entries) {
+        for (const rawTag of Array.isArray(entry.tags) ? entry.tags : []) {
+          const tag = String(rawTag).trim();
+          if (!tag) continue;
+          const item = byTag.get(tag) || { tag, count: 0, latest: null };
+          item.count += 1;
+          if (!item.latest || compareRecent(entry, item.latest) > 0) item.latest = entry;
+          byTag.set(tag, item);
+        }
+      }
+      const top = [...byTag.values()]
+        .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag, 'zh'))
+        .slice(0, 6);
+      shelf.replaceChildren();
+      top.forEach((item, index) => {
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.className = 'shelf-item';
+        link.href = `/archive?${new URLSearchParams({ q: item.tag })}`;
+        const number = document.createElement('span');
+        number.className = 'shelf-index';
+        number.setAttribute('aria-hidden', 'true');
+        number.textContent = String(index + 1).padStart(2, '0');
+        const name = document.createElement('span');
+        name.className = 'shelf-name';
+        name.textContent = `#${item.tag}`;
+        const count = document.createElement('span');
+        count.className = 'shelf-count';
+        count.textContent = `${item.count} 条记录`;
+        const desc = document.createElement('span');
+        desc.className = 'shelf-desc';
+        desc.textContent = `最近：${item.latest?.title || '暂无标题'}`;
+        link.append(number, name, count, desc);
+        listItem.append(link);
+        shelf.append(listItem);
+      });
+      shelf.hidden = top.length === 0;
+      const empty = document.querySelector('[data-shelf-empty]');
+      if (empty) empty.hidden = top.length > 0;
+      const note = document.querySelector('[data-shelf-note]');
+      if (note) note.textContent = top.length
+        ? `${entries.length} 条记录 / ${byTag.size} 个标签；显示记录数前 6 个，点选在档案中搜索。`
+        : '按当前浏览器档案的真实标签聚合；点选标签在档案中搜索该词。';
+    }
     const status = document.querySelector('[data-archive-status]');
     if (status) status.textContent = saved === null ? '首次访问：从一篇随笔或一项成果开始。档案保存在当前浏览器。' : entries.length ? '来自当前浏览器的档案 · 随笔按记录日期排列' : '档案为空，可以打开个人档案添加记录。';
     // 内容概览：真实分类分布。条长为该类记录数 / 最大类记录数，点击进入已有分类筛选。
@@ -143,6 +191,8 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
     document.querySelectorAll('[data-recent-lead]').forEach(node => {node.textContent = '读取失败，暂不显示记录';});
     document.querySelectorAll('[data-archive-chart]').forEach(node => {node.textContent = '读取失败，暂不显示分类分布';});
     document.querySelectorAll('[data-archive-chart-total]').forEach(node => {node.textContent = '读取失败';});
+    document.querySelectorAll('[data-shelf-grid]').forEach(node => {node.hidden = true;});
+    document.querySelectorAll('[data-shelf-empty]').forEach(node => {node.hidden = false; node.textContent = '读取失败，暂不显示主题书架。';});
   }
 
   }
