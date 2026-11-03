@@ -1,4 +1,4 @@
-export type NoteBlock = { id: string; level: number; text: string; kind?: 'code'; language?: string };
+export type NoteBlock = { id: string; level: number; text: string; kind?: 'code' | 'list' | 'quote'; ordered?: boolean; language?: string };
 // Explicit headings and closed fences add structure; all other notes remain text.
 export function noteBlocks(notes: string): NoteBlock[] {
   const lines = notes.replace(/\r\n?/g, '\n').split('\n');
@@ -21,11 +21,44 @@ export function noteBlocks(notes: string): NoteBlock[] {
     }
     const heading = lines[index].match(/^(#{1,3}) (.+)$/);
     if (heading) { flush(); blocks.push({level:heading[1].length + 1,text:heading[2]}); }
-    else if (!lines[index].trim()) flush();
-    else paragraph.push(lines[index]);
+    else {
+      const list = lines[index].match(/^\s{0,3}([-*]|\d+[.)])\s+(.*)$/);
+      const quote = lines[index].match(/^\s{0,3}>\s?(.*)$/);
+      if (list) { flush(); blocks.push({level:0,kind:'list',ordered:/^\d/.test(list[1]),text:list[2]}); }
+      else if (quote) { flush(); blocks.push({level:0,kind:'quote',text:quote[1]}); }
+      else if (!lines[index].trim()) flush();
+      else paragraph.push(lines[index]);
+    }
   }
   flush();
   return blocks.map((block,index) => ({...block,id:`note-section-${index}`}));
+}
+
+export type NoteGroup =
+  | { kind: 'list'; id: string; ordered: boolean; items: NoteBlock[] }
+  | { kind: 'quote'; id: string; items: NoteBlock[] }
+  | { kind: 'block'; block: NoteBlock };
+
+// Wrap consecutive list items and quote lines once, so the reader can render
+// real <ul>/<ol>/<blockquote> markup instead of one paragraph per line.
+export function groupNoteBlocks(blocks: NoteBlock[]): NoteGroup[] {
+  const groups: NoteGroup[] = [];
+  for (const block of blocks) {
+    if (block.kind === 'list') {
+      const last = groups[groups.length - 1];
+      if (last && last.kind === 'list' && last.ordered === Boolean(block.ordered)) { last.items.push(block); continue; }
+      groups.push({kind:'list',id:block.id,ordered:Boolean(block.ordered),items:[block]});
+      continue;
+    }
+    if (block.kind === 'quote') {
+      const last = groups[groups.length - 1];
+      if (last && last.kind === 'quote') { last.items.push(block); continue; }
+      groups.push({kind:'quote',id:block.id,items:[block]});
+      continue;
+    }
+    groups.push({kind:'block',block});
+  }
+  return groups;
 }
 
 export type NoteInline = {text:string; href?:string; image?:boolean};

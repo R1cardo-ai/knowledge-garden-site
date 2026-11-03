@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {normalizeEntries, compareRecent, compareEssayDate, essayExcerpt, selectFeaturedAward, proofImageUrl, categoryDistribution, monthlyRecordCounts} from '../lib/archive-data.js';
+import {normalizeEntries, mergeEntries, compareRecent, compareEssayDate, essayExcerpt, selectFeaturedAward, proofImageUrl, categoryDistribution, monthlyRecordCounts} from '../lib/archive-data.js';
 for (const value of [{}, [null], [4], [[]]]) assert.throws(() => normalizeEntries(value, '2026.10.28'));
 assert.deepEqual(normalizeEntries([], '2026.10.28'), []);
 const entries = normalizeEntries({entries:[{id:'a',title:'<img onerror=alert(1)>',date:'2026-10-25',type:'award',proof:'javascript:alert(1)'},{id:'b',date:'2026.10.26',updatedAt:1},{id:'c',date:'2026.10.20',updatedAt:9999999999999}]}, '2026.10.28');
@@ -109,4 +109,31 @@ console.log('Featured awards: selection follows filtered record dates, no mutati
   assert.equal(selectFeaturedEntry(rows.slice(1), 'older').id, 'recent');
   assert.equal(JSON.stringify(rows), before);
   console.log('Homepage featured selection: stable ID, rename, deletion/missing fallback, automatic/empty states and no mutation passed.');
+}
+// Import merge: keep the current archive, add missing IDs, prefer newer versions.
+{
+  const base = normalizeEntries([
+    {id:'a', title:'A', date:'2026.10.01', updatedAt:100},
+    {id:'b', title:'B', date:'2026.10.02', updatedAt:200},
+  ], '2026.10.28');
+  const incoming = normalizeEntries([
+    {id:'a', title:'A newer', date:'2026.10.01', updatedAt:300},
+    {id:'c', title:'C', date:'2026.10.03', updatedAt:50},
+  ], '2026.10.28');
+  const merged = mergeEntries(base, incoming);
+  assert.deepEqual(merged.entries.map(entry=>entry.id), ['a','b','c']);
+  assert.equal(merged.added,1);
+  assert.equal(merged.updated,1);
+  assert.equal(merged.kept,0);
+  assert.equal(merged.entries[0].title,'A newer');
+  const older = normalizeEntries([{id:'a', title:'A older', date:'2026.10.01', updatedAt:1}], '2026.10.28');
+  const kept = mergeEntries(base, older);
+  assert.equal(kept.entries[0].title,'A');
+  assert.equal(kept.updated,0);
+  assert.equal(kept.kept,1);
+  const again = mergeEntries(merged.entries, incoming);
+  assert.deepEqual(again.entries.map(entry=>entry.id), ['a','b','c']);
+  assert.equal(again.added,0);
+  assert.equal(again.updated,0);
+  console.log('Snapshot merge: stable IDs, append order, newer-version update, older-version keep, counts and idempotence passed.');
 }

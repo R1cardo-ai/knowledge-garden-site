@@ -159,3 +159,161 @@
     display: none;
   }
 }
+
+/* ---------- 6. 草稿、备份、撤销与正文结构（v1.0.249） ---------- */
+
+/* 侧栏底部的备份读数：直接给出「上次导出多久了」，而不是再放一个导出按钮。 */
+.rail-backup {
+  display: flex;
+  width: 100%;
+  min-height: 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  border: 1px solid var(--archive-rail-border);
+  color: var(--archive-rail-muted);
+  background: transparent;
+  font-family: var(--archive-font-data);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  cursor: pointer;
+}
+.rail-backup span {
+  color: var(--archive-rail-text);
+  font-weight: 700;
+}
+.rail-backup small {
+  margin-left: auto;
+  color: var(--archive-rail-muted);
+  font-size: 9px;
+  white-space: nowrap;
+}
+.rail-backup[data-attention='true'] {
+  border-color: var(--archive-signal);
+}
+.rail-backup[data-attention='true'] small {
+  color: var(--archive-signal);
+}
+.rail-backup:hover {
+  border-color: var(--archive-signal);
+  color: var(--archive-rail-text);
+}
+.rail-backup:focus-visible {
+  outline: 2px solid var(--archive-signal);
+  outline-offset: 2px;
+}
+
+/* 顶栏的备份读数：侧栏在桌面布局会折成顶栏，rail-bottom 被隐藏，
+   所以状态必须同时出现在导出快照旁边。 */
+.topbar-backup {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  border: 1px solid var(--archive-line);
+  color: var(--archive-grey);
+  background: transparent;
+  font-family: var(--archive-font-data);
+  font-size: 10px;
+  cursor: pointer;
+}
+.topbar-backup small {
+  color: var(--archive-grey);
+  font-size: 9px;
+}
+.topbar-backup[data-attention='true'] {
+  border-color: var(--archive-signal);
+  background: color-mix(in srgb, var(--archive-signal) 18%, transparent);
+  color: var(--archive-ink);
+}
+.topbar-backup[data-attention='true'] small {
+  color: var(--archive-ink);
+}
+.topbar-backup:hover {
+  border-color: var(--archive-signal);
+  color: var(--archive-ink);
+}
+.topbar-backup:focus-visible {
+  outline: 2px solid var(--archive-signal);
+  outline-offset: 2px;
+}
+
+/* 编辑弹窗底部的自动保存读数：放在取消/保存左侧，不抢主操作。 */
+.draft-status {
+  margin-right: auto;
+  align-self: center;
+  color: var(--archive-grey);
+  font-family: var(--archive-font-data);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+}
+.draft-status.is-saved {
+  color: var(--archive-ink-soft);
+}
+
+.editor-syntax-hint {
+  margin: -2px 0 10px;
+  color: var(--archive-grey);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* 删除后的撤销条：和普通 toast 同一位置，但保留一个真正可点的按钮。 */
+.toast.toast-undo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toast-undo-action {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  border: 1px solid currentColor;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.toast-undo-action:hover,
+.toast-undo-action:focus-visible {
+  color: #111;
+  background: var(--archive-signal);
+  outline: none;
+}
+
+.archive-import-merge {
+  border-color: var(--archive-signal);
+}
+
+/* 随笔正文里的列表和引用：阅读页现在能渲染真实结构，不再是一段段纯文本。 */
+:root[data-ark-theme='endfield'] .reader-body .reader-list {
+  margin: 0 0 1.2em;
+  padding-left: 1.5em;
+  list-style: disc;
+}
+:root[data-ark-theme='endfield'] .reader-body ol.reader-list {
+  list-style: decimal;
+}
+:root[data-ark-theme='endfield'] .reader-body .reader-list li {
+  margin: 0.35em 0;
+  line-height: 1.8;
+}
+:root[data-ark-theme='endfield'] .reader-body .reader-list li::marker {
+  color: var(--archive-ink-soft);
+  font-weight: 700;
+}
+:root[data-ark-theme='endfield'] .reader-body .reader-quote {
+  margin: 1.5em 0;
+  padding: 0.15em 0 0.15em 1.1em;
+  border-left: 3px solid var(--archive-signal);
+  color: var(--archive-ink);
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+

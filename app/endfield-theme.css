@@ -827,21 +827,6 @@
   font-stretch: 50% 125%;
   font-display: swap;
 }
-@font-face {
-  font-family: 'Garden Serif SC';
-  src: url('/fonts/GardenSerifSC-Regular.woff2') format('woff2');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Garden Serif SC';
-  src: url('/fonts/GardenSerifSC-SemiBold.woff2') format('woff2');
-  font-style: normal;
-  font-weight: 600 900;
-  font-display: swap;
-}
-
 /* Keep numeral glyphs in Saira even where surrounding text uses a mono face. */
 @font-face {
   font-family: 'Saira Numeric';

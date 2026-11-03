@@ -6,6 +6,7 @@ export function normalizeEntryDate(value: string, fallback: string): string;
 export function entryDateTimestamp(value: string): number;
 export function normalizeHttpUrl(value: string): string | null;
 export function normalizeEntries(value: unknown, fallbackDate: string): unknown[];
+export function mergeEntries<T extends {id:string;date:string;updatedAt?:number}>(existing:T[], imported:T[]): {entries:T[];added:number;updated:number;kept:number};
 export function compareRecent(a: {updatedAt?: number; date: string}, b: {updatedAt?: number; date: string}): number;
 export function compareEssayDate(a: {date:string}, b: {date:string}): number;
 export function essayExcerpt(entry: {summary?:string;notes?:string}): string;

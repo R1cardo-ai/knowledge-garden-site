@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-03",
+  "target": "local .pages-build/site with isolated 3-record sample archive",
+  "browser": "Microsoft Edge headless via CDP",
+  "records": {
+    "loaded": 3,
+    "knowledge": 2,
+    "award": 1
+  },
+  "backup": {
+    "label": "20 天前导出",
+    "attention": true
+  },
+  "editorDraft": {
+    "stored": true,
+    "restoredAfterReload": true,
+    "status": "草稿已自动保存 12:32"
+  },
+  "deleteUndo": {
+    "before": 3,
+    "afterDelete": 2,
+    "afterUndo": 3,
+    "undoVisible": true
+  },
+  "readerStructure": {
+    "listItems": 2,
+    "quoteBlocks": 1
+  },
+  "fonts": {
+    "requests": [
+      "GardenSerifSC-SemiBold-cjk-1.woff2 109KB",
+      "GardenSerifSC-Regular-latin.woff2 55KB",
+      "GardenSerifSC-Regular-cjk-1.woff2 108KB",
+      "GardenSerifSC-Regular-cjk-2.woff2 301KB",
+      "GardenSerifSC-Regular-cjk-3.woff2 615KB",
+      "GardenSerifSC-SemiBold-cjk-2.woff2 305KB",
+      "GardenSerifSC-SemiBold-cjk-3.woff2 628KB"
+    ],
+    "totalKB": 2121,
+    "note": "Session total across archive, reload and reader; the previous build served a single 6.7MB CJK package."
+  }
+}

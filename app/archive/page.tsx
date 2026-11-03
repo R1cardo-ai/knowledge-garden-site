@@ -28,6 +28,7 @@ import {
   Trash2,
   Trophy,
   TriangleAlert,
+  Undo2,
   X,
 } from 'lucide-react';
 
@@ -54,7 +55,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { entryFormatLabels, featuredEntryStorageKey, formatDisplayDate, normalizeEntryDate, normalizeHttpUrl, selectFeaturedAward, compareRecent, categoryDistribution, monthlyRecordCounts, relatedReferences, relatedLabels, normalizeEntries as normalizeSharedEntries } from '@/lib/archive-data.js';
+import { entryFormatLabels, featuredEntryStorageKey, formatDisplayDate, mergeEntries, normalizeEntryDate, normalizeHttpUrl, selectFeaturedAward, compareRecent, categoryDistribution, monthlyRecordCounts, relatedReferences, relatedLabels, normalizeEntries as normalizeSharedEntries } from '@/lib/archive-data.js';
 import { useDocumentTheme } from '@/hooks/use-document-theme';
 import { createArchiveStatus } from '@/lib/archive-status';
 import { animateReadout } from '@/lib/animate-readout';
@@ -132,14 +133,18 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.248';
+const currentVersion = 'v1.0.249';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
 const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
+const editorDraftStorageKey = 'knowledge-garden-editor-draft-v1';
+const lastExportStorageKey = 'knowledge-garden-last-export';
+const backgroundFileLimit = 8 * 1024 * 1024;
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.249', date: '2026.11.03', title: '补上数据安全、性能与分享', items: ['编辑自动保存草稿，重开恢复；删除后 8 秒可撤销；导入可选择合并或替换，侧栏与页脚显示上次导出时间并在超过 14 天时提醒', '随笔正文支持列表、编号与引用；背景图超过 900KB 时先在浏览器压缩，上传上限 8MB', '中文字体拆成 unicode-range 分片，单页只加载用到的分片，不再下载 6.7MB 整包', '首页改为真实根路径，补 description、Open Graph、canonical、sitemap、robots、RSS 与分享图；新增 CI、类型检查、链接检查与构建清理'] },
   { version: 'v1.0.248', date: '2026.11.03', title: '首页新增成果影像墙', items: ['首页新增「影像墙」：收集当前档案中带图片链接的成果证据，按日期取最近 3 张；卡片显示图片、标题、日期与分类，低饱和预览，指针移入或键盘聚焦还原全彩', '无图时不生成占位图或假封面，显示真实空状态；不新增存储键或图片上传，沿用成果记录的证明链接', '影像墙为 4:3 三列，≤719 单列；复用现有证据图校验与低饱和规则，支持键盘焦点与减少动态效果'] },
   { version: 'v1.0.247', date: '2026.11.03', title: '首页新增从这里开始三步路线', items: ['首页新增「从这里开始」：按当前档案自动生成三步——读最近一篇随笔、看最近一项成果、打开全部目录；每步显示真实标题、日期与分类，无记录时显示空状态', '路线不新增存储或手写推荐数据；第一步与第二步直接打开对应记录，第三步进入目录列表', '三步沿用 1px 线、编号与顶边刻度；≤719 单列，支持键盘焦点与减少动态效果'] },
   { version: 'v1.0.246', date: '2026.11.03', title: '首页新增主题书架', items: ['首页新增「主题书架」：按当前浏览器真实标签聚合，取记录数前 6 个，每格显示标签、记录数与最近一条标题；点选在档案中搜索该标签', '空档案与读取失败分别显示真实说明，不生成示例标签；未新增存储键或标签数据，搜索沿用现有 q 参数', '书架沿用 1px 线、编号与顶边刻度；≤1099 两列、≤719 单列，支持键盘焦点与减少动态效果'] },
@@ -402,6 +407,8 @@ const updateLogs: UpdateLog[] = [
   { version: 'v0.1.0', date: '2026.09.07', title: '知识花园上线', items: ['支持记录知识条目和获奖经历', '使用浏览器本地保存，不需要账号'] },
 ];
 const emptyDraft = { type: 'knowledge' as EntryType, format: 'note' as EntryFormat, title: '', category: '', date: '', summary: '', tags: '', notes: '', source: '', issuer: '', awardLevel: '', role: '', proof: '', related: '' };
+type EntryDraft = typeof emptyDraft;
+type StoredEditorDraft = { editingId: string | null; draft: EntryDraft; savedAt: number };
 const formatLabels = entryFormatLabels;
 
 function normalizeEntries(value: unknown, fallbackDate: string): Entry[] {
@@ -438,6 +445,12 @@ export default function Home() {
   const [notice, setNotice] = useState('');
   const [isImporting, setIsImporting] = useState(false);
   const [draft, setDraft] = useState(emptyDraft);
+  const [draftSavedAt, setDraftSavedAt] = useState(0);
+  const [undoDelete, setUndoDelete] = useState<{ entry: Entry; index: number } | null>(null);
+  const [lastExportAt, setLastExportAt] = useState(0);
+  const [todayStamp, setTodayStamp] = useState(0);
+  const [backgroundBusy, setBackgroundBusy] = useState(false);
+  const undoTimer = useRef<number | null>(null);
   const draftBaseline = useRef(emptyDraft);
   const [discardOpen, setDiscardOpen] = useState(false);
   const [formError, setFormError] = useState<{field:string;message:string} | null>(null);
@@ -535,6 +548,17 @@ export default function Home() {
       } catch {}
     }, 0);
     return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setTodayStamp(Date.now());
+      try {
+        const savedExport = Number(window.localStorage.getItem(lastExportStorageKey));
+        if (Number.isFinite(savedExport) && savedExport > 0) setLastExportAt(savedExport);
+      } catch {}
+    }, 0);
+    return () => { window.clearTimeout(timer); if (undoTimer.current) window.clearTimeout(undoTimer.current); };
   }, []);
 
   useEffect(() => {
@@ -692,6 +716,10 @@ export default function Home() {
   }, [changelogQuery]);
   const currentYear = displayDate.slice(0, 4);
   const saveStatus = storageBlocked ? '已暂停自动保存' : storageMessage ? '尚未保存，请备份' : '浏览器本地保存';
+  const backupAgeDays = lastExportAt && todayStamp ? Math.max(0, Math.floor((todayStamp - lastExportAt) / 86_400_000)) : null;
+  const backupLabel = !entries.length ? '还没有档案' : lastExportAt ? (backupAgeDays === 0 ? '今天已导出' : `${backupAgeDays} 天前导出`) : '尚未导出备份';
+  const backupShortLabel = !entries.length ? '无档案' : lastExportAt ? (backupAgeDays === 0 ? '今天已导出' : `${backupAgeDays} 天前`) : '未备份';
+  const backupNeedsAttention = entries.length > 0 && (!lastExportAt || (backupAgeDays ?? 0) >= 14);
   const categories = useMemo(() => Array.from(new Set(entries.filter((entry) => activeView === 'all' || entry.type === activeView).map((entry) => entry.category))).sort((a, b) => a.localeCompare(b)), [activeView, entries]);
   // Overview figures count the whole partition, so a search never changes the denominator.
   const categoryStats = useMemo(() => categoryDistribution(entries, activeView), [activeView, entries]);
@@ -748,7 +776,102 @@ export default function Home() {
   const quickCapturePlaceholder = quickCaptureType === 'award' ? '输入荣誉或成果名称' : '例如：今天学会了如何拆解复杂问题';
   const quickCaptureEyebrow = quickCaptureType === 'award' ? '// AWARD ENTRY / QUICK CAPTURE' : '// ESSAY / QUICK CAPTURE';
 
-  function showNotice(message: string) { setNotice(message); window.setTimeout(() => setNotice(''), 2600); }
+  function formatClock(value: number) { return new Date(value).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }); }
+  function writeEditorDraft(id: string | null, value: EntryDraft) {
+    try {
+      const fields = [value.title, value.notes, value.summary, value.category, value.tags, value.source, value.issuer, value.awardLevel, value.role, value.proof, value.related];
+      if (!fields.some(field => field.trim())) {
+        window.localStorage.removeItem(editorDraftStorageKey);
+        return false;
+      }
+      window.localStorage.setItem(editorDraftStorageKey, JSON.stringify({ editingId: id, draft: value, savedAt: Date.now() } satisfies StoredEditorDraft));
+      return true;
+    } catch { return false; }
+  }
+  function persistEditorDraft(id: string | null, value: EntryDraft) {
+    const saved = writeEditorDraft(id, value);
+    setDraftSavedAt(saved ? Date.now() : 0);
+  }
+  function readEditorDraft(id: string | null): StoredEditorDraft | null {
+    try {
+      const raw = window.localStorage.getItem(editorDraftStorageKey);
+      if (!raw) return null;
+      const value = JSON.parse(raw) as { editingId?: unknown; draft?: unknown; savedAt?: unknown };
+      if (!value || typeof value !== 'object' || !value.draft || typeof value.draft !== 'object') return null;
+      if ((value.editingId ?? null) !== id) return null;
+      const candidate = { ...emptyDraft, ...(value.draft as Partial<EntryDraft>) };
+      candidate.type = candidate.type === 'award' ? 'award' : 'knowledge';
+      candidate.format = ['note', 'book', 'course', 'article', 'video', 'project'].includes(candidate.format) ? candidate.format : 'note';
+      return { editingId: id, draft: candidate, savedAt: Number(value.savedAt) || 0 };
+    } catch { return null; }
+  }
+  function clearEditorDraft() {
+    try { window.localStorage.removeItem(editorDraftStorageKey); } catch {}
+    setDraftSavedAt(0);
+  }
+  function clearUndo() {
+    if (undoTimer.current) { window.clearTimeout(undoTimer.current); undoTimer.current = null; }
+    setUndoDelete(null);
+  }
+  function undoRemove() {
+    const pending = undoDelete;
+    if (!pending) return;
+    setEntries(current => {
+      if (current.some(entry => entry.id === pending.entry.id)) return current;
+      const next = [...current];
+      next.splice(Math.min(pending.index, next.length), 0, pending.entry);
+      return next;
+    });
+    setUndoDelete(null);
+    if (undoTimer.current) { window.clearTimeout(undoTimer.current); undoTimer.current = null; }
+    showNotice('已恢复记录');
+  }
+  async function shrinkBackgroundImage(file: File): Promise<string> {
+    const dataUrl = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => { if (typeof reader.result === 'string') resolve(reader.result); else reject(new Error('read')); };
+      reader.onerror = () => reject(new Error('read'));
+      reader.readAsDataURL(file);
+    });
+    if (file.size <= 900_000) return dataUrl;
+    const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const node = new Image();
+      node.onload = () => resolve(node);
+      node.onerror = () => reject(new Error('image'));
+      node.src = dataUrl;
+    });
+    const scale = Math.min(1, 1600 / Math.max(1, image.naturalWidth));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+    const context = canvas.getContext('2d');
+    if (!context) return dataUrl;
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    const compressed = canvas.toDataURL('image/jpeg', 0.8);
+    return compressed.length < dataUrl.length ? compressed : dataUrl;
+  }
+  function showNotice(message: string) {
+    clearUndo();
+    setNotice(message);
+    window.setTimeout(() => setNotice(''), 2600);
+  }
+
+  // Keep an unfinished editor draft in this browser. The debounce is short enough
+  // that a crash or a closed tab loses at most the last half second of typing.
+  useEffect(() => {
+    if (!dialogOpen) return;
+    const timer = window.setTimeout(() => persistEditorDraft(editingId, draft), 450);
+    return () => window.clearTimeout(timer);
+  }, [dialogOpen, editingId, draft]);
+
+  useEffect(() => {
+    if (!dialogOpen) return;
+    const flush = () => writeEditorDraft(editingId, draft);
+    const onVisibility = () => { if (document.hidden) flush(); };
+    window.addEventListener('pagehide', flush);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => { window.removeEventListener('pagehide', flush); document.removeEventListener('visibilitychange', onVisibility); };
+  }, [dialogOpen, editingId, draft]);
   function saveQuickCapture(event: { preventDefault: () => void }) {
     event.preventDefault();
     const title = quickCaptureTitle.trim();
@@ -758,19 +881,42 @@ export default function Home() {
     setQuickCaptureTitle('');
     showNotice('已快速保存，之后可以打开详情补充内容');
   }
-  function openCreate(type: EntryType = 'knowledge') { const initial = { ...emptyDraft, type, format: type === 'award' ? 'project' as EntryFormat : 'note' as EntryFormat, date: displayDate || formatDisplayDate(new Date()) }; draftBaseline.current = initial; setFormError(null); setEditingId(null); setDraft(initial); setDialogOpen(true); }
+  function openCreate(type: EntryType = 'knowledge') {
+    const initial = { ...emptyDraft, type, format: type === 'award' ? 'project' as EntryFormat : 'note' as EntryFormat, date: displayDate || formatDisplayDate(new Date()) };
+    const saved = readEditorDraft(null);
+    draftBaseline.current = initial;
+    setFormError(null);
+    setEditingId(null);
+    if (saved && saved.draft.type === type) {
+      setDraft(saved.draft);
+      setDraftSavedAt(saved.savedAt);
+      showNotice('已恢复上次未保存的草稿');
+    } else {
+      setDraft(initial);
+      setDraftSavedAt(0);
+    }
+    setDialogOpen(true);
+  }
   function openEdit(entry: Entry) {
     setFormError(null);
     setEditingId(entry.id);
     const initial = { type: entry.type, format: entry.format, title: entry.title, category: entry.category, date: entry.date, summary: entry.summary, tags: entry.tags.join(', '), notes: entry.notes ?? '', source: entry.source ?? '', issuer: entry.issuer ?? '', awardLevel: entry.awardLevel ?? '', role: entry.role ?? '', proof: entry.proof ?? '', related: relatedLabels(entry, entries) };
+    const saved = readEditorDraft(entry.id);
     draftBaseline.current = initial;
-    setDraft(initial);
+    if (saved && saved.draft.type === entry.type) {
+      setDraft(saved.draft);
+      setDraftSavedAt(saved.savedAt);
+      showNotice('已恢复上次未保存的草稿');
+    } else {
+      setDraft(initial);
+      setDraftSavedAt(0);
+    }
     setDetailsOpen(false);
     setDialogOpen(true);
   }
   function requestEditorClose() {
     if (JSON.stringify(draft) !== JSON.stringify(draftBaseline.current)) setDiscardOpen(true);
-    else setDialogOpen(false);
+    else { clearEditorDraft(); setDialogOpen(false); }
   }
   function saveEntry() {
     const reject = (field:string, message:string) => { setFormError({field,message}); document.getElementById(`entry-${field}`)?.focus(); };
@@ -782,22 +928,40 @@ export default function Home() {
     if (proof === null) { reject('proof','证明链接需以 http:// 或 https:// 开头'); return; }
     const nextEntry: Entry = { ...entries.find(entry => entry.id === editingId), id: editingId ?? `${draft.type}-${Date.now()}`, type: draft.type, format: draft.format, title: draft.title.trim(), category: draft.category.trim() || '未分类', date, summary: draft.summary.trim(), tags: draft.tags.split(/[,，]/).map((tag) => tag.trim()).filter(Boolean), color: draft.type === 'award' ? 'gold' : editingId ? entries.find((entry) => entry.id === editingId)?.color ?? 'coral' : ['coral', 'sky', 'lilac', 'mint'][knowledgeCount % 4], notes: draft.notes.trim(), source: draft.source.trim(), issuer: draft.issuer.trim(), awardLevel: draft.awardLevel.trim(), role: draft.role.trim(), proof, related: draft.related.trim(), relatedRefs: relatedReferences(draft.related, entries, entries.find(entry => entry.id === editingId)?.relatedRefs), updatedAt: Date.now() };
     setEntries((current) => editingId ? current.map((entry) => entry.id === editingId ? nextEntry : entry) : [nextEntry, ...current]);
-    setFormError(null); setDialogOpen(false); setEditingId(null); setDraft(emptyDraft); showNotice(editingId ? '记录已更新' : '已添加到你的知识花园');
+    clearEditorDraft(); setFormError(null); setDialogOpen(false); setEditingId(null); setDraft(emptyDraft); showNotice(editingId ? '记录已更新' : '已添加到你的知识花园');
   }
   function removeEntry(id: string) {
-    setEntries((current) => current.filter((entry) => entry.id !== id));
-    setDetailsOpen(false); setPendingConfirmation(null); showNotice('记录已移除');
+    const index = entries.findIndex((entry) => entry.id === id);
+    if (index < 0) return;
+    const entry = entries[index];
+    setEntries((current) => current.filter((item) => item.id !== id));
+    setDetailsOpen(false); setPendingConfirmation(null);
+    if (undoTimer.current) window.clearTimeout(undoTimer.current);
+    setUndoDelete({ entry, index });
+    undoTimer.current = window.setTimeout(() => { setUndoDelete(null); undoTimer.current = null; }, 8000);
   }
-  function confirmPendingAction() {
+  function confirmPendingAction(mode: 'replace' | 'merge' = 'replace') {
     if (!pendingConfirmation) return;
     if (pendingConfirmation.kind === 'import') {
-      setEntries(pendingConfirmation.entries); setStorageBlocked(false); setRawBackup(null); setPendingConfirmation(null); showNotice(`已导入 ${pendingConfirmation.entries.length} 条记录`); return;
+      if (mode === 'merge') {
+        const merged = mergeEntries(entries, pendingConfirmation.entries);
+        setEntries(merged.entries); setStorageBlocked(false); setRawBackup(null); setPendingConfirmation(null);
+        showNotice(`已合并：新增 ${merged.added} 条，更新 ${merged.updated} 条，保留 ${merged.kept} 条`);
+      } else {
+        setEntries(pendingConfirmation.entries); setStorageBlocked(false); setRawBackup(null); setPendingConfirmation(null); showNotice(`已导入 ${pendingConfirmation.entries.length} 条记录`);
+      }
+      return;
     }
     removeEntry(pendingConfirmation.entry.id);
   }
   function exportSnapshot() {
     const blob = new Blob([JSON.stringify({ version: 2, schemaVersion: 2, exportedAt: new Date().toISOString(), entries }, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `knowledge-garden-${displayDate.replaceAll('.', '-')}.json`; link.click(); URL.revokeObjectURL(url); showNotice('快照已下载');
+    const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `knowledge-garden-${displayDate.replaceAll('.', '-')}.json`; link.click(); URL.revokeObjectURL(url);
+    const now = Date.now();
+    try { window.localStorage.setItem(lastExportStorageKey, String(now)); } catch {}
+    setLastExportAt(now);
+    setTodayStamp(now);
+    showNotice('快照已下载，备份时间已记录');
   }
   async function importSnapshot(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -814,21 +978,21 @@ export default function Home() {
     finally { setIsImporting(false); }
     event.target.value = '';
   }
-  function customizeBackground(event: React.ChangeEvent<HTMLInputElement>) {
+  async function customizeBackground(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) { showNotice('请选择图片文件'); event.target.value = ''; return; }
-    if (file.size > 6 * 1024 * 1024) { showNotice('图片请控制在 6MB 以内'); event.target.value = ''; return; }
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = typeof reader.result === 'string' ? reader.result : '';
-      if (!result) { showNotice('图片读取失败，请重试'); return; }
-      setBackgroundImage(result);
-      try { window.localStorage.setItem(backgroundImageStorageKey, result); showNotice('背景图片已更新'); } catch { showNotice('图片已应用，但浏览器空间不足，刷新后可能恢复默认'); }
-    };
-    reader.onerror = () => showNotice('图片读取失败，请重试');
-    reader.readAsDataURL(file);
     event.target.value = '';
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { showNotice('请选择图片文件'); return; }
+    if (file.size > backgroundFileLimit) { showNotice('图片请控制在 8MB 以内'); return; }
+    setBackgroundBusy(true);
+    try {
+      const result = await shrinkBackgroundImage(file);
+      if (!result) throw new Error('empty');
+      setBackgroundImage(result);
+      try { window.localStorage.setItem(backgroundImageStorageKey, result); showNotice('背景图片已压缩并保存'); }
+      catch { showNotice('图片已应用，但浏览器空间不足，刷新后可能恢复默认'); }
+    } catch { showNotice('背景图片处理失败，请换一张图片'); }
+    finally { setBackgroundBusy(false); }
   }
   function changeBackgroundOpacity(value: number) {
     setBackgroundOpacity(value);
@@ -875,6 +1039,11 @@ export default function Home() {
         <div className="rail-bottom">
           <div className="rail-account"><div className="avatar" aria-label="个人头像">K</div><div className="account-copy"><span className="account-eyebrow">{"// PERSONAL ARCHIVE"}</span><strong>我的空间</strong><small>个人随笔档案</small></div></div>
           <div className="account-status" aria-label={saveStatus}><span className="streak-dot" aria-hidden="true" />{saveStatus}</div>
+          <button type="button" className="rail-backup" data-attention={backupNeedsAttention ? 'true' : 'false'} onClick={exportSnapshot} aria-label={`导出 JSON 备份，${backupLabel}`}>
+            <Download size={13} aria-hidden="true" />
+            <span>备份</span>
+            <small>{backupLabel}</small>
+          </button>
         </div>
       </aside>
 
@@ -889,6 +1058,7 @@ export default function Home() {
             <button className="icon-button theme-toggle" type="button" aria-label="深色主题" aria-pressed={darkTheme} title={darkTheme ? '切换到浅色主题' : '切换到深色主题'} onClick={toggleTheme}>{darkTheme ? <Sun size={18} /> : <Moon size={18} />}</button>
             <button className="icon-button" type="button" aria-label="搜索" onClick={() => document.getElementById('search')?.focus()}><Search size={18} /></button>
             <input ref={importInputRef} className="sr-only" type="file" accept="application/json,.json" tabIndex={-1} onChange={importSnapshot} />
+            <button type="button" className="topbar-backup" data-attention={backupNeedsAttention ? 'true' : 'false'} onClick={exportSnapshot} title={`上次导出：${backupLabel}`} aria-label={`备份状态：${backupLabel}；点击导出 JSON`}><Download size={14} aria-hidden="true" /><span>备份</span><small>{backupShortLabel}</small></button>
             <Button variant="outline" className="export-button import-button" onClick={() => importInputRef.current?.click()}><FileUp size={15} />导入</Button>
             <Button variant="outline" className="export-button" onClick={exportSnapshot}><Download size={15} />导出快照</Button>
             <Dialog open={dialogOpen} onOpenChange={(open) => { if (open) setDialogOpen(true); else requestEditorClose(); }}>
@@ -909,10 +1079,12 @@ export default function Home() {
                   <p className="form-section-label">{"// NOTES / DETAILS"}</p>
                   <label htmlFor="entry-summary">摘要（选填）<Textarea id="entry-summary" placeholder="写下最值得以后再次回看的那句话…" value={draft.summary} onChange={(event) => setDraft({ ...draft, summary: event.target.value })} /></label>
                   <label htmlFor="entry-notes">详细笔记（选填）<Textarea id="entry-notes" className="notes-textarea" placeholder="补充例子、关键洞察或下一步行动…" value={draft.notes} onChange={(event) => setDraft({ ...draft, notes: event.target.value })} /></label>
+                  <p className="editor-syntax-hint">{'支持 # 标题、- 列表、1. 编号、> 引用、``` 代码块和链接地址。'}</p>
                   </> : <>
                   <p className="form-section-label">{"// WRITE / ESSAY"}</p>
                   <label htmlFor="entry-title">随笔标题<Input id="entry-title" aria-invalid={formError?.field === 'title'} aria-describedby={formError?.field === 'title' ? 'entry-form-error' : undefined} placeholder="给这段想法起个标题" value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label>
                   <label htmlFor="entry-notes">正文<Textarea id="entry-notes" className="essay-body-input" placeholder="从此刻的观察或想法开始写…" value={draft.notes} onChange={(event) => setDraft({ ...draft, notes: event.target.value })} /></label>
+                  <p className="editor-syntax-hint">{'支持 # 标题、- 列表、1. 编号、> 引用、``` 代码块、[链接](https://…) 与 ![图片](https://…)。'}</p>
                   <div className="form-grid"><label htmlFor="entry-date">记录日期<Input id="entry-date" aria-invalid={formError?.field === 'date'} aria-describedby={formError?.field === 'date' ? 'entry-form-error' : undefined} inputMode="numeric" placeholder="YYYY.MM.DD" value={draft.date} onChange={(event) => setDraft({ ...draft, date: event.target.value })} /></label><label htmlFor="entry-summary">摘要（选填）<Textarea id="entry-summary" placeholder="不填写时从正文生成列表预览" value={draft.summary} onChange={(event) => setDraft({ ...draft, summary: event.target.value })} /></label></div>
                   <details className="essay-extra" open={formError?.field === 'category' ? true : undefined}><summary>补充信息 <span>分类、标签、形式、来源与关联</span></summary><div className="essay-extra-fields">
                     <div className="form-grid"><label htmlFor="entry-category">分类（选填）<Input id="entry-category" placeholder="例如：日常、思考、读书、学习、回顾" value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} /></label><label htmlFor="entry-tags">标签（选填）<Input id="entry-tags" placeholder="用逗号分隔" value={draft.tags} onChange={(event) => setDraft({ ...draft, tags: event.target.value })} /></label></div>
@@ -921,7 +1093,7 @@ export default function Home() {
                   </div></details>
                   </>}
                 </div>
-                <DialogFooter><Button variant="outline" onClick={requestEditorClose}>取消</Button><Button onClick={saveEntry}><Check size={15} />{editingId ? '保存修改' : draft.type === 'knowledge' ? '保存随笔' : '保存记录'}</Button></DialogFooter>
+                <DialogFooter><span className={`draft-status${draftSavedAt ? ' is-saved' : ''}`} aria-live="polite">{storageBlocked ? '草稿无法自动保存' : draftSavedAt ? `草稿已自动保存 ${formatClock(draftSavedAt)}` : '编辑中，自动保存草稿'}</span><Button variant="outline" onClick={requestEditorClose}>取消</Button><Button onClick={saveEntry}><Check size={15} />{editingId ? '保存修改' : draft.type === 'knowledge' ? '保存随笔' : '保存记录'}</Button></DialogFooter>
               </DialogContent>
             </Dialog>
           </div>
@@ -1023,12 +1195,12 @@ export default function Home() {
             </aside>
           </div>
           </div>
-          <footer className="page-footer"><span>当前日期 {displayDate}</span><span>{saveStatus} │ 导出 JSON 可备份</span></footer>
+          <footer className="page-footer"><span>当前日期 {displayDate}</span><span>{saveStatus} │ 备份：{backupLabel}</span></footer>
         </div>
       </section>
 
       <AlertDialog open={discardOpen} onOpenChange={setDiscardOpen}>
-        <AlertDialogContent className="archive-delete-dialog"><AlertDialogHeader><p className="delete-dialog-kicker">{'// UNSAVED ESSAY'}</p><AlertDialogTitle>放弃未保存的修改？</AlertDialogTitle><AlertDialogDescription>当前填写的内容还没有保存到浏览器。</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>继续编辑</AlertDialogCancel><AlertDialogAction className="archive-delete-confirm" onClick={() => { setDiscardOpen(false); setDialogOpen(false); }}>放弃修改</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
+        <AlertDialogContent className="archive-delete-dialog"><AlertDialogHeader><p className="delete-dialog-kicker">{'// UNSAVED ESSAY'}</p><AlertDialogTitle>放弃未保存的修改？</AlertDialogTitle><AlertDialogDescription>当前填写的内容会作为草稿留在这台浏览器；放弃后会删除这份草稿。</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>继续编辑</AlertDialogCancel><AlertDialogAction className="archive-delete-confirm" onClick={() => { clearEditorDraft(); setDiscardOpen(false); setDialogOpen(false); setDraft(emptyDraft); setEditingId(null); }}>放弃修改</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
       </AlertDialog>
       <Sheet open={detailsOpen} onOpenChange={setDetailsOpen}>
         <SheetContent className="entry-sheet detail-dialog" side="right">
@@ -1048,12 +1220,12 @@ export default function Home() {
         <AlertDialogContent className={pendingConfirmation?.kind === 'import' ? 'archive-import-dialog' : 'archive-delete-dialog'}>
           <AlertDialogHeader>
               <p className="delete-dialog-kicker">{pendingConfirmation?.kind === 'import' ? '// IMPORT SNAPSHOT' : '// DELETE RECORD'}</p>
-              <AlertDialogTitle>{pendingConfirmation?.kind === 'import' ? '确认覆盖当前档案？' : '确认删除这条记录？'}</AlertDialogTitle>
-              <AlertDialogDescription>{pendingConfirmation?.kind === 'import' ? `将用文件中的 ${pendingConfirmation.entries.length} 条记录替换当前 ${pendingConfirmation.replaceCount} 条记录，此操作无法撤销。` : `“${pendingConfirmation?.kind === 'delete' ? pendingConfirmation.entry.title : ''}”将从个人档案中移除，此操作无法撤销。`}</AlertDialogDescription>
+              <AlertDialogTitle>{pendingConfirmation?.kind === 'import' ? '合并或替换当前档案？' : '确认删除这条记录？'}</AlertDialogTitle>
+              <AlertDialogDescription>{pendingConfirmation?.kind === 'import' ? `文件含 ${pendingConfirmation.entries.length} 条记录，当前档案 ${pendingConfirmation.replaceCount} 条。合并按记录 ID 对齐：新增缺失记录，较新的版本覆盖旧版本；替换会清空当前档案。` : `“${pendingConfirmation?.kind === 'delete' ? pendingConfirmation.entry.title : ''}”将从个人档案中移除，此操作可以立刻撤销。`}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>取消</AlertDialogCancel>
-              <AlertDialogAction className={pendingConfirmation?.kind === 'import' ? 'archive-import-confirm' : 'archive-delete-confirm'} onClick={confirmPendingAction}>{pendingConfirmation?.kind === 'import' ? <FileUp size={14} /> : <Trash2 size={14} />}{pendingConfirmation?.kind === 'import' ? '导入并覆盖' : '确认删除'}</AlertDialogAction>
+            {pendingConfirmation?.kind === 'import' ? <><AlertDialogAction className="archive-import-merge" onClick={() => confirmPendingAction('merge')}><Plus size={14} />合并导入</AlertDialogAction><AlertDialogAction className="archive-import-confirm" onClick={() => confirmPendingAction('replace')}><FileUp size={14} />替换当前档案</AlertDialogAction></> : <AlertDialogAction className="archive-delete-confirm" onClick={() => confirmPendingAction()}><Trash2 size={14} />确认删除</AlertDialogAction>}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -1065,7 +1237,9 @@ export default function Home() {
         </DialogContent>
       </Dialog>
       {isImporting && <output className="toast is-processing" aria-live="polite"><LoaderCircle size={15} aria-hidden="true" /> 正在读取导入文件…</output>}
-      {notice && !isImporting && <output className="toast" aria-live="polite">{/失败|无法|未能|不足|请先/.test(notice) ? <TriangleAlert size={15} aria-hidden="true" /> : <Check size={15} aria-hidden="true" />} {notice}</output>}
+      {backgroundBusy && <output className="toast is-processing" aria-live="polite"><LoaderCircle size={15} aria-hidden="true" /> 正在压缩背景图…</output>}
+      {!isImporting && !backgroundBusy && undoDelete && <output className="toast toast-undo" aria-live="polite"><Trash2 size={15} aria-hidden="true" /><span>已移除“{undoDelete.entry.title}”</span><button type="button" className="toast-undo-action" onClick={undoRemove}><Undo2 size={14} aria-hidden="true" />撤销</button></output>}
+      {notice && !isImporting && !backgroundBusy && !undoDelete && <output className="toast" aria-live="polite">{/失败|无法|未能|不足|请先/.test(notice) ? <TriangleAlert size={15} aria-hidden="true" /> : <Check size={15} aria-hidden="true" />} {notice}</output>}
     </main>
   );
 }

@@ -8,7 +8,7 @@
   <a href="https://github.com/R1cardo-ai/knowledge-garden-site">源码仓库</a>
 </p>
 
-<p align="center"><code>DESKTOP FIRST</code> &nbsp; <code>LOCAL-FIRST</code> &nbsp; <code>ESSAYS + AWARDS</code> &nbsp; <code>v1.0.245</code></p>
+<p align="center"><code>DESKTOP FIRST</code> &nbsp; <code>LOCAL-FIRST</code> &nbsp; <code>ESSAYS + AWARDS</code> &nbsp; <code>v1.0.249</code></p>
 
 **Knowledge Garden（知识花园）**是一座属于个人的随笔与成果档案。写下日常观察和想法，整理获奖经历，再通过搜索、关联与独立阅读把它们找回来。
 
@@ -47,7 +47,7 @@
 
 <p align="center"><img src="./assets/readme/data-boundary.svg" width="100%" alt="数据边界：网站在当前浏览器来源使用 localStorage，用户可手动导入或导出 JSON 文件。"></p>
 
-档案保存在当前浏览器来源的 `localStorage` 中，不会上传到 Git 仓库，也不会自动同步到其他设备、域名或端口。更换浏览器或迁移站点前，请先导出 JSON 备份。完整步骤见[档案与素材操作指南](docs/档案-本地操作与素材.md)。
+档案保存在当前浏览器来源的 `localStorage` 中，不会上传到 Git 仓库，也不会自动同步到其他设备、域名或端口。编辑中的草稿会自动留在本机，侧栏会显示上次导出时间并在超过 14 天时提醒；导入快照时可以选择合并或替换。更换浏览器或迁移站点前，请先导出 JSON 备份。完整步骤见[档案与素材操作指南](docs/档案-本地操作与素材.md)。
 
 ## 04 / 快速开始
 
@@ -73,7 +73,7 @@ npm start -- --ip 127.0.0.1 --port 5201
 | --- | --- | --- |
 | React 19 · TypeScript · Vinext · Vite | Tailwind CSS 4 | Cloudflare Pages · GitHub Pages |
 
-当前版本 **v1.0.245**。版本号与完整更新记录以 [`app/archive/page.tsx`](app/archive/page.tsx) 为准。
+当前版本 **v1.0.249**。版本号与完整更新记录以 [`app/archive/page.tsx`](app/archive/page.tsx) 为准。
 
 ## 06 / 项目地图
 

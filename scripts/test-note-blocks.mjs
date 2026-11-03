@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import ts from 'typescript';
 const js=ts.transpile(readFileSync('lib/note-blocks.ts','utf8'),{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2017});
-const {noteBlocks,noteInline}=await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
+const {noteBlocks,noteInline,groupNoteBlocks}=await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
 assert.deepEqual(noteBlocks(''),[]);
 assert.deepEqual(noteBlocks('旧笔记\r\n保留换行').map(b=>b.text),['旧笔记\n保留换行']);
 const blocks=noteBlocks('# 第一章\n正文\n\n## 第二章\n<script>test</script>');
@@ -27,3 +27,14 @@ assert.equal(noteInline('链接 https://example.com/。')[1].href,'https://examp
 console.log('Reader boundaries passed: closed fences, literal HTML, blank code lines, unfinished fences, HTTP links, images and unsafe link rejection.');
 assert.deepEqual(noteBlocks('```js\n# literal heading\n\ntext').map(block=>block.level),[0]);
 assert.equal(noteBlocks('```js\n# literal heading\n\ntext')[0].text,'```js\n# literal heading\n\ntext');
+
+const structure = noteBlocks('- 第一项\n- 第二项\n\n1. 甲\n2. 乙\n\n> 引用一\n> 引用二');
+assert.deepEqual(structure.map(block=>block.kind || 'text'), ['list','list','list','list','quote','quote']);
+assert.deepEqual(structure.filter(block=>block.kind === 'list').map(block=>block.ordered), [false,false,true,true]);
+const grouped = groupNoteBlocks(structure);
+assert.deepEqual(grouped.map(group=>group.kind), ['list','list','quote']);
+assert.deepEqual(grouped[0].items.map(item=>item.text), ['第一项','第二项']);
+assert.equal(grouped[1].ordered,true);
+assert.deepEqual(grouped[2].items.map(item=>item.text), ['引用一','引用二']);
+assert.deepEqual(noteBlocks('普通 - 不是列表\n\n普通 > 不是引用').map(block=>block.kind || 'text'), ['text','text']);
+console.log('Note structure passed: unordered/ordered lists, quotes, grouping and literal marker text.');

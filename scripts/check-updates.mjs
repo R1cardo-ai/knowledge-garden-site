@@ -2,6 +2,10 @@ import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { readReleaseData, syncReleaseTemplate, releaseAnchor, escapeHtml } from './release-data.mjs';
 const data = readReleaseData();
+const readme = readFileSync('README.md', 'utf8');
+assert.ok(readme.includes(data.version), `README must mention ${data.version}; update the version badge and current-version line`);
+const statusDoc = readFileSync('docs/现状-桌面验收.md', 'utf8');
+assert.ok(statusDoc.slice(0, 1600).includes(data.version), `docs/现状-桌面验收.md top section must mention ${data.version}`);
 const required = {
   'showcase.html': ['ticker', 'ticker-copy', 'index'],
   'reading.html': ['recent', 'history'],

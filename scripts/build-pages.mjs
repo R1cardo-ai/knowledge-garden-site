@@ -2,6 +2,9 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, 
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { escapeHtml, readReleaseData } from './release-data.mjs';
+
+const siteUrl = 'https://knowledge-garden-site.pages.dev';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const basePath = process.env.GITHUB_PAGES_BASE_PATH || '';
@@ -29,7 +32,7 @@ if (basePath) {
       if (!/\.(?:tsx?|js|html|css)$/.test(name)) continue;
       const source = readFileSync(file, 'utf8');
       const next = source
-        .replace(/(["'`])\/(archive|ui-kit|_next|fonts|favicon\.svg|knowledge-garden-logo\.svg|terrain-contours\.jpg)(?=[/?"'`#])/g, `$1${basePath}/$2`)
+        .replace(/(["'`])\/(archive|ui-kit|_next|fonts|favicon\.svg|knowledge-garden-logo\.svg|terrain-contours\.jpg|feed\.xml)(?=[/?"'`#])/g, `$1${basePath}/$2`)
         .replace(/href=(["'])\/\1/g, `href=$1${basePath}/$1`)
         .replaceAll('https://local.invalid/archive', `https://local.invalid${basePath}/archive`);
       if (next !== source) writeFileSync(file, next);
@@ -81,9 +84,70 @@ if (basePath) {
   }
   prefixAssets(output);
 }
-// The server-side home redirect is intentionally skipped by static export.
-writeFileSync(path.join(output, 'index.html'), `<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Knowledge Garden</title><meta http-equiv="refresh" content="0;url=${basePath}/ui-kit/templates/showcase.html?variant=standard"><a href="${basePath}/ui-kit/templates/showcase.html?variant=standard">进入知识花园</a></html>\n`);
+// The static home is a real document at "/" instead of a meta-refresh to the
+// template folder. Copy the already-synced showcase and point its relative
+// assets and sibling pages at the new root.
+const showcasePath = path.join(output, 'ui-kit/templates/showcase.html');
+if (!existsSync(showcasePath)) throw new Error('Static export missing homepage source');
+let home = readFileSync(showcasePath, 'utf8');
+home = home
+  .replaceAll('../assets/', `${basePath}/ui-kit/assets/`)
+  .replaceAll('href="showcase.html"', `href="${basePath}/"`)
+  .replaceAll('href="console.html"', `href="${basePath}/ui-kit/templates/console.html"`)
+  .replaceAll('href="reading.html', `href="${basePath}/ui-kit/templates/reading.html`)
+  .replaceAll('href="specimen.html"', `href="${basePath}/ui-kit/templates/specimen.html"`)
+  .replaceAll('href="antipatterns.html"', `href="${basePath}/ui-kit/templates/antipatterns.html"`)
+  .replaceAll('href="motion.html"', `href="${basePath}/ui-kit/templates/motion.html"`);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: '知识花园',
+  alternateName: 'Knowledge Garden',
+  url: `${siteUrl}/`,
+  description: '记录日常观察、个人思考与获奖经历的本地档案。',
+  inLanguage: 'zh-CN',
+};
+home = home.replace(/^<!doctype html>\s*<!--[\s\S]*?-->\s*/, '<!doctype html>\n');
+home = home.replace('</head>', `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>\n  </head>`);
+writeFileSync(path.join(output, 'index.html'), home);
+
+const { logs } = readReleaseData();
+const today = new Date().toISOString().slice(0, 10);
+const sitemapPages = [
+  ['/', '1.0', 'weekly'],
+  ['/archive', '0.9', 'weekly'],
+  ['/ui-kit/', '0.6', 'monthly'],
+  ['/ui-kit/templates/reading.html', '0.5', 'weekly'],
+  ['/ui-kit/templates/console.html', '0.4', 'monthly'],
+  ['/ui-kit/templates/specimen.html', '0.4', 'monthly'],
+];
+writeFileSync(path.join(output, 'sitemap.xml'), [
+  '<?xml version="1.0" encoding="UTF-8"?>',
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+  ...sitemapPages.map(([loc, priority, changefreq]) => `  <url><loc>${siteUrl}${loc}</loc><lastmod>${today}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`),
+  '</urlset>',
+  '',
+].join('\n'));
+writeFileSync(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
+const feedItems = logs.slice(0, 30).map((log) => {
+  const link = `${siteUrl}/ui-kit/templates/reading.html#release-${log.version.replaceAll('.', '-')}`;
+  const pubDate = new Date(`${log.date.replaceAll('.', '-')}T00:00:00+08:00`).toUTCString();
+  return `    <item><title>${escapeHtml(`${log.version} ${log.title}`)}</title><link>${link}</link><guid isPermaLink="false">${escapeHtml(log.version)}</guid><pubDate>${pubDate}</pubDate><description>${escapeHtml(log.items.join('；'))}</description></item>`;
+}).join('\n');
+writeFileSync(path.join(output, 'feed.xml'), [
+  '<?xml version="1.0" encoding="UTF-8"?>',
+  '<rss version="2.0"><channel>',
+  '  <title>知识花园 · 更新日志</title>',
+  `  <link>${siteUrl}/ui-kit/templates/reading.html#updates</link>`,
+  '  <description>知识花园每次产品更新的简短记录。</description>',
+  '  <language>zh-CN</language>',
+  `  <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>`,
+  feedItems,
+  '</channel></rss>',
+  '',
+].join('\n'));
+
 writeFileSync(path.join(output, '.nojekyll'), '');
-writeFileSync(path.join(output, '_redirects'), '/ /ui-kit/templates/showcase.html?variant=standard 302\n/knowledge-garden-site / 301\n/knowledge-garden-site/* /:splat 301\n');
-writeFileSync(path.join(output, '404.html'), `<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>404 · 知识花园</title><h1>404</h1><p>未找到页面。</p><a href="${basePath}/">返回首页</a></html>\n`);
+writeFileSync(path.join(output, '_redirects'), '/knowledge-garden-site / 301\n/knowledge-garden-site/* /:splat 301\n');
+writeFileSync(path.join(output, '404.html'), `<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>404 · 知识花园</title><meta name="robots" content="noindex"><h1>404</h1><p>未找到页面。</p><a href="${basePath}/">返回首页</a></html>\n`);
 console.log(`Cloudflare Pages static export ready: ${version}, .pages-build/site`);
