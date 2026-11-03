@@ -8,7 +8,7 @@
   <a href="https://github.com/R1cardo-ai/knowledge-garden-site">源码仓库</a>
 </p>
 
-<p align="center"><code>DESKTOP FIRST</code> &nbsp; <code>LOCAL-FIRST</code> &nbsp; <code>ESSAYS + AWARDS</code> &nbsp; <code>v1.0.250</code></p>
+<p align="center"><code>DESKTOP FIRST</code> &nbsp; <code>LOCAL-FIRST</code> &nbsp; <code>ESSAYS + AWARDS</code> &nbsp; <code>v1.0.249</code></p>
 
 **Knowledge Garden（知识花园）**是一座属于个人的随笔与成果档案。写下日常观察和想法，整理获奖经历，再通过搜索、关联与独立阅读把它们找回来。
 
@@ -16,11 +16,11 @@
 
 界面由真实档案结构驱动：随笔、获奖成果、目录筛选、独立阅读、更新记录和设计样张，各自有明确入口。以下验收截图中的记录来自隔离样例数据，不是访问者的浏览器档案。
 
-### 首页 · 立绘落地页
+### 首页 · 写下与发现
 
-[![首页：KNOWLEDGE GARDEN 字标、两个入口与右侧立绘「祀」，页脚为更新记录与版权声明（v1.0.250 浅色主题，桌面首屏）](assets/readme/screenshots/home-900.jpg)](assets/readme/screenshots/home-900.jpg)
+[![首页：记录入口、内容概览、精选成果与最近档案（v1.0.239 浅色主题，桌面首屏）](assets/readme/screenshots/home-900.jpg)](assets/readme/screenshots/home-900.jpg)
 
-<sub>HOME / 浅色主题 / 1440px / v1.0.250 验收样例</sub>
+<sub>HOME / 浅色主题 / 1440px / v1.0.239 验收样例</sub>
 
 ### 随笔目录 · 搜索与整理
 
@@ -73,7 +73,7 @@ npm start -- --ip 127.0.0.1 --port 5201
 | --- | --- | --- |
 | React 19 · TypeScript · Vinext · Vite | Tailwind CSS 4 | Cloudflare Pages · GitHub Pages |
 
-当前版本 **v1.0.250**。版本号与完整更新记录以 [`app/archive/page.tsx`](app/archive/page.tsx) 为准。
+当前版本 **v1.0.249**。版本号与完整更新记录以 [`app/archive/page.tsx`](app/archive/page.tsx) 为准。
 
 ## 06 / 项目地图
 
@@ -86,19 +86,6 @@ npm start -- --ip 127.0.0.1 --port 5201
 
 **产品与数字花园参考**： [Capacities](https://capacities.io/) · [Tana](https://outliner.tana.inc/) · [Craft](https://www.craft.do/) · [Are.na](https://www.are.na/about) · [Andy Matuschak 的公开笔记](https://notes.andymatuschak.org/) · [Notion](https://www.notion.com/product/features) · [Obsidian](https://obsidian.md/help/plugins/graph) · [Amytis](https://github.com/Rongkangqi/amytis) · [Zettelgarden](https://zettelgarden.com/app) · [Roam Garden](https://labrisa.roam.garden/) · [C4ss1us Digital Garden](https://c4ss1usgarden.vercel.app/) · [Recurse](https://www.recurse.cc/) · [Conception](https://conception.app/) · [DO Knowledge Studio](https://github.com/d-oit/do-knowledge-studio) · [Mindweave](https://www.mindweave.space/) · [Notis+](https://abduzeedo.com/notis-ai-workspace-ux-ui-design-dashboard-done-quietly/) · [Cosmind](https://www.simonenegro.com/project/cosmind) · [AI Second Brain](https://github.com/balabhadra3141/AI-Second-Brain)。
 
-**视觉研究**：[《明日方舟：终末地》官方网站](https://endfield.hypergryph.com/)。界面排版、信息层级与交互参考其工程信息设计；除下述首页立绘外，站内不使用游戏截图、标志或其他角色美术。
-
-## 08 / 版权与使用声明
-
-**首页角色立绘「祀」**取自《明日方舟：终末地》主题同人美化包（Wallpaper Engine 动态壁纸，作者 Dr_Black，随包文件 `character-idle.webm` / `character-enter.webm` / `character-poster.png`）。角色形象、名称及相关美术素材的权利归**上海鹰角网络科技有限公司**及原权利人所有。
-
-本站对上述素材的使用范围：
-
-- **个人、非商业、展示性**使用：仅在首页以动态立绘形式呈现，不改变原素材，不用于任何商品、付费服务或广告。
-- **不提供再分发**：站内不提供该素材的下载、导出或镜像；素材不随开源仓库的源码发布物一起对外授权。
-- **无隶属关系**：本站为个人项目，与上海鹰角网络科技有限公司及其关联方无隶属、赞助或授权关系，不代表其立场。
-- **可随时移除**：如权利人提出异议，将立即下线相关素材并替换为原创或已授权的替代立绘。
-
-站内其余文字、界面、代码与自绘图形为本项目原创。若你希望复用本站代码，请连同角色素材一并排除。
+**视觉研究**：[《明日方舟：终末地》官方网站](https://endfield.hypergryph.com/)。本站参考其工程信息设计，不使用游戏图片、角色立绘或标志。
 
 **技能作者**：[hhikr](https://github.com/hhikr)（[endfield-ui](https://github.com/hhikr/endfield-ui-skill)） · [Brandon030722](https://github.com/Brandon030722)（[ark-ui](https://github.com/Brandon030722/ark-ui-skill)）。更多来源与素材说明见[外部设计参考](docs/设计-外部参考.md)。

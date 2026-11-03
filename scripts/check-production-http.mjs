@@ -11,10 +11,7 @@ async function check(path, expected, match) {
  results.push({path,status:response.status,url:response.url,type:response.headers.get('content-type')});
  return body;
 }
-const landing=await check('/',200,'Knowledge');
-assert.ok(landing.includes(version),'/: release version absent from landing');
-assert.ok(landing.includes('声明'),'/: rights declaration absent from landing');
-assert.ok(landing.includes('si-poster-720.webp'),'/: character poster absent from landing');
+await check('/',200,'Knowledge');
 const home=await check('/ui-kit/templates/showcase.html?variant=standard',200,version);
 assert.ok(home.includes('data-recent="knowledge"'));
 await check('/ui-kit/assets/archive-data.js',200,'relatedReferences');
