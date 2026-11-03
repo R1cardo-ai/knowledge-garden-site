@@ -132,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.246';
+const currentVersion = 'v1.0.247';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -140,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.247', date: '2026.11.03', title: '首页新增从这里开始三步路线', items: ['首页新增「从这里开始」：按当前档案自动生成三步——读最近一篇随笔、看最近一项成果、打开全部目录；每步显示真实标题、日期与分类，无记录时显示空状态', '路线不新增存储或手写推荐数据；第一步与第二步直接打开对应记录，第三步进入目录列表', '三步沿用 1px 线、编号与顶边刻度；≤719 单列，支持键盘焦点与减少动态效果'] },
   { version: 'v1.0.246', date: '2026.11.03', title: '首页新增主题书架', items: ['首页新增「主题书架」：按当前浏览器真实标签聚合，取记录数前 6 个，每格显示标签、记录数与最近一条标题；点选在档案中搜索该标签', '空档案与读取失败分别显示真实说明，不生成示例标签；未新增存储键或标签数据，搜索沿用现有 q 参数', '书架沿用 1px 线、编号与顶边刻度；≤1099 两列、≤719 单列，支持键盘焦点与减少动态效果'] },
   { version: 'v1.0.245', date: '2026.11.02', title: '档案与样张索引补齐站点图标', items: ['档案页与桌面样张索引共用的根布局补站点图标声明，浏览器不再请求缺失的 /favicon.ico；图标沿用 /favicon.svg，GitHub Pages 构建自动补项目前缀', '与 v1.0.244 的六份样张 favicon 保持一致，全站不再出现该 404', '只改根布局元数据；未改视觉、数据、存储或交互'] },
   { version: 'v1.0.244', date: '2026.11.02', title: '样张页补齐 favicon 与线上核对', items: ['六份样张的 head 补 favicon 声明，浏览器不再请求缺失的 /favicon.ico；图标沿用站内 favicon.svg，GitHub Pages 构建会自动补上项目前缀', '线上 1440 桌面核对 Cloudflare 首页、样张与档案：无横向溢出，首页五块入口、样张 v1.0.244 与回到顶部入口可见；此前首页唯一的 404 是 favicon.ico，本次消除', '只改样张 head 与验收记录；未改视觉、数据、存储或交互'] },

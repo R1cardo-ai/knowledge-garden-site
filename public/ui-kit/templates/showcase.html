@@ -221,6 +221,25 @@
       @media (max-width: 1099px) { .shelf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
       @media (max-width: 719px) { .shelf-grid { grid-template-columns: minmax(0, 1fr); } }
 
+      /* ---- 从这里开始：由真实档案生成的三步 -------------------------------- */
+      .route-band { padding: clamp(2rem, 3.4vw, 3rem) var(--ef-pad); border-bottom: 1px solid var(--ef-rule); }
+      .route-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: .75rem 2rem; margin-bottom: 1.5rem; }
+      .route-head .ef-eyebrow { margin: 0 0 .35rem; }
+      .route-head .ef-bar-title { margin: 0; }
+      .route-note { max-width: 32rem; margin: 0; color: var(--ef-ink-2); font-size: .8125rem; line-height: 1.7; }
+      .route-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 0; background: var(--ef-rule); border: 1px solid var(--ef-rule); list-style: none; }
+      .route-grid > li { min-width: 0; background: var(--ef-panel); }
+      .route-step { position: relative; display: flex; flex-direction: column; gap: .3rem; height: 100%; min-height: 8.5rem; padding: 1rem 1.1rem 1.1rem; color: var(--ef-ink); text-decoration: none; background: var(--ef-panel); }
+      .route-step::before { content: ''; position: absolute; top: 0; left: 0; width: 3.5rem; height: 3px; background: var(--ef-ink); transition: width .24s var(--ef-ease), background-color .18s; }
+      .route-index { color: var(--ef-ink-2); font-family: var(--ef-font-mono); font-size: .6875rem; letter-spacing: .12em; }
+      .route-label { color: var(--ef-ink-2); font-size: .75rem; letter-spacing: .06em; }
+      .route-title { margin-top: auto; display: -webkit-box; overflow: hidden; font-size: 1.05rem; font-weight: 800; line-height: 1.45; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+      .route-meta { color: var(--ef-ink-2); font-size: .75rem; font-variant-numeric: tabular-nums; }
+      .route-step:is(:hover, :focus-visible) { background: var(--ef-paper); }
+      .route-step:is(:hover, :focus-visible)::before { width: 5.5rem; background: var(--ef-signal); }
+      .route-step:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: -5px; }
+      @media (max-width: 719px) { .route-grid { grid-template-columns: minmax(0, 1fr); } }
+
       /* ---- 入口地图：五个真实入口 ----------------------------------------- */
       .gates { padding: clamp(2rem, 3.4vw, 3rem) var(--ef-pad); border-bottom: 1px solid var(--ef-rule); }
       .gates-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: .75rem 2rem; margin-bottom: 1.5rem; }
@@ -261,7 +280,7 @@
         .gate { min-height: 0; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .chart-bar, .featured-art, .hero .ef-wordmark, .gate::before, .gate-arrow, .lead-proof img, .shelf-item::before { transition: none; }
+        .chart-bar, .featured-art, .hero .ef-wordmark, .gate::before, .gate-arrow, .lead-proof img, .shelf-item::before, .route-step::before { transition: none; }
       }
     </style>
     <!-- 工程制图增强层：必须晚于上面的内联 <style> -->
@@ -283,7 +302,7 @@
           <span><b data-fx-load data-archive-count="knowledge">0</b> 篇随笔</span>
           <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
         </span>
-        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.246</b></span>
+        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.247</b></span>
       </div>
 
       <div class="hero-copy ef-in-power" style="--i:2">
@@ -325,24 +344,24 @@
       <div class="track">
         <ul>
 <!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-247"><b>v1.0.247</b>首页新增从这里开始三步路线</a></li>
 <li><a href="reading.html#release-v1-0-246"><b>v1.0.246</b>首页新增主题书架</a></li>
 <li><a href="reading.html#release-v1-0-245"><b>v1.0.245</b>档案与样张索引补齐站点图标</a></li>
 <li><a href="reading.html#release-v1-0-244"><b>v1.0.244</b>样张页补齐 favicon 与线上核对</a></li>
 <li><a href="reading.html#release-v1-0-243"><b>v1.0.243</b>设计样张长页补回到顶部入口</a></li>
 <li><a href="reading.html#release-v1-0-242"><b>v1.0.242</b>样张索引补分区跳转与内容说明</a></li>
 <li><a href="reading.html#release-v1-0-241"><b>v1.0.241</b>首页证据图低饱和与样张影像规范</a></li>
-<li><a href="reading.html#release-v1-0-240"><b>v1.0.240</b>设计样张补字阶与动效对照</a></li>
 <!-- /release -->
 </ul>
         <ul aria-hidden="true">
 <!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-247" tabindex="-1"><b>v1.0.247</b>首页新增从这里开始三步路线</a></li>
 <li><a href="reading.html#release-v1-0-246" tabindex="-1"><b>v1.0.246</b>首页新增主题书架</a></li>
 <li><a href="reading.html#release-v1-0-245" tabindex="-1"><b>v1.0.245</b>档案与样张索引补齐站点图标</a></li>
 <li><a href="reading.html#release-v1-0-244" tabindex="-1"><b>v1.0.244</b>样张页补齐 favicon 与线上核对</a></li>
 <li><a href="reading.html#release-v1-0-243" tabindex="-1"><b>v1.0.243</b>设计样张长页补回到顶部入口</a></li>
 <li><a href="reading.html#release-v1-0-242" tabindex="-1"><b>v1.0.242</b>样张索引补分区跳转与内容说明</a></li>
 <li><a href="reading.html#release-v1-0-241" tabindex="-1"><b>v1.0.241</b>首页证据图低饱和与样张影像规范</a></li>
-<li><a href="reading.html#release-v1-0-240" tabindex="-1"><b>v1.0.240</b>设计样张补字阶与动效对照</a></li>
 <!-- /release -->
 </ul>
       </div>
@@ -386,7 +405,7 @@
           <span class="gate-top"><span class="gate-index" aria-hidden="true">04</span><span class="gate-arrow" aria-hidden="true">↗</span></span>
           <span class="gate-body">
             <span class="gate-name">更新日志<small>Release log</small></span>
-            <span class="gate-metric"><b data-release="total">258 条</b></span>
+            <span class="gate-metric"><b data-release="total">259 条</b></span>
             <span class="gate-desc">每次变更的原因与范围。</span>
           </span>
         </a></li>
@@ -428,6 +447,17 @@
       <p class="shelf-empty" data-shelf-empty hidden>还没有标签。给记录加上标签后，这里会按记录数列出主题。</p>
     </section>
 
+    <section class="route-band" aria-labelledby="route-title">
+      <div class="route-head">
+        <div>
+          <p class="ef-eyebrow slash">Start here</p>
+          <h2 class="ef-bar-title" id="route-title">从这里开始</h2>
+        </div>
+        <p class="route-note" data-route-note>按当前档案生成的三步：读最近一篇随笔、看最近一项成果、打开全部目录；没有记录时给出空状态。</p>
+      </div>
+      <ol class="route-grid" data-start-route></ol>
+    </section>
+
     <section class="recent archive-home" aria-labelledby="archive-home-title">
       <div class="recent-head">
         <div>
@@ -452,15 +482,15 @@
     </section>
 
     <section class="latest" id="latest" aria-label="最新更新">
-      <a href="reading.html#release-v1-0-246" data-release-href="latest" data-fx-host>
+      <a href="reading.html#release-v1-0-247" data-release-href="latest" data-fx-host>
         <span class="latest-plate">
           <span class="latest-plate-label">Release note / 版本记录</span>
-          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">246</span>
+          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">247</span>
         </span>
         <span class="latest-body">
-          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.246</span> │ <span data-release="date">2026.11.03</span></span>
-          <span class="latest-title" data-release="title">首页新增主题书架</span>
-          <span class="latest-summary" data-release="summary">首页新增「主题书架」：按当前浏览器真实标签聚合，取记录数前 6 个，每格显示标签、记录数与最近一条标题；点选在档案中搜索该标签；空档案与读取失败分别显示真实说明，不生成示例标签；未新增存储键或标签数据，搜索沿用现有 q 参数；书架沿用 1px 线、编号与顶边刻度；≤1099 两列、≤719 单列，支持键盘焦点与减少动态效果</span>
+          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.247</span> │ <span data-release="date">2026.11.03</span></span>
+          <span class="latest-title" data-release="title">首页新增从这里开始三步路线</span>
+          <span class="latest-summary" data-release="summary">首页新增「从这里开始」：按当前档案自动生成三步——读最近一篇随笔、看最近一项成果、打开全部目录；每步显示真实标题、日期与分类，无记录时显示空状态；路线不新增存储或手写推荐数据；第一步与第二步直接打开对应记录，第三步进入目录列表；三步沿用 1px 线、编号与顶边刻度；≤719 单列，支持键盘焦点与减少动态效果</span>
           <span class="ef-btn go latest-cta">阅读最新更新</span>
         </span>
       </a>
@@ -481,9 +511,9 @@
           <h3>最近网站更新</h3>
           <ol class="ef-records">
 <!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-247"><span class="ef-tag">v1.0.247</span><time class="ef-field">2026.11.03</time><span class="name ef-read">首页新增从这里开始三步路线</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-246"><span class="ef-tag">v1.0.246</span><time class="ef-field">2026.11.03</time><span class="name ef-read">首页新增主题书架</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-245"><span class="ef-tag">v1.0.245</span><time class="ef-field">2026.11.02</time><span class="name ef-read">档案与样张索引补齐站点图标</span><span class="ef-field">03 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-244"><span class="ef-tag">v1.0.244</span><time class="ef-field">2026.11.02</time><span class="name ef-read">样张页补齐 favicon 与线上核对</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
         </div>

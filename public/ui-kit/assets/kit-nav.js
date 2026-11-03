@@ -78,6 +78,60 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
         ? `${entries.length} 条记录 / ${byTag.size} 个标签；显示记录数前 6 个，点选在档案中搜索。`
         : '按当前浏览器档案的真实标签聚合；点选标签在档案中搜索该词。';
     }
+    // 从这里开始：用当前档案生成三步，不另建推荐数据或手写路线。
+    const route = document.querySelector('[data-start-route]');
+    if (route) {
+      const newestEssay = entries.filter((entry) => entry.type === 'knowledge').sort(compareEssayDate)[0];
+      const newestAward = entries.filter((entry) => entry.type === 'award').sort(compareRecent)[0];
+      const steps = [
+        {
+          label: '读一篇随笔',
+          entry: newestEssay,
+          fallback: '还没有随笔',
+          href: newestEssay ? `/archive?${new URLSearchParams({ view: 'knowledge', entry: newestEssay.id })}` : '/archive?view=knowledge#quick-capture-title',
+        },
+        {
+          label: '看一项成果',
+          entry: newestAward,
+          fallback: '还没有成果',
+          href: newestAward ? `/archive?${new URLSearchParams({ view: 'award', entry: newestAward.id })}` : '/archive?view=award',
+        },
+        {
+          label: '打开全部目录',
+          entry: null,
+          fallback: '全部目录',
+          meta: `${entries.length} 条记录`,
+          href: '/archive?view=knowledge&layout=list',
+        },
+      ];
+      route.replaceChildren();
+      steps.forEach((step, index) => {
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.className = 'route-step';
+        link.href = step.href;
+        const number = document.createElement('span');
+        number.className = 'route-index';
+        number.setAttribute('aria-hidden', 'true');
+        number.textContent = String(index + 1).padStart(2, '0');
+        const label = document.createElement('span');
+        label.className = 'route-label';
+        label.textContent = step.label;
+        const title = document.createElement('strong');
+        title.className = 'route-title';
+        title.textContent = step.entry?.title || step.fallback;
+        const meta = document.createElement('span');
+        meta.className = 'route-meta';
+        meta.textContent = step.entry ? `${step.entry.date} / ${step.entry.category}` : (step.meta || '');
+        link.append(number, label, title, meta);
+        listItem.append(link);
+        route.append(listItem);
+      });
+      const note = document.querySelector('[data-route-note]');
+      if (note) note.textContent = entries.length
+        ? `按当前 ${entries.length} 条档案生成：读最近一篇随笔、看最近一项成果、打开全部目录。`
+        : '档案为空时，这里是三步空状态：写第一篇随笔、记录第一项成果、打开目录。';
+    }
     const status = document.querySelector('[data-archive-status]');
     if (status) status.textContent = saved === null ? '首次访问：从一篇随笔或一项成果开始。档案保存在当前浏览器。' : entries.length ? '来自当前浏览器的档案 · 随笔按记录日期排列' : '档案为空，可以打开个人档案添加记录。';
     // 内容概览：真实分类分布。条长为该类记录数 / 最大类记录数，点击进入已有分类筛选。
@@ -193,6 +247,7 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
     document.querySelectorAll('[data-archive-chart-total]').forEach(node => {node.textContent = '读取失败';});
     document.querySelectorAll('[data-shelf-grid]').forEach(node => {node.hidden = true;});
     document.querySelectorAll('[data-shelf-empty]').forEach(node => {node.hidden = false; node.textContent = '读取失败，暂不显示主题书架。';});
+    document.querySelectorAll('[data-start-route]').forEach(node => {node.textContent = '读取失败，暂不显示推荐路线';});
   }
 
   }
