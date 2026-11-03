@@ -4,7 +4,7 @@
   <link>https://knowledge-garden-site.pages.dev/ui-kit/templates/reading.html#updates</link>
   <description>知识花园每次产品更新的简短记录。</description>
   <language>zh-CN</language>
-  <lastBuildDate>Tue, 03 Nov 2026 04:32:27 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 03 Nov 2026 04:37:54 GMT</lastBuildDate>
     <item><title>v1.0.249 补上数据安全、性能与分享</title><link>https://knowledge-garden-site.pages.dev/ui-kit/templates/reading.html#release-v1-0-249</link><guid isPermaLink="false">v1.0.249</guid><pubDate>Mon, 02 Nov 2026 16:00:00 GMT</pubDate><description>编辑自动保存草稿，重开恢复；删除后 8 秒可撤销；导入可选择合并或替换，侧栏与页脚显示上次导出时间并在超过 14 天时提醒；随笔正文支持列表、编号与引用；背景图超过 900KB 时先在浏览器压缩，上传上限 8MB；中文字体拆成 unicode-range 分片，单页只加载用到的分片，不再下载 6.7MB 整包；首页改为真实根路径，补 description、Open Graph、canonical、sitemap、robots、RSS 与分享图；新增 CI、类型检查、链接检查与构建清理</description></item>
     <item><title>v1.0.248 首页新增成果影像墙</title><link>https://knowledge-garden-site.pages.dev/ui-kit/templates/reading.html#release-v1-0-248</link><guid isPermaLink="false">v1.0.248</guid><pubDate>Mon, 02 Nov 2026 16:00:00 GMT</pubDate><description>首页新增「影像墙」：收集当前档案中带图片链接的成果证据，按日期取最近 3 张；卡片显示图片、标题、日期与分类，低饱和预览，指针移入或键盘聚焦还原全彩；无图时不生成占位图或假封面，显示真实空状态；不新增存储键或图片上传，沿用成果记录的证明链接；影像墙为 4:3 三列，≤719 单列；复用现有证据图校验与低饱和规则，支持键盘焦点与减少动态效果</description></item>
     <item><title>v1.0.247 首页新增从这里开始三步路线</title><link>https://knowledge-garden-site.pages.dev/ui-kit/templates/reading.html#release-v1-0-247</link><guid isPermaLink="false">v1.0.247</guid><pubDate>Mon, 02 Nov 2026 16:00:00 GMT</pubDate><description>首页新增「从这里开始」：按当前档案自动生成三步——读最近一篇随笔、看最近一项成果、打开全部目录；每步显示真实标题、日期与分类，无记录时显示空状态；路线不新增存储或手写推荐数据；第一步与第二步直接打开对应记录，第三步进入目录列表；三步沿用 1px 线、编号与顶边刻度；≤719 单列，支持键盘焦点与减少动态效果</description></item>
