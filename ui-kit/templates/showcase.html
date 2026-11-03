@@ -240,6 +240,31 @@
       .route-step:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: -5px; }
       @media (max-width: 719px) { .route-grid { grid-template-columns: minmax(0, 1fr); } }
 
+      /* ---- 影像墙：当前档案里的成果证据图 -------------------------------- */
+      .gallery { padding: clamp(2rem, 3.4vw, 3rem) var(--ef-pad); border-bottom: 1px solid var(--ef-rule); }
+      .gallery-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: .75rem 2rem; margin-bottom: 1.5rem; }
+      .gallery-head .ef-eyebrow { margin: 0 0 .35rem; }
+      .gallery-head .ef-bar-title { margin: 0; }
+      .gallery-note { max-width: 34rem; margin: 0; color: var(--ef-ink-2); font-size: .8125rem; line-height: 1.7; }
+      .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 0; background: var(--ef-rule); border: 1px solid var(--ef-rule); list-style: none; }
+      .gallery-grid > li { min-width: 0; background: var(--ef-panel); }
+      .gallery-more { grid-column: span var(--gallery-span, 1); }
+      .gallery-more a { display: flex; flex-direction: column; justify-content: flex-end; gap: .35rem; height: 100%; min-height: 100%; padding: 1rem 1.1rem 1.1rem; color: var(--ef-ink); text-decoration: none; background: var(--ef-paper); }
+      .gallery-more a:is(:hover, :focus-visible) { background: var(--ef-chip); }
+      .gallery-more a:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: -3px; }
+      .gallery-more b { font-size: 1.05rem; font-weight: 800; }
+      .gallery-more small { color: var(--ef-ink-2); font-size: .75rem; }
+      .gallery-card { display: block; height: 100%; color: var(--ef-ink); text-decoration: none; background: var(--ef-panel); }
+      .gallery-media { display: block; aspect-ratio: 4 / 3; overflow: hidden; border-bottom: 1px solid var(--ef-rule); background: var(--ef-paper); }
+      .gallery-media img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.45) contrast(.94); transition: filter .3s var(--ef-ease); }
+      .gallery-card:is(:hover, :focus-visible) .gallery-media img { filter: none; }
+      .gallery-card:focus-visible { outline: 2px solid var(--ef-ink); outline-offset: -3px; }
+      .gallery-caption { display: grid; gap: .25rem; padding: .8rem .9rem 1rem; }
+      .gallery-title { display: -webkit-box; overflow: hidden; font-size: .9375rem; font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+      .gallery-meta { color: var(--ef-ink-2); font-size: .75rem; font-variant-numeric: tabular-nums; }
+      .gallery-empty { margin: 0; padding: 1rem 0; color: var(--ef-ink-2); font-size: .875rem; line-height: 1.7; }
+      @media (max-width: 719px) { .gallery-grid { grid-template-columns: minmax(0, 1fr); } .gallery-more { grid-column: auto; } }
+
       /* ---- 入口地图：五个真实入口 ----------------------------------------- */
       .gates { padding: clamp(2rem, 3.4vw, 3rem) var(--ef-pad); border-bottom: 1px solid var(--ef-rule); }
       .gates-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: .75rem 2rem; margin-bottom: 1.5rem; }
@@ -280,7 +305,7 @@
         .gate { min-height: 0; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .chart-bar, .featured-art, .hero .ef-wordmark, .gate::before, .gate-arrow, .lead-proof img, .shelf-item::before, .route-step::before { transition: none; }
+        .chart-bar, .featured-art, .hero .ef-wordmark, .gate::before, .gate-arrow, .lead-proof img, .shelf-item::before, .route-step::before, .gallery-media img { transition: none; }
       }
     </style>
     <!-- 工程制图增强层：必须晚于上面的内联 <style> -->
@@ -302,7 +327,7 @@
           <span><b data-fx-load data-archive-count="knowledge">0</b> 篇随笔</span>
           <span><b data-fx-load data-archive-count="award">0</b> 项成果</span>
         </span>
-        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.247</b></span>
+        <span class="hero-version"><i aria-hidden="true"></i>Archive index <b data-release="version">v1.0.248</b></span>
       </div>
 
       <div class="hero-copy ef-in-power" style="--i:2">
@@ -344,24 +369,24 @@
       <div class="track">
         <ul>
 <!-- release:ticker -->
+<li><a href="reading.html#release-v1-0-248"><b>v1.0.248</b>首页新增成果影像墙</a></li>
 <li><a href="reading.html#release-v1-0-247"><b>v1.0.247</b>首页新增从这里开始三步路线</a></li>
 <li><a href="reading.html#release-v1-0-246"><b>v1.0.246</b>首页新增主题书架</a></li>
 <li><a href="reading.html#release-v1-0-245"><b>v1.0.245</b>档案与样张索引补齐站点图标</a></li>
 <li><a href="reading.html#release-v1-0-244"><b>v1.0.244</b>样张页补齐 favicon 与线上核对</a></li>
 <li><a href="reading.html#release-v1-0-243"><b>v1.0.243</b>设计样张长页补回到顶部入口</a></li>
 <li><a href="reading.html#release-v1-0-242"><b>v1.0.242</b>样张索引补分区跳转与内容说明</a></li>
-<li><a href="reading.html#release-v1-0-241"><b>v1.0.241</b>首页证据图低饱和与样张影像规范</a></li>
 <!-- /release -->
 </ul>
         <ul aria-hidden="true">
 <!-- release:ticker-copy -->
+<li><a href="reading.html#release-v1-0-248" tabindex="-1"><b>v1.0.248</b>首页新增成果影像墙</a></li>
 <li><a href="reading.html#release-v1-0-247" tabindex="-1"><b>v1.0.247</b>首页新增从这里开始三步路线</a></li>
 <li><a href="reading.html#release-v1-0-246" tabindex="-1"><b>v1.0.246</b>首页新增主题书架</a></li>
 <li><a href="reading.html#release-v1-0-245" tabindex="-1"><b>v1.0.245</b>档案与样张索引补齐站点图标</a></li>
 <li><a href="reading.html#release-v1-0-244" tabindex="-1"><b>v1.0.244</b>样张页补齐 favicon 与线上核对</a></li>
 <li><a href="reading.html#release-v1-0-243" tabindex="-1"><b>v1.0.243</b>设计样张长页补回到顶部入口</a></li>
 <li><a href="reading.html#release-v1-0-242" tabindex="-1"><b>v1.0.242</b>样张索引补分区跳转与内容说明</a></li>
-<li><a href="reading.html#release-v1-0-241" tabindex="-1"><b>v1.0.241</b>首页证据图低饱和与样张影像规范</a></li>
 <!-- /release -->
 </ul>
       </div>
@@ -405,7 +430,7 @@
           <span class="gate-top"><span class="gate-index" aria-hidden="true">04</span><span class="gate-arrow" aria-hidden="true">↗</span></span>
           <span class="gate-body">
             <span class="gate-name">更新日志<small>Release log</small></span>
-            <span class="gate-metric"><b data-release="total">259 条</b></span>
+            <span class="gate-metric"><b data-release="total">260 条</b></span>
             <span class="gate-desc">每次变更的原因与范围。</span>
           </span>
         </a></li>
@@ -481,16 +506,28 @@
       <noscript><p>启用 JavaScript 后可显示本地档案，或直接<a href="/knowledge-garden-site/archive">打开个人档案</a>。</p></noscript>
     </section>
 
+    <section class="gallery" aria-labelledby="gallery-title">
+      <div class="gallery-head">
+        <div>
+          <p class="ef-eyebrow slash">Gallery</p>
+          <h2 class="ef-bar-title" id="gallery-title">影像墙</h2>
+        </div>
+        <p class="gallery-note" data-gallery-note>按当前档案收集带图片的成果证据，低饱和预览、指针移入还原。暂时只有证据图，灵感收藏等有素材再扩展。</p>
+      </div>
+      <ol class="gallery-grid" data-evidence-gallery aria-label="成果证据影像"></ol>
+      <p class="gallery-empty" data-gallery-empty hidden>还没有带图片的成果。给成果填入直接的图片链接后，这里会按日期展示。</p>
+    </section>
+
     <section class="latest" id="latest" aria-label="最新更新">
-      <a href="reading.html#release-v1-0-247" data-release-href="latest" data-fx-host>
+      <a href="reading.html#release-v1-0-248" data-release-href="latest" data-fx-host>
         <span class="latest-plate">
           <span class="latest-plate-label">Release note / 版本记录</span>
-          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">247</span>
+          <span class="ef-hollow-no" aria-hidden="true" data-fx data-fx-load data-release="number">248</span>
         </span>
         <span class="latest-body">
-          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.247</span> │ <span data-release="date">2026.11.03</span></span>
-          <span class="latest-title" data-release="title">首页新增从这里开始三步路线</span>
-          <span class="latest-summary" data-release="summary">首页新增「从这里开始」：按当前档案自动生成三步——读最近一篇随笔、看最近一项成果、打开全部目录；每步显示真实标题、日期与分类，无记录时显示空状态；路线不新增存储或手写推荐数据；第一步与第二步直接打开对应记录，第三步进入目录列表；三步沿用 1px 线、编号与顶边刻度；≤719 单列，支持键盘焦点与减少动态效果</span>
+          <span class="latest-meta"><span class="flag">最新</span> <span data-release="version">v1.0.248</span> │ <span data-release="date">2026.11.03</span></span>
+          <span class="latest-title" data-release="title">首页新增成果影像墙</span>
+          <span class="latest-summary" data-release="summary">首页新增「影像墙」：收集当前档案中带图片链接的成果证据，按日期取最近 3 张；卡片显示图片、标题、日期与分类，低饱和预览，指针移入或键盘聚焦还原全彩；无图时不生成占位图或假封面，显示真实空状态；不新增存储键或图片上传，沿用成果记录的证明链接；影像墙为 4:3 三列，≤719 单列；复用现有证据图校验与低饱和规则，支持键盘焦点与减少动态效果</span>
           <span class="ef-btn go latest-cta">阅读最新更新</span>
         </span>
       </a>
@@ -511,9 +548,9 @@
           <h3>最近网站更新</h3>
           <ol class="ef-records">
 <!-- release:index -->
+<li><a class="ef-record" href="reading.html#release-v1-0-248"><span class="ef-tag">v1.0.248</span><time class="ef-field">2026.11.03</time><span class="name ef-read">首页新增成果影像墙</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-247"><span class="ef-tag">v1.0.247</span><time class="ef-field">2026.11.03</time><span class="name ef-read">首页新增从这里开始三步路线</span><span class="ef-field">03 项调整</span></a></li>
 <li><a class="ef-record" href="reading.html#release-v1-0-246"><span class="ef-tag">v1.0.246</span><time class="ef-field">2026.11.03</time><span class="name ef-read">首页新增主题书架</span><span class="ef-field">03 项调整</span></a></li>
-<li><a class="ef-record" href="reading.html#release-v1-0-245"><span class="ef-tag">v1.0.245</span><time class="ef-field">2026.11.02</time><span class="name ef-read">档案与样张索引补齐站点图标</span><span class="ef-field">03 项调整</span></a></li>
 <!-- /release -->
 </ol>
         </div>

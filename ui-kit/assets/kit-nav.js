@@ -132,6 +132,64 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
         ? `按当前 ${entries.length} 条档案生成：读最近一篇随笔、看最近一项成果、打开全部目录。`
         : '档案为空时，这里是三步空状态：写第一篇随笔、记录第一项成果、打开目录。';
     }
+    // 影像墙：只展示真实成果证据图，低饱和预览；没有图片时不生成占位图。
+    const gallery = document.querySelector('[data-evidence-gallery]');
+    if (gallery) {
+      const images = entries
+        .filter((entry) => entry.type === 'award' && proofImageUrl(entry.proof || ''))
+        .sort(compareRecent)
+        .slice(0, 3);
+      gallery.replaceChildren();
+      images.forEach((entry) => {
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.className = 'gallery-card';
+        link.href = `/knowledge-garden-site/archive?${new URLSearchParams({ view: 'award', entry: entry.id })}`;
+        const media = document.createElement('span');
+        media.className = 'gallery-media';
+        const image = document.createElement('img');
+        image.src = proofImageUrl(entry.proof || '');
+        image.alt = entry.title;
+        image.loading = 'lazy';
+        media.append(image);
+        const caption = document.createElement('span');
+        caption.className = 'gallery-caption';
+        const title = document.createElement('strong');
+        title.className = 'gallery-title';
+        title.textContent = entry.title;
+        const meta = document.createElement('span');
+        meta.className = 'gallery-meta';
+        meta.textContent = `${entry.date} / ${entry.category}`;
+        caption.append(title, meta);
+        link.append(media, caption);
+        listItem.append(link);
+        gallery.append(listItem);
+      });
+      if (images.length > 0 && images.length < 3) {
+        const more = document.createElement('li');
+        more.className = 'gallery-more';
+        more.style.setProperty('--gallery-span', String(3 - images.length));
+        const link = document.createElement('a');
+        link.href = '/knowledge-garden-site/archive?view=award';
+        const label = document.createElement('span');
+        label.className = 'gallery-meta';
+        label.textContent = '全部成果';
+        const title = document.createElement('b');
+        title.textContent = '查看全部成果 ↗';
+        const count = document.createElement('small');
+        count.textContent = `共 ${entries.filter((entry) => entry.type === 'award').length} 项成果`;
+        link.append(label, title, count);
+        more.append(link);
+        gallery.append(more);
+      }
+      gallery.hidden = images.length === 0;
+      const empty = document.querySelector('[data-gallery-empty]');
+      if (empty) empty.hidden = images.length > 0;
+      const note = document.querySelector('[data-gallery-note]');
+      if (note) note.textContent = images.length
+        ? `当前 ${images.length} 张成果证据图；指针移入或键盘聚焦时还原全彩。`
+        : '按当前档案收集带图片的成果证据；暂时只有证据图，灵感收藏等有素材再扩展。';
+    }
     const status = document.querySelector('[data-archive-status]');
     if (status) status.textContent = saved === null ? '首次访问：从一篇随笔或一项成果开始。档案保存在当前浏览器。' : entries.length ? '来自当前浏览器的档案 · 随笔按记录日期排列' : '档案为空，可以打开个人档案添加记录。';
     // 内容概览：真实分类分布。条长为该类记录数 / 最大类记录数，点击进入已有分类筛选。
@@ -248,6 +306,8 @@ import { normalizeEntries, formatDisplayDate, compareRecent, compareEssayDate, e
     document.querySelectorAll('[data-shelf-grid]').forEach(node => {node.hidden = true;});
     document.querySelectorAll('[data-shelf-empty]').forEach(node => {node.hidden = false; node.textContent = '读取失败，暂不显示主题书架。';});
     document.querySelectorAll('[data-start-route]').forEach(node => {node.textContent = '读取失败，暂不显示推荐路线';});
+    document.querySelectorAll('[data-evidence-gallery]').forEach(node => {node.hidden = true;});
+    document.querySelectorAll('[data-gallery-empty]').forEach(node => {node.hidden = false; node.textContent = '读取失败，暂不显示影像墙。';});
   }
 
   }
