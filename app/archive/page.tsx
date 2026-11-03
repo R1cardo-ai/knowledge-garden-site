@@ -132,7 +132,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.247';
+const currentVersion = 'v1.0.248';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -140,6 +140,7 @@ const sidebarCollapsedStorageKey = 'knowledge-garden-sidebar-collapsed';
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.248', date: '2026.11.03', title: '首页新增成果影像墙', items: ['首页新增「影像墙」：收集当前档案中带图片链接的成果证据，按日期取最近 3 张；卡片显示图片、标题、日期与分类，低饱和预览，指针移入或键盘聚焦还原全彩', '无图时不生成占位图或假封面，显示真实空状态；不新增存储键或图片上传，沿用成果记录的证明链接', '影像墙为 4:3 三列，≤719 单列；复用现有证据图校验与低饱和规则，支持键盘焦点与减少动态效果'] },
   { version: 'v1.0.247', date: '2026.11.03', title: '首页新增从这里开始三步路线', items: ['首页新增「从这里开始」：按当前档案自动生成三步——读最近一篇随笔、看最近一项成果、打开全部目录；每步显示真实标题、日期与分类，无记录时显示空状态', '路线不新增存储或手写推荐数据；第一步与第二步直接打开对应记录，第三步进入目录列表', '三步沿用 1px 线、编号与顶边刻度；≤719 单列，支持键盘焦点与减少动态效果'] },
   { version: 'v1.0.246', date: '2026.11.03', title: '首页新增主题书架', items: ['首页新增「主题书架」：按当前浏览器真实标签聚合，取记录数前 6 个，每格显示标签、记录数与最近一条标题；点选在档案中搜索该标签', '空档案与读取失败分别显示真实说明，不生成示例标签；未新增存储键或标签数据，搜索沿用现有 q 参数', '书架沿用 1px 线、编号与顶边刻度；≤1099 两列、≤719 单列，支持键盘焦点与减少动态效果'] },
   { version: 'v1.0.245', date: '2026.11.02', title: '档案与样张索引补齐站点图标', items: ['档案页与桌面样张索引共用的根布局补站点图标声明，浏览器不再请求缺失的 /favicon.ico；图标沿用 /favicon.svg，GitHub Pages 构建自动补项目前缀', '与 v1.0.244 的六份样张 favicon 保持一致，全站不再出现该 404', '只改根布局元数据；未改视觉、数据、存储或交互'] },
