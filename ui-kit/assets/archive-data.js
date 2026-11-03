@@ -73,6 +73,40 @@ export function normalizeEntries(value, fallbackDate) {
     return normalized.map(entry => ({...entry, relatedRefs: entry.relatedRefs ?? relatedReferences(entry.related, normalized)}));
 }
 
+// Merge a normalized snapshot into the current archive by stable ID.
+// Missing records are added, newer versions replace older ones, and everything
+// else is kept. The current archive order stays intact; new rows append in the
+// order they appear in the imported file.
+export function mergeEntries(existing, imported) {
+    const byId = new Map(existing.map(entry => [entry.id, entry]));
+    let added = 0;
+    let updated = 0;
+    let kept = 0;
+    for (const entry of imported) {
+        const current = byId.get(entry.id);
+        if (!current) {
+            byId.set(entry.id, entry);
+            added += 1;
+            continue;
+        }
+        const currentAt = current.updatedAt ?? entryDateTimestamp(current.date);
+        const importedAt = entry.updatedAt ?? entryDateTimestamp(entry.date);
+        if (importedAt > currentAt) {
+            byId.set(entry.id, entry);
+            updated += 1;
+        }
+        else kept += 1;
+    }
+    const merged = existing.map(entry => byId.get(entry.id) ?? entry);
+    const seen = new Set(merged.map(entry => entry.id));
+    for (const entry of imported) {
+        if (seen.has(entry.id)) continue;
+        merged.push(entry);
+        seen.add(entry.id);
+    }
+    return { entries: merged, added, updated, kept };
+}
+
 export function compareRecent(a, b) { return (b.updatedAt ?? entryDateTimestamp(b.date)) - (a.updatedAt ?? entryDateTimestamp(a.date)); }
 // Stable sort keeps the saved order when two essays share a record date.
 export function compareEssayDate(a, b) { return b.date.localeCompare(a.date); }
