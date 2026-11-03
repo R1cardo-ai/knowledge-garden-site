@@ -85,19 +85,15 @@ if (basePath) {
   prefixAssets(output);
 }
 // The static home is a real document at "/" instead of a meta-refresh to the
-// template folder. Copy the already-synced showcase and point its relative
-// assets and sibling pages at the new root.
-const showcasePath = path.join(output, 'ui-kit/templates/showcase.html');
-if (!existsSync(showcasePath)) throw new Error('Static export missing homepage source');
-let home = readFileSync(showcasePath, 'utf8');
+// template folder. It is generated from the synced landing template so the
+// release version, update ticker and the rest of the site stay in one source.
+const landingPath = path.join(output, 'ui-kit/templates/landing.html');
+if (!existsSync(landingPath)) throw new Error('Static export missing landing template');
+let home = readFileSync(landingPath, 'utf8');
 home = home
   .replaceAll('../assets/', `${basePath}/ui-kit/assets/`)
-  .replaceAll('href="showcase.html"', `href="${basePath}/"`)
-  .replaceAll('href="console.html"', `href="${basePath}/ui-kit/templates/console.html"`)
-  .replaceAll('href="reading.html', `href="${basePath}/ui-kit/templates/reading.html`)
-  .replaceAll('href="specimen.html"', `href="${basePath}/ui-kit/templates/specimen.html"`)
-  .replaceAll('href="antipatterns.html"', `href="${basePath}/ui-kit/templates/antipatterns.html"`)
-  .replaceAll('href="motion.html"', `href="${basePath}/ui-kit/templates/motion.html"`);
+  .replaceAll('../fonts/', `${basePath}/fonts/`);
+if (!home.includes(version)) throw new Error('Homepage version missing from landing template');
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',

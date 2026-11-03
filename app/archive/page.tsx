@@ -133,7 +133,7 @@ function ScrambledVersion({ value, trigger }: { value: string; trigger: number }
 
 const starterEntries: Entry[] = [];
 
-const currentVersion = 'v1.0.249';
+const currentVersion = 'v1.0.250';
 const defaultBackgroundImage = '';
 const backgroundImageStorageKey = 'knowledge-garden-background-image';
 const backgroundOpacityStorageKey = 'knowledge-garden-background-opacity';
@@ -144,6 +144,7 @@ const backgroundFileLimit = 8 * 1024 * 1024;
 const themeStorageKey = 'theme';
 const themeDefaultMigrationKey = 'knowledge-garden-dark-default-v1';
 const updateLogs: UpdateLog[] = [
+  { version: 'v1.0.250', date: '2026.11.03', title: '首页改为独立立绘落地页', items: ['根路径不再跳转，改为独立落地页：左侧字标、主张与两个入口，右侧为终末地主题同人立绘「祀」的待机循环（VP9 alpha WebM，0.51MB）；指针进入人物区域时才加载 3.5MB 入场动画，播完回落到待机', '立绘先在浏览器内采样首帧 alpha 再启用：Safari 等能解 VP9 但不认 alpha 层的环境停在 159KB 静态 WebP，弱网、省流量与减少动态效果时不下载任何视频', '页脚新增版权与使用声明，写明素材来源、个人非商业展示范围与不提供再分发；README 同步补版权章节，替换原先「不使用角色立绘」的表述', '版本号、最新更新条目与链接由 scripts/sync-archive-data.mjs 从 app/archive/page.tsx 注入落地页，不再手写；档案页「返回主页」改指向根路径'] },
   { version: 'v1.0.249', date: '2026.11.03', title: '补上数据安全、性能与分享', items: ['编辑自动保存草稿，重开恢复；删除后 8 秒可撤销；导入可选择合并或替换，顶栏与页脚显示上次导出时间并在超过 14 天时提醒', '随笔正文支持列表、编号与引用；背景图超过 900KB 时先在浏览器压缩，上传上限 8MB', '中文字体拆成 unicode-range 分片，单页只加载用到的分片，不再下载 6.7MB 整包', '首页改为真实根路径，补 description、Open Graph、canonical、sitemap、robots、RSS 与分享图；新增 CI、类型检查、链接检查与构建清理'] },
   { version: 'v1.0.248', date: '2026.11.03', title: '首页新增成果影像墙', items: ['首页新增「影像墙」：收集当前档案中带图片链接的成果证据，按日期取最近 3 张；卡片显示图片、标题、日期与分类，低饱和预览，指针移入或键盘聚焦还原全彩', '无图时不生成占位图或假封面，显示真实空状态；不新增存储键或图片上传，沿用成果记录的证明链接', '影像墙为 4:3 三列，≤719 单列；复用现有证据图校验与低饱和规则，支持键盘焦点与减少动态效果'] },
   { version: 'v1.0.247', date: '2026.11.03', title: '首页新增从这里开始三步路线', items: ['首页新增「从这里开始」：按当前档案自动生成三步——读最近一篇随笔、看最近一项成果、打开全部目录；每步显示真实标题、日期与分类，无记录时显示空状态', '路线不新增存储或手写推荐数据；第一步与第二步直接打开对应记录，第三步进入目录列表', '三步沿用 1px 线、编号与顶边刻度；≤719 单列，支持键盘焦点与减少动态效果'] },
@@ -1051,9 +1052,9 @@ export default function Home() {
         {storageMessage && <section role="alert" className="storage-recovery"><ArchiveStateIllustration kind={storageBlocked ? 'read' : 'write'} /><p>{storageMessage}</p>{rawBackup !== null && <Button variant="outline" onClick={downloadRawBackup}>下载原始备份</Button>}<Button variant="outline" onClick={() => importInputRef.current?.click()}>导入有效快照</Button><Button variant="outline" onClick={exportSnapshot}>导出当前快照</Button></section>}
         <header className="topbar">
           <div className="breadcrumb">
-            {/* The home showcase is a static HTML document and needs a full navigation. */}
+            {/* The home landing page is a static HTML document and needs a full navigation. */}
             {/* oxlint-disable-next-line next/no-html-link-for-pages */}
-            <a className="archive-home-link" href="/ui-kit/templates/showcase.html?variant=standard" aria-label="返回主页" title="返回主页"><House size={15} aria-hidden="true" /><span>返回主页</span></a><ChevronRight size={15} /><strong>{viewTitle}</strong><span className="version-badge">{currentVersion}</span></div>
+            <a className="archive-home-link" href="/" aria-label="返回主页" title="返回主页"><House size={15} aria-hidden="true" /><span>返回主页</span></a><ChevronRight size={15} /><strong>{viewTitle}</strong><span className="version-badge">{currentVersion}</span></div>
           <div className="top-actions">
             <button className="icon-button theme-toggle" type="button" aria-label="深色主题" aria-pressed={darkTheme} title={darkTheme ? '切换到浅色主题' : '切换到深色主题'} onClick={toggleTheme}>{darkTheme ? <Sun size={18} /> : <Moon size={18} />}</button>
             <button className="icon-button" type="button" aria-label="搜索" onClick={() => document.getElementById('search')?.focus()}><Search size={18} /></button>
